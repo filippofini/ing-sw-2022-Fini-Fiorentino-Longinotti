@@ -6,7 +6,10 @@ public class Player {
     private final int wizard;
     private int coin=1;
     private final int player_ID;
-    private Assistence_card chosen_card; //chosen card to play during the turn
+    private Assistance_card chosen_card; //chosen card to play during the turn
+    private final Deck deck=new Deck();
+
+
 
 
 
@@ -16,5 +19,30 @@ public class Player {
         tower_colour = tower.getTower_translate();
         this.player_ID = player_ID;
     }
+    //CHOSEN CARD AND REMOVAL MUST BE IMPLEMENTED
+    //private void set_chosen_card(Assistance_card chosen){
+    //    this.chosen_card = chosen.getChosen_card();
+    //    deck.remove_used_card(chosen_card);
+    //}
 
+
+    public int getPlayer_ID() {
+        return player_ID;
+    }
+
+    public int getCoin() {
+        return coin;
+    }
+
+    public int getTower_colour() {
+        return tower_colour;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setChosen_card(Assistance_card chosen_card) {
+        this.chosen_card = chosen_card;
+    }
 }
