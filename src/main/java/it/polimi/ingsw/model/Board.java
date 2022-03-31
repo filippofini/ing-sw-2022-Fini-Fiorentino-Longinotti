@@ -6,7 +6,7 @@ public class Board {
     private boolean[] arrProfessors;
     private int tower;
     //need to know how many players for number of towers && PlayerID
-    private Board(int numOfPlayers, int playerID){
+    public Board(int numOfPlayers, int playerID){
         arrPositionStudents = new int[5];
         arrProfessors = new boolean[5];
         //for now with if, maybe later will become switch case
@@ -28,6 +28,13 @@ public class Board {
             if((playerID == 1 || playerID == 3))
             tower = 8;
         }
+    }
+    public void add_prof(Disk_colour profColour){
+        arrProfessors[profColour.getTranslateColour()]=true;
+    }
+    public void add_student(Disk_colour studentColour){
+        arrPositionStudents[studentColour.getTranslateColour()]++;
+
     }
 
 
