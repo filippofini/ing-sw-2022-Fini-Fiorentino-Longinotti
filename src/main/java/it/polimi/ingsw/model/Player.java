@@ -11,20 +11,17 @@ public class Player {
 
 
 
-
-
     public Player(String name, int wizard, Tower_colour tower, int player_ID) {
         this.name = name;
         this.wizard = wizard;
         tower_colour = tower.getTower_translate();
         this.player_ID = player_ID;
     }
-    //CHOSEN CARD AND REMOVAL MUST BE IMPLEMENTED
+    //TODO: CHOSEN CARD AND REMOVAL
     //private void set_chosen_card(Assistance_card chosen){
     //    this.chosen_card = chosen.getChosen_card();
     //    deck.remove_used_card(chosen_card);
     //}
-
 
     public int getPlayer_ID() {
         return player_ID;

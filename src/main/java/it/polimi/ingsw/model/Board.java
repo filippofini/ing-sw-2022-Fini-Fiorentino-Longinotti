@@ -17,12 +17,12 @@ public class Board {
             arrEntranceStudents = new Student[7];
             tower = 8;
         }
-        if(numOfPlayers == 3){
+        else if(numOfPlayers == 3){
             arrEntranceStudents = new Student[9];
             tower = 6;
         }
-        //i had supposed that the squads where players(1-2) && players(3-4), if not it will need changes!
-        if(numOfPlayers == 4){
+        //I had supposed that the squads where players(1-2) && players(3-4), if not it will need changes!
+        else if(numOfPlayers == 4){
             arrEntranceStudents = new Student[7];
             tower = 0;
             if((playerID == 1 || playerID == 3))
@@ -37,5 +37,7 @@ public class Board {
 
     }
 
-
+    public boolean[] getArrProfessors() {
+        return arrProfessors;
+    }
 }
