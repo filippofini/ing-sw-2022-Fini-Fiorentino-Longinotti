@@ -8,9 +8,10 @@ public class Island {
     private Island next_island;
     private Island previous_island;
     private int island_ID;
-    private int[5] arr_students;
+    private int[] arr_students;
 
     public Island() {
+        arr_students = new int[5];
 
     }
 
