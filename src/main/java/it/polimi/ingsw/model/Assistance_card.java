@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model;
 
-public enum Assistance_card {
+public enum Assistance_card{
     TORTOISE(1,1), ELEPHANT(2,1),
     BULLDOG(3,2),OCTOPUS(4,2),
     LIZARD(5,3), FOX(6,3),
