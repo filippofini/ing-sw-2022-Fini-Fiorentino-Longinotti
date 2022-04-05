@@ -12,7 +12,7 @@ public class Game_table {
     private int[] bag;
     private Character_card[] arr_character;
 
-    public Game_table(){
+    public Game_table(int num_players){
         bag = new int[5];
         for(int i=0;i<5;i++) {
             bag[i] = 26;
