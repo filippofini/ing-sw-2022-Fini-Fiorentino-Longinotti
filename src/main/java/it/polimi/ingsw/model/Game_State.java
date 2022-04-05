@@ -6,7 +6,7 @@ import java.util.List;
 
 public class Game_State {
     private int n_players;
-    private List<Player> players;
+    private Player[] players;
     private Game_table GT;
     // TODO: turn_Control TC;
     private int[] teams;
@@ -22,9 +22,8 @@ public class Game_State {
         this.wizard = wizard;
         this.expert_mode = expert_mode;
 
-        players = new ArrayList<Player>();
         for(int i=0; i<n_players;i++){
-            players.add(new Player( names[i], wizard[i], Tower_colour.values()[i], i+1));
+            players[i] = new Player(names[i], wizard[i], Tower_colour.values()[i], i+1);
         }
         GT = new Game_table(n_players);
         if(n_players == 4){
