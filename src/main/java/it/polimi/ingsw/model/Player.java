@@ -7,7 +7,7 @@ public class Player {
     private int coin=1;
     private final int player_ID;
     private Assistance_card chosen_card; //chosen card to play during the turn
-    private final Deck deck=new Deck();
+    private final Deck deck;
 
 
 
@@ -16,6 +16,8 @@ public class Player {
         this.wizard = wizard;
         tower_colour = tower.getTower_translate();
         this.player_ID = player_ID;
+
+        deck = new Deck();
     }
     //TODO: CHOSEN CARD AND REMOVAL
     //private void set_chosen_card(Assistance_card chosen){
