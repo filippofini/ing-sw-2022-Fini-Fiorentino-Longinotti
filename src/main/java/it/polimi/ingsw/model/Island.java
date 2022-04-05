@@ -11,6 +11,7 @@ public class Island {
     private int[] arr_students;
 
     public Island() {
+        arr_students = new int[5];
 
     }
 
