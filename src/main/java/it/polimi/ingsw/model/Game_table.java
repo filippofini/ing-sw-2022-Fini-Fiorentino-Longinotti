@@ -12,10 +12,12 @@ public class Game_table {
     private int mother_nature;
     private int[] bag;
     private Character_card[] arr_character;
+    private Turn turn;
 
-    public Game_table(int num_players){
-        bag = new int[5];
+    public Game_table(int num_players,Turn turn){
         this.num_players = num_players;
+        this.turn = turn;
+        bag = new int[5];
         for(int i=0;i<5;i++) {
             bag[i] = 26;
         }
@@ -24,7 +26,7 @@ public class Game_table {
         }
         islands = new ArrayList<Island>();
         for(int i=0;i<12;i++){
-            islands.add(new Island());
+            islands.add(new Island(turn.getCurrent_player(), boards));
         }
 
         clouds = new ArrayList<Cloud>();
@@ -35,12 +37,17 @@ public class Game_table {
 
     }
 
+    public Board[] getBoards() {
+        return boards;
+    }
 
 
-    /*
-        public Island merge_island(Island island_to_merge,Island island_merged){
-        TODO: implement merge of islands
+
+        public List<Island> merge_island(Island island_to_merge, Island island_merged){
+
+            return islands;
+
          }
-        */
+
 
 }

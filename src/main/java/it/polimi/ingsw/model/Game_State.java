@@ -1,9 +1,5 @@
 package it.polimi.ingsw.model;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 public class Game_State {
     private int n_players;
     private Player[] players;
@@ -30,7 +26,6 @@ public class Game_State {
             teams = new int[4];
             chat = true;
         }
-
     }
 
 }
