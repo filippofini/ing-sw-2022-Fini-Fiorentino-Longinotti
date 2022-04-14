@@ -11,10 +11,16 @@ public class Board {
     private boolean[] arrProfessors;
     private int tower;
     private int maxEntranceStudents;
+    private boolean[][] trackCoins = new boolean[5][3];
     //need to know how many players for number of towers && PlayerID
     public Board(int numOfPlayers, int playerID){
         arrPositionStudents = new int[5];
         arrProfessors = new boolean[5];
+        for(int i=0; i<5;i++){
+            for(int j=0; j<3;j++){
+                trackCoins[i][j]=false;
+            }
+        }
         //for now with if, maybe later will become switch case
         // need re-check values
         // remember that now there is the space for the students, not the istances of the students!
@@ -146,5 +152,30 @@ public class Board {
     public int[] getArrPositionStudents() {
         return arrPositionStudents;
     }
-    //TODO: check coins, i want to create an array of bool to keep track the coins that i have obtained or not
+    //return coins earned this turn, to sum with current coins each turn
+    public int CoinsEarned(){
+        int coins=0;
+        for(int i=0; i<5;i++){
+            if(arrPositionStudents[i]/3==1){
+                if(trackCoins[i][0]==false){
+                    coins++;
+                    trackCoins[i][0]=true;
+                }
+            }
+            if(arrPositionStudents[i]/3==2){
+                if(trackCoins[i][1]==false){
+                    coins++;
+                    trackCoins[i][1]=true;
+                }
+            }
+            if(arrPositionStudents[i]/3==3){
+                if(trackCoins[i][2]==false){
+                    coins++;
+                    trackCoins[i][2]=true;
+                }
+            }
+        }
+        return coins;
+    }
+
 }
