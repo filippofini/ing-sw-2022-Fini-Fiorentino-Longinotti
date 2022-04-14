@@ -46,7 +46,6 @@ public class Board {
 
     }
     //return students to send in islands.
-    //TODO: while cycles for wrong number enter
 
     public List<Student> MoveEntranceStudents(){
         int choiceStudent;
@@ -74,12 +73,11 @@ public class Board {
 
         while(studentsChosen <3) {
 
-            //TODO: cornercase dining room row full
             if (arrEntranceStudents[choiceStudent].getisChosen() == false) {
-                arrEntranceStudents[choiceStudent].Chosen();
-                studentsChosen++;
+
                 System.out.println("where do you want to move the student?:\n");
                 System.out.println("Dining Room[0] Island[1]");
+
                 do{
                     choicePosition = sc.nextInt();
                     if(choiceStudent<2){
@@ -90,13 +88,24 @@ public class Board {
                     }
                 } while(validChoice);
                 validChoice=true;
+
                 if(choicePosition == 0){
-                    arrPositionStudents[arrEntranceStudents[choiceStudent].getColour()]++;
+                    if(arrPositionStudents[arrEntranceStudents[choiceStudent].getColour()]<10){
+                        arrPositionStudents[arrEntranceStudents[choiceStudent].getColour()]++;
+                        arrEntranceStudents[choiceStudent].Chosen();
+                        studentsChosen++;
+                    }
+                    else{
+                        System.out.println("table of colour:"+arrEntranceStudents[choiceStudent].getEnumColour() +" is full, please choose another student");
+                    }
+
                 }
                 else if(choicePosition == 1){
                     studentToIslands.add(new Student(arrEntranceStudents[choiceStudent].getEnumColour()));
+                    arrEntranceStudents[choiceStudent].Chosen();
+                    studentsChosen++;
                 }
-                System.out.println("choose the numer of one of the students to move:\n");
+                System.out.println("choose the number of one of the students to move:\n");
                 do{
                     choiceStudent = sc.nextInt();
                     if(choiceStudent<maxEntranceStudents){
@@ -134,5 +143,8 @@ public class Board {
         return maxEntranceStudents;
     }
 
-
+    public int[] getArrPositionStudents() {
+        return arrPositionStudents;
     }
+    //TODO: check coins, i want to create an array of bool to keep track the coins that i have obtained or not
+}
