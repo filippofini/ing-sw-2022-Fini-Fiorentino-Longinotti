@@ -1,6 +1,8 @@
 package it.polimi.ingsw.model;
 
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Board {
@@ -43,16 +45,15 @@ public class Board {
         arrPositionStudents[studentColour.getTranslateColour()]++;
 
     }
-    //return students to send in islands...it will become a list i think.
+    //return students to send in islands.
     //TODO: while cycles for wrong number enter
 
-    public  Student[] MoveEntranceStudents(){
+    public List<Student> MoveEntranceStudents(){
         int choiceStudent;
         int choicePosition;
         int studentsChosen=0;
-        boolean flag = true;
-        Student[] studentToIslands = new Student[3];
-        int num_studentsToIslands =0;
+        boolean validChoice = true;
+        List<Student> studentToIslands = new ArrayList<Student>();
         Scanner sc= new Scanner(System.in);
         System.out.println("choose the number of one of the students to move:\n");
 
@@ -60,7 +61,17 @@ public class Board {
             System.out.println(arrEntranceStudents[i].getEnumColour() + "["+(i)+"] ");
         }
         System.out.println(arrEntranceStudents[maxEntranceStudents-1].getEnumColour() + "["+(maxEntranceStudents-1)+"]\n");
-        choiceStudent = sc.nextInt();
+        do{
+            choiceStudent = sc.nextInt();
+            if(choiceStudent<maxEntranceStudents){
+                validChoice=false;
+            }
+            else {
+                System.out.println("Number not valid,please choose a number from the list");
+            }
+        } while(validChoice);
+        validChoice=true;
+
         while(studentsChosen <3) {
 
             //TODO: cornercase dining room row full
@@ -69,21 +80,47 @@ public class Board {
                 studentsChosen++;
                 System.out.println("where do you want to move the student?:\n");
                 System.out.println("Dining Room[0] Island[1]");
-                choicePosition = sc.nextInt();
+                do{
+                    choicePosition = sc.nextInt();
+                    if(choiceStudent<2){
+                        validChoice=false;
+                    }
+                    else {
+                        System.out.println("Number not valid,please choose a number from the list");
+                    }
+                } while(validChoice);
+                validChoice=true;
                 if(choicePosition == 0){
                     arrPositionStudents[arrEntranceStudents[choiceStudent].getColour()]++;
                 }
                 else if(choicePosition == 1){
-                    studentToIslands[num_studentsToIslands] = arrEntranceStudents[choiceStudent];
-                    num_studentsToIslands++;
+                    studentToIslands.add(new Student(arrEntranceStudents[choiceStudent].getEnumColour()));
                 }
                 System.out.println("choose the numer of one of the students to move:\n");
-                choiceStudent = sc.nextInt();
+                do{
+                    choiceStudent = sc.nextInt();
+                    if(choiceStudent<maxEntranceStudents){
+                        validChoice=false;
+                    }
+                    else {
+                        System.out.println("Number not valid,please choose a number from the list");
+                    }
+                } while(validChoice);
+                validChoice=true;
 
             }
             else if (arrEntranceStudents[choiceStudent].getisChosen() == true){
-                System.out.println("Student chosen previously, choose another student\n");
-                choiceStudent = sc.nextInt();
+                System.out.println("Student chosen previously,please choose another student\n");
+                do{
+                    choiceStudent = sc.nextInt();
+                    if(choiceStudent<maxEntranceStudents){
+                        validChoice=false;
+                    }
+                    else {
+                        System.out.println("Number not valid,please choose a number from the list");
+                    }
+                } while(validChoice);
+                validChoice=true;
             }
         }
         return studentToIslands;
