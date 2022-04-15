@@ -7,7 +7,7 @@ public class Game_table {
     private int num_players;
     private int player_ID;
     private Board[] boards;
-    private List<Island> islands;
+    private Double_linked_list islands;
     private List<Cloud> clouds;
     private int mother_nature;
     private int[] bag;
@@ -24,9 +24,9 @@ public class Game_table {
         for(int i=0;i<num_players;i++) {
             boards[i] = new Board(num_players,i+1);
         }
-        islands = new ArrayList<Island>();
+        islands = new Double_linked_list();
         for(int i=0;i<12;i++){
-            islands.add(new Island(turn.getCurrent_player(), boards));
+            islands.append(new Island(turn.getCurrent_player(), boards));
         }
 
         clouds = new ArrayList<Cloud>();
@@ -41,13 +41,25 @@ public class Game_table {
         return boards;
     }
 
+    public Double_linked_list getIslands() {
+        return islands;
+    }
+
+    public Double_linked_list merge(){
+        //Now the merge gets the first island and the next one
+        //TODO: fix the merge giving correct input to the function
+        islands.merge_islands(islands.head, islands.head.next);
+        return islands;
+    }
 
 
-        public List<Island> merge_island(Island island_to_merge, Island island_merged){
+    public List<Cloud> del_cloud(int cloud_index) {
+        clouds.remove(cloud_index);
+        return clouds;
+    }
+    public List<Cloud> getClouds() {
+        return clouds;
+    }
 
-            return islands;
-
-         }
-
-
+    ;
 }
