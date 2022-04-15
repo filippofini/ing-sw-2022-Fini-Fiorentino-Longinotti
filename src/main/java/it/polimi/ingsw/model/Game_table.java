@@ -6,6 +6,7 @@ import java.util.List;
 public class Game_table {
     private int num_players;
     private int player_ID;
+    private int island_counter=12;
     private Board[] boards;
     private Double_linked_list islands;
     private List<Cloud> clouds;
@@ -45,10 +46,30 @@ public class Game_table {
         return islands;
     }
 
-    public Double_linked_list merge(){
-        //Now the merge gets the first island and the next one
-        //TODO: fix the merge giving correct input to the function
+    //This moves the list pointer to the right, if the list ends it starts from the beginning
+    public void move_right(int moves, Double_linked_list.Node node){
+        for (int i = 0; i < moves; i++) {
+            if(node==null){
+                node = islands.head;
+            }
+            node = node.next;
+        }
+    }
+
+    public void move_left(int moves, Double_linked_list.Node node){
+        for (int i = 0; i < moves; i++) {
+            if(node==null){
+                for (int j = 0; j < island_counter; j++) {
+                    node = node.next;
+                }
+            }
+            node = node.prev;
+        }
+    }
+
+    public Double_linked_list merge(Double_linked_list.Node final_island, Double_linked_list.Node deleted_island){
         islands.merge_islands(islands.head, islands.head.next);
+        island_counter--;
         return islands;
     }
 
@@ -61,5 +82,15 @@ public class Game_table {
         return clouds;
     }
 
-    ;
+    public int getIsland_counter() {
+        return island_counter;
+    }
+
+    public void setIsland_counter(int island_counter) {
+        this.island_counter = island_counter;
+    }
+
+    public int getHow_many_merge(){
+        return 12-island_counter;
+    }
 }

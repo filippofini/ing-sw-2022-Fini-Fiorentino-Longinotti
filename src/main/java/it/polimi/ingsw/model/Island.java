@@ -18,19 +18,13 @@ public class Island {
         influence_controller = 0;
         arr_students = new int[5];
 
-
     }
 
-    public void setMother_nature(boolean mother_nature) {
-        this.mother_nature = mother_nature;
-    }
-
-    public boolean check_mn() {return mother_nature; }
 
     public int check_controller() { return player_controller;}
 
     public void calculate_influence() {
-        int temp_influence =0;
+        int temp_influence = 0;
         for (int i = 0; i<5;i++) {
             if (boards[current_player].getArrProfessors()[i]) {
                 temp_influence+= arr_students[i];
@@ -91,6 +85,10 @@ public class Island {
 
     public void setBoards(Board[] boards) {
         this.boards = boards;
+    }
+
+    public void setMother_nature(boolean mother_nature) {
+        this.mother_nature = mother_nature;
     }
 
     public void setTower(int tower) {

@@ -78,16 +78,13 @@ public class Double_linked_list {
         }
         final_island.data.setArr_students(students1);
 
-        //Do towers merge??? If no delete
+        //Do towers merge??? If not delete
         final_island.data.setTower(final_island.data.getTower()+deleted_island.data.getTower());
 
         //If mother nature is in the deleted island move it to the final island
-        if(deleted_island.data.check_mn()){
+        if(deleted_island.data.isMother_nature()){
             final_island.data.setMother_nature(true);
         }
-
-
-
 
 
         final_island.data.calculate_influence();
