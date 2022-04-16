@@ -15,6 +15,10 @@ public class Game_table {
     private Character_card[] arr_character;
     private Turn turn;
 
+
+
+
+
     public Game_table(int num_players,Turn turn){
         this.num_players = num_players;
         this.turn = turn;
@@ -38,9 +42,18 @@ public class Game_table {
 
     }
 
-    public Board[] getBoards() {
-        return boards;
+    private boolean check_if_playable(Assistance_card chosen){
+        boolean played_card = false;
+        for (int i = 0; i < num_players && played_card==false; i++) {
+            // if(chosen==getDiscard_deck(i)){
+            //played_card = true;
+            // }
+        }
+        return played_card;
     }
+
+
+
 
     public Double_linked_list getIslands() {
         return islands;
@@ -82,6 +95,10 @@ public class Game_table {
         return clouds;
     }
 
+    public Board[] getBoards() {
+        return boards;
+    }
+
     public int getIsland_counter() {
         return island_counter;
     }
@@ -92,5 +109,9 @@ public class Game_table {
 
     public int getHow_many_merge(){
         return 12-island_counter;
+    }
+
+    public int getPlayer_ID() {
+        return player_ID;
     }
 }
