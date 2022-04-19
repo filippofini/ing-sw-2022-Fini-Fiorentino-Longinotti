@@ -23,4 +23,5 @@ public enum Assistance_card{
     public int getValue() {
         return value;
     }
+
 }

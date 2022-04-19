@@ -21,11 +21,14 @@ public class Game_State {
         for(int i=0; i<n_players;i++){
             players[i] = new Player(names[i], wizard[i], Tower_colour.values()[i], i+1);
         }
-        GT = new Game_table(n_players,turn);
+        GT = new Game_table(n_players, turn, players);
         if(n_players == 4){
             teams = new int[4];
             chat = true;
         }
     }
 
+    public Game_table getGT() {
+        return GT;
+    }
 }

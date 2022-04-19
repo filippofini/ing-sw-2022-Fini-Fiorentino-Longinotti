@@ -17,12 +17,14 @@ public class Game_table {
     private int[] bag;
     private Character_card[] arr_character;
     private Turn turn;
+    private Player[] players;
 
 
 
 
 
-    public Game_table(int num_players,Turn turn){
+    public Game_table(int num_players, Turn turn, Player[] players){
+        this.players = players;
         this.num_players = num_players;
         this.turn = turn;
         bag = new int[5];
@@ -46,12 +48,12 @@ public class Game_table {
 
     }
 
-    private boolean check_if_playable(Assistance_card chosen){
+    public boolean check_if_playable(Assistance_card chosen){
         boolean played_card = false;
         for (int i = 0; i < num_players && played_card==false; i++) {
-            // if(chosen==getDiscard_deck(i)){
-            //played_card = true;
-            // }
+            if(chosen.equals(players[i].getDiscard_deck())){
+                played_card = true;
+            }
         }
         return played_card;
     }
@@ -154,8 +156,9 @@ public class Game_table {
         if(mother_nature_pos+moves<island_counter) {
             islands.get(mother_nature_pos).setMother_nature(true);
         }else{
-            while(moves<island_counter) {
-                moves = mother_nature_pos + moves - island_counter;
+            moves = mother_nature_pos + moves;
+            while(moves>island_counter) {
+                moves = moves - island_counter;
             }
             islands.get(moves).setMother_nature(true);
             setMother_nature_pos(moves);
