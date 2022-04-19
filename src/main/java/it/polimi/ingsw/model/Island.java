@@ -12,7 +12,8 @@ public class Island {
     private int island_ID;
     private int[] arr_students;
 
-    public Island(int current_player, Board[] boards) {
+    public Island(int current_player, Board[] boards, int island_ID) {
+        this.island_ID = island_ID;
         this.current_player = current_player;
         this.boards = boards;
         influence_controller = 0;

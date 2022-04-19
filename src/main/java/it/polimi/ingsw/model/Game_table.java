@@ -1,14 +1,16 @@
 package it.polimi.ingsw.model;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class Game_table {
     private int num_players;
     private int player_ID;
     private int island_counter=12;
+    private int island_index;
     private Board[] boards;
-    private Double_linked_list islands;
+    private LinkedList<Island> islands;
     private List<Cloud> clouds;
     private int mother_nature;
     private int[] bag;
@@ -24,14 +26,14 @@ public class Game_table {
         this.turn = turn;
         bag = new int[5];
         for(int i=0;i<5;i++) {
-            bag[i] = 26;
+            bag[i] = 2;
         }
         for(int i=0;i<num_players;i++) {
             boards[i] = new Board(num_players,i+1);
         }
-        islands = new Double_linked_list();
+        islands = new LinkedList<Island>();
         for(int i=0;i<12;i++){
-            islands.append(new Island(turn.getCurrent_player(), boards));
+            islands.addLast(new Island(turn.getCurrent_player(), boards, i+1));
         }
 
         clouds = new ArrayList<Cloud>();
@@ -54,36 +56,85 @@ public class Game_table {
 
 
 
+    public int[] check_merge(int island_index){
+        int[] indexes = new int[]{-1,-1} ;
 
-    public Double_linked_list getIslands() {
-        return islands;
-    }
-
-    //This moves the list pointer to the right, if the list ends it starts from the beginning
-    public void move_right(int moves, Double_linked_list.Node node){
-        for (int i = 0; i < moves; i++) {
-            if(node==null){
-                node = islands.head;
+        //Check if there are islands prev or next to the current that can be merged
+        if(island_index<island_counter-1 && island_index>0) {
+            if (islands.get(island_index).getTower() == islands.get(island_index + 1).getTower()) {
+                indexes[1] = island_index+1;
             }
-            node = node.next;
-        }
-    }
-
-    public void move_left(int moves, Double_linked_list.Node node){
-        for (int i = 0; i < moves; i++) {
-            if(node==null){
-                for (int j = 0; j < island_counter; j++) {
-                    node = node.next;
-                }
+            if (islands.get(island_index).getTower() == islands.get(island_index-1).getTower()){
+                indexes[0] = island_index-1;
             }
-            node = node.prev;
         }
+
+        //Check the same thing for the last island of the list but goes to 0 to check the next
+        else if(island_index == island_counter-1){
+            if (islands.get(island_index).getTower() == islands.get(0).getTower()) {
+                indexes[1] = 0;
+            }
+            if (islands.get(island_index).getTower() == islands.get(island_index-1).getTower()){
+                indexes[0] = island_index-1;
+            }
+        }
+
+        //Check the first element of the list. If prev can be merged goes to the last element of the list
+        else if (island_index==0){
+            if (islands.get(island_index).getTower() == islands.get(1).getTower()) {
+                indexes[1] = 1;
+            }
+            if (islands.get(island_index).getTower() == islands.get(island_counter-1).getTower()){
+                indexes[0] = islands.size();
+            }
+        }
+
+        return indexes;
     }
 
-    public Double_linked_list merge(Double_linked_list.Node final_island, Double_linked_list.Node deleted_island){
-        islands.merge_islands(islands.head, islands.head.next);
-        island_counter--;
-        return islands;
+    public void merge(int island_index) {
+        this.island_index = island_index;
+        int[] toMerge_indexes = check_merge(island_index);
+
+        if (toMerge_indexes[0] >= 0) {
+            int[] students1 = islands.get(island_index).getArr_students();
+            int[] students2 = islands.get(toMerge_indexes[0]).getArr_students();
+            for (int i = 0; i < 5; i++) {
+                students1[i] += students2[i];
+            }
+            islands.get(island_index).setArr_students(students1);
+            islands.get(island_index).setTower(islands.get(island_index).getTower() + islands.get(toMerge_indexes[0]).getTower());
+
+        }
+        if (toMerge_indexes[1] >= 0) {
+            int[] students1 = islands.get(island_index).getArr_students();
+            int[] students2 = islands.get(toMerge_indexes[1]).getArr_students();
+            for (int i = 0; i < 5; i++) {
+                students1[i] += students2[i];
+            }
+            islands.get(island_index).setArr_students(students1);
+            islands.get(island_index).setTower(islands.get(island_index).getTower() + islands.get(toMerge_indexes[1]).getTower());
+        }
+
+
+        islands.get(island_index).calculate_influence();
+
+        boolean removed = false;
+        if (toMerge_indexes[0] >= 0) {
+            islands.remove(toMerge_indexes[0]);
+            removed = true;
+        }
+
+        if (toMerge_indexes[1]>=0) {
+            if (removed) {
+                //If the removed island is after the next one to remove no problem
+                if (toMerge_indexes[0] > toMerge_indexes[1])
+                    islands.remove(toMerge_indexes[1]);
+                //If the removed island is before the next one to remove the index goes down by 1
+                else islands.remove(toMerge_indexes[1] - 1);
+
+            } else islands.remove(toMerge_indexes[1]);
+        }
     }
 
 
