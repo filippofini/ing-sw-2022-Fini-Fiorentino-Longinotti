@@ -27,10 +27,9 @@ public class Game_table {
         this.players = players;
         this.num_players = num_players;
         this.turn = turn;
-        bag = new int[5];
-        for(int i=0;i<5;i++) {
-            bag[i] = 2;
-        }
+
+        Bag_island_start();
+
         for(int i=0;i<num_players;i++) {
             boards[i] = new Board(num_players,i+1);
         }
@@ -49,10 +48,10 @@ public class Game_table {
     }
 
     public boolean check_if_playable(Assistance_card chosen){
-        boolean played_card = false;
-        for (int i = 0; i < num_players && played_card==false; i++) {
+        boolean played_card = true;
+        for (int i = 0; i < num_players && played_card==true; i++) {
             if(chosen.equals(players[i].getDiscard_deck())){
-                played_card = true;
+                played_card = false;
             }
         }
         return played_card;
@@ -199,6 +198,29 @@ public class Game_table {
         Random rand = new Random();
         this.mother_nature_pos = rand.nextInt(12);
         islands.get(this.mother_nature_pos).setMother_nature(true);
+    }
+    public void Bag_island_start(){
+        bag = new int[5];
+        for(int i=0;i<5;i++) {
+            bag[i] = 2;
+        }
+        Random rand = new Random();
+        for(int i=1;i<=12;i++){
+            if((i+this.mother_nature_pos)%11!=this.mother_nature_pos && (i+this.mother_nature_pos)%11!=this.mother_nature_pos+6){
+
+                int tempRand=rand.nextInt(5);
+                while(bag[tempRand]==0){
+                    tempRand=rand.nextInt(5);
+                }
+
+                    bag[tempRand]--;
+                    islands.get((i+this.mother_nature_pos)%12).getArr_students()[tempRand]++;
+            }
+        }
+        for(int i=0;i<5;i++) {
+            bag[i] = 24;
+        }
+
     }
 
     public void setMother_nature_pos(int mother_nature_pos) {
