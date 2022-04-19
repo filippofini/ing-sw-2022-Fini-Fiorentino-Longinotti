@@ -3,6 +3,7 @@ package it.polimi.ingsw.model;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
 
 public class Game_table {
     private int num_players;
@@ -12,7 +13,7 @@ public class Game_table {
     private Board[] boards;
     private LinkedList<Island> islands;
     private List<Cloud> clouds;
-    private int mother_nature;
+    private int mother_nature_pos;
     private int[] bag;
     private Character_card[] arr_character;
     private Turn turn;
@@ -33,8 +34,9 @@ public class Game_table {
         }
         islands = new LinkedList<Island>();
         for(int i=0;i<12;i++){
-            islands.addLast(new Island(turn.getCurrent_player(), boards, i+1));
+            islands.add(new Island(turn.getCurrent_player(), boards, i+1));
         }
+        setMother_nature_start();
 
         clouds = new ArrayList<Cloud>();
         for(int i=0;i<num_players;i++){
@@ -123,17 +125,40 @@ public class Game_table {
         if (toMerge_indexes[0] >= 0) {
             islands.remove(toMerge_indexes[0]);
             removed = true;
+            island_counter--;
         }
 
         if (toMerge_indexes[1]>=0) {
             if (removed) {
                 //If the removed island is after the next one to remove no problem
-                if (toMerge_indexes[0] > toMerge_indexes[1])
+                if (toMerge_indexes[0] > toMerge_indexes[1]) {
                     islands.remove(toMerge_indexes[1]);
+                    island_counter--;
+                }
                 //If the removed island is before the next one to remove the index goes down by 1
-                else islands.remove(toMerge_indexes[1] - 1);
+                else{
+                    islands.remove(toMerge_indexes[1] - 1);
+                    island_counter--;
+                }
+            }
+            else{
+                islands.remove(toMerge_indexes[1]);
+                island_counter--;
+            }
+        }
+    }
 
-            } else islands.remove(toMerge_indexes[1]);
+
+    public void move_mother_nature(int moves){
+        islands.get(mother_nature_pos).setMother_nature(false);
+        if(mother_nature_pos+moves<island_counter) {
+            islands.get(mother_nature_pos).setMother_nature(true);
+        }else{
+            while(moves<island_counter) {
+                moves = mother_nature_pos + moves - island_counter;
+            }
+            islands.get(moves).setMother_nature(true);
+            setMother_nature_pos(moves);
         }
     }
 
@@ -164,5 +189,20 @@ public class Game_table {
 
     public int getPlayer_ID() {
         return player_ID;
+    }
+
+    //Puts mother nature in a random island
+    public void setMother_nature_start() {
+        Random rand = new Random();
+        this.mother_nature_pos = rand.nextInt(12);
+        islands.get(this.mother_nature_pos).setMother_nature(true);
+    }
+
+    public void setMother_nature_pos(int mother_nature_pos) {
+        this.mother_nature_pos = mother_nature_pos;
+    }
+
+    public int getMother_nature_pos() {
+        return mother_nature_pos;
     }
 }

@@ -18,7 +18,7 @@ public class Island {
         this.boards = boards;
         influence_controller = 0;
         arr_students = new int[5];
-
+        mother_nature = false;
     }
 
 
