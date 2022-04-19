@@ -19,12 +19,13 @@ public class Deck {
                Assistance_card.CAT,
                Assistance_card.OSTRICH,
                Assistance_card.LION));
-       // REMEMBER TO IMPLEMENT
 
    }
    public void remove_used_card(Assistance_card chosen_remove){
        cards.remove(chosen_remove);
    }
 
-
+    public int count_elements(){
+       return cards.size();
+    }
 }

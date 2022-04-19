@@ -15,5 +15,13 @@ public class Cloud {
             arr_students = new Student[4];
         }
     }
+
+    public void add_to_cloud(){
+        //TODO: implement method to add students to the clouds
+    }
+
+    public Student[] getArr_students() {
+        return arr_students;
+    }
 }
 

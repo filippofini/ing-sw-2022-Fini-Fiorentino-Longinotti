@@ -1,19 +1,21 @@
 package it.polimi.ingsw.model;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class Board {
+    private int n_towers;
     private int[] arrPositionStudents;
     private Student[] arrEntranceStudents;
     private boolean[] arrProfessors;
-    private int tower;
+    private Tower_colour tower;
     private int maxEntranceStudents;
     private boolean[][] trackCoins = new boolean[5][3];
+
     //need to know how many players for number of towers && PlayerID
-    public Board(int numOfPlayers, int playerID){
+    public Board(int numOfPlayers, int playerID, Tower_colour tower){
+        this.tower = tower;
         arrPositionStudents = new int[5];
         arrProfessors = new boolean[5];
         for(int i=0; i<5;i++){
@@ -23,25 +25,25 @@ public class Board {
         }
         //for now with if, maybe later will become switch case
         // need re-check values
-        // remember that now there is the space for the students, not the istances of the students!
+        // remember that now there is the space for the students, not the instances of the students!
 
         if(numOfPlayers == 2 ){
             arrEntranceStudents = new Student[7];
             maxEntranceStudents=7;
-            tower = 8;
+            n_towers = 8;
         }
         else if(numOfPlayers == 3){
             arrEntranceStudents = new Student[9];
             maxEntranceStudents=9;
-            tower = 6;
+            n_towers = 6;
         }
         //I had supposed that the squads where players(1-2) && players(3-4), if not it will need changes!
         else if(numOfPlayers == 4){
             arrEntranceStudents = new Student[7];
             maxEntranceStudents=7;
-            tower = 0;
+            n_towers = 0;
             if((playerID == 1 || playerID == 3))
-            tower = 8;
+            n_towers = 8;
         }
     }
     public void add_prof(Disk_colour profColour){
@@ -178,4 +180,47 @@ public class Board {
         return coins;
     }
 
+    public int getN_towers() {
+        return n_towers;
+    }
+
+    public void setN_towers(int n_towers) {
+        this.n_towers = n_towers;
+    }
+
+    public void setArrPositionStudents(int[] arrPositionStudents) {
+        this.arrPositionStudents = arrPositionStudents;
+    }
+
+    public Student[] getArrEntranceStudents() {
+        return arrEntranceStudents;
+    }
+
+    public void setArrEntranceStudents(Student[] arrEntranceStudents) {
+        this.arrEntranceStudents = arrEntranceStudents;
+    }
+
+    public void setArrProfessors(boolean[] arrProfessors) {
+        this.arrProfessors = arrProfessors;
+    }
+
+    public int getTower() {
+        return tower.getTower_translate();
+    }
+
+    public void setTower(Tower_colour tower) {
+        this.tower = tower;
+    }
+
+    public void setMaxEntranceStudents(int maxEntranceStudents) {
+        this.maxEntranceStudents = maxEntranceStudents;
+    }
+
+    public boolean[][] getTrackCoins() {
+        return trackCoins;
+    }
+
+    public void setTrackCoins(boolean[][] trackCoins) {
+        this.trackCoins = trackCoins;
+    }
 }

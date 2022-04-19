@@ -31,7 +31,7 @@ public class Game_table {
         Bag_island_start();
 
         for(int i=0;i<num_players;i++) {
-            boards[i] = new Board(num_players,i+1);
+            boards[i] = new Board(num_players,i+1, Tower_colour.values()[i]);
         }
         islands = new LinkedList<Island>();
         for(int i=0;i<12;i++){

@@ -44,7 +44,9 @@ public class Island {
 
     }
 
-    public void add_tower() {}
+    public void add_tower() {
+        this.tower = boards[current_player].getTower();
+    }
 
     public void setCurrent_player(int current_player) {
         this.current_player = current_player;
