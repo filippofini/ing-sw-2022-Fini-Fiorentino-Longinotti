@@ -18,7 +18,7 @@ public class Game_table {
     private Character_card[] arr_character;
     private Turn turn;
     private Player[] players;
-
+    private Assistance_card[] discard_deck;
 
 
 
@@ -28,8 +28,7 @@ public class Game_table {
         this.num_players = num_players;
         this.turn = turn;
 
-        Bag_island_start();
-
+        boards = new Board[num_players];
         for(int i=0;i<num_players;i++) {
             boards[i] = new Board(num_players,i+1, Tower_colour.values()[i]);
         }
@@ -38,6 +37,7 @@ public class Game_table {
             islands.add(new Island(turn.getCurrent_player(), boards, i+1));
         }
         setMother_nature_start();
+        Bag_island_start();
 
         clouds = new ArrayList<Cloud>();
         for(int i=0;i<num_players;i++){
@@ -45,18 +45,22 @@ public class Game_table {
         }
         Cloud_start();
 
+        discard_deck = new Assistance_card[num_players];
+
         //TODO: initialization of arr_character
 
     }
 
+
+    //Check if an assistance card has been already played, return false if yes
     public boolean check_if_playable(Assistance_card chosen){
-        boolean played_card = true;
-        for (int i = 0; i < num_players && played_card==true; i++) {
-            if(chosen.equals(players[i].getDiscard_deck())){
-                played_card = false;
+        boolean playable_card = true;
+        for (int i = 0; i < num_players && playable_card; i++) {
+            if(discard_deck[i]==chosen){
+                playable_card = false;
             }
         }
-        return played_card;
+        return playable_card;
     }
 
 
@@ -201,6 +205,8 @@ public class Game_table {
         this.mother_nature_pos = rand.nextInt(12);
         islands.get(this.mother_nature_pos).setMother_nature(true);
     }
+
+    //Puts the first students on the islands
     public void Bag_island_start(){
         bag = new int[5];
         for(int i=0;i<5;i++) {
@@ -224,6 +230,8 @@ public class Game_table {
         }
 
     }
+
+    //Puts the first students on the clouds
     public void Cloud_start(){
         Random rand = new Random();
         int temprand;

@@ -27,8 +27,4 @@ public class Game_State {
             chat = true;
         }
     }
-
-    public Game_table getGT() {
-        return GT;
-    }
 }

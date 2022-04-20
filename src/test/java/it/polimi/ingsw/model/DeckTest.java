@@ -25,7 +25,7 @@ class DeckTest {
 
 
     @Test
-    void testremove_used_card() {
+    void testRemove_used_card() {
         cards1.remove(Assistance_card.TORTOISE);
         assertEquals(cards2,cards1);
     }
