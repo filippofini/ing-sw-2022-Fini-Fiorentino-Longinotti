@@ -7,7 +7,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class IslandTest {
 
+
     private Board[] boards;
+
 
     @Test
     public void testIslandID() {
@@ -31,21 +33,23 @@ class IslandTest {
     }
 
     @Test
-     void check_controller() {
-
+   void testCheck_controller() {
+        Island island = new Island(2,boards, 1);
+        island.setPlayer_controller(1);
+        assertEquals(1,island.getPlayer_controller());
     }
 
 
-    @Test
-    void calculate_influence() {
-    }
+    //@Test
+    //void calculate_influence() {
+    //}
+
 
     @Test
-    void add_tower() {
-    }
-
-    @Test
-    void isMother_nature() {
+    void testMotherNatureTrue() {
+        Island island = new Island(1,boards,1);
+        island.setMother_nature(true);
+        assertTrue(island.isMother_nature());
     }
 
 }
