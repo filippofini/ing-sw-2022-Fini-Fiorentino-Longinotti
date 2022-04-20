@@ -113,5 +113,11 @@ public class Island {
     public void setArr_students(int[] arr_students) {
         this.arr_students = arr_students;
     }
+    //TODO: check <= or < (depends of size())
+    public void add_students(List<Student> transfer){
+        for(int i=0;i<transfer.size();i++){
+            arr_students[transfer.get(i).getColour()]++;
+        }
+    }
 }
 
