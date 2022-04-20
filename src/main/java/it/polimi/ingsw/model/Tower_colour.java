@@ -8,4 +8,5 @@ public enum Tower_colour {
     Tower_colour(int tower_translate){ this.tower_translate=tower_translate; }
     public int getTower_translate(){ return tower_translate; }
 
+
 }

@@ -3,6 +3,7 @@ package it.polimi.ingsw.model;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class Deck {
     private List<Assistance_card> cards;
@@ -28,4 +29,13 @@ public class Deck {
     public int count_elements(){
        return cards.size();
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Deck deck = (Deck) o;
+        return Objects.equals(cards, deck.cards);
+    }
+
 }
