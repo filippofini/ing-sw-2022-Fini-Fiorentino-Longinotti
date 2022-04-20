@@ -43,6 +43,8 @@ public class Game_table {
         for(int i=0;i<num_players;i++){
             clouds.add(new Cloud(num_players));
         }
+        Cloud_start();
+
         //TODO: initialization of arr_character
 
     }
@@ -221,6 +223,28 @@ public class Game_table {
             bag[i] = 24;
         }
 
+    }
+    public void Cloud_start(){
+        Random rand = new Random();
+        int temprand;
+        if(num_players==2 || num_players==4){
+            for(int i=0;i<num_players;i++){
+                for(int j=0;j<3;j++){
+                    temprand=rand.nextInt(5);
+                    clouds.get(i).getArr_students()[temprand]++;
+                    bag[temprand]--;
+                }
+            }
+        }
+        else if(num_players==3){
+            for(int i=0;i<num_players;i++){
+                for(int j=0;j<4;j++){
+                    temprand=rand.nextInt(5);
+                    clouds.get(i).getArr_students()[temprand]++;
+                    bag[temprand]--;
+                }
+            }
+        }
     }
 
     public void setMother_nature_pos(int mother_nature_pos) {
