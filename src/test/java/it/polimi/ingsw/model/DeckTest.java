@@ -16,7 +16,7 @@ class DeckTest {
             Assistance_card.ELEPHANT,Assistance_card.CAT));
 
     List<Assistance_card> cards2 = new ArrayList<>(Arrays.asList(Assistance_card.ELEPHANT,Assistance_card.CAT));
-
+    
     @Test
     public void testCount(){
         Deck deck = new Deck();
