@@ -220,20 +220,23 @@ public class Game_table {
     //Puts the first students on the islands
     public void Bag_island_start(){
         bag = new int[5];
+
         for(int i=0;i<5;i++) {
             bag[i] = 2;
         }
         Random rand = new Random();
         for(int i=1;i<=12;i++){
-            if((i+this.mother_nature_pos)%11!=this.mother_nature_pos && (i+this.mother_nature_pos)%11!=this.mother_nature_pos+6){
+            if((i+this.mother_nature_pos)%12!=this.mother_nature_pos && (i+this.mother_nature_pos)%12!=this.mother_nature_pos+6){
 
                 int tempRand=rand.nextInt(5);
+
                 while(bag[tempRand]==0){
+
                     tempRand=rand.nextInt(5);
                 }
 
                     bag[tempRand]--;
-                    islands.get((i+this.mother_nature_pos)%11).getArr_students()[tempRand]++;
+                    islands.get((i+this.mother_nature_pos)%12).getArr_students()[tempRand]++;
             }
         }
         for(int i=0;i<5;i++) {

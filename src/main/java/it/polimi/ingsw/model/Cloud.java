@@ -7,13 +7,8 @@ public class Cloud {
     //the number of players affects the number of students on each island
     public Cloud(int numofPlayers) {
 
-        if (numofPlayers == 2 || numofPlayers== 4) {
-            arr_students = new int[3];
-        }
+            arr_students = new int[5];
 
-        if (numofPlayers == 3) {
-            arr_students = new int[4];
-        }
     }
 
     public void add_to_cloud(){
