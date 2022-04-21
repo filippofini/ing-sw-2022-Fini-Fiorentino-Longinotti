@@ -8,6 +8,7 @@ import java.util.Random;
 public class Game_table {
     private int num_players;
     private int player_ID;
+    private int current_player;
     private int island_counter=12;
     private int island_index;
     private Board[] boards;
@@ -27,6 +28,7 @@ public class Game_table {
         this.players = players;
         this.num_players = num_players;
         this.turn = turn;
+        this.current_player = turn.getCurrent_player();
 
         boards = new Board[num_players];
         for(int i=0;i<num_players;i++) {
@@ -37,15 +39,18 @@ public class Game_table {
             islands.add(new Island(turn.getCurrent_player(), boards, i+1));
         }
         setMother_nature_start();
-        Bag_island_start();
+        //Bag_island_start();
 
         clouds = new ArrayList<Cloud>();
         for(int i=0;i<num_players;i++){
             clouds.add(new Cloud(num_players));
         }
-        Cloud_start();
+        //Cloud_start();
 
         discard_deck = new Assistance_card[num_players];
+        for (int i = 0; i < num_players; i++) {
+            discard_deck[i] = Assistance_card.STARTER;
+        }
 
         //TODO: initialization of arr_character
 
@@ -56,11 +61,15 @@ public class Game_table {
     public boolean check_if_playable(Assistance_card chosen){
         boolean playable_card = true;
         for (int i = 0; i < num_players && playable_card; i++) {
-            if(discard_deck[i]==chosen){
+            if(discard_deck[i].equals(chosen)){
                 playable_card = false;
             }
         }
         return playable_card;
+    }
+
+    public void update_discard(int current_player, Assistance_card chosen){
+        discard_deck[current_player-1] = chosen;
     }
 
 
@@ -159,10 +168,11 @@ public class Game_table {
     public void move_mother_nature(int moves){
         islands.get(mother_nature_pos).setMother_nature(false);
         if(mother_nature_pos+moves<island_counter) {
-            islands.get(mother_nature_pos).setMother_nature(true);
-        }else{
+            islands.get(mother_nature_pos+moves).setMother_nature(true);
+            setMother_nature_pos(mother_nature_pos+moves);
+        }else {
             moves = mother_nature_pos + moves;
-            while(moves>island_counter) {
+            while (moves > island_counter) {
                 moves = moves - island_counter;
             }
             islands.get(moves).setMother_nature(true);
@@ -175,6 +185,7 @@ public class Game_table {
         clouds.remove(cloud_index);
         return clouds;
     }
+
     public List<Cloud> getClouds() {
         return clouds;
     }
@@ -261,5 +272,41 @@ public class Game_table {
 
     public int getMother_nature_pos() {
         return mother_nature_pos;
+    }
+
+    public LinkedList<Island> getIslands() {
+        return islands;
+    }
+
+    public int getNum_players() {
+        return num_players;
+    }
+
+    public int getCurrent_player() {
+        return current_player;
+    }
+
+    public int getIsland_index() {
+        return island_index;
+    }
+
+    public int[] getBag() {
+        return bag;
+    }
+
+    public Character_card[] getArr_character() {
+        return arr_character;
+    }
+
+    public Turn getTurn() {
+        return turn;
+    }
+
+    public Player[] getPlayers() {
+        return players;
+    }
+
+    public Assistance_card[] getDiscard_deck() {
+        return discard_deck;
     }
 }
