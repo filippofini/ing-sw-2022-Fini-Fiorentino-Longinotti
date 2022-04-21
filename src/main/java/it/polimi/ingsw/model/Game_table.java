@@ -222,7 +222,7 @@ public class Game_table {
                 }
 
                     bag[tempRand]--;
-                    islands.get((i+this.mother_nature_pos)%12).getArr_students()[tempRand]++;
+                    islands.get((i+this.mother_nature_pos)%11).getArr_students()[tempRand]++;
             }
         }
         for(int i=0;i<5;i++) {
