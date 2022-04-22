@@ -30,22 +30,29 @@ public class Game_table {
         this.turn = turn;
         this.current_player = turn.getCurrent_player();
 
+        bag = new int[5];
+        for(int i=0;i<5;i++) {
+            bag[i] = 2;
+        }
+
         boards = new Board[num_players];
         for(int i=0;i<num_players;i++) {
             boards[i] = new Board(num_players,i+1, Tower_colour.values()[i]);
         }
+
         islands = new LinkedList<Island>();
         for(int i=0;i<12;i++){
             islands.add(new Island(turn.getCurrent_player(), boards, i+1));
         }
+
         setMother_nature_start();
-        //Bag_island_start();
+        bag_island_start();
 
         clouds = new ArrayList<Cloud>();
         for(int i=0;i<num_players;i++){
             clouds.add(new Cloud(num_players));
         }
-        //Cloud_start();
+        cloud_start();
 
         discard_deck = new Assistance_card[num_players];
         for (int i = 0; i < num_players; i++) {
@@ -171,10 +178,7 @@ public class Game_table {
             islands.get(mother_nature_pos+moves).setMother_nature(true);
             setMother_nature_pos(mother_nature_pos+moves);
         }else {
-            moves = mother_nature_pos + moves;
-            while (moves > island_counter) {
-                moves = moves - island_counter;
-            }
+            moves = (moves+mother_nature_pos)%island_counter;
             islands.get(moves).setMother_nature(true);
             setMother_nature_pos(moves);
         }
@@ -218,26 +222,25 @@ public class Game_table {
     }
 
     //Puts the first students on the islands
-    public void Bag_island_start(){
-        bag = new int[5];
+    public void bag_island_start(){
 
-        for(int i=0;i<5;i++) {
-            bag[i] = 2;
-        }
         Random rand = new Random();
-        for(int i=1;i<=12;i++){
-            if((i+this.mother_nature_pos)%12!=this.mother_nature_pos && (i+this.mother_nature_pos)%12!=this.mother_nature_pos+6){
 
-                int tempRand=rand.nextInt(5);
+        int tempRand;
 
-                while(bag[tempRand]==0){
+        for(int i=0;i<12;i++){
+            tempRand=rand.nextInt(5);
 
-                    tempRand=rand.nextInt(5);
+                while (bag[tempRand] == 0) {
+                    tempRand = rand.nextInt(5);
                 }
 
-                    bag[tempRand]--;
-                    islands.get((i+this.mother_nature_pos)%12).getArr_students()[tempRand]++;
+
+            if(i!= ((this.mother_nature_pos+6)%12) && i!=this.mother_nature_pos) {
+                bag[tempRand]--;
+                islands.get((i+1 + this.mother_nature_pos) % 12).getArr_students()[tempRand]++;
             }
+
         }
         for(int i=0;i<5;i++) {
             bag[i] = 24;
@@ -246,7 +249,7 @@ public class Game_table {
     }
 
     //Puts the first students on the clouds
-    public void Cloud_start(){
+    public void cloud_start(){
         Random rand = new Random();
         int temprand;
         if(num_players==2 || num_players==4){
