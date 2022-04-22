@@ -236,9 +236,9 @@ public class Game_table {
                 }
 
 
-            if(i!= ((this.mother_nature_pos+6)%12) && i!=this.mother_nature_pos) {
+            if(i!= (this.mother_nature_pos+6)%12 && i!=this.mother_nature_pos) {
                 bag[tempRand]--;
-                islands.get((i+1 + this.mother_nature_pos) % 12).getArr_students()[tempRand]++;
+                islands.get((i + this.mother_nature_pos) % 12).getArr_students()[tempRand]++;
             }
 
         }

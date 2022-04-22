@@ -5,7 +5,7 @@ public class Cloud {
     private int[] arr_students;
 
     //the number of players affects the number of students on each island
-    public Cloud(int numofPlayers) {
+    public Cloud(int numOfPlayers) {
 
             arr_students = new int[5];
 

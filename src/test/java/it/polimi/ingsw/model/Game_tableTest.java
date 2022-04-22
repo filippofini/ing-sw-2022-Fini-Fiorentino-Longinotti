@@ -59,4 +59,24 @@ class Game_tableTest {
 
         assertEquals(final_pos, game_table.getMother_nature_pos());
     }
+
+    @Test
+    public void testMerge1(){
+        LinkedList<Island> islands = game_table.getIslands();
+        islands.get(2).setTower(1);
+        islands.get(3).setTower(1);
+
+        game_table.merge(2);
+        assertEquals(11, islands.size());
+    }
+    @Test
+    public void testMerge2(){
+        LinkedList<Island> islands = game_table.getIslands();
+        islands.get(2).setTower(1);
+        islands.get(3).setTower(1);
+        islands.get(1).setTower(1);
+
+        game_table.merge(2);
+        assertEquals(10, islands.size());
+    }
 }
