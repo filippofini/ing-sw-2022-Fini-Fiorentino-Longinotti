@@ -7,8 +7,14 @@ import it.polimi.ingsw.model.Character_card;
  */
 public class Herald extends Character_card {
     private int cost=3;
+    private int uses=0;
 
     public void herald_effect(){}
+
+    public void setUses() {
+        this.uses++;
+        setCost(cost+1);
+    }
 
     public int getCost() {
         return cost;
