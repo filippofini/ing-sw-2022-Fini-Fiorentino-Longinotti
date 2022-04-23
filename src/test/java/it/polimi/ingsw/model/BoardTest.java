@@ -33,5 +33,7 @@ class BoardTest {
 
     @Test
     void testCoinsEarned() {
+
+
     }
 }
