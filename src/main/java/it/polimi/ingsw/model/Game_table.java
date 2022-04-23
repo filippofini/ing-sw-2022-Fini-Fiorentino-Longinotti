@@ -1,9 +1,8 @@
 package it.polimi.ingsw.model;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Random;
+import it.polimi.ingsw.model.character.*;
+
+import java.util.*;
 
 
 /**
@@ -63,8 +62,8 @@ public class Game_table {
             discard_deck[i] = Assistance_card.STARTER;
         }
 
-        //TODO: initialization of arr_character
-
+        arr_character = new Character_card[3];
+        draw_three_charCards();
     }
 
 
@@ -264,6 +263,41 @@ public class Game_table {
                 }
             }
         }
+    }
+
+    /**
+     * Random draw of the three character cards
+     */
+    private void draw_three_charCards(){
+        int[] drawn = new int[3];
+        Random rand = new Random();
+        List<Character_card> char_deck;
+        char_deck = new ArrayList<Character_card>(Arrays.asList(
+                new Monk(),
+                new Farmer(),
+                new Herald(),
+                new Magic_mailman(),
+                new Herbs_grandma(),
+                new Centaur(),
+                new Jester(),
+                new Knight(),
+                new Mushroom_collector(),
+                new Minstrel(),
+                new Spoilt_princess(),
+                new Thief()));
+
+        drawn[0] = rand.nextInt(12);
+        arr_character[0] = char_deck.get(drawn[0]);
+        drawn[1] = rand.nextInt(12);
+        while (drawn[1]==drawn[0]){
+            drawn[1] = rand.nextInt(12);
+        }
+        arr_character[1] = char_deck.get(drawn[1]);
+        drawn[2] = rand.nextInt(12);
+        while (drawn[2]==drawn[0] || drawn[2]==drawn[1]){
+            drawn[2] = rand.nextInt(12);
+        }
+        arr_character[2] = char_deck.get(drawn[2]);
     }
 
     public void setMother_nature_pos(int mother_nature_pos) {

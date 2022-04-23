@@ -156,4 +156,25 @@ class Game_tableTest {
 
         assertEquals(12, islands.size());
     }
+
+    @Test
+    public void testDraw_char1(){
+      Character_card[] drawn = game_table.getArr_character();
+
+      assertNotEquals(null, drawn[0]);
+    }
+
+    @Test
+    public void testDraw_char2(){
+        Character_card[] drawn = game_table.getArr_character();
+
+        assertNotEquals(null, drawn[1]);
+    }
+
+    @Test
+    public void testDraw_char3(){
+        Character_card[] drawn = game_table.getArr_character();
+
+        assertNotEquals(null, drawn[2]);
+    }
 }
