@@ -1,5 +1,8 @@
 package it.polimi.ingsw.model;
 
+/**
+ * This enum defines the color of students
+ */
 public enum Disk_colour {
     YELLOW(0), RED(1), PINK(2), BLUE(3), GREEN(4);
     private final int translateColour;

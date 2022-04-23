@@ -2,6 +2,9 @@ package it.polimi.ingsw.model.character;
 
 import it.polimi.ingsw.model.Character_card;
 
+/**
+ * Mushroom collector character card
+ */
 public class Mushroom_collector extends Character_card {
     private int cost=3;
 

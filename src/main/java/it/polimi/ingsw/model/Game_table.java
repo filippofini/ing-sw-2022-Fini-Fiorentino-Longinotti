@@ -5,8 +5,12 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
+
+/**
+ * Class game table
+ */
 public class Game_table {
-    private int num_players;
+    private final int num_players;
     private int player_ID;
     private int current_player;
     private int island_counter=12;
@@ -18,14 +22,14 @@ public class Game_table {
     private int[] bag;
     private Character_card[] arr_character;
     private Turn turn;
-    private Player[] players;
     private Assistance_card[] discard_deck;
 
-
-
-
-    public Game_table(int num_players, Turn turn, Player[] players){
-        this.players = players;
+    /**
+     * Constructor of the class
+     * @param num_players number of players can be 2,3 or 4
+     * @param turn first turn
+     */
+    public Game_table(int num_players, Turn turn){
         this.num_players = num_players;
         this.turn = turn;
         this.current_player = turn.getCurrent_player();
@@ -42,7 +46,7 @@ public class Game_table {
 
         islands = new LinkedList<Island>();
         for(int i=0;i<12;i++){
-            islands.add(new Island(turn.getCurrent_player(), boards, i+1));
+            islands.add(new Island(turn.getCurrent_player(), boards, i+1, Tower_colour.STARTER));
         }
 
         setMother_nature_start();
@@ -50,7 +54,7 @@ public class Game_table {
 
         clouds = new ArrayList<Cloud>();
         for(int i=0;i<num_players;i++){
-            clouds.add(new Cloud(num_players));
+            clouds.add(new Cloud());
         }
         cloud_start();
 
@@ -64,7 +68,11 @@ public class Game_table {
     }
 
 
-    //Check if an assistance card has been already played, return false if yes
+    /**
+     * Check if an assistance card has been already played
+     * @param chosen card chosen to be played
+     * @return return false if card is already played
+     */
     public boolean check_if_playable(Assistance_card chosen){
         boolean playable_card = true;
         for (int i = 0; i < num_players && playable_card; i++) {
@@ -75,16 +83,17 @@ public class Game_table {
         return playable_card;
     }
 
-    public void update_discard(int current_player, Assistance_card chosen){
-        discard_deck[current_player-1] = chosen;
-    }
-
-
-
-    public int[] check_merge(int island_index){
+    /**
+     * Check if islands can be merged. Checks previous and next island
+     * @param island_index index of the island to be checked.
+     * @return return an array of two integers. index 0 is the previous island, index 1 is the next island. If one values is -1, that island can't be merged
+     */
+    private int[] check_merge(int island_index){
         int[] indexes = new int[]{-1,-1} ;
 
-        //Check if there are islands prev or next to the current that can be merged
+        /**
+         * Check if there are islands prev or next to the current that can be merged
+         */
         if(island_index<island_counter-1 && island_index>0) {
             if (islands.get(island_index).getTower() == islands.get(island_index + 1).getTower()) {
                 indexes[1] = island_index+1;
@@ -94,7 +103,9 @@ public class Game_table {
             }
         }
 
-        //Check the same thing for the last island of the list but goes to 0 to check the next
+        /**
+         * Check the same thing for the last island of the list but goes to 0 to check the next
+         */
         else if(island_index == island_counter-1){
             if (islands.get(island_index).getTower() == islands.get(0).getTower()) {
                 indexes[1] = 0;
@@ -104,19 +115,26 @@ public class Game_table {
             }
         }
 
-        //Check the first element of the list. If prev can be merged goes to the last element of the list
+        /**
+         * Check the first element of the list. If prev can be merged goes to the last element of the list
+         */
         else if (island_index==0){
             if (islands.get(island_index).getTower() == islands.get(1).getTower()) {
                 indexes[1] = 1;
             }
             if (islands.get(island_index).getTower() == islands.get(island_counter-1).getTower()){
-                indexes[0] = islands.size();
+                indexes[0] = island_counter-1;
             }
         }
 
         return indexes;
     }
 
+
+    /**
+     * Merge of close islands. Before merging, it checks what merges can be done
+     * @param island_index the index of the island that will be final
+     */
     public void merge(int island_index) {
         this.island_index = island_index;
         int[] toMerge_indexes = check_merge(island_index);
@@ -141,7 +159,6 @@ public class Game_table {
             islands.get(island_index).setTower(islands.get(island_index).getTower() + islands.get(toMerge_indexes[1]).getTower());
         }
 
-
         islands.get(island_index).calculate_influence();
 
         boolean removed = false;
@@ -156,22 +173,23 @@ public class Game_table {
                 //If the removed island is after the next one to remove no problem
                 if (toMerge_indexes[0] > toMerge_indexes[1]) {
                     islands.remove(toMerge_indexes[1]);
-                    island_counter--;
                 }
                 //If the removed island is before the next one to remove the index goes down by 1
                 else{
                     islands.remove(toMerge_indexes[1] - 1);
-                    island_counter--;
                 }
             }
             else{
                 islands.remove(toMerge_indexes[1]);
-                island_counter--;
             }
+            island_counter--;
         }
     }
 
-
+    /**
+     * This move mother nature by moves decided by the current player
+     * @param moves number of moves that the player decides, not the max possible moves
+     */
     public void move_mother_nature(int moves){
         islands.get(mother_nature_pos).setMother_nature(false);
         if(mother_nature_pos+moves<island_counter) {
@@ -184,45 +202,19 @@ public class Game_table {
         }
     }
 
-
-    public List<Cloud> del_cloud(int cloud_index) {
-        clouds.remove(cloud_index);
-        return clouds;
-    }
-
-    public List<Cloud> getClouds() {
-        return clouds;
-    }
-
-    public Board[] getBoards() {
-        return boards;
-    }
-
-    public int getIsland_counter() {
-        return island_counter;
-    }
-
-    public void setIsland_counter(int island_counter) {
-        this.island_counter = island_counter;
-    }
-
-    public int getHow_many_merge(){
-        return 12-island_counter;
-    }
-
-    public int getPlayer_ID() {
-        return player_ID;
-    }
-
-    //Puts mother nature in a random island
-    public void setMother_nature_start() {
+    /**
+     * Puts mother nature in a random island
+     */
+    private void setMother_nature_start() {
         Random rand = new Random();
         this.mother_nature_pos = rand.nextInt(12);
         islands.get(this.mother_nature_pos).setMother_nature(true);
     }
 
-    //Puts the first students on the islands
-    public void bag_island_start(){
+    /**
+     * Puts the first students on the islands
+     */
+    private void bag_island_start(){
 
         Random rand = new Random();
 
@@ -248,8 +240,10 @@ public class Game_table {
 
     }
 
-    //Puts the first students on the clouds
-    public void cloud_start(){
+    /**
+     * Puts the first students on the clouds
+     */
+    private void cloud_start(){
         Random rand = new Random();
         int temprand;
         if(num_players==2 || num_players==4){
@@ -280,6 +274,35 @@ public class Game_table {
         return mother_nature_pos;
     }
 
+    public List<Cloud> del_cloud(int cloud_index) {
+        clouds.remove(cloud_index);
+        return clouds;
+    }
+
+    public List<Cloud> getClouds() {
+        return clouds;
+    }
+
+    public Board[] getBoards() {
+        return boards;
+    }
+
+    public int getIsland_counter() {
+        return island_counter;
+    }
+
+    public void setIsland_counter(int island_counter) {
+        this.island_counter = island_counter;
+    }
+
+    public int getHow_many_left(){
+        return 12-island_counter;
+    }
+
+    public int getPlayer_ID() {
+        return player_ID;
+    }
+
     public LinkedList<Island> getIslands() {
         return islands;
     }
@@ -306,10 +329,6 @@ public class Game_table {
 
     public Turn getTurn() {
         return turn;
-    }
-
-    public Player[] getPlayers() {
-        return players;
     }
 
     public Assistance_card[] getDiscard_deck() {

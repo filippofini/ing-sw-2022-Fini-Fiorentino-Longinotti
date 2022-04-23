@@ -4,18 +4,28 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Class player
+ */
 public class Player {
     private final String name;
     private final int tower_colour;
     private final int wizard;
-    private int coin=1;
+    private int coin;
     private final int player_ID;
     private Assistance_card chosen_card; //chosen card to play during the turn
     private final Deck deck;
 
 
-
+    /**
+     * Constructor of the class
+     * @param name string containing the name of the player
+     * @param wizard number of wizard assigned to the player
+     * @param tower_colour colour of the tower assigned to the player
+     * @param player_ID player ID assigned to the player
+     */
     public Player(String name, int wizard, Tower_colour tower_colour, int player_ID) {
+        this.coin = 1;
         this.name = name;
         this.wizard = wizard;
         this.tower_colour = tower_colour.getTower_translate();

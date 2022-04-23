@@ -4,18 +4,26 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * Class board
+ */
 public class Board {
     private int n_towers;
     private int[] arrPositionStudents;
     private Student[] arrEntranceStudents;
     private boolean[] arrProfessors;
-    private Tower_colour tower;
+    private int tower;
     private int maxEntranceStudents;
     private boolean[][] trackCoins = new boolean[5][3];
 
-    //need to know how many players for number of towers && PlayerID
+    /**
+     * Constructor of the class
+     * @param numOfPlayers number of players
+     * @param playerID player ID assigned to the board. Is an indirect reference to the player
+     * @param tower tower colour assigned to the player and to the board
+     */
     public Board(int numOfPlayers, int playerID, Tower_colour tower){
-        this.tower = tower;
+        this.tower = tower.getTower_translate();
         arrPositionStudents = new int[5];
         arrProfessors = new boolean[5];
         for(int i=0; i<5;i++){
@@ -23,10 +31,10 @@ public class Board {
                 trackCoins[i][j]=false;
             }
         }
+
         //for now with if, maybe later will become switch case
         // need re-check values
         // remember that now there is the space for the students, not the instances of the students!
-
         if(numOfPlayers == 2 ){
             arrEntranceStudents = new Student[7];
             maxEntranceStudents=7;
@@ -46,6 +54,7 @@ public class Board {
             n_towers = 8;
         }
     }
+
     public void add_prof(Disk_colour profColour){
         arrProfessors[profColour.getTranslateColour()]=true;
     }
@@ -53,9 +62,12 @@ public class Board {
         arrPositionStudents[studentColour.getTranslateColour()]++;
 
     }
-    //return students to send in islands.
 
-    public List<Student> MoveEntranceStudents(){
+    /**
+     * Moves students to the islands
+     * @return return students to send to islands
+     */
+    public List<Student> moveEntranceStudents(){
         int choiceStudent;
         int choicePosition;
         int studentsChosen=0;
@@ -77,15 +89,13 @@ public class Board {
                 System.out.println("Number not valid,please choose a number from the list");
             }
         } while(validChoice);
+
         validChoice=true;
 
         while(studentsChosen <3) {
-
-            if (arrEntranceStudents[choiceStudent].getisChosen() == false) {
-
+            if (arrEntranceStudents[choiceStudent].getIsChosen() == false) {
                 System.out.println("where do you want to move the student?:\n");
                 System.out.println("Dining Room[0] Island[1]");
-
                 do{
                     choicePosition = sc.nextInt();
                     if(choiceStudent<2){
@@ -106,7 +116,6 @@ public class Board {
                     else{
                         System.out.println("table of colour:"+arrEntranceStudents[choiceStudent].getEnumColour() +" is full, please choose another student");
                     }
-
                 }
                 else if(choicePosition == 1){
                     studentToIslands.add(new Student(arrEntranceStudents[choiceStudent].getEnumColour()));
@@ -126,7 +135,7 @@ public class Board {
                 validChoice=true;
 
             }
-            else if (arrEntranceStudents[choiceStudent].getisChosen() == true){
+            else if (arrEntranceStudents[choiceStudent].getIsChosen() == true){
                 System.out.println("Student chosen previously,please choose another student\n");
                 do{
                     choiceStudent = sc.nextInt();
@@ -154,8 +163,12 @@ public class Board {
     public int[] getArrPositionStudents() {
         return arrPositionStudents;
     }
-    //return coins earned this turn, to sum with current coins each turn
-    public int CoinsEarned(){
+
+    /**
+     * Check coins earned
+     * @return return coins earned this turn, to sum with current coins each turn
+     */
+    public int coinsEarned(){
         int coins=0;
         for(int i=0; i<5;i++){
             if(arrPositionStudents[i]/3==1){
@@ -204,11 +217,7 @@ public class Board {
         this.arrProfessors = arrProfessors;
     }
 
-    public int getTower() {
-        return tower.getTower_translate();
-    }
-
-    public void setTower(Tower_colour tower) {
+    public void setTower(int tower) {
         this.tower = tower;
     }
 
@@ -222,5 +231,9 @@ public class Board {
 
     public void setTrackCoins(boolean[][] trackCoins) {
         this.trackCoins = trackCoins;
+    }
+
+    public int getTower() {
+        return tower;
     }
 }

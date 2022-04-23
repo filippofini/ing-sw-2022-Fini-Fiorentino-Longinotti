@@ -2,6 +2,9 @@ package it.polimi.ingsw.model.character;
 
 import it.polimi.ingsw.model.Character_card;
 
+/**
+ * Herald character card
+ */
 public class Herald extends Character_card {
     private int cost=3;
 

@@ -2,6 +2,9 @@ package it.polimi.ingsw.model.character;
 
 import it.polimi.ingsw.model.Character_card;
 
+/**
+ * Herbs grandma character card
+ */
 public class Herbs_grandma extends Character_card {
     private int cost=1;
 

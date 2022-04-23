@@ -2,6 +2,9 @@ package it.polimi.ingsw.model.character;
 
 import it.polimi.ingsw.model.Character_card;
 
+/**
+ * Centaur character card
+ */
 public class Centaur extends Character_card {
     private int cost=3;
 

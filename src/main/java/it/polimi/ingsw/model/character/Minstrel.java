@@ -2,6 +2,9 @@ package it.polimi.ingsw.model.character;
 
 import it.polimi.ingsw.model.Character_card;
 
+/**
+ * Minstrel character card
+ */
 public class Minstrel extends Character_card {
     private int cost=1;
 

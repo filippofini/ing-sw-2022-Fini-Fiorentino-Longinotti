@@ -2,6 +2,9 @@ package it.polimi.ingsw.model.character;
 
 import it.polimi.ingsw.model.Character_card;
 
+/**
+ * Spoilt princess character card
+ */
 public class Spoilt_princess extends Character_card {
     private int cost=2;
 

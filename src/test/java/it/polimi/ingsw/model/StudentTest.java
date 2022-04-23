@@ -18,7 +18,7 @@ class StudentTest {
         Student student = new Student(Disk_colour.RED);
         student.Chosen();
 
-        assertTrue(student.getisChosen());
+        assertTrue(student.getIsChosen());
     }
 
     @Test

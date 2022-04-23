@@ -2,6 +2,9 @@ package it.polimi.ingsw.model.character;
 
 import it.polimi.ingsw.model.Character_card;
 
+/**
+ * Knight character card
+ */
 public class Knight extends Character_card {
     private int cost=2;
 
