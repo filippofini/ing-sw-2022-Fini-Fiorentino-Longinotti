@@ -17,6 +17,7 @@ public class Game_table {
     private Board[] boards;
     private LinkedList<Island> islands;
     private List<Cloud> clouds;
+    private List<Cloud> tempclouds;
     private int mother_nature_pos;
     private int[] bag;
     private Character_card[] arr_character;
@@ -264,6 +265,101 @@ public class Game_table {
             }
         }
     }
+    /**
+     * refills each cloud with students
+     */
+    //TODO:endGame method that need to be called when bag_not_empty=false
+    public void replenish_clouds(){
+        Random rand = new Random();
+        int temprand;
+        int count = 0;
+        boolean bag_not_empty = true;
+        boolean check = true;
+
+        if(num_players==2 || num_players==4){
+            for(int i=0;i<num_players && bag_not_empty;i++){
+                while(count<3 && bag_not_empty){
+                    temprand=rand.nextInt(5);
+                    if( bag[temprand]==0){
+                        for(int j=0;j<5;j++){
+                            if(bag[j]>0){
+                                check=false;
+                            }
+                        }
+                        if(check==true){
+                            bag_not_empty=false;
+                        }
+                        else{
+                            check=true;
+                            while(bag[temprand]==0){
+                                temprand=rand.nextInt(5);
+                            }
+                        }
+                    }
+                    if(bag_not_empty==true){
+                        clouds.get(i).getArr_students()[temprand]++;
+                        bag[temprand]--;
+                        count++;
+                    }
+                }
+            }
+        }
+        else if(num_players==3){
+            for(int i=0;i<num_players && bag_not_empty;i++){
+                while(count<4 && bag_not_empty){
+                    temprand=rand.nextInt(5);
+                    if( bag[temprand]==0){
+                        for(int j=0;j<5;j++){
+                            if(bag[j]>0){
+                                check=false;
+                            }
+                        }
+                        if(check==true){
+                            bag_not_empty=false;
+                        }
+                        else{
+                            check=true;
+                            while(bag[temprand]==0){
+                                temprand=rand.nextInt(5);
+                            }
+                        }
+                    }
+                    if(bag_not_empty==true){
+                        clouds.get(i).getArr_students()[temprand]++;
+                        bag[temprand]--;
+                        count++;
+                    }
+                }
+            }
+        }
+
+    }
+    /**
+     * the player choose the cloud that he wants
+     */
+    public Cloud choose_cloud(){
+        int choice;
+        Cloud chosen_cloud;
+        Scanner sc= new Scanner(System.in);
+        System.out.println("choose the number of the cloud you want to choose:\n");
+        for(int i=0;i<tempclouds.size();i++){
+            System.out.println("cloud["+i+"]:\n");
+            for(int j=0;j<5;j++){
+
+                System.out.println(Disk_colour.values()[j]+":"+tempclouds.get(i).getArr_students()[j]+"\n");
+            }
+        }
+        choice= sc.nextInt();
+        while(choice>= tempclouds.size() || choice<0){
+            System.out.println("This Cloud does not exit, please choose a valid number:\n");
+            choice= sc.nextInt();
+        }
+        chosen_cloud=tempclouds.get(choice);
+        tempclouds=del_temp_cloud(choice);
+
+        return chosen_cloud;
+
+    }
 
     /**
      * Random draw of the three character cards
@@ -303,6 +399,9 @@ public class Game_table {
     public void setMother_nature_pos(int mother_nature_pos) {
         this.mother_nature_pos = mother_nature_pos;
     }
+    public void reset_temp_clouds(){
+        tempclouds=clouds;
+    }
 
     public int getMother_nature_pos() {
         return mother_nature_pos;
@@ -312,6 +411,11 @@ public class Game_table {
         clouds.remove(cloud_index);
         return clouds;
     }
+    public List<Cloud> del_temp_cloud(int cloud_index) {
+        tempclouds.remove(cloud_index);
+        return tempclouds;
+    }
+
 
     public List<Cloud> getClouds() {
         return clouds;
