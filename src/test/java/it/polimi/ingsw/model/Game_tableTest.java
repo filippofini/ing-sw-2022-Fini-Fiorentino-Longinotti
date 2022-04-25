@@ -9,14 +9,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 
 class Game_tableTest {
-    //Game with two players
-    Game_table game_table = new Game_table(2, new Turn());
-    //Game with two players
-    //Game_table game_table = new Game_table(3, new Turn());
-
 
     @Test
     public void testCheck_if_playableFalse() {
+        //Game with two players
+        Game_table game_table = new Game_table(2, new Turn());
         Assistance_card[] discard_deck = game_table.getDiscard_deck();
         discard_deck[1] = Assistance_card.CAT;
 
@@ -25,12 +22,15 @@ class Game_tableTest {
 
     @Test
     public void testCheck_if_playableTrue() {
-
+        //Game with two players
+        Game_table game_table = new Game_table(2, new Turn());
         assertTrue(game_table.check_if_playable(Assistance_card.CAT));
     }
 
     @Test
     public void testSet_mother_nature_start1() {
+        //Game with two players
+        Game_table game_table = new Game_table(2, new Turn());
         LinkedList<Island> islands = game_table.getIslands();
 
         assertTrue(islands.get(game_table.getMother_nature_pos()).isMother_nature());
@@ -39,6 +39,8 @@ class Game_tableTest {
 
     @Test
     public void testSet_mother_nature_start2() {
+        //Game with two players
+        Game_table game_table = new Game_table(2, new Turn());
         LinkedList<Island> islands = game_table.getIslands();
         int get = game_table.getMother_nature_pos() - 1;
         if (get + 1 == 0) {
@@ -50,6 +52,8 @@ class Game_tableTest {
 
     @Test
     public void testMove_mother_nature() {
+        //Game with two players
+        Game_table game_table = new Game_table(2, new Turn());
         int pos = game_table.getMother_nature_pos();
         Random random = new Random();
         int moves = random.nextInt(50);
@@ -64,108 +68,126 @@ class Game_tableTest {
 
     @Test
     public void testMerge1() {
+        //Game with three players
+        Game_table game_table = new Game_table(3, new Turn());
         LinkedList<Island> islands = game_table.getIslands();
         islands.get(1).setTower(2);
         islands.get(8).setTower(1);
         islands.get(2).setTower(1);
         islands.get(3).setTower(1);
 
-        game_table.merge(2);
+        game_table.merge(2, 1);
         assertEquals(11, islands.size());
     }
 
     @Test
     public void testMerge2() {
+        //Game with three players
+        Game_table game_table = new Game_table(3, new Turn());
         LinkedList<Island> islands = game_table.getIslands();
         islands.get(2).setTower(1);
         islands.get(3).setTower(1);
         islands.get(1).setTower(1);
 
-        game_table.merge(2);
+        game_table.merge(2, 1);
         assertEquals(10, islands.size());
     }
 
     @Test
     public void testMerge3() {
+        //Game with two players
+        Game_table game_table = new Game_table(2, new Turn());
         //Merge to first of the list
         LinkedList<Island> islands = game_table.getIslands();
         islands.get(0).setTower(1);
         islands.get(1).setTower(1);
         islands.get(11).setTower(1);
 
-        game_table.merge(0);
+        game_table.merge(0, 1);
         assertEquals(10, islands.size());
     }
 
     @Test
     public void testMerge4() {
+        //Game with three players
+        Game_table game_table = new Game_table(3, new Turn());
         //Merge to last of the list
         LinkedList<Island> islands = game_table.getIslands();
         islands.get(11).setTower(1);
         islands.get(0).setTower(1);
         islands.get(10).setTower(1);
 
-        game_table.merge(11);
+        game_table.merge(11, 1);
         assertEquals(10, islands.size());
     }
 
     @Test
     public void testMergeDouble(){
+        //Game with three players
+        Game_table game_table = new Game_table(3, new Turn());
         //Merge twice
         LinkedList<Island> islands = game_table.getIslands();
         islands.get(11).setTower(1);
         islands.get(0).setTower(1);
         islands.get(10).setTower(1);
-        game_table.merge(11);
+        game_table.merge(11, 1);
 
         islands.get(7).setTower(3);
         islands.get(8).setTower(3);
-        game_table.merge(7);
+        game_table.merge(7,1);
 
         assertEquals(9, islands.size());
     }
 
     @Test
     public void testMergeTriple(){
+        //Game with three players
+        Game_table game_table = new Game_table(3, new Turn());
         //Merge three times
         LinkedList<Island> islands = game_table.getIslands();
         islands.get(11).setTower(1);
         islands.get(0).setTower(1);
         islands.get(10).setTower(1);
-        game_table.merge(11);
+        game_table.merge(11, 1);
 
         islands.get(7).setTower(3);
         islands.get(8).setTower(3);
-        game_table.merge(7);
+        game_table.merge(7, 1);
 
         islands.get(2).setTower(2);
         islands.get(1).setTower(2);
         islands.get(3).setTower(2);
-        game_table.merge(2);
+        game_table.merge(2, 1);
 
         assertEquals(7, islands.size());
     }
 
     @Test
     public void testNoMerge(){
+        //Game with two players
+        Game_table game_table = new Game_table(2, new Turn());
         //No merge
         LinkedList<Island> islands = game_table.getIslands();
         islands.get(3).setTower(2);
         islands.get(4).setTower(1);
-        game_table.merge(3);
+        game_table.merge(3, 1);
 
         assertEquals(12, islands.size());
     }
 
     @Test
     public void testDraw_char1(){
-      Character_card[] drawn = game_table.getArr_character();
+        //Game with two players
+        Game_table game_table = new Game_table(2, new Turn());
+        Character_card[] drawn = game_table.getArr_character();
 
-      assertNotEquals(null, drawn[0]);
+        assertNotEquals(null, drawn[0]);
     }
 
     @Test
     public void testDraw_char2(){
+        //Game with two players
+        Game_table game_table = new Game_table(2, new Turn());
         Character_card[] drawn = game_table.getArr_character();
 
         assertNotEquals(null, drawn[1]);
@@ -173,6 +195,8 @@ class Game_tableTest {
 
     @Test
     public void testDraw_char3(){
+        //Game with two players
+        Game_table game_table = new Game_table(2, new Turn());
         Character_card[] drawn = game_table.getArr_character();
 
         assertNotEquals(null, drawn[2]);

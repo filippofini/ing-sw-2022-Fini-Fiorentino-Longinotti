@@ -14,27 +14,20 @@ class IslandTest {
     @Test
     public void testIslandID() {
 
-        Island island = new Island(1,boards,1, Tower_colour.STARTER);
+        Island island = new Island(boards,1, Tower_colour.STARTER);
         assertEquals(1,island.getIsland_ID());
 
         }
 
     @Test
-    public void testCurrentPlayer() {
-        Island island = new Island(1,boards,1, Tower_colour.STARTER);
-        assertEquals(1,island.getCurrent_player());
-
-    }
-
-    @Test
     public void testBoards() {
-        Island island = new Island(1,boards,1, Tower_colour.STARTER);
+        Island island = new Island(boards,1, Tower_colour.STARTER);
         assertArrayEquals(boards,island.getBoards());
     }
 
     @Test
    void testCheck_controller() {
-    Island island = new Island(2,boards, 1, Tower_colour.STARTER);
+    Island island = new Island(boards, 1, Tower_colour.STARTER);
         island.setPlayer_controller(1);
         assertEquals(1,island.getPlayer_controller());
     }
@@ -48,7 +41,7 @@ class IslandTest {
 
     @Test
     void testMotherNatureTrue() {
-        Island island = new Island(1,boards,1, Tower_colour.STARTER);
+        Island island = new Island(boards,1, Tower_colour.STARTER);
         island.setMother_nature(true);
         assertTrue(island.isMother_nature());
     }

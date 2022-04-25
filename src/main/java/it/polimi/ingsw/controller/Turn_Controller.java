@@ -8,12 +8,23 @@ import it.polimi.ingsw.model.Student;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * Class turn controller
+ */
 public class Turn_Controller {
     private int[] player_order;
     private Game_State GS;
     private int n_players;
     List<Player> P_L;
 
+    /**
+     * Constructor of the class
+     * @param n_players number of players
+     * @param names strings containing the names of the players
+     * @param wizard array of int containing the numbers of the wizards
+     * @param expert_mode true if expert mode is enabled, false otherwise
+     * @param Player_List list of player for turn priority
+     */
     public Turn_Controller(int n_players, String[] names, int wizard[], boolean expert_mode, List<Player> Player_List){
         this.n_players=n_players;
         this.P_L=Player_List;
@@ -21,10 +32,12 @@ public class Turn_Controller {
         for(int i=0; i<n_players;i++){
             player_order[i]=i;
         }
-        GS= new Game_State(n_players, names, wizard, expert_mode);
-
+        GS = new Game_State(n_players, names, wizard, expert_mode);
     }
 
+    /**
+     * General method that defines the planning phase
+     */
     public void planning_phase_general(){
         GS.getGT().replenish_clouds();
         for(int i=0;i<n_players;i++){
@@ -32,13 +45,22 @@ public class Turn_Controller {
         }
         Calculate_Player_order();
     }
-    //TODO: this method is temporaneous since the gui need to show up only to the player that need to choose the assinstant
+
+    //TODO: this method is temporary because the gui need to show up just to the player that has to choose the assistant
+    /**
+     * Method for the planning phase of each player
+     * @param i ID of the player(?)
+     */
     public void planning_phase_personal(int i){
 
        GS.getGT().choose_assistant(P_L.get(i));
 
     }
-    //TODO: there can be problems with mn position(it depends if we consider island_ID or island position in the list...for now i had chosen the second)
+
+    //TODO: there can be problems with mn position(it depends if we consider island_ID or island position in the list...for now I'm choosing the second)
+    /**
+     * Method for the action phase
+     */
     public void action_phase(){
         List<Student> stud_to_island;
         int choice;
@@ -47,12 +69,10 @@ public class Turn_Controller {
         for(int i=0;i<n_players;i++){
 
             stud_to_island=GS.getGT().getBoards()[player_order[i]].moveEntranceStudents();
-            /**
-             * add all the student to the islands
-             */
+            //add all the student to the islands
             for(int j=0;j< stud_to_island.size();j++){
 
-                System.out.println("choose the island where to add the student:"+stud_to_island.get(j)+"\n");
+                System.out.println("Choose the island where to add the student:"+stud_to_island.get(j)+"\n");
                 choice=sc.nextInt();
                 while (choice<0 ||choice>=GS.getGT().getHow_many_left()){
                     System.out.println("This Island does not exit, please choose a valid number:\n");
@@ -60,7 +80,7 @@ public class Turn_Controller {
                 }
                 GS.getGT().getIslands().get(choice).add_students(stud_to_island.get(j));
             }
-            System.out.println("choose how many steps Mother Nature have to do:\n");
+            System.out.println("Choose how many steps Mother Nature have to do:\n");
             System.out.println("Mother Nature position: Island["+GS.getGT().getMother_nature_pos()+"]\n");
             System.out.println("Number of steps possible:"+P_L.get(player_order[i]).getChosen_card().getValue()+"\n");
             for(int j=0;j<GS.getGT().getHow_many_left();j++){
@@ -71,7 +91,7 @@ public class Turn_Controller {
             }
             choice=sc.nextInt();
             while (choice<0 ||choice>=P_L.get(player_order[i]).getChosen_card().getValue()){
-                System.out.println("it's not possible to do this number of steps, please choose a valid number:\n");
+                System.out.println("It's not possible to do this number of steps, please choose a valid number:\n");
                 choice=sc.nextInt();
             }
             GS.getGT().move_mother_nature(choice);
@@ -99,10 +119,10 @@ public class Turn_Controller {
         }
 
     }
-    public int[] getPlayer_order() {
-        return player_order;
-    }
 
+    /**
+     * Calculates the order of the players for the turn
+     */
     public void Calculate_Player_order() {
         int min=P_L.get(0).getChosen_card().getValue();
         int player=0;
@@ -118,5 +138,37 @@ public class Turn_Controller {
             count++;
             player_order[i]=player;
         }
+    }
+
+    public int[] getPlayer_order() {
+        return player_order;
+    }
+
+    public void setPlayer_order(int[] player_order) {
+        this.player_order = player_order;
+    }
+
+    public Game_State getGS() {
+        return GS;
+    }
+
+    public void setGS(Game_State GS) {
+        this.GS = GS;
+    }
+
+    public int getN_players() {
+        return n_players;
+    }
+
+    public void setN_players(int n_players) {
+        this.n_players = n_players;
+    }
+
+    public List<Player> getP_L() {
+        return P_L;
+    }
+
+    public void setP_L(List<Player> p_L) {
+        P_L = p_L;
     }
 }

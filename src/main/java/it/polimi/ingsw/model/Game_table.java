@@ -69,9 +69,9 @@ public class Game_table {
 
 
     /**
-     * Check if an assistance card has been already played
+     * Check if an assistance card is playable
      * @param chosen card chosen to be played
-     * @return return false if card is already played
+     * @return return false if card is already played, true otherwise
      */
     public boolean check_if_playable(Assistance_card chosen){
         boolean playable_card = true;
@@ -83,7 +83,7 @@ public class Game_table {
         return playable_card;
     }
     /**
-     * method to set the chosen assinstant in players
+     * Set the chosen assistant in players
      * @return return the card chosen
      */
     //TODO corner cases (n_assistant in deck =0) && modify check_if_playable to cosider ifplayer as no other option to play that card
@@ -92,7 +92,7 @@ public class Game_table {
         int ass_choosen;
         boolean flag=true;
         Scanner sc= new Scanner(System.in);
-        System.out.println("choose the assistant that you want to play from the ones below:\n");
+        System.out.println("Choose the assistant that you want to play from the ones below:\n");
         for(int i=0;i<player.getDeck().count_elements();i++){
             System.out.println(player.getDeck().getCards().get(i)+"["+i+"]\n");
         }
@@ -157,6 +157,7 @@ public class Game_table {
     /**
      * Merge of close islands. Before merging, it checks what merges can be done
      * @param island_index the index of the island that will be final
+     * @param current_player current player of the turn
      */
     public void merge(int island_index,int current_player) {
         this.island_index = island_index;
@@ -238,29 +239,23 @@ public class Game_table {
      * Puts the first students on the islands
      */
     private void bag_island_start(){
-
         Random rand = new Random();
-
         int tempRand;
 
         for(int i=0;i<12;i++){
             tempRand=rand.nextInt(5);
-
-                while (bag[tempRand] == 0) {
-                    tempRand = rand.nextInt(5);
-                }
-
-
+            while (bag[tempRand] == 0) {
+                tempRand = rand.nextInt(5);
+            }
             if(i!= (this.mother_nature_pos+6)%12 && i!=this.mother_nature_pos) {
                 bag[tempRand]--;
                 islands.get((i + this.mother_nature_pos) % 12).getArr_students()[tempRand]++;
             }
-
         }
+
         for(int i=0;i<5;i++) {
             bag[i] = 24;
         }
-
     }
 
     /**
@@ -288,10 +283,11 @@ public class Game_table {
             }
         }
     }
-    /**
-     * refills each cloud with students
-     */
+
     //TODO:endGame method that need to be called when bag_not_empty=false
+    /**
+     * Refills each cloud with students
+     */
     public void replenish_clouds(){
         Random rand = new Random();
         int temprand;
@@ -358,15 +354,15 @@ public class Game_table {
 
     }
     /**
-     * the player choose the cloud that he wants
+     * The player choose the cloud that he wants
      */
     public Cloud choose_cloud(){
         int choice;
         Cloud chosen_cloud;
         Scanner sc= new Scanner(System.in);
-        System.out.println("choose the number of the cloud you want:\n");
+        System.out.println("Choose the number of the cloud you want:\n");
         for(int i=0;i<tempclouds.size();i++){
-            System.out.println("cloud["+i+"]:\n");
+            System.out.println("Cloud["+i+"]:\n");
             for(int j=0;j<5;j++){
 
                 System.out.println(Disk_colour.values()[j]+":"+tempclouds.get(i).getArr_students()[j]+"\n");
@@ -422,6 +418,7 @@ public class Game_table {
     public void setMother_nature_pos(int mother_nature_pos) {
         this.mother_nature_pos = mother_nature_pos;
     }
+
     public void reset_temp_clouds(){
         tempclouds=clouds;
     }
@@ -434,11 +431,11 @@ public class Game_table {
         clouds.remove(cloud_index);
         return clouds;
     }
+
     public List<Cloud> del_temp_cloud(int cloud_index) {
         tempclouds.remove(cloud_index);
         return tempclouds;
     }
-
 
     public List<Cloud> getClouds() {
         return clouds;
