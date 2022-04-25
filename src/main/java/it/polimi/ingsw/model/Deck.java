@@ -44,4 +44,7 @@ public class Deck {
         return Objects.equals(cards, deck.cards);
     }
 
+    public List<Assistance_card> getCards() {
+        return cards;
+    }
 }

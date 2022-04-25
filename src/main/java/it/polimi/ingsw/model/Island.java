@@ -6,7 +6,7 @@ import java.util.List;
  * Class island
  */
 public class Island {
-    private int current_player;
+
     private Board[] boards;
     private boolean mother_nature;
     private int tower;
@@ -17,25 +17,27 @@ public class Island {
 
     /**
      * Constructor of the class
-     * @param current_player first player
      * @param boards reference to boards
      * @param island_ID starting ID of the island, it's not very useful
      * @param tower_colour puts island starter to the island, that means no tower
      */
-    public Island(int current_player, Board[] boards, int island_ID, Tower_colour tower_colour) {
+    public Island( Board[] boards, int island_ID, Tower_colour tower_colour) {
         this.island_ID = island_ID;
-        this.current_player = current_player;
+
         this.boards = boards;
         this.tower = tower_colour.getTower_translate();
         influence_controller = 0;
         arr_students = new int[5];
         mother_nature = false;
+        player_controller=-1;
     }
 
     /**
      * Calculate the influence of the player in the island
+     * @return false if the control of the island changed
      */
-    public void calculate_influence() {
+    public boolean calculate_influence(int current_player) {
+        boolean same_player=true;
         int temp_influence = 0;
         for (int i = 0; i<5;i++) {
             if (boards[current_player].getArrProfessors()[i]) {
@@ -50,34 +52,25 @@ public class Island {
             player_controller = current_player;
             tower = 1;
             influence_controller = temp_influence;
+            same_player=false;
         }
+        return same_player;
     }
 
-    //TODO: check <= or < (depends of size())
+
     /**
      * Add students to the island
      * @param transfer list of students to be added
      */
-    public void add_students(List<Student> transfer) {
-        for (int i = 0; i < transfer.size(); i++) {
-            arr_students[transfer.get(i).getColour()]++;
-        }
+    public void add_students(Student transfer) {
+            arr_students[transfer.getColour()]++;
     }
 
 
     public int check_controller() { return player_controller;}
 
-    public void add_tower() {
+    public void add_tower(int current_player) {
         this.tower = boards[current_player].getTower();
-    }
-
-    public void setCurrent_player(int current_player) {
-        this.current_player = current_player;
-    }
-
-
-    public int getCurrent_player() {
-        return current_player;
     }
 
     public Board[] getBoards() {

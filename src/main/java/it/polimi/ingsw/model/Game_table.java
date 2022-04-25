@@ -46,7 +46,7 @@ public class Game_table {
 
         islands = new LinkedList<Island>();
         for(int i=0;i<12;i++){
-            islands.add(new Island(turn.getCurrent_player(), boards, i+1, Tower_colour.STARTER));
+            islands.add(new Island( boards, i+1, Tower_colour.STARTER));
         }
 
         setMother_nature_start();
@@ -81,6 +81,29 @@ public class Game_table {
             }
         }
         return playable_card;
+    }
+    /**
+     * method to set the chosen assinstant in players
+     * @return return the card chosen
+     */
+    //TODO corner cases (n_assistant in deck =0) && modify check_if_playable to cosider ifplayer as no other option to play that card
+    public void choose_assistant(Player player){
+        Assistance_card choice;
+        int ass_choosen;
+        boolean flag=true;
+        Scanner sc= new Scanner(System.in);
+        System.out.println("choose the assistant that you want to play from the ones below:\n");
+        for(int i=0;i<player.getDeck().count_elements();i++){
+            System.out.println(player.getDeck().getCards().get(i)+"["+i+"]\n");
+        }
+        ass_choosen=sc.nextInt();
+        while(ass_choosen<0 || ass_choosen>=player.getDeck().count_elements() || !check_if_playable(player.getDeck().getCards().get(ass_choosen))){
+            ass_choosen=sc.nextInt();
+        }
+        choice=player.getDeck().getCards().get(ass_choosen);
+        discard_deck[player.getPlayer_ID()]=choice;
+        player.setChosen_card(choice);
+        player.getDeck().remove_used_card(choice);
     }
 
     /**
@@ -135,7 +158,7 @@ public class Game_table {
      * Merge of close islands. Before merging, it checks what merges can be done
      * @param island_index the index of the island that will be final
      */
-    public void merge(int island_index) {
+    public void merge(int island_index,int current_player) {
         this.island_index = island_index;
         int[] toMerge_indexes = check_merge(island_index);
 
@@ -159,7 +182,7 @@ public class Game_table {
             islands.get(island_index).setTower(islands.get(island_index).getTower() + islands.get(toMerge_indexes[1]).getTower());
         }
 
-        islands.get(island_index).calculate_influence();
+        islands.get(island_index).calculate_influence(current_player);
 
         boolean removed = false;
         if (toMerge_indexes[0] >= 0) {
@@ -341,7 +364,7 @@ public class Game_table {
         int choice;
         Cloud chosen_cloud;
         Scanner sc= new Scanner(System.in);
-        System.out.println("choose the number of the cloud you want to choose:\n");
+        System.out.println("choose the number of the cloud you want:\n");
         for(int i=0;i<tempclouds.size();i++){
             System.out.println("cloud["+i+"]:\n");
             for(int j=0;j<5;j++){
