@@ -68,6 +68,8 @@ public class Turn_Controller {
                 for (int k=0;k<5; k++){
                     System.out.println(Disk_colour.values()[k] +": "+GS.getGT().getIslands().get(j).getArr_students()[k]+"\n");
                 }
+                System.out.println("Owned by: player "+GS.getGT().getIslands().get(j).getPlayer_controller()+"\n");
+                System.out.println("Influence: "+GS.getGT().getIslands().get(j).getInfluence_controller()+"\n");
             }
             choice=sc.nextInt();
             while (choice<0 ||choice>=P_L.get(player_order[i]).getChosen_card().getValue()){
