@@ -11,12 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class DeckTest {
 
-    List<Assistance_card> cards1 = new ArrayList<>(Arrays.asList(
-            Assistance_card.TORTOISE,
-            Assistance_card.ELEPHANT,Assistance_card.CAT));
 
-    List<Assistance_card> cards2 = new ArrayList<>(Arrays.asList(Assistance_card.ELEPHANT,Assistance_card.CAT));
-    
     @Test
     public void testCount(){
         Deck deck = new Deck();
@@ -26,8 +21,9 @@ class DeckTest {
 
     @Test
     void testRemove_used_card() {
-        cards1.remove(Assistance_card.TORTOISE);
-        assertEquals(cards2,cards1);
+        Deck deck = new Deck();
+        deck.remove_used_card(Assistance_card.CAT);
+        assertEquals(9,deck.count_elements());
     }
 
 }
