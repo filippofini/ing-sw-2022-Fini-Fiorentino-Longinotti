@@ -8,21 +8,21 @@ import java.util.Random;
 public class Turn{
 
     private int current_player;
+
     private int player_next_turn;
 
     public Turn(){
-        Random rand = new Random();
+
+        current_player=0;
 
     }
-    public void planning_phase(){
 
-    }
-    public void action_phase(){
-
-    }
 
     public int getCurrent_player() {
         return current_player;
     }
 
+    public void setCurrent_player(int current_player) {
+        this.current_player = current_player;
+    }
 }
