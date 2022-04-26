@@ -3,7 +3,12 @@ package it.polimi.ingsw.model;
 import java.util.List;
 
 /**
- * Class island
+ * This class represent the islands.
+ * Each island has an array of int used to keep track of the students and their type.
+ * Pos. 0 represent the yellow... More info at {@link it.polimi.ingsw.model.Disk_colour}.
+ * One island has mother nature set at the beginning of the game and then moved with a method on {@link it.polimi.ingsw.model.Game_table}.
+ * mother nature is represented by a boolean: {@code True} if is on the island, {@code False} if not on the island.
+ * Each island can have at max 1 tower (more than 1 if merged). The tower can be placed by the player that control the island.
  */
 public class Island {
 
@@ -16,10 +21,10 @@ public class Island {
     private int[] arr_students;
 
     /**
-     * Constructor of the class
-     * @param boards reference to boards
-     * @param island_ID starting ID of the island, it's not very useful
-     * @param tower_colour puts island starter to the island, that means no tower
+     * Constructor of the class.
+     * @param boards Reference to the boards of the players.
+     * @param island_ID the starting ID of the island, it's not very useful.
+     * @param tower_colour Puts tower starter to the island, that means no tower (see: {@link it.polimi.ingsw.model.Tower_colour}).
      */
     public Island( Board[] boards, int island_ID, Tower_colour tower_colour) {
         this.island_ID = island_ID;
@@ -33,10 +38,11 @@ public class Island {
     }
 
     /**
-     * Calculate the influence of the player in the island
-     * @param current_player current player of the turn
-     * @param Boards array of the boards
-     * @return false if the control of the island changed
+     * This method calculate the influence of the player on the island.
+     * The player with the highest influence becomes the controller and can place a tower if mother nature is on that island.
+     * @param current_player The current player of the turn.
+     * @param Boards The array of the boards of the players.
+     * @return {@code False} if the control of the island changed.
      */
     public boolean calculate_influence(int current_player,Board[] Boards) {
         boolean same_player=true;
@@ -83,73 +89,119 @@ public class Island {
 
 
     /**
-     * Add students to the island
-     * @param transfer list of students to be added
+     * This method can be used to add students to the island.
+     * @param transfer The list of students to be added to the island.
      */
     public void add_students(Student transfer) {
             arr_students[transfer.getColour()]++;
     }
 
 
+    /**
+     * This method returns the player that controls the island.
+     * @return The player that controls the island.
+     */
     public int check_controller() { return player_controller;}
 
+    /**
+     * This method can be used to add a tower to the island.
+     * @param current_player The current player of the turn.
+     */
     public void add_tower(int current_player) {
         this.tower = boards[current_player].getTower();
     }
 
+    /**
+     * This method returns the boards of the players
+     * @return The boards of the players.
+     */
     public Board[] getBoards() {
         return boards;
     }
 
+    /**
+     * This method checks if mother nature is on the island.
+     * @return {@code True} if mother nature is on the island, {@code False} if not.
+     */
     public boolean isMother_nature() {
         return mother_nature;
     }
 
+    /**
+     * This method returns the int that represent the colour of the tower on the island.
+     * @return The int that represent the colour of the tower on the island.
+     */
     public int getTower() {
         return tower;
     }
-
+    /**
+     * This method returns the influence of the player that controls the island.
+     * @return The influence of the player that controls the island.
+     */
     public int getInfluence_controller() {
         return influence_controller;
     }
 
+    /**
+     * This method returns the int that represent the player that controls the island.
+     * @return The int that represent the player that controls the island.
+     */
     public int getPlayer_controller() {
         return player_controller;
     }
 
+    /**
+     * This method returns the island ID.
+     * @return The island ID.
+     */
     public int getIsland_ID() {
         return island_ID;
     }
 
+    /**
+     * This method returns the students on the island
+     * @return The array of students on the island
+     */
     public int[] getArr_students() {
         return arr_students;
     }
 
-
-    public void setBoards(Board[] boards) {
-        this.boards = boards;
-    }
-
+    /**
+     * This method sets mother nature on the island, {@code True} if is on the island, {@code False} if not on the island.
+     * @param mother_nature {@code True} if is on the island, {@code False} if not on the island.
+     */
     public void setMother_nature(boolean mother_nature) {
         this.mother_nature = mother_nature;
     }
 
+    /**
+     * This method sets the tower on the island.
+     * @param tower The int that represent the tower to be placed on the island.
+     */
     public void setTower(int tower) {
         this.tower = tower;
     }
 
+    /**
+     * This method sets the highest influence on the island.
+     * @param influence_controller The number representing the highest influence on the island.
+     */
     public void setInfluence_controller(int influence_controller) {
         this.influence_controller = influence_controller;
     }
 
+    /**
+     * This method sets the player that has the highest influence.
+     * @param player_controller The player ID that has the highest influence.
+     */
     public void setPlayer_controller(int player_controller) {
         this.player_controller = player_controller;
     }
 
-    public void setIsland_ID(int island_ID) {
-        this.island_ID = island_ID;
-    }
-
+    /**
+     * This method sets the students on the island.
+     * @param arr_students The array students to be set on the island.
+     */
     public void setArr_students(int[] arr_students) {
         this.arr_students = arr_students;
     }

@@ -5,7 +5,10 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * Class player
+ * This class represent the player.
+ * Each player has a player ID, from 1 to 4 and a deck containing the 10 assistance card.
+ * A wizard and a tower colour is assigned to each player at the beginning.
+ * Each player starts with 1 coin.
  */
 public class Player {
     private final String name;
@@ -19,10 +22,10 @@ public class Player {
 
     /**
      * Constructor of the class
-     * @param name string containing the name of the player
-     * @param wizard number of wizard assigned to the player
-     * @param tower_colour colour of the tower assigned to the player
-     * @param player_ID player ID assigned to the player
+     * @param name The string containing the name of the player.
+     * @param wizard The number of wizard assigned to the player (from 1 to 3).
+     * @param tower_colour The colour of the tower assigned to the player. It gets translated to a number from 0 to 2 based on the colour. More info here: {@link it.polimi.ingsw.model.Assistance_card}.
+     * @param player_ID Player ID assigned to the player (from 1 to 4).
      */
     public Player(String name, int wizard, Tower_colour tower_colour, int player_ID) {
         this.coin = 1;
@@ -33,43 +36,83 @@ public class Player {
         deck = new Deck();
     }
 
-
+    /**
+     * This method returns the player ID.
+     * @return The player ID.
+     */
     public int getPlayer_ID() {
         return player_ID;
     }
 
+    /**
+     * This method returns the player's coins.
+     * @return The player's coins.
+     */
     public int getCoin() {
         return coin;
     }
 
+    /**
+     * This method returns the tower colour.
+     * @return The tower colour.
+     */
     public int getTower_colour() {
         return tower_colour;
     }
 
+    /**
+     * This method returns the name of the player.
+     * @return The name of the player.
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * This method returns the wizard assigned to the player.
+     * @return The wizard assigned to the player.
+     */
     public int getWizard() {
         return wizard;
     }
 
+    /**
+     * This method sets the coins.
+     * @param coin The new number of coins.
+     */
     public void setCoin(int coin) {
         this.coin = coin;
     }
 
+    /**
+     * This method returns the chosen assistance card to be played.
+     * @return The chosen assistance card to be played.
+     */
     public Assistance_card getChosen_card() {
         return chosen_card;
     }
 
+    /**
+     * This method sets the chosen assistance card to be played.
+     * @param chosen_card The chosen assistance card to be played.
+     */
     public void setChosen_card(Assistance_card chosen_card) {
         this.chosen_card = chosen_card;
     }
 
+    /**
+     * This method returns the deck of assistance cards of the player.
+     * @return The deck of assistance cards of the player.
+     */
     public Deck getDeck() {
         return deck;
     }
 
+    /**
+     * This method checks if player and given object are the same.
+     * @param o Given object.
+     * @return {@code True} if objects are the same, {@code False} if not.
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
