@@ -45,14 +45,16 @@ public class Island {
             }
         }
 
-        if (current_player == player_controller) {
-            temp_influence+= tower;
-        }
         if (temp_influence > influence_controller) {
+            if(current_player!=player_controller){
             player_controller = current_player;
             tower = 1;
             influence_controller = temp_influence;
             same_player=false;
+            }
+            else {
+                influence_controller = temp_influence;
+            }
         }
         return same_player;
     }
