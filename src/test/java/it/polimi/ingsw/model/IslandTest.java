@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class IslandTest {
 
 
-    private Board[] boards;
+    private Board[] boards = new Board[4];
 
 
     @Test
@@ -33,9 +33,24 @@ class IslandTest {
     }
 
 
-    //@Test
-    //void calculate_influence() {
-    //}
+    @Test
+    void testCalculate_influence() {
+        boolean[] Arr_prof = {true,true,false,false,false};
+        int[] Arr_stud = {7,2,4,5,4};
+        int tower = 2;
+        Island island = new Island(boards,1,Tower_colour.STARTER);
+        boards[1] = new Board(2,1,Tower_colour.STARTER);
+        boards[1].setArrProfessors(Arr_prof);
+        island.setArr_students(Arr_stud);
+        island.setPlayer_controller(1);
+        island.setInfluence_controller(7);
+        island.setTower(tower);
+
+
+        assertTrue(island.calculate_influence(1,boards));
+
+
+    }
 
 
 
