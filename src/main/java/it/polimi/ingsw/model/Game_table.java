@@ -157,8 +157,9 @@ public class Game_table {
      * Merge of close islands. Before merging, it checks what merges can be done
      * @param island_index the index of the island that will be final
      * @param current_player current player of the turn
+     * @param Boards array of the boards
      */
-    public void merge(int island_index,int current_player) {
+    public void merge(int island_index,int current_player,Board[] Boards) {
         this.island_index = island_index;
         int[] toMerge_indexes = check_merge(island_index);
 
@@ -182,7 +183,7 @@ public class Game_table {
             islands.get(island_index).setTower(islands.get(island_index).getTower() + islands.get(toMerge_indexes[1]).getTower());
         }
 
-        islands.get(island_index).calculate_influence(current_player);
+        islands.get(island_index).calculate_influence(current_player,Boards);
 
         boolean removed = false;
         if (toMerge_indexes[0] >= 0) {

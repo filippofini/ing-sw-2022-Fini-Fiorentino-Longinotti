@@ -34,9 +34,11 @@ public class Island {
 
     /**
      * Calculate the influence of the player in the island
+     * @param current_player current player of the turn
+     * @param Boards array of the boards
      * @return false if the control of the island changed
      */
-    public boolean calculate_influence(int current_player) {
+    public boolean calculate_influence(int current_player,Board[] Boards) {
         boolean same_player=true;
         int temp_influence = 0;
         for (int i = 0; i<5;i++) {
@@ -47,10 +49,30 @@ public class Island {
 
         if (temp_influence > influence_controller) {
             if(current_player!=player_controller){
-            player_controller = current_player;
-            tower = 1;
-            influence_controller = temp_influence;
-            same_player=false;
+                if(boards.length==4){
+                    if(current_player==1 || current_player==2){
+                        Boards[1].setN_towers(Boards[1].getN_towers()+tower);
+                        player_controller = current_player;
+                        tower = 1;
+                        influence_controller = temp_influence;
+                        same_player=false;
+                    }
+                    else if(current_player==3 || current_player==4){
+                        Boards[3].setN_towers(Boards[3].getN_towers()+tower);
+                        player_controller = current_player;
+                        tower = 1;
+                        influence_controller = temp_influence;
+                        same_player=false;
+                    }
+                }
+                else{
+                    Boards[player_controller].setN_towers(Boards[player_controller].getN_towers()+tower);
+                    player_controller = current_player;
+                    tower = 1;
+                    influence_controller = temp_influence;
+                    same_player=false;
+                }
+
             }
             else {
                 influence_controller = temp_influence;
