@@ -4,6 +4,9 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * This class tests the class {@link it.polimi.ingsw.model.Board}.
+ */
 class BoardTest {
     //Game with two players
     Board board = new Board(2, 1, Tower_colour.STARTER);
@@ -28,12 +31,23 @@ class BoardTest {
     }
 
     @Test
-    void testMoveEntranceStudents() {
-    }
-
-    @Test
     void testCoinsEarned() {
+        int[]arrPositionStudents = {6,6,6,6,6};
+        boolean[][] track_coins = {{true,true,true},
+                {true,true,true},
+                {true,true,true},
+                {true,true,true},
+                {true,true,true}};
 
+
+        board.setTrackCoins(track_coins);
+        board.setArrPositionStudents(arrPositionStudents);
+
+
+
+
+        assertEquals(0,board.coinsEarned());
 
     }
-}
+
+    }

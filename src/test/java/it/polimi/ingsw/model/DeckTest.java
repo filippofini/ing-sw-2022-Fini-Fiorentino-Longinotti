@@ -9,6 +9,9 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * This class tests the class {@link it.polimi.ingsw.model.Deck}.
+ */
 class DeckTest {
 
 

@@ -4,6 +4,9 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * This class tests the class {@link it.polimi.ingsw.model.Student}.
+ */
 class StudentTest {
 
     @Test
