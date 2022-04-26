@@ -6,6 +6,8 @@ import java.util.LinkedList;
 import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
+
+//THE TESTS DON'T RUN ALL TOGETHER DUE TO RANDOM
 /**
  * This class tests the class {@link it.polimi.ingsw.model.Game_table}.
  */
