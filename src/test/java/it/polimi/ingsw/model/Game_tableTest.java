@@ -10,6 +10,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class Game_tableTest {
 
+    private Board[] board;
+
     @Test
     public void testCheck_if_playableFalse() {
         //Game with two players
@@ -76,7 +78,7 @@ class Game_tableTest {
         islands.get(2).setTower(1);
         islands.get(3).setTower(1);
 
-        game_table.merge(2, 1);
+        game_table.merge(2, 1,board);
         assertEquals(11, islands.size());
     }
 
@@ -89,7 +91,7 @@ class Game_tableTest {
         islands.get(3).setTower(1);
         islands.get(1).setTower(1);
 
-        game_table.merge(2, 1);
+        game_table.merge(2, 1,board);
         assertEquals(10, islands.size());
     }
 
@@ -103,7 +105,7 @@ class Game_tableTest {
         islands.get(1).setTower(1);
         islands.get(11).setTower(1);
 
-        game_table.merge(0, 1);
+        game_table.merge(0, 1,board);
         assertEquals(10, islands.size());
     }
 
@@ -117,7 +119,7 @@ class Game_tableTest {
         islands.get(0).setTower(1);
         islands.get(10).setTower(1);
 
-        game_table.merge(11, 1);
+        game_table.merge(11, 1,board);
         assertEquals(10, islands.size());
     }
 
@@ -130,11 +132,11 @@ class Game_tableTest {
         islands.get(11).setTower(1);
         islands.get(0).setTower(1);
         islands.get(10).setTower(1);
-        game_table.merge(11, 1);
+        game_table.merge(11, 1,board);
 
         islands.get(7).setTower(3);
         islands.get(8).setTower(3);
-        game_table.merge(7,1);
+        game_table.merge(7,1,board);
 
         assertEquals(9, islands.size());
     }
@@ -148,16 +150,16 @@ class Game_tableTest {
         islands.get(11).setTower(1);
         islands.get(0).setTower(1);
         islands.get(10).setTower(1);
-        game_table.merge(11, 1);
+        game_table.merge(11, 1,board);
 
         islands.get(7).setTower(3);
         islands.get(8).setTower(3);
-        game_table.merge(7, 1);
+        game_table.merge(7, 1,board);
 
         islands.get(2).setTower(2);
         islands.get(1).setTower(2);
         islands.get(3).setTower(2);
-        game_table.merge(2, 1);
+        game_table.merge(2, 1,board);
 
         assertEquals(7, islands.size());
     }
@@ -170,7 +172,7 @@ class Game_tableTest {
         LinkedList<Island> islands = game_table.getIslands();
         islands.get(3).setTower(2);
         islands.get(4).setTower(1);
-        game_table.merge(3, 1);
+        game_table.merge(3, 1,board);
 
         assertEquals(12, islands.size());
     }
