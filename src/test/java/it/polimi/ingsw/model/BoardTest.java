@@ -31,12 +31,11 @@ class BoardTest {
 
     @Test
     void testCoinsEarned() {
-        int[]arrPositionStudents = {6,6,6,6,6};
-        boolean[][] track_coins = {{true,true,true},
-                {true,true,true},
-                {true,true,true},
-                {true,true,true},
-                {true,true,true}};
+        int[]arrPositionStudents = {3,6,9,3,3};
+        boolean[][] track_coins = {{true,false,false},
+                {false,false,false},
+                {false,false,false},
+                {false,false,false},{false,false,false}};
 
 
         board.setTrackCoins(track_coins);
@@ -45,7 +44,7 @@ class BoardTest {
 
 
 
-        assertEquals(0,board.coinsEarned());
+        assertEquals(4,board.coinsEarned());
 
     }
 
