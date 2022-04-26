@@ -98,23 +98,14 @@ public class Turn_Controller {
             }
             GS.getGT().move_mother_nature(choice);
             check_for_tower=GS.getGT().getIslands().get(GS.getGT().getMother_nature_pos()).calculate_influence(player_order[i]);
-            if(check_for_tower){
+            /**
+             * if(!check_for_tower) means that you have gained the control of the island
+             */
+            //TODO: the player controller before need to reacquire its towers
+            if(!check_for_tower){
                 GS.getGT().getBoards()[player_order[i]].setN_towers(GS.getGT().getBoards()[player_order[i]].getN_towers()-1);
             }
-            else {
-                if(P_L.size() == 2){
-                    GS.getGT().getBoards()[player_order[i]].setN_towers(8) ;
-                }
-                else if(P_L.size() == 3){
-                    GS.getGT().getBoards()[player_order[i]].setN_towers(6) ;
-                }
-                else if(P_L.size() == 4){
-                    if((player_order[i] == 1 || player_order[i] == 3)){
-                        GS.getGT().getBoards()[player_order[i]].setN_towers(8);
-                    }
-                }
 
-            }
             GS.getGT().merge(GS.getGT().getMother_nature_pos(),player_order[i]);
             GS.getGT().choose_cloud();
 
