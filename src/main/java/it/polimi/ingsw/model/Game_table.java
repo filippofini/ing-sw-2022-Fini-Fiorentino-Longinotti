@@ -84,7 +84,6 @@ public class Game_table {
     }
     /**
      * Set the chosen assistant in players
-     * @return return the card chosen
      */
     //TODO corner cases (n_assistant in deck =0) && modify check_if_playable to cosider ifplayer as no other option to play that card
     public void choose_assistant(Player player){
