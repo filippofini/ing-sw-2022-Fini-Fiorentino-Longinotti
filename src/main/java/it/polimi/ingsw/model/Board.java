@@ -5,9 +5,14 @@ import java.util.List;
 import java.util.Scanner;
 
 /**
- * Class board
+ * This class represents the board.
+ * Each student has his personal board containing an array of int representing the students (see more at: {@link it.polimi.ingsw.model.Disk_colour}.
+ * The class includes the methods to move the students into and out of the board.
+ * Each board has towers with different colours (see more at: {@link it.polimi.ingsw.model.Tower_colour}).
+ * The towers in the board are 8 if the game has 2 or 4 players, 7 if the game has 3 players.
  */
 public class Board {
+    private final int board_player;
     private int n_towers;
     private int[] arrPositionStudents;
     private Student[] arrEntranceStudents;
@@ -17,12 +22,13 @@ public class Board {
     private boolean[][] trackCoins = new boolean[5][3];
 
     /**
-     * Constructor of the class
-     * @param numOfPlayers number of players
-     * @param playerID player ID assigned to the board. Is an indirect reference to the player
-     * @param tower tower colour assigned to the player and to the board
+     * Constructor of the class.
+     * @param numOfPlayers The number of players in the game.
+     * @param playerID The player ID assigned to the board. It's an indirect reference to the player.
+     * @param tower The tower colour assigned to the player and to the board.
      */
     public Board(int numOfPlayers, int playerID, Tower_colour tower){
+        this.board_player = playerID;
         this.tower = tower.getTower_translate();
         arrPositionStudents = new int[5];
         arrProfessors = new boolean[5];
@@ -64,8 +70,8 @@ public class Board {
     }
 
     /**
-     * Moves students to the islands
-     * @return return students to send to islands
+     * This method moves students to the islands.
+     * @return The list of students sent to an island.
      */
     public List<Student> moveEntranceStudents(){
         int choiceStudent;
@@ -152,21 +158,9 @@ public class Board {
         return studentToIslands;
     }
 
-    public boolean[] getArrProfessors() {
-        return arrProfessors;
-    }
-
-    public int getMaxEntranceStudents() {
-        return maxEntranceStudents;
-    }
-
-    public int[] getArrPositionStudents() {
-        return arrPositionStudents;
-    }
-
     /**
-     * Check coins earned
-     * @return return coins earned this turn, to sum with current coins each turn
+     * This method checks if coins can be earned.
+     * @return The coins earned this turn, to sum with current coins each turn.
      */
     public int coinsEarned(){
         int coins=0;
@@ -193,46 +187,98 @@ public class Board {
         return coins;
     }
 
+    /**
+     * This method returns the array of professors that are on the board.
+     * @return The array of professors that are on the board.
+     */
+    public boolean[] getArrProfessors() {
+        return arrProfessors;
+    }
+
+    /**
+     * This method returns the array of students on the board.
+     * @return The array of students on the board.
+     */
+    public int[] getArrPositionStudents() {
+        return arrPositionStudents;
+    }
+
+    /**
+     * This method returns the number of towers remaining on the board.
+     * @return The number of towers remaining on the board.
+     */
     public int getN_towers() {
         return n_towers;
     }
 
+    /**
+     * This method sets the number of towers on the board.
+     * @param n_towers The number of towers on the board.
+     */
     public void setN_towers(int n_towers) {
         this.n_towers = n_towers;
     }
 
+    /**
+     * This method sets the array of students on the board
+     * @param arrPositionStudents
+     */
     public void setArrPositionStudents(int[] arrPositionStudents) {
         this.arrPositionStudents = arrPositionStudents;
     }
 
-    public Student[] getArrEntranceStudents() {
-        return arrEntranceStudents;
-    }
-
+    /**
+     * This method sets the array of entrance of students.
+     * @param arrEntranceStudents The array of entrance of students.
+     */
     public void setArrEntranceStudents(Student[] arrEntranceStudents) {
         this.arrEntranceStudents = arrEntranceStudents;
     }
 
+    /**
+     * This method sets the array of professors on the board.
+     * @param arrProfessors The array of professors on the board.
+     */
     public void setArrProfessors(boolean[] arrProfessors) {
         this.arrProfessors = arrProfessors;
     }
 
+    /**
+     * This method sets the towers on the board.
+     * @param tower The number of towers on the board.
+     */
     public void setTower(int tower) {
         this.tower = tower;
     }
 
+    /**
+     * This method sets the max dimension of the entrance of students.
+     * @param maxEntranceStudents The number that represents the max dimension of the entrance of students.
+     */
     public void setMaxEntranceStudents(int maxEntranceStudents) {
         this.maxEntranceStudents = maxEntranceStudents;
     }
 
+    /**
+     * This method returns the arrays used to keep track of the coins.
+     * @return The arrays used to keep track of the coins.
+     */
     public boolean[][] getTrackCoins() {
         return trackCoins;
     }
 
+    /**
+     * This method sets the arrays used to keep track of the coins.
+     * @param trackCoins The arrays used to keep track of the coins.
+     */
     public void setTrackCoins(boolean[][] trackCoins) {
         this.trackCoins = trackCoins;
     }
 
+    /**
+     * This method returns the tower colour on the board.
+     * @return The tower colour on the board.
+     */
     public int getTower() {
         return tower;
     }

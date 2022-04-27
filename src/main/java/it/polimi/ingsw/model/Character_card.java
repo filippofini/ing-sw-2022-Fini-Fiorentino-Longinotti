@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model;
 
 /**
- * Abstract class of character cards
+ * This abstract class represents the character cards.
  */
 public abstract class Character_card {
      int cost;

@@ -31,9 +31,12 @@ public class Game_State {
         this.wizard = wizard;
         this.expert_mode = expert_mode;
         turn = new Turn();
+
+        players = new Player[n_players];
         for(int i=0; i<n_players;i++){
             players[i] = new Player(names[i], wizard[i], Tower_colour.values()[i], i+1);
         }
+
         GT = new Game_table(n_players, turn);
         if(n_players == 4){
             teams = new int[4];
@@ -42,8 +45,8 @@ public class Game_State {
     }
 
     /**
-     * This method returns the game state.
-     * @return The game state.
+     * This method returns the game table.
+     * @return The game table.
      */
     public Game_table getGT() {
         return GT;
