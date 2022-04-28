@@ -119,6 +119,7 @@ public class Turn_Controller {
 
             GS.getGT().merge(GS.getGT().getMother_nature_pos(),player_order[i],GS.getGT().getBoards());
             GS.getGT().choose_cloud();
+            //TODO:addstudenttocloud
 
         }
 
