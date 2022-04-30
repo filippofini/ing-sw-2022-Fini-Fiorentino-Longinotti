@@ -51,4 +51,14 @@ public class Game_State {
     public Game_table getGT() {
         return GT;
     }
+
+    /**
+     * This method returns the array of players.
+     * @return The array of players.
+     */
+    public Player[] getPlayers() {
+        return players;
+    }
+
+
 }

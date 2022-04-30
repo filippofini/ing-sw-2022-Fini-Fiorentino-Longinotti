@@ -87,7 +87,6 @@ public class Game_table {
     }
 
     //TODO corner cases (n_assistant in deck =0) && modify check_if_playable to consider if player as no other option to play that card
-    //THIS DOESN'T WORK BECAUSE PLAYER HAS NO REFERENCE TO THE LIST OF PLAYERS
     /**
      * This method lets the player choose their assistance card
      * @param player The current player that is going to choose the assistance card.
@@ -106,6 +105,7 @@ public class Game_table {
             ass_chosen=sc.nextInt();
         }
         choice=player.getDeck().getCards().get(ass_chosen);
+        player.setMoves(choice.getMother_nature_movement());
         discard_deck[player.getPlayer_ID()]=choice;
         player.setChosen_card(choice);
         player.getDeck().remove_used_card(choice);

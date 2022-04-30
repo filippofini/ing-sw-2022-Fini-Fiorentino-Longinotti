@@ -17,6 +17,7 @@ public class Player {
     private int coin;
     private final int player_ID;
     private Assistance_card chosen_card; //chosen card to play during the turn
+    private int moves;
     private final Deck deck;
 
 
@@ -106,6 +107,22 @@ public class Player {
      */
     public Deck getDeck() {
         return deck;
+    }
+
+    /**
+     * This method returns the moves of mother nature that can be done in the turn.
+     * @return The moves of mother nature that can be done in the turn.
+     */
+    public int getMoves() {
+        return moves;
+    }
+
+    /**
+     * This method returns the moves of mother nature that can be done in the turn.
+     * @param moves The moves of mother nature that can be done in the turn.
+     */
+    public void setMoves(int moves) {
+        this.moves = moves;
     }
 
     /**

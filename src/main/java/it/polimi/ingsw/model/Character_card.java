@@ -8,4 +8,5 @@ public abstract class Character_card {
      int uses = 0;
 
      //TODO: IMPLEMENT EFFECTS OF ALL THE CARDS
+     public void effect(Game_State game_state){}
 }

@@ -1,29 +1,29 @@
 package it.polimi.ingsw.controller;
 
-import it.polimi.ingsw.model.Disk_colour;
-import it.polimi.ingsw.model.Game_State;
-import it.polimi.ingsw.model.Player;
-import it.polimi.ingsw.model.Student;
+import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.character.Magic_mailman;
 
 import java.util.List;
 import java.util.Scanner;
 
 /**
- * Class turn controller
+ * This class represents the controller of the turn. It manages the planning phase and the action phase of each player.
+ * It controls and calculates the player order for the next round.
  */
 public class Turn_Controller {
     private int[] player_order;
     private Game_State GS;
     private int n_players;
     List<Player> P_L;
+    Character_card played_cCard;
 
     /**
-     * Constructor of the class
-     * @param n_players number of players
-     * @param names strings containing the names of the players
-     * @param wizard array of int containing the numbers of the wizards
-     * @param expert_mode true if expert mode is enabled, false otherwise
-     * @param Player_List list of player for turn priority
+     * Constructor of the class.
+     * @param n_players The number of players in the game.
+     * @param names The strings containing the names of the players.
+     * @param wizard The array of int containing the numbers representing the wizards.
+     * @param expert_mode {@code True} if expert mode is enabled, {@code False} if not.
+     * @param Player_List The list of player for turn order.
      */
     public Turn_Controller(int n_players, String[] names, int wizard[], boolean expert_mode, List<Player> Player_List){
         this.n_players=n_players;
@@ -36,7 +36,8 @@ public class Turn_Controller {
     }
 
     /**
-     * General method that defines the planning phase
+     * This method defines the planning phase by calculating the order of player
+     * and replenishing the clouds at the beginning of the round
      */
     public void planning_phase_general(){
         GS.getGT().replenish_clouds();
@@ -48,8 +49,9 @@ public class Turn_Controller {
 
     //TODO: this method is temporary because the gui need to show up just to the player that has to choose the assistant
     /**
-     * Method for the planning phase of each player
-     * @param i ID of the player(?)
+     * This method represent the planning phase of the current player. Here the player decides which assistance card
+     *  he wants to play.
+     * @param i The ID of the player(?).
      */
     public void planning_phase_personal(int i){
 
@@ -59,7 +61,8 @@ public class Turn_Controller {
 
     //TODO: there can be problems with mn position(it depends if we consider island_ID or island position in the list...for now I'm choosing the second)
     /**
-     * Method for the action phase
+     * This method represents the action phase of the round. It moves the students to the islands, moves mother nature
+     * and checks if island can be conquered and merged.
      */
     public void action_phase(){
         List<Student> stud_to_island;
@@ -82,6 +85,11 @@ public class Turn_Controller {
             }
             System.out.println("Choose how many steps Mother Nature have to do:\n");
             System.out.println("Mother Nature position: Island["+GS.getGT().getMother_nature_pos()+"]\n");
+
+            //If the played character card is the magic mailman, it increases the possible movement by 2
+            if (played_cCard.equals(new Magic_mailman())){
+                played_cCard.effect(GS);
+            }
             System.out.println("Number of steps possible:"+P_L.get(player_order[i]).getChosen_card().getValue()+"\n");
             for(int j=0;j<GS.getGT().getHow_many_left();j++){
                 System.out.println("Island["+j+":]\n");
@@ -126,7 +134,8 @@ public class Turn_Controller {
     }
 
     /**
-     * Calculates the order of the players for the turn
+     * This method calculates the order of the players for the turn.
+     * The player with the lowest value of the played assistance card starts first.
      */
     public void Calculate_Player_order() {
         int min=P_L.get(0).getChosen_card().getValue();
