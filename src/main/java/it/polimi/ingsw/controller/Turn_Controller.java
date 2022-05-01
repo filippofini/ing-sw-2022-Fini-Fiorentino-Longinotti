@@ -106,10 +106,8 @@ public class Turn_Controller {
             }
             GS.getGT().move_mother_nature(choice);
             check_for_tower=GS.getGT().getIslands().get(GS.getGT().getMother_nature_pos()).calculate_influence(player_order[i],GS.getGT().getBoards());
-            /**
-             * if(!check_for_tower) means that you have gained the control of the island
-             */
 
+            //if(!check_for_tower) means that you have gained the control of the island
             if(!check_for_tower){
                 if(n_players==4){
                     if(player_order[i]==1 || player_order[i]==2){

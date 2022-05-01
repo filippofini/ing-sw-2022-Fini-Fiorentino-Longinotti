@@ -19,6 +19,7 @@ public class Island {
     private int player_controller;
     private int island_ID;
     private int[] arr_students;
+    private boolean prohibition_card;
 
     /**
      * Constructor of the class.
@@ -35,6 +36,7 @@ public class Island {
         arr_students = new int[5];
         mother_nature = false;
         player_controller=-1;
+        prohibition_card = false;
     }
 
     /**
@@ -204,6 +206,22 @@ public class Island {
      */
     public void setArr_students(int[] arr_students) {
         this.arr_students = arr_students;
+    }
+
+    /**
+     * This method checks if a prohibition card has been put on the island.
+     * @return {@code True} if a prohibition card has been put on the island, {@code False} if not.
+     */
+    public boolean isProhibition_card() {
+        return prohibition_card;
+    }
+
+    /**
+     * This method sets a prohibition card on the island.
+     * @param prohibition_card {@code True} if wanted to put a prohibition card on the island, {@code False} if not.
+     */
+    public void setProhibition_card(boolean prohibition_card) {
+        this.prohibition_card = prohibition_card;
     }
 }
 
