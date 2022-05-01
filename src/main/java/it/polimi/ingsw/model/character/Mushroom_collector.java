@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.Character_card;
  * Mushroom collector character card
  */
 public class Mushroom_collector extends Character_card {
+    private final int ID_code=9;
     private int cost=3;
     private int uses=0;
 

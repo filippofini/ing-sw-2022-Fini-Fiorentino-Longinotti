@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.Character_card;
  * Centaur character card
  */
 public class Centaur extends Character_card {
+    private final int ID_code=6;
     private int cost=3;
     private int uses=0;
 

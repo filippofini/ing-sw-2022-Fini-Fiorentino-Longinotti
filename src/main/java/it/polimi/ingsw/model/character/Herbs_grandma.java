@@ -8,10 +8,11 @@ import it.polimi.ingsw.model.Game_State;
  * This card starts with 4 prohibition cards that can be put on the island.
  */
 public class Herbs_grandma extends Character_card {
+    private final int ID_code=5;
     private int cost=1;
     private int uses=0;
     private int prohibition_cards = 4;
-    private int index_to;
+    private int index_to=0;
 
     /**
      * This method implements the effect of the herbs grandma card.
@@ -46,5 +47,46 @@ public class Herbs_grandma extends Character_card {
     public void setProhibition_cards() {
         if (prohibition_cards<4) this.prohibition_cards++;
         else return;
+    }
+
+    /**
+     * This method is used when a card has been used.
+     * It increases the uses and the cost by 1.
+     */
+    public void setUses() {
+        this.uses++;
+        setCost(cost+1);
+    }
+
+    /**
+     * This method returns the cost.
+     * @return The cost.
+     */
+    public int getCost() {
+        return cost;
+    }
+
+    /**
+     * This method sets the cost.
+     * @param cost The new cost of the card.
+     */
+    public void setCost(int cost) {
+        this.cost = cost;
+    }
+
+    /**
+     * This method returns the uses of the card.
+     * @return The uses of the card.
+     */
+    public int getUses() {
+        return uses;
+    }
+
+    /**
+     * This method return the ID code of the card.
+     * @return The ID code of the card.
+     */
+    public int getID_code() {
+        return ID_code;
     }
 }

@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.Character_card;
  * Monk character card
  */
 public class Monk extends Character_card {
+    private final int ID_code=2;
     private int cost=1;
     private int uses=0;
 

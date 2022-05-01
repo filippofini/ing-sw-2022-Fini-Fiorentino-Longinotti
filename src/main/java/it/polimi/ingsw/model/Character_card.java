@@ -5,8 +5,10 @@ package it.polimi.ingsw.model;
  * There are 12 character cards, all of them with different effect and some with different costs.
  * At the beginning of the game 3 cards are drawn and put in the game table. Every time a card is used,
  * its cost is increased by 1.
+ * Each card has a unique ID code from 1 to 12.
  */
 public abstract class Character_card {
+     int ID_code;
      int cost;
      int uses = 0;
 
@@ -50,5 +52,13 @@ public abstract class Character_card {
       */
      public int getUses() {
           return uses;
+     }
+
+     /**
+      * This method return the ID code of the card.
+      * @return The ID code of the card.
+      */
+     public int getID_code() {
+          return ID_code;
      }
 }

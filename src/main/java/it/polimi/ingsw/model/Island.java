@@ -44,7 +44,7 @@ public class Island {
      * The player with the highest influence becomes the controller and can place a tower if mother nature is on that island.
      * @param current_player The current player of the turn.
      * @param Boards The array of the boards of the players.
-     * @return {@code False} if the control of the island changed.
+     * @return {@code False} if the control of the island is changed, {@code True} otherwise.
      */
     public boolean calculate_influence(int current_player,Board[] Boards) {
         boolean same_player=true;

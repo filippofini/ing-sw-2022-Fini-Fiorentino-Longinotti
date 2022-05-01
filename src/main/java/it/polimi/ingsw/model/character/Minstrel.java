@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.Character_card;
  * Minstrel character card
  */
 public class Minstrel extends Character_card {
+    private final int ID_code=10;
     private int cost=1;
     private int uses=0;
 

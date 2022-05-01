@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.Character_card;
  * Jester character card
  */
 public class Jester extends Character_card {
+    private final int ID_code=7;
     private int cost=1;
     private int uses=0;
 
