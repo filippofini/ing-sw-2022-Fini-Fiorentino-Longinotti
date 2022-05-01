@@ -39,4 +39,12 @@ public class Herbs_grandma extends Character_card {
     public void setIndex_to(int index_to) {
         this.index_to = index_to-1;
     }
+
+    /**
+     * This method returns the prohibition card to the character card by increasing its attribute by 1.
+     */
+    public void setProhibition_cards() {
+        if (prohibition_cards<4) this.prohibition_cards++;
+        else return;
+    }
 }
