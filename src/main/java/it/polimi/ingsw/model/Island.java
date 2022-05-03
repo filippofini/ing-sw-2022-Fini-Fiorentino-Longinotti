@@ -214,6 +214,11 @@ public class Island {
         this.arr_students = arr_students;
     }
 
+    /**
+     * This method increments the array of student given the index.
+     * It is used during the start of the game.
+     * @param index The index to increment in array of students.
+     */
     public void incrementPos(int index){
         this.arr_students[index]++;
     }
