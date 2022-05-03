@@ -53,7 +53,6 @@ public class Game_table {
 
         setMother_nature_start();
         bag_island_start();
-
         clouds = new ArrayList<Cloud>();
         for(int i=0;i<num_players;i++){
             clouds.add(new Cloud());
@@ -240,13 +239,13 @@ public class Game_table {
         int tempRand;
 
         for(int i=0;i<12;i++){
-            tempRand=rand.nextInt(5);
-            while (bag[tempRand] == 0) {
+            if(i!=(this.mother_nature_pos+6)%12 && i!=this.mother_nature_pos) {
                 tempRand = rand.nextInt(5);
-            }
-            if(i!= (this.mother_nature_pos+6)%12 && i!=this.mother_nature_pos) {
+                while (bag[tempRand] == 0) {
+                    tempRand = rand.nextInt(5);
+                }
                 bag[tempRand]--;
-                islands.get((i + this.mother_nature_pos) % 12).getArr_students()[tempRand]++;
+                islands.get((i) % 12).incrementPos(tempRand);
             }
         }
 

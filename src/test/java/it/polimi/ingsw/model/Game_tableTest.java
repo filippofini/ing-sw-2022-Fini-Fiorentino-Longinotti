@@ -19,6 +19,7 @@ class Game_tableTest {
     public void testCheck_if_playableFalse() {
         //Game with two players
         Game_table game_table = new Game_table(2, new Turn());
+        assertTrue(true);
         Assistance_card[] discard_deck = game_table.getDiscard_deck();
         discard_deck[1] = Assistance_card.CAT;
 
@@ -56,12 +57,28 @@ class Game_tableTest {
     }
 
     @Test
-    public void testMove_mother_nature() {
+    public void testMove_mother_nature1() {
         //Game with two players
         Game_table game_table = new Game_table(2, new Turn());
         int pos = game_table.getMother_nature_pos();
-        Random random = new Random();
-        int moves = random.nextInt(50);
+        //Random random = new Random();
+        int moves = 3;
+        game_table.move_mother_nature(moves);
+        int final_pos = pos + moves;
+        if (final_pos >= game_table.getIsland_counter()) {
+            final_pos = final_pos % game_table.getIsland_counter();
+        }
+
+        assertEquals(final_pos, game_table.getMother_nature_pos());
+    }
+
+    @Test
+    public void testMove_mother_nature2() {
+        //Game with two players
+        Game_table game_table = new Game_table(2, new Turn());
+        int pos = game_table.getMother_nature_pos();
+        //Random random = new Random();
+        int moves = 30;
         game_table.move_mother_nature(moves);
         int final_pos = pos + moves;
         if (final_pos >= game_table.getIsland_counter()) {

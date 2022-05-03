@@ -214,6 +214,10 @@ public class Island {
         this.arr_students = arr_students;
     }
 
+    public void incrementPos(int index){
+        this.arr_students[index]++;
+    }
+
     /**
      * This method checks if a prohibition card has been put on the island.
      * @return {@code True} if a prohibition card has been put on the island, {@code False} if not.
