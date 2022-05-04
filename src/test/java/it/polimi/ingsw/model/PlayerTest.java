@@ -24,4 +24,5 @@ class PlayerTest {
         assertEquals(20, player.getCoin());
     }
 
+
 }
