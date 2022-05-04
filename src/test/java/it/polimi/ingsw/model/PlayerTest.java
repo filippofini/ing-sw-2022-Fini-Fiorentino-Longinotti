@@ -2,6 +2,8 @@ package it.polimi.ingsw.model;
 
 import org.junit.jupiter.api.Test;
 
+import java.net.PortUnreachableException;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -24,5 +26,24 @@ class PlayerTest {
         assertEquals(20, player.getCoin());
     }
 
+    @Test
+    public void testGetPlayerID() {
+        assertEquals(1,player.getPlayer_ID());
+    }
+
+    @Test
+    public void testGetTower_Colour() {
+        assertEquals(1,player.getTower_colour());
+    }
+
+    @Test
+    public void testGetName() {
+        assertEquals("ff",player.getName());
+    }
+
+    @Test
+    public void testGetWizard() {
+        assertEquals(1,player.getWizard());
+    }
 
 }
