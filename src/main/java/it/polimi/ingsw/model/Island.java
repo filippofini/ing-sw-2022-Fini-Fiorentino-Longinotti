@@ -238,5 +238,13 @@ public class Island {
     public void setProhibition_card(boolean prohibition_card) {
         this.prohibition_card = prohibition_card;
     }
+
+    /**
+     * This method increments the element of the array of students by 1 given the index.
+     * @param index The index to know which student will be added.
+     */
+    public void setOneStudent(int index){
+        arr_students[index]++;
+    }
 }
 

@@ -21,6 +21,7 @@ public class Herald extends Character_card {
     @Override
     public void effect(Game_State game_state){
         game_state.getGT().getIslands().get(index_to).calculate_influence(0, game_state.getGT().getBoards());
+        setUses();
     }
 
     /**
