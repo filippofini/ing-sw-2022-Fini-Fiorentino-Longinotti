@@ -14,6 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class Game_tableTest {
 
     private Board[] board;
+    //private <List>Cloud cloud;
 
     @Test
     public void testCheck_if_playableFalse() {
@@ -222,5 +223,28 @@ class Game_tableTest {
         Character_card[] drawn = game_table.getArr_character();
 
         assertNotEquals(null, drawn[2]);
+    }
+
+    @Test
+    public void testReset_temp_clouds() {
+
+    }
+
+    @Test
+    public void testGetTurn() {
+        Turn turn = new Turn();
+        Game_table game_table = new Game_table(2,turn);
+        assertEquals(turn,game_table.getTurn());
+    }
+
+    @Test
+    public void testGetBag() {
+        int sum = 0;
+        Game_table game_table = new Game_table(2,new Turn());
+        int[]arr = game_table.getBag();
+        for (int i = 0; i < 5; i++) {
+            sum = sum + arr[i];
+        }
+        assertEquals(114, sum);
     }
 }
