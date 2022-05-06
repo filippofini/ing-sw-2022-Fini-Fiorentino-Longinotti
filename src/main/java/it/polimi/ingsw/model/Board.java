@@ -252,14 +252,6 @@ public class Board {
     }
 
     /**
-     * This method sets the max dimension of the entrance of students.
-     * @param maxEntranceStudents The number that represents the max dimension of the entrance of students.
-     */
-    public void setMaxEntranceStudents(int maxEntranceStudents) {
-        this.maxEntranceStudents = maxEntranceStudents;
-    }
-
-    /**
      * This method returns the arrays used to keep track of the coins.
      * @return The arrays used to keep track of the coins.
      */
