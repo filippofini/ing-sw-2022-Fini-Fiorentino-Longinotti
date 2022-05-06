@@ -17,6 +17,7 @@ public class Monk extends Character_card {
 
     /**
      * Constructor of the class.
+     * @param monk_drawn The initial array containing 4 students.
      */
     public Monk(int[] monk_drawn){
         this.students = monk_drawn;
@@ -25,13 +26,14 @@ public class Monk extends Character_card {
     /**
      * This method implements the effect of the monk card.
      * The monk starts with 4 students on the card.
-     * When the card is used one of the students can be moved to an island.
+     * When the card is used, one of the students can be moved to an island.
      * Then another student is drawn and placed on the card.
      * @param game_state The game state.
      */
     @Override
     public void effect(Game_State game_state){
         game_state.getGT().getIslands().get(index_to).setOneStudent(chosen_student);
+        students[chosen_student]--;
         students[game_state.getGT().drawOne()]++;
         setUses();
     }

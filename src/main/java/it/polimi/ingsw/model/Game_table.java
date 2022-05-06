@@ -381,10 +381,11 @@ public class Game_table {
     private void draw_three_charCards(){
         int[] drawn = new int[3];
         int[] monk_drawn = new int[5];
+        int[] princess_drawn = new int[5];
         int draw_stud;
         Random rand = new Random();
 
-        //Random draw for 4 students to be placed on the monk card.
+        //Random draw of 4 students to be placed on the monk card.
         for (int i = 0; i < 4; i++) {
             draw_stud = rand.nextInt(5);
             while (bag[draw_stud] == 0) {
@@ -392,6 +393,16 @@ public class Game_table {
             }
             bag[draw_stud]--;
             monk_drawn[draw_stud]++;
+        }
+
+        //Random drawn of 4 students to be placed on the spoilt princess card.
+        for (int i = 0; i < 4; i++) {
+            draw_stud = rand.nextInt(5);
+            while (bag[draw_stud] == 0) {
+                draw_stud = rand.nextInt(5);
+            }
+            bag[draw_stud]--;
+            princess_drawn[draw_stud]++;
         }
 
         List<Character_card> char_deck;
@@ -406,7 +417,7 @@ public class Game_table {
                 new Knight(),
                 new Mushroom_collector(),
                 new Minstrel(),
-                new Spoilt_princess(),
+                new Spoilt_princess(princess_drawn),
                 new Thief()));
 
         drawn[0] = rand.nextInt(12);
@@ -421,17 +432,32 @@ public class Game_table {
             drawn[2] = rand.nextInt(12);
         }
         arr_character[2] = char_deck.get(drawn[2]);
-        boolean monk_check=false;
-        for (int i = 0; i < 3 && monk_check==false; i++) {
+
+        boolean check=false;
+        //Check if a card is the monk, if not puts the students back
+        for (int i = 0; i < 3 && check==false; i++) {
             if ( arr_character[i].getID_code()==1)
-                monk_check = true;
+                check = true;
         }
-        if (monk_check==false){
+        if (check==false){
+            for (int i = 0; i < 5; i++) {
+                bag[i] = bag[i]+monk_drawn[i];
+            }
+        }
+
+        //Check if a card is the spoilt princess, if not puts the students back
+        check=false;
+        for (int i = 0; i < 3 && check==false; i++) {
+            if ( arr_character[i].getID_code()==11)
+                check = true;
+        }
+        if (check==false){
             for (int i = 0; i < 5; i++) {
                 bag[i] = bag[i]+monk_drawn[i];
             }
         }
     }
+
 
     /**
      * This method sets mother nature position.

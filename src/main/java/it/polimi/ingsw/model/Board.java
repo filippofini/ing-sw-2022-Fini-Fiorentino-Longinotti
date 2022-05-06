@@ -282,4 +282,12 @@ public class Board {
     public Student[] getArrEntranceStudents() {
         return arrEntranceStudents;
     }
+
+    /**
+     * This method adds a student to the board
+     * @param index The index of the array of student to be added.
+     */
+    public void setOneStudent(int index){
+        arrPositionStudents[index]++;
+    }
 }
