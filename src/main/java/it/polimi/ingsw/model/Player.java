@@ -8,7 +8,7 @@ import java.util.Objects;
  * This class represent the player.
  * Each player has a player ID, from 1 to 4 and a deck containing the 10 assistance card.
  * A wizard and a tower colour is assigned to each player at the beginning.
- * Each player starts with 1 coin.
+ * Each player starts with 1 coin if the expert mode is enabled.
  */
 public class Player {
     private final String name;

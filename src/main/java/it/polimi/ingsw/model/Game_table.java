@@ -25,6 +25,7 @@ public class Game_table {
     private Character_card[] arr_character;
     private Turn turn;
     private Assistance_card[] discard_deck;
+    private int general_reservoir;
 
     /**
      * Constructor of the class.
@@ -35,6 +36,7 @@ public class Game_table {
         this.num_players = num_players;
         this.turn = turn;
         this.current_player = turn.getCurrent_player();
+        this.general_reservoir = 20-num_players;
 
         bag = new int[5];
         for(int i=0;i<5;i++) {
@@ -378,10 +380,23 @@ public class Game_table {
     //Random draw of the three character cards
     private void draw_three_charCards(){
         int[] drawn = new int[3];
+        int[] monk_drawn = new int[5];
+        int draw_stud;
         Random rand = new Random();
+
+        //Random draw for 4 students to be placed on the monk card.
+        for (int i = 0; i < 4; i++) {
+            draw_stud = rand.nextInt(5);
+            while (bag[draw_stud] == 0) {
+                draw_stud = rand.nextInt(5);
+            }
+            bag[draw_stud]--;
+            monk_drawn[draw_stud]++;
+        }
+
         List<Character_card> char_deck;
         char_deck = new ArrayList<Character_card>(Arrays.asList(
-                new Monk(),
+                new Monk(monk_drawn),
                 new Farmer(),
                 new Herald(),
                 new Magic_mailman(),
@@ -406,6 +421,16 @@ public class Game_table {
             drawn[2] = rand.nextInt(12);
         }
         arr_character[2] = char_deck.get(drawn[2]);
+        boolean monk_check=false;
+        for (int i = 0; i < 3 && monk_check==false; i++) {
+            if ( arr_character[i].getID_code()==1)
+                monk_check = true;
+        }
+        if (monk_check==false){
+            for (int i = 0; i < 5; i++) {
+                bag[i] = bag[i]+monk_drawn[i];
+            }
+        }
     }
 
     /**
@@ -561,5 +586,27 @@ public class Game_table {
      */
     public Assistance_card[] getDiscard_deck() {
         return discard_deck;
+    }
+
+    /**
+     * This method draws 1 student from the bag.
+     * @return The index of the bag representing the colour of the drawn student.
+     */
+    public int drawOne() {
+        boolean check = false;
+        int chosen = -1;
+        for (int i = 0; i < 5 && !check; i++) {
+            if (bag[i] != 0)
+                check = true;
+        }
+        if (check) {
+            Random rand = new Random();
+            chosen = rand.nextInt(5);
+            while (bag[chosen] == 0) {
+                chosen = rand.nextInt(5);
+            }
+            bag[chosen]--;
+        }
+        return chosen;
     }
 }

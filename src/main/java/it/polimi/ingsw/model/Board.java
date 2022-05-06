@@ -282,4 +282,12 @@ public class Board {
     public int getTower() {
         return tower;
     }
+
+    /**
+     * This method returns the list of students to be moved to the entrance.
+     * @return The list of students to be moved to the entrance.
+     */
+    public Student[] getArrEntranceStudents() {
+        return arrEntranceStudents;
+    }
 }
