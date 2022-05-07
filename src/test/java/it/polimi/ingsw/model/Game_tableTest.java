@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class Game_tableTest {
 
     private Board[] board;
-    //private <List>Cloud cloud;
+
 
     @Test
     public void testCheck_if_playableFalse() {
