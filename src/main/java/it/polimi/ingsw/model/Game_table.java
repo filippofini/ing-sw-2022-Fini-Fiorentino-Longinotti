@@ -590,6 +590,7 @@ public class Game_table {
         return bag;
     }
 
+    public void setBag(int[] bag) { this.bag = bag;}
     /**
      * This method returns the array of characters.
      * @return The array of characters.
@@ -605,6 +606,7 @@ public class Game_table {
     public Turn getTurn() {
         return turn;
     }
+
 
     /**
      * This method returns the discard deck.

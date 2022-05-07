@@ -37,18 +37,13 @@ class IslandTest {
         assertEquals(1,island.getPlayer_controller());
     }
 
-
     @Test
-    void testCalculate_influence() {
+    void testCalculate_influence1() {
         boolean[] Arr_prof = {true,true,false,false,false};
         int[] Arr_stud = {7,2,4,5,4};
         int tower = 2;
         Island island1 = new Island(boards1,1,Tower_colour.STARTER);
-        Island island2 = new Island(boards2,2,Tower_colour.STARTER);
         boards1[1] = new Board(4,1,Tower_colour.STARTER);
-        boards1[3] = new Board(4,3,Tower_colour.STARTER);
-        boards2[1] = new Board(3,1,Tower_colour.STARTER);
-        boards2[2] = new Board(3,2,Tower_colour.STARTER);
 
         boards1[1].setArrProfessors(Arr_prof);
         island1.setArr_students(Arr_stud);
@@ -56,6 +51,18 @@ class IslandTest {
         island1.setInfluence_controller(7);
         island1.setTower(tower);
         assertTrue(island1.calculate_influence(1,boards1));
+    }
+
+    @Test
+    void testCalculate_influence2() {
+
+        boolean[] Arr_prof = {true,true,false,false,false};
+        int[] Arr_stud = {7,2,4,5,4};
+        int tower = 2;
+        Island island1 = new Island(boards1,1,Tower_colour.STARTER);
+        boards1[1] = new Board(4,1,Tower_colour.STARTER);
+
+
 
         boards1[1].setArrProfessors(Arr_prof);
         island1.setArr_students(Arr_stud);
@@ -64,12 +71,36 @@ class IslandTest {
         island1.setTower(tower);
         assertFalse(island1.calculate_influence(1,boards1));
 
+    }
+
+    @Test
+    void testCalculate_influence3() {
+
+        boolean[] Arr_prof = {true,true,false,false,false};
+        int[] Arr_stud = {7,2,4,5,4};
+        int tower = 2;
+        Island island1 = new Island(boards1,1,Tower_colour.STARTER);
+        boards1[3] = new Board(4,3,Tower_colour.STARTER);
+
         boards1[3].setArrProfessors(Arr_prof);
         island1.setArr_students(Arr_stud);
         island1.setPlayer_controller(2);
         island1.setInfluence_controller(7);
         island1.setTower(tower);
         assertFalse(island1.calculate_influence(3,boards1));
+
+
+    }
+
+    @Test
+    void testCalculate_influence4() {
+
+        boolean[] Arr_prof = {true,true,false,false,false};
+        int[] Arr_stud = {7,2,4,5,4};
+        int tower = 2;
+        Island island2 = new Island(boards2,2,Tower_colour.STARTER);
+        boards2[1] = new Board(3,1,Tower_colour.STARTER);
+        boards2[2] = new Board(3,2,Tower_colour.STARTER);
 
         boards2[1].setArrProfessors(Arr_prof);
         island2.setArr_students(Arr_stud);
@@ -78,10 +109,19 @@ class IslandTest {
         island2.setTower(tower);
         assertFalse(island2.calculate_influence(1,boards2));
 
+    }
+
+    @Test
+    void testCalculate_influence5() {
+
+        boolean[] Arr_prof = {true,true,false,false,false};
+        int[] Arr_stud = {7,2,4,5,4};
+        int tower = 2;
+        Island island1 = new Island(boards1,1,Tower_colour.STARTER);
+
         island1.setProhibition_card(true);
         assertTrue(island1.calculate_influence(1,boards1));
     }
-
 
     @Test
     void testMotherNatureTrue() {
@@ -127,8 +167,19 @@ class IslandTest {
         island.add_tower(1);
         assertEquals(2,island.getTower());
 
-
-
     }
 
+    @Test
+    void testIncrementPos() {
+        Island island = new Island(boards1,1,Tower_colour.STARTER);
+        int[] Arr_stud = {7,2,4,5,4};
+        island.setArr_students(Arr_stud);
+        island.incrementPos(0);
+        assertEquals(8,Arr_stud[0]);
+    }
+
+    @Test
+    void testSetOneStudent() {
+
+    }
 }

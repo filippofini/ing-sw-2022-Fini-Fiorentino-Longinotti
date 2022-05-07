@@ -229,11 +229,6 @@ class Game_tableTest {
     }
 
     @Test
-    public void testReset_temp_clouds() {
-
-    }
-
-    @Test
     public void testGetTurn() {
         Turn turn = new Turn();
         Game_table game_table = new Game_table(2, turn);
@@ -243,12 +238,12 @@ class Game_tableTest {
     @Test
     public void testGetBag() {
         int sum = 0;
-        Game_table game_table = new Game_table(2, new Turn());
+        Game_table game_table = new Game_table(3, new Turn());
         int[] arr = game_table.getBag();
         for (int i = 0; i < 5; i++) {
             sum = sum + arr[i];
         }
-        assertEquals(114, sum);
+        assertEquals(108, sum);
     }
 
     @Test
@@ -261,11 +256,45 @@ class Game_tableTest {
 
     @Test
     void testReplenish_clouds1() {
+        Game_table game_table = new Game_table(2,new Turn());
+        int[] bag = {3,0,4,10,2};
+        game_table.setBag(bag);
+        game_table.replenish_clouds();
+        assertNotNull(game_table.getClouds());
+
 
     }
 
     @Test
     void testReplenish_cloud2() {
+
+        Game_table game_table = new Game_table(2,new Turn());
+        int[] bag = {0,0,0,0,0};
+        game_table.setBag(bag);
+        game_table.replenish_clouds();
+        assertNotNull(game_table.getClouds());
+
+    }
+
+    @Test
+    void testReplenish_cloud3() {
+
+        Game_table game_table = new Game_table(3,new Turn());
+        int[] bag = {3,0,4,10,2};
+        game_table.setBag(bag);
+        game_table.replenish_clouds();
+        assertNotNull(game_table.getClouds());
+
+    }
+
+    @Test
+    void testReplenish_cloud4() {
+
+        Game_table game_table = new Game_table(3,new Turn());
+        int[] bag = {0,0,0,0,0};
+        game_table.setBag(bag);
+        game_table.replenish_clouds();
+        assertNotNull(game_table.getClouds());
 
     }
 
