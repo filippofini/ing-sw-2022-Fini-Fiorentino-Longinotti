@@ -65,7 +65,6 @@ class Game_tableTest {
         //Game with two players
         Game_table game_table = new Game_table(2, new Turn());
         int pos = game_table.getMother_nature_pos();
-        //Random random = new Random();
         int moves = 3;
         game_table.move_mother_nature(moves);
         int final_pos = pos + moves;
@@ -81,7 +80,6 @@ class Game_tableTest {
         //Game with two players
         Game_table game_table = new Game_table(2, new Turn());
         int pos = game_table.getMother_nature_pos();
-        //Random random = new Random();
         int moves = 30;
         game_table.move_mother_nature(moves);
         int final_pos = pos + moves;
@@ -298,4 +296,15 @@ class Game_tableTest {
 
     }
 
+    /* THIS NEEDS TO BE FIXED
+    @Test
+    void testChooseCloud(){
+        Game_table game_table = new Game_table(3,new Turn());
+        Cloud cloud;
+        cloud = game_table.choose_cloud();
+
+        assertEquals(1, cloud.getCloud_ID());
     }
+
+     */
+}

@@ -57,7 +57,7 @@ public class Game_table {
         bag_island_start();
         clouds = new ArrayList<Cloud>();
         for(int i=0;i<num_players;i++){
-            clouds.add(new Cloud());
+            clouds.add(new Cloud(i+1));
         }
         cloud_start();
 
@@ -358,6 +358,8 @@ public class Game_table {
         Cloud chosen_cloud;
         Scanner sc= new Scanner(System.in);
         System.out.println("Choose the number of the cloud you want:\n");
+
+        //TODO: fix the tempclouds thing
         for(int i=0;i<tempclouds.size();i++){
             System.out.println("Cloud["+i+"]:\n");
             for(int j=0;j<5;j++){
@@ -382,6 +384,7 @@ public class Game_table {
         int[] drawn = new int[3];
         int[] monk_drawn = new int[5];
         int[] princess_drawn = new int[5];
+        int[] jester_drawn = new int[5];
         int draw_stud;
         Random rand = new Random();
 
@@ -405,6 +408,16 @@ public class Game_table {
             princess_drawn[draw_stud]++;
         }
 
+        //Random drawn of 6 students to be placed on the jester card.
+        for (int i = 0; i < 6; i++) {
+            draw_stud = rand.nextInt(5);
+            while (bag[draw_stud] == 0) {
+                draw_stud = rand.nextInt(5);
+            }
+            bag[draw_stud]--;
+            jester_drawn[draw_stud]++;
+        }
+
         List<Character_card> char_deck;
         char_deck = new ArrayList<Character_card>(Arrays.asList(
                 new Monk(monk_drawn),
@@ -413,7 +426,7 @@ public class Game_table {
                 new Magic_mailman(),
                 new Herbs_grandma(),
                 new Centaur(),
-                new Jester(),
+                new Jester(jester_drawn),
                 new Knight(),
                 new Mushroom_collector(),
                 new Minstrel(),
@@ -449,6 +462,18 @@ public class Game_table {
         check=false;
         for (int i = 0; i < 3 && check==false; i++) {
             if ( arr_character[i].getID_code()==11)
+                check = true;
+        }
+        if (check==false){
+            for (int i = 0; i < 5; i++) {
+                bag[i] = bag[i]+monk_drawn[i];
+            }
+        }
+
+        //Check if a card is the jester, if not puts the students back
+        check=false;
+        for (int i = 0; i < 3 && check==false; i++) {
+            if ( arr_character[i].getID_code()==7)
                 check = true;
         }
         if (check==false){

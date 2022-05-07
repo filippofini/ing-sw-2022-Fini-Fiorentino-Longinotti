@@ -12,9 +12,17 @@ import static org.junit.jupiter.api.Assertions.*;
 class CloudTest {
 
     @Test
-    public void testCloud(){
-        Cloud cloud = new Cloud();
-        assertEquals(5,Arrays.stream(cloud.getArr_students()).count());
+    public void testCloud1(){
+        Cloud cloud = new Cloud(1);
+        cloud.setArr_students(new int[]{1,0,0,1,1});
+
+        assertArrayEquals(new int[]{1,0,0,1,1}, cloud.getArr_students());
     }
 
+    @Test
+    public void testCloud2(){
+        Cloud cloud = new Cloud(1);
+
+        assertEquals(1, cloud.getCloud_ID());
+    }
 }

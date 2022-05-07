@@ -27,4 +27,11 @@ class Game_StateTest {
         players[1]= new Player("HH",2,Tower_colour.GREY,2);
         assertArrayEquals(players,game_state.getPlayers());
     }
+
+    @Test
+    void testValue(){
+       game_state.getPlayers()[1].setChosen_card(Assistance_card.ELEPHANT);
+
+       assertNotEquals(30, game_state.getPlayers()[1].getChosen_card().getValue());
+    }
 }
