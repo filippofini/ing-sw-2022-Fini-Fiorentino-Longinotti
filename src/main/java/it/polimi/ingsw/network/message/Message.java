@@ -6,8 +6,8 @@ import java.io.Serializable;
  * this class must be extended by each message type.
  */
 public abstract class Message implements Serializable {
-    private static final long serialVersionUID;
-    private final String name;
+    private static final long serialVersionUID = 6589184250663958343L;
+    private final String name = null;
     private MessageType messageType;
 
     public String getName() {
@@ -20,7 +20,7 @@ public abstract class Message implements Serializable {
 
     @Override
     public String toString() {
-        return "Message{" + "name=" + name ", messageType=" + messageType + '}';
+        return "Message{" + "name=" + name + ", messageType=" + messageType + '}';
     }
 
 }
