@@ -183,4 +183,10 @@ public class Turn_Controller {
     public void setP_L(List<Player> p_L) {
         P_L = p_L;
     }
+
+
+    public String[] getNameQueue() {
+
+    }
+
 }

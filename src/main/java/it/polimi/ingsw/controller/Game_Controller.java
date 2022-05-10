@@ -4,7 +4,7 @@ import it.polimi.ingsw.network.message.Message;
 
 public class Game_Controller {
 
-    String[] queue;
+
 
     public boolean isGameStarted() {
     }
@@ -25,13 +25,8 @@ public class Game_Controller {
 
     }
 
-    public int getTurnController() {
+    public Turn_Controller getTurnController() {
 
-    }
-
-    public String[] getNicknameQueue() {
-
-        return queue;
     }
 
     public void broadcastDisconnectionMessage(String name, String s){

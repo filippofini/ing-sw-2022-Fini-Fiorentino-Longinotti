@@ -85,7 +85,7 @@ public class Server {
                 removeClient(name, !gameStarted); // enable lobby notifications only if the game didn't start yet.
 
                 if(gameController.getTurnController() != null &&
-                        !gameController.getTurnController().getNicknameQueue().contains(name)) {
+                        !gameController.getTurnController().getNameQueue().contains(name)) {
                     return;
                 }
 
