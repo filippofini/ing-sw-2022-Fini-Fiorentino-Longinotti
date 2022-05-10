@@ -6,5 +6,9 @@ package it.polimi.ingsw.network.message;
 
 // Scrivere tutti i nomi dei messaggi.
 public enum MessageType {
-    ERROR
+    ERROR,
+    PING,
+    LOGIN_REQUEST,
+
+
 }
