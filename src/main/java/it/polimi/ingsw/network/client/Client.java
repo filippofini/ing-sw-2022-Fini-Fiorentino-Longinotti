@@ -31,9 +31,7 @@ public abstract class Client {
 
     /**
      * This method enables a heartbeat to keep the connection alive.
-     * @param enabled it's set to {@code true} to enable the heartbeat.
-     *                it's set to {@code false} to kill the heartbeat.
-     *
+     * @param enabled it's set to {@code True} to enable the heartbeat, it's set to {@code False} to kill the heartbeat.
      */
     public abstract void enableHeartbeat(boolean enabled);
 
