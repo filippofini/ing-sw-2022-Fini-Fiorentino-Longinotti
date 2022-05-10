@@ -276,8 +276,8 @@ public class Board {
     }
 
     /**
-     * This method returns the list of students to be moved to the entrance.
-     * @return The list of students to be moved to the entrance.
+     * This method returns the array of students to be moved to the entrance.
+     * @return The array of students to be moved to the entrance.
      */
     public Student[] getArrEntranceStudents() {
         return arrEntranceStudents;

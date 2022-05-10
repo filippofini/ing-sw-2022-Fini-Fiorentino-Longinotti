@@ -2,6 +2,7 @@ package it.polimi.ingsw.model.character;
 
 import it.polimi.ingsw.model.Character_card;
 import it.polimi.ingsw.model.Game_State;
+import it.polimi.ingsw.model.Student;
 
 /**
  * This class represents the jester character card.
@@ -13,7 +14,7 @@ public class Jester extends Character_card {
     private int[] students;
     private int[] chosen_students;
     private int current_player;
-    private int n_move;
+    private int n_moved;
 
     public Jester(int[] students){
         this.students = students;
@@ -21,21 +22,18 @@ public class Jester extends Character_card {
 
     @Override
     public void effect(Game_State game_state){
+        n_moved = 0;
+        for (int i = 0; i < 5; i++) {
+            n_moved = n_moved + students[i];
+        }
+        Student moved;
         //TODO: finish
-        for (int i = 0; i < n_move; i++) {
-
-
+        for (int i = 0; i < n_moved; i++) {
+            for (int j = 0; j < 5; j++) {
+                moved = game_state.getGT().getBoards()[current_player].getArrEntranceStudents()[j];
+            }
         }
         setUses();
-    }
-
-
-    /**
-     * This method sets the number of students to be moved in the entrance.
-     * @param n_move The number of students to be moved in the entrance.
-     */
-    public void setN_move(int n_move) {
-        this.n_move = n_move;
     }
 
     /**
