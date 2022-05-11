@@ -1,5 +1,8 @@
 package it.polimi.ingsw.network.message;
 
+/**
+ * Message to notify an error to the user.
+ */
 public class Error_message extends Message{
 
     private static final long serialVersionUID = 3796309698593755714L;

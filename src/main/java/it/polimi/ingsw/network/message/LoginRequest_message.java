@@ -7,6 +7,10 @@ public class LoginRequest_message extends Message {
 
     private static final long serialVersionUID = -6343239452500134346L;
 
+    /**
+     * Constructor of the class.
+     * @param name The name of the player.
+     */
     public LoginRequest_message(String name) {
         super(name, MessageType.LOGIN_REQUEST);
     }
