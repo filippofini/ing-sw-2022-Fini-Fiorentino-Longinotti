@@ -14,6 +14,7 @@ public class Game_State {
     private int[] teams;
     private boolean chat;
     private boolean expert_mode;
+    private int curr_player;
 
     private String[] names;
     private int[] wizard;
@@ -25,11 +26,12 @@ public class Game_State {
      * @param wizard Array of integers containing the numbers of the wizards to be assigned to each player.
      * @param expert_mode {@code True} if expert mode is enabled, {@code False} if not.
      */
-    public Game_State(int n_players,String[] names,int wizard[], boolean expert_mode){
+    public Game_State(int n_players,String[] names,int wizard[], boolean expert_mode,int curr_player){
         this.n_players = n_players;
         this.names = names;
         this.wizard = wizard;
         this.expert_mode = expert_mode;
+        this.curr_player=curr_player;
         turn = new Turn();
 
         players = new Player[n_players];
@@ -60,5 +62,11 @@ public class Game_State {
         return players;
     }
 
+    public void setCurr_player(int player){
+        curr_player=player;
+    }
 
+    public int getCurr_player() {
+        return curr_player;
+    }
 }

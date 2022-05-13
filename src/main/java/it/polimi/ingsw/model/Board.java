@@ -242,7 +242,14 @@ public class Board {
     public void setArrProfessors(boolean[] arrProfessors) {
         this.arrProfessors = arrProfessors;
     }
-
+    /**
+     * This method sets the professor at arrProfessors[index] value.
+     * @param index The Index of the professor.
+     * @param state If the professor is on the board or not.
+     */
+    public void setprofessor(int index,boolean state){
+        getArrProfessors()[index]=state;
+    }
     /**
      * This method sets the towers on the board.
      * @param tower The number of towers on the board.
@@ -289,5 +296,47 @@ public class Board {
      */
     public void setOneStudent(int index){
         arrPositionStudents[index]++;
+    }
+    /**
+     * This method adds a student to the entrance
+     * @param Cloud_Students The array that contains the students on the clouds
+     */
+    public void setArrEntranceStudents(int[] Cloud_Students ){
+        int pos=0;
+        while(pos<5){
+            if(Cloud_Students[pos]>0){
+                for(int i=0;i<5;i++){
+                    if(arrEntranceStudents[i].getIsChosen()){
+                        arrEntranceStudents[i]=new Student(inverse_color(pos));
+                        Cloud_Students[pos]--;
+                    }
+
+                }
+                pos=0;
+            }
+
+        }
+
+    }
+    /**
+     * This method convert a position in the respective color
+     * @param color The index of the array that rapresent a color
+     */
+    public Disk_colour inverse_color(int color){
+        if(color==0){
+            return Disk_colour.YELLOW;
+        }
+        else if(color==1){
+            return Disk_colour.RED;
+        }
+        else if(color==2){
+            return Disk_colour.PINK;
+        }
+        else if(color==3){
+            return Disk_colour.BLUE;
+        }
+        else{
+            return Disk_colour.GREEN;
+        }
     }
 }

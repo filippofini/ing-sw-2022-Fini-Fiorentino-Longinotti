@@ -20,6 +20,7 @@ public class Island {
     private int island_ID;
     private int[] arr_students;
     private boolean prohibition_card;
+    private boolean include_towers;
 
     /**
      * Constructor of the class.
@@ -37,6 +38,7 @@ public class Island {
         mother_nature = false;
         player_controller=-1;
         prohibition_card = false;
+        include_towers=true;
     }
 
     /**
@@ -53,6 +55,11 @@ public class Island {
             for (int i = 0; i<5;i++) {
                 if (boards[current_player].getArrProfessors()[i]) {
                     temp_influence+= arr_students[i];
+                }
+                if(include_towers){
+                    if(current_player==player_controller){
+                        temp_influence+=tower;
+                    }
                 }
             }
 
@@ -90,6 +97,9 @@ public class Island {
         }
         else{
             setProhibition_card(false);
+        }
+        if(!include_towers){
+            setInclude_towers(true);
         }
 
         return same_player;
@@ -245,6 +255,13 @@ public class Island {
      */
     public void setOneStudent(int index){
         arr_students[index]++;
+    }
+    /**
+     * This method sets the include_towers variable
+     * @param include_towers indicate if the towers must be counted in the influence
+     */
+    public void setInclude_towers(boolean include_towers) {
+        this.include_towers = include_towers;
     }
 }
 

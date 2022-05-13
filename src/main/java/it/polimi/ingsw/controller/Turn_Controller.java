@@ -32,7 +32,7 @@ public class Turn_Controller {
         for(int i=0; i<n_players;i++){
             player_order[i]=i;
         }
-        GS = new Game_State(n_players, names, wizard, expert_mode);
+        GS = new Game_State(n_players, names, wizard, expert_mode,0);
     }
 
     /**
@@ -68,10 +68,14 @@ public class Turn_Controller {
         List<Student> stud_to_island;
         int choice;
         boolean check_for_tower;
+        int[] tempCloud;
         Scanner sc= new Scanner(System.in);
         for(int i=0;i<n_players;i++){
-
+            GS.setCurr_player(player_order[i]);
             stud_to_island=GS.getGT().getBoards()[player_order[i]].moveEntranceStudents();
+            //TODO:setProfessors()
+            GS.getGT().setProfessors();
+
             //add all the student to the islands
             for(int j=0;j< stud_to_island.size();j++){
 
@@ -124,8 +128,10 @@ public class Turn_Controller {
             }
 
             GS.getGT().merge(GS.getGT().getMother_nature_pos(),player_order[i],GS.getGT().getBoards());
-            GS.getGT().choose_cloud();
-            //TODO:addstudenttocloud
+            tempCloud=GS.getGT().choose_cloud().getArr_students();
+            GS.getGT().getBoards()[player_order[i]].setArrEntranceStudents(tempCloud);
+
+
 
         }
 
