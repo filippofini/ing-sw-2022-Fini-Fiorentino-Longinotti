@@ -21,6 +21,8 @@ public class Island {
     private int[] arr_students;
     private boolean prohibition_card;
     private boolean include_towers;
+    private boolean prohibition_colour;
+    private int proh_col;
 
     /**
      * Constructor of the class.
@@ -38,6 +40,8 @@ public class Island {
         mother_nature = false;
         player_controller=-1;
         prohibition_card = false;
+        prohibition_colour=false;
+        proh_col=0;
         include_towers=true;
     }
 
@@ -54,7 +58,15 @@ public class Island {
         if(!prohibition_card){
             for (int i = 0; i<5;i++) {
                 if (boards[current_player].getArrProfessors()[i]) {
-                    temp_influence+= arr_students[i];
+                    if(prohibition_colour){
+                        if(i!=proh_col){
+                            temp_influence+= arr_students[i];
+                        }
+                    }
+                    else{
+                        temp_influence+= arr_students[i];
+                    }
+
                 }
                 if(include_towers){
                     if(current_player==player_controller){
@@ -100,6 +112,9 @@ public class Island {
         }
         if(!include_towers){
             setInclude_towers(true);
+        }
+        if(prohibition_colour){
+            setProhibition_colour(false);
         }
 
         return same_player;
@@ -262,6 +277,14 @@ public class Island {
      */
     public void setInclude_towers(boolean include_towers) {
         this.include_towers = include_towers;
+    }
+
+    public void setProhibition_colour(boolean prohibition_colour) {
+        this.prohibition_colour = prohibition_colour;
+    }
+
+    public void setProh_col(int proh_col) {
+        this.proh_col = proh_col;
     }
 }
 
