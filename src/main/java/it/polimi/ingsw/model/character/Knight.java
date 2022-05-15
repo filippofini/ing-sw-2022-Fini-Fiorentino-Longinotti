@@ -10,11 +10,15 @@ public class Knight extends Character_card {
     private final int ID_code=8;
     private int cost=2;
     private int uses=0;
+    private boolean isUsed=false;
 
     @Override
     public void effect(Game_State game_state){
-
+        for(int i=0;i< game_state.getGT().getIslands().size();i++){
+            game_state.getGT().getIslands().get(i).setExtra_influence(2);
+        }
         this.setUses();
+        setUsed(true);
     }
 
     /**
@@ -56,5 +60,12 @@ public class Knight extends Character_card {
      */
     public int getID_code() {
         return ID_code;
+    }
+
+    public void setUsed(boolean used) {
+        isUsed = used;
+    }
+    public boolean getUsed(){
+        return  isUsed;
     }
 }

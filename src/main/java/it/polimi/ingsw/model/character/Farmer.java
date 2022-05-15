@@ -10,7 +10,7 @@ public class Farmer extends Character_card {
     private final int ID_code=2;
     private int cost=2;
     private int uses=0;
-
+//TODO: ask to the other, not convinced so much
     public void effect(Game_State game_state){
 
         for(int j=0;j<5;j++){

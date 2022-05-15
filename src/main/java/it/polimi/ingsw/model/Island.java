@@ -23,6 +23,7 @@ public class Island {
     private boolean include_towers;
     private boolean prohibition_colour;
     private int proh_col;
+    private int extra_influence;
 
     /**
      * Constructor of the class.
@@ -43,6 +44,7 @@ public class Island {
         prohibition_colour=false;
         proh_col=0;
         include_towers=true;
+        extra_influence=0;
     }
 
     /**
@@ -285,6 +287,10 @@ public class Island {
 
     public void setProh_col(int proh_col) {
         this.proh_col = proh_col;
+    }
+
+    public void setExtra_influence(int extra_influence) {
+        this.extra_influence = extra_influence;
     }
 }
 

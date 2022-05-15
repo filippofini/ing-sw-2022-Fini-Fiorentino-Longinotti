@@ -130,9 +130,17 @@ public class Turn_Controller {
             GS.getGT().merge(GS.getGT().getMother_nature_pos(),player_order[i],GS.getGT().getBoards());
             tempCloud=GS.getGT().choose_cloud().getArr_students();
             GS.getGT().getBoards()[player_order[i]].setArrEntranceStudents(tempCloud);
-
-
-
+            //TODO: setused getused in all character cards
+            for(int n=0;n<3;n++){
+                if(GS.getGT().getArr_character()[n]==8){
+                    if((GS.getGT().getArr_character()[n].getUsed())){
+                        GS.getGT().getArr_character()[n].setUsed(false);
+                        for(int m=0;m<GS.getGT().getIslands().size();m++){
+                            GS.getGT().getIslands().get(m).setExtra_influence(0);
+                        }
+                    }
+                }
+            }
         }
 
     }
