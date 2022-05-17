@@ -1,6 +1,9 @@
 package it.polimi.ingsw.CLI;
 
+import it.polimi.ingsw.model.GameMode;
+
 import java.io.IOException;
+import java.util.List;
 
 public class StartGame {
     private static final String DEFAULT_ADDRESS = "127.0.0.1";
@@ -80,4 +83,29 @@ public class StartGame {
     }
 
 
+    private static GameMode getGameMode(Client client) throws IOException {
+        while(true) {
+            String gameModeString = InputParser.getLine();
+            if (gameModeString == null)
+                throw new IOException();
+            if (gameModeString.equals("s"))
+                return GameMode.STANDARD;
+            else if (gameModeString.equals("e"))
+                return GameMode.EXPERT;
+            else {
+                System.out.println("Invalid game mode, type  [s] for standard mode or [e] for expert mode");
+            }
+        }
+    }
+
+    public static void NumberOfPlayersRequest(Client client){
+        System.out.println("Insert the number of players [2] , [3] , [4]");
+        Integer choice = InputParser.getInt("Invalid number of players: please insert an integer number between 2 and 4", CLI.conditionOnIntegerRange(2, 4));
+        if (choice != null)
+            client.sendMessageToServer(new NumberOfPlayersResponse(choice));
+    }
+
+    public static void WaitingMessage() {
+        System.out.println("making the island floating...");
+    }
 }
