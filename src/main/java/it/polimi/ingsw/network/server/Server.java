@@ -3,7 +3,6 @@ package it.polimi.ingsw.network.server;
 
 import it.polimi.ingsw.controller.Game_Controller;
 import it.polimi.ingsw.network.message.Message;
-import it.polimi.ingsw.view.VirtualView;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -34,6 +33,8 @@ public class Server {
      * @param name      the nickname associated with the client.
      * @param clientHandler the ClientHandler associated with the client.
      */
+
+    /*
     public void addClient(String name, ClientHandler clientHandler) {
         VirtualView vv = new VirtualView(clientHandler);
 
@@ -48,6 +49,8 @@ public class Server {
         }
 
     }
+
+     */
 
     /**
      * This method removes a client given his nickname.
@@ -75,6 +78,7 @@ public class Server {
      *
      * @param clientHandler the client disconnecting.
      */
+    /*
     public void onDisconnect(ClientHandler clientHandler) {
         synchronized (lock) {
             String name = getNameFromClientHandler(clientHandler);
@@ -100,6 +104,8 @@ public class Server {
             }
         }
     }
+
+     */
 
 
     /**

@@ -5,13 +5,18 @@ import it.polimi.ingsw.model.Game_State;
 import it.polimi.ingsw.model.Island;
 
 /**
- * Centaur character card
+ * This class represents the centaur character card.
  */
 public class Centaur extends Character_card {
     private final int ID_code=6;
     private int cost=3;
     private int uses=0;
 
+    /**
+     * This method implements the effect of the centaur card.
+     * When this card is played, the influence on the island where mother nature is, is calculated without counting the towers.
+     * @param GS The game state.
+     */
     @Override
     public void effect(Game_State GS){
         GS.getGT().getIslands().get(GS.getGT().getMother_nature_pos()).setInclude_towers(false);

@@ -9,14 +9,14 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 class Game_StateTest {
 
-    Game_State game_state = new Game_State(2, new String[]{"FF","HH"}, new int[]{1,2}, false);
-    Game_State game_state2 = new Game_State(4,new String[]{"FF","HH","GG","LL"}, new int[]{1,2,3,4}, false);
+    Game_State game_state = new Game_State(2, new String[]{"FF","HH"}, new int[]{1,2}, false, 1);
+    Game_State game_state2 = new Game_State(4,new String[]{"FF","HH","GG","LL"}, new int[]{1,2,3,4}, false, 1);
 
     private Player[] players = new Player[2];
 
     @Test
     public void testGetGT(){
-        Game_State Gs = new Game_State(2, new String[]{"FF","HH"}, new int[]{1,2}, true);
+        Game_State Gs = new Game_State(2, new String[]{"FF","HH"}, new int[]{1,2}, true, 1);
 
         assertNotEquals(game_state.getGT(), Gs.getGT());
     }

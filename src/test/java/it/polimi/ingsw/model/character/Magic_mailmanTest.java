@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 class Magic_mailmanTest {
     Magic_mailman magic_mailman = new Magic_mailman();
-    Game_State game_state = new Game_State(2, new String[]{"FF", "HH"},new int[]{1,2},false);
+    Game_State game_state = new Game_State(2, new String[]{"FF", "HH"},new int[]{1,2},false,1);
 
     @Test
     public void testSetUses1(){

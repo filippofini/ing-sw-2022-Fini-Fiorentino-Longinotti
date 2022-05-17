@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 class MonkTest {
     Monk monk = new Monk(new int[]{1,0,0,2,1});
-    Game_State game_state = new Game_State(2, new String[]{"FF", "HH"},new int[]{1,2},false);
+    Game_State game_state = new Game_State(2, new String[]{"FF", "HH"},new int[]{1,2},false,1 );
 
     @Test
     public void testSetUses1(){

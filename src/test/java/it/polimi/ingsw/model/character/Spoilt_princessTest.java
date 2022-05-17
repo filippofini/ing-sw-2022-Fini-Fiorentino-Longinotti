@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 class Spoilt_princessTest {
     Spoilt_princess spoilt_princess = new Spoilt_princess(new int[]{0,0,1,0,3});
-    Game_State game_state = new Game_State(2, new String[]{"FF", "HH"},new int[]{1,2},false);
+    Game_State game_state = new Game_State(2, new String[]{"FF", "HH"},new int[]{1,2},false,1);
 
     @Test
     public void testSetUses1(){
