@@ -12,6 +12,11 @@ public class Knight extends Character_card {
     private int uses=0;
     private boolean isUsed=false;
 
+    /**
+     * This method implements the effect of the knight card.
+     * When the influence is calculated 2 additional points are counted.
+     * @param game_state The game state.
+     */
     @Override
     public void effect(Game_State game_state){
         for(int i=0;i< game_state.getGT().getIslands().size();i++){

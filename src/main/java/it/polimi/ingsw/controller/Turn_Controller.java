@@ -131,6 +131,7 @@ public class Turn_Controller {
             tempCloud=GS.getGT().choose_cloud().getArr_students();
             GS.getGT().getBoards()[player_order[i]].setArrEntranceStudents(tempCloud);
             //TODO: setused getused in all character cards
+            /*
             for(int n=0;n<3;n++){
                 if(GS.getGT().getArr_character()[n]==8){
                     if((GS.getGT().getArr_character()[n].getUsed())){
@@ -141,6 +142,7 @@ public class Turn_Controller {
                     }
                 }
             }
+            */
         }
 
     }
@@ -197,10 +199,4 @@ public class Turn_Controller {
     public void setP_L(List<Player> p_L) {
         P_L = p_L;
     }
-
-
-    public String[] getNameQueue() {
-
-    }
-
 }

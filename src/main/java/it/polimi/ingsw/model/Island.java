@@ -1,6 +1,5 @@
 package it.polimi.ingsw.model;
 
-import java.util.List;
 
 /**
  * This class represent the islands.
@@ -281,14 +280,26 @@ public class Island {
         this.include_towers = include_towers;
     }
 
+    /**
+     *
+     * @param prohibition_colour
+     */
     public void setProhibition_colour(boolean prohibition_colour) {
         this.prohibition_colour = prohibition_colour;
     }
 
+    /**
+     *
+     * @param proh_col
+     */
     public void setProh_col(int proh_col) {
         this.proh_col = proh_col;
     }
 
+    /**
+     *
+     * @param extra_influence
+     */
     public void setExtra_influence(int extra_influence) {
         this.extra_influence = extra_influence;
     }
