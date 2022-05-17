@@ -20,6 +20,7 @@ public class Board {
     private int tower;
     private int maxEntranceStudents;
     private boolean[][] trackCoins = new boolean[5][3];
+    private boolean farmer_state;
 
     /**
      * Constructor of the class.
@@ -37,6 +38,7 @@ public class Board {
                 trackCoins[i][j]=false;
             }
         }
+        farmer_state=false;
 
         //for now with if, maybe later will become switch case
         // need re-check values
@@ -73,7 +75,7 @@ public class Board {
      * This method moves students to the islands.
      * @return The list of students sent to an island.
      */
-    public List<Student> moveEntranceStudents(){
+    public List<Student> moveEntranceStudents(Game_State GS){
         int choiceStudent;
         int choicePosition;
         int studentsChosen=0;
@@ -118,6 +120,26 @@ public class Board {
                         arrPositionStudents[arrEntranceStudents[choiceStudent].getColour()]++;
                         arrEntranceStudents[choiceStudent].Chosen();
                         studentsChosen++;
+                        if(farmer_state){
+                            for(int j=0;j<5;j++){
+                                for(int i=0;i<GS.getGT().getNum_players();i++){
+                                    if(GS.getGT().getBoards()[GS.getCurr_player()].getArrPositionStudents()[j]>=GS.getGT().getBoards()[i].getArrPositionStudents()[j] && GS.getCurr_player()!=i && GS.getGT().getBoards()[i].getArrProfessors()[j]){
+                                        GS.getGT().getBoards()[GS.getCurr_player()].setprofessor(j,true);
+                                    }
+                                }
+
+                            }
+                        }
+                        else{
+                            for(int j=0;j<5;j++){
+                                for(int i=0;i<GS.getGT().getNum_players();i++){
+                                    if(GS.getGT().getBoards()[GS.getCurr_player()].getArrPositionStudents()[j]>GS.getGT().getBoards()[i].getArrPositionStudents()[j] && GS.getCurr_player()!=i && GS.getGT().getBoards()[i].getArrProfessors()[j]){
+                                        GS.getGT().getBoards()[GS.getCurr_player()].setprofessor(j,true);
+                                    }
+                                }
+
+                            }
+                        }
                     }
                     else{
                         System.out.println("table of colour:"+arrEntranceStudents[choiceStudent].getEnumColour() +" is full, please choose another student");
@@ -154,6 +176,9 @@ public class Board {
                 } while(validChoice);
                 validChoice=true;
             }
+        }
+        if(farmer_state){
+            farmer_state=false;
         }
         return studentToIslands;
     }
@@ -338,5 +363,9 @@ public class Board {
         else{
             return Disk_colour.GREEN;
         }
+    }
+
+    public void setFarmer_state(boolean farmer_state) {
+        this.farmer_state = farmer_state;
     }
 }
