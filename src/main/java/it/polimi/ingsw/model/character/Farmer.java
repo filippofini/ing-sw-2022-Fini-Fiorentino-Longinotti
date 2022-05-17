@@ -13,14 +13,7 @@ public class Farmer extends Character_card {
 //TODO: ask to the other, not convinced so much
     public void effect(Game_State game_state){
 
-        for(int j=0;j<5;j++){
-            for(int i=0;i<game_state.getGT().getNum_players();i++){
-                if(game_state.getGT().getBoards()[game_state.getCurr_player()].getArrPositionStudents()[j]==game_state.getGT().getBoards()[i].getArrPositionStudents()[j] && game_state.getCurr_player()!=i && game_state.getGT().getBoards()[i].getArrProfessors()[j]){
-                    game_state.getGT().getBoards()[game_state.getCurr_player()].setprofessor(j,true);
-                }
-            }
-
-        }
+        game_state.getGT().getBoards()[game_state.getCurr_player()].setFarmer_state(true);
         setUses();
     }
 

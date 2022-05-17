@@ -72,7 +72,7 @@ public class Turn_Controller {
         Scanner sc= new Scanner(System.in);
         for(int i=0;i<n_players;i++){
             GS.setCurr_player(player_order[i]);
-            stud_to_island=GS.getGT().getBoards()[player_order[i]].moveEntranceStudents();
+            stud_to_island=GS.getGT().getBoards()[player_order[i]].moveEntranceStudents(GS);
             //TODO:setProfessors()
             GS.getGT().setProfessors();
 
