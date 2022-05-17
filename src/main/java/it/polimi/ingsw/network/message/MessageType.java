@@ -11,6 +11,10 @@ public enum MessageType {
     LOGIN_REQUEST,
     NPLAYER_REQUEST,
     NPLAYER_REPLY,
+    GAMEMODE_REQUEST,
+    GAMEMODE_REPLY,
+    STARTGAME_NOTIFY,
+
 
 
 }
