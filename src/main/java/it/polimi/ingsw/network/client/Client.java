@@ -1,40 +1,250 @@
 package it.polimi.ingsw.network.client;
 
-import it.polimi.ingsw.network.message.Message;
+import it.polimi.ingsw.network.message.MessageType;
+import it.polimi.ingsw.view.View;
 
-import java.util.logging.Logger;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+import java.net.InetSocketAddress;
+import java.net.Socket;
+import java.util.Optional;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
- * Abstract class to communicate with the server. Every type of connection must implement this interface.
+ * This class manages the connection of the client with the server.
  */
-public abstract class Client {
+public class Client implements Client_interface {
 
-    public static final Logger LOGGER = Logger.getLogger(Client.class.getName());
+    private Optional<String> name;
+    private Optional<Boolean> expert_mode ;
+    private boolean valid_name = false ;
+
+    public static final int HEARTBEAT = 5000; //A ping message is sent every 5 seconds
+
+    private View view;
+
+    private Socket socket;
+    private final String IPaddress;
+    private final int port;
+
+    private ObjectInputStream inputStream;
+    private ObjectOutputStream outputStream;
+
+    private final Thread packetReceiver;
+    private final Thread serverObserver;
+
+    private BlockingQueue<Object> incomingPackets;
+
+    private final AtomicBoolean connected = new AtomicBoolean(false);
+
+    private final Thread pinger;
+
+    private boolean connectionClosed = false;
 
     /**
-     * This method sends a message to the server.
-     * @param message the message to be sent.
+     * Constructor of the class.
+     * It builds the threads and the object to start the game.
+     * @param IPaddress The IP of the server.
+     * @param port The port of the server.
+     * @param view the instance of a {@link it.polimi.ingsw.CLI} or a {@link it.polimi.ingsw.GUI}.
      */
-    public abstract void sendMessage(Message message);
+    public Client(String IPaddress, int port, View view){
+        this.name = Optional.empty();
+        this.expert_mode = Optional.empty();
+        this.IPaddress = IPaddress;
+        this.port = port;
+        this.view = view;
+        this.packetReceiver = new Thread(this::manageIncomingPackets);
+        this.serverObserver = new Thread(this::waitMessages);
+
+        this.pinger = new Thread(() -> {
+            while (connected.get()){
+                try {
+                    Thread.sleep(HEARTBEAT);
+                    sendMessageToServer(MessageType.PING);
+                } catch (InterruptedException e){
+                    closeSocket();
+                    break;
+                }
+            }
+        });
+    }
+
+    public Client(String IPaddress, int port, View view, Optional<Boolean> expert_mode, Optional<String> name){
+        this.expert_mode = expert_mode;
+        this.name = name;
+        this.valid_name = name.isPresent();
+        this.IPaddress = IPaddress;
+        this.port = port;
+        this.view = view;
+        this.packetReceiver = new Thread(this::manageIncomingPackets);
+        this.serverObserver = new Thread(this::waitMessages);
+
+        this.pinger = new Thread(() -> {
+            while (connected.get()){
+                try {
+                    Thread.sleep(HEARTBEAT);
+                    sendMessageToServer(MessageType.PING);
+                } catch (InterruptedException e){
+                    closeSocket();
+                    break;
+                }
+            }
+        });
+    }
+
+    public void start() throws IOException {
+        socket = new Socket();
+        this.incomingPackets = new LinkedBlockingQueue<>();
+
+        socket.connect(new InetSocketAddress(IPaddress, port));
+        outputStream = new ObjectOutputStream(socket.getOutputStream());
+        inputStream = new ObjectInputStream(socket.getInputStream());
+        connected.set(true);
+        if(!packetReceiver.isAlive()){
+            packetReceiver.start();
+        }
+        serverObserver.start();
+    }
+
 
     /**
-     * This method reads a message from the server and notifies the ClientController.
+     * Manage the messages stored in the queue by Client.waitMessages()
      */
-    public abstract void readMessage();
+    public void manageIncomingPackets(){
+        while (connected.get()){
+            Object message;
+            try {
+                message = incomingPackets.take();
+            } catch (InterruptedException e){
+                closeSocket();
+                return;
+            }
+
+            ((MessageToClient) message).handleMessage(view);
+        }
+    }
 
 
     /**
-     * This method is used to disconnect from the server.
+     * This method receives messages from the server and add them to a queue of messages.
+     * It is also used to manage disconnection and ping messages.
      */
-    public abstract void disconnect();
+    public void waitMessages(){
+        try {
+            while (connected.get()){
+                Object message = null;
+                message = inputStream.readObject();
 
+                if(message==MessageType.CONNECTION_CLOSED) {
+                    closeSocket();
+                }
+                if (message instanceof TimeoutExpiredMessage){
+                    connected.set(false);
+                    pinger.interrupt();
+                    packetReceiver.interrupt();
+                    ((TimeoutExpiredMessage) message).handleMessage(view);
+                    return;
+                } else if (message!=null && !(message == MessageType.PING)) {
+                    incomingPackets.add(message);
+                }
+            }
+        }catch (IOException | ClassNotFoundException e){
+            pinger.interrupt();
+            packetReceiver.interrupt();
+        }
+    }
+
+    @Override
+    public void sendMessageToServer(Serializable message){
+        if (connected.get()){
+            try {
+                outputStream.writeObject(message);
+                outputStream.flush();
+            }catch (IOException e){
+                closeSocket();
+            }
+        }
+    }
 
     /**
-     * This method enables a heartbeat to keep the connection alive.
-     * @param enabled it's set to {@code True} to enable the heartbeat, it's set to {@code False} to kill the heartbeat.
+     * This method closes the socket.
      */
-    public abstract void enableHeartbeat(boolean enabled);
+    public void closeSocket(){
 
+        if (connectionClosed)
+            return;
+        connectionClosed = true;
+        boolean was_connected= connected.getAndSet(false);
+        if (!was_connected)
+            return;
+        if (packetReceiver.isAlive())
+            packetReceiver.interrupt();
+        if (serverObserver.isAlive())
+            serverObserver.interrupt();
+        view.handleCloseConnection(was_connected);
+        try {
+            inputStream.close();
+        } catch (IOException e){}
+        try {
+            outputStream.close();
+        } catch (IOException e){}
+        try {
+            socket.close();
+        } catch (IOException e){}
+    }
 
+    /**
+     * This method closes all the running threads.
+     */
+    public void closeThreads(){
+        packetReceiver.interrupt();
+        pinger.interrupt();
+        serverObserver.interrupt();
+        try {
+            inputStream.close();
+        } catch (IOException e){}
+        try {
+            outputStream.close();
+        } catch (IOException e){}
+        try {
+            socket.close();
+        } catch (IOException e){}
+    }
 
+    public boolean isConnected() {
+        return connected.get();
+    }
+
+    public String getIPaddress() {
+        return IPaddress;
+    }
+
+    public int getPort() {
+        return port;
+    }
+
+    public void setName(String name) {
+        this.name = Optional.of(name);
+    }
+
+    public void setExpert_mode(boolean expert_mode) {
+        this.expert_mode = Optional.of(expert_mode);
+    }
+
+    public boolean isValid_name() {
+        return valid_name;
+    }
+
+    public Optional<String> getName() {
+        return name;
+    }
+
+    public Optional<Boolean> getExpert_mode() {
+        return expert_mode;
+    }
 }
