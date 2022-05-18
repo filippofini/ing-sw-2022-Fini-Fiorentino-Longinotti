@@ -28,8 +28,8 @@ public class IslandCLI {
                 System.out.println("This Island does not exit, please choose a valid number:\n");
                 choice=InputParser.getInt();
             }
-           islands.get(choice).add_students(stud_to_island);
-            client.sendMessageToServer(new moveStudentResponse);
+
+            client.sendMessageToServer(new moveStudentResponse(choice));
 
     }
 
