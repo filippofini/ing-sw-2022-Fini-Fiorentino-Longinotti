@@ -368,4 +368,8 @@ public class Board {
     public void setFarmer_state(boolean farmer_state) {
         this.farmer_state = farmer_state;
     }
+
+    public int getMaxEntranceStudents() {
+        return maxEntranceStudents;
+    }
 }

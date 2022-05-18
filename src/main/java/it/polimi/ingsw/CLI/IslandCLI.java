@@ -3,7 +3,7 @@ package it.polimi.ingsw.CLI;
 import it.polimi.ingsw.model.Disk_colour;
 import it.polimi.ingsw.model.Island;
 import it.polimi.ingsw.model.Student;
-
+import it.polimi.ingsw.network.client.Client;
 import java.util.List;
 
 public class IslandCLI {
@@ -20,7 +20,7 @@ public class IslandCLI {
         System.out.println("Owned by: player "+island.getPlayer_controller()+"\n");
     }
 
-    public  static void MoveStudentToIslandRequest(Client client,List<Island> islands,Student stud_to_island){
+    public  static void MoveStudentToIslandRequest(Client client, List<Island> islands, Student stud_to_island){
 
             System.out.println("Choose the island where to add the student:"+stud_to_island+"\n");
             int choice=InputParser.getInt();

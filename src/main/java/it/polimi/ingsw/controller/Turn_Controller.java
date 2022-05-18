@@ -1,6 +1,7 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.character.Knight;
 import it.polimi.ingsw.model.character.Magic_mailman;
 
 import java.util.List;
@@ -133,7 +134,7 @@ public class Turn_Controller {
             //TODO: setused getused in all character cards
             /*
             for(int n=0;n<3;n++){
-                if(GS.getGT().getArr_character()[n]==8){
+                if(played_cCard.equals(new Knight())){
                     if((GS.getGT().getArr_character()[n].getUsed())){
                         GS.getGT().getArr_character()[n].setUsed(false);
                         for(int m=0;m<GS.getGT().getIslands().size();m++){
@@ -141,8 +142,8 @@ public class Turn_Controller {
                         }
                     }
                 }
-            }
-            */
+            }*/
+
         }
 
     }
@@ -199,4 +200,5 @@ public class Turn_Controller {
     public void setP_L(List<Player> p_L) {
         P_L = p_L;
     }
+
 }

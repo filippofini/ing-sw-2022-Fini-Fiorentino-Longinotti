@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.character;
 
+import it.polimi.ingsw.CLI.InputParser;
 import it.polimi.ingsw.model.Character_card;
 import it.polimi.ingsw.model.Disk_colour;
 import it.polimi.ingsw.model.Game_State;
@@ -29,7 +30,7 @@ public class Minstrel extends Character_card {
             for(int j=0;j<game_state.getGT().getBoards()[game_state.getCurr_player()].getArrEntranceStudents().length;j++){
                 //print all of the entrance students
             }
-            entrchange=sc.nextInt();
+            entrchange= InputParser.getInt();
             game_state.getGT().getBoards()[game_state.getCurr_player()].getArrPositionStudents()[studColour]--;
             game_state.getGT().getBoards()[game_state.getCurr_player()].getArrPositionStudents()[game_state.getGT().getBoards()[game_state.getCurr_player()].getArrEntranceStudents()[entrchange].getColour()]++;
             game_state.getGT().getBoards()[game_state.getCurr_player()].getArrEntranceStudents()[entrchange]= new Student(inverse_color(studColour));
