@@ -1,6 +1,7 @@
 package it.polimi.ingsw.CLI;
 
 import it.polimi.ingsw.model.GameMode;
+import it.polimi.ingsw.network.client.Client;
 
 import java.io.IOException;
 import java.util.List;
