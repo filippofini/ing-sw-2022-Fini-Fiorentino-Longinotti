@@ -1,8 +1,8 @@
 package it.polimi.ingsw.network.client;
-
-//TODO: import javafx
+import javafx.application.Application;
 
 import it.polimi.ingsw.CLI.CLI;
+import it.polimi.ingsw.GUI.GUI;
 
 
 /**
@@ -17,7 +17,7 @@ public class Client_main {
 
     public static void main(String[] args) {
         if (args.length==0){
-            //Application.launch(GUI.class, args)
+            Application.launch(GUI.class, args);
         } else if (args.length>1) {
             System.out.println("Too many arguments, insert " + HELP + " to see all the available graphical interface options.");
         } else {
