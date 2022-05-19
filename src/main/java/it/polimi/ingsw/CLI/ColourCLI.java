@@ -8,7 +8,7 @@ public class ColourCLI {
         int choice;
         System.out.println("choose the number of a colour:\n");
         for(int i=0;i<5;i++){
-            System.out.println(Disk_colour.values()[i]"["+i+"]\n");
+            System.out.println(Disk_colour.values()[i]+"["+i+"]\n");
         }
         choice=InputParser.getInt();
 

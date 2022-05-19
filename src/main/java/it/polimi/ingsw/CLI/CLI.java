@@ -51,7 +51,7 @@ public class CLI implements View {
     public void NumberOfPlayerRequest(){
         StartGame.NumberOfPlayersRequest(client);
     }
-    public WaitingMessage(){
+    public void WaitingMessage(){
         StartGame.WaitingMessage();
     }
 
