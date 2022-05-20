@@ -50,7 +50,7 @@ public class BoardCLI {
         System.out.println("table of colour:"+board.getArrEntranceStudents()[choiceStudent].getEnumColour() +" is full, please choose another student");
 
     }
-    public static void displayStudentChoosenPreviously( Board board,int choiceStudent) {
+    public static void displayStudentChosenPreviously( Board board,int choiceStudent) {
         System.out.println("Student chosen previously,please choose another student\n");
     }
     public static void displayEntranceStudents( Board board) {
