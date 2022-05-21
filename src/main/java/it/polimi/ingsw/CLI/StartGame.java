@@ -2,9 +2,11 @@ package it.polimi.ingsw.CLI;
 
 import it.polimi.ingsw.model.GameMode;
 import it.polimi.ingsw.network.client.Client;
+import it.polimi.ingsw.network.message.toServer.GameModeReply;
+import it.polimi.ingsw.network.message.toServer.NameReply;
+import it.polimi.ingsw.network.message.toServer.NumberOfPlayersReply;
 
 import java.io.IOException;
-import java.util.List;
 
 public class StartGame {
     private static final String DEFAULT_ADDRESS = "127.0.0.1";
@@ -45,8 +47,8 @@ public class StartGame {
     }
 
     public static void displayNicknameRequest(Client client, boolean retry, boolean alreadyTaken) {
-        if (client.isNicknameValid() && client.getNickname().isPresent()){
-            client.sendMessageToServer(new NicknameResponse(client.getNickname().get()));
+        if (client.isValidName() && client.getName().isPresent()){
+            client.sendMessageToServer(new NameReply(client.getName().get()));
             return;
         }
 
@@ -60,13 +62,13 @@ public class StartGame {
         String selection = InputParser.getLine();
         if (selection == null)
             return;
-        client.setNickname(selection);
-        client.sendMessageToServer(new NicknameResponse(selection));
+        client.setName(selection);
+        client.sendMessageToServer(new NameReply(selection));
     }
 
     public static void displayGameModeRequest(Client client) {
         if (client.getGameMode().isPresent()){
-            client.sendMessageToServer(new GameModeResponse(client.getGameMode().get()));
+            client.sendMessageToServer(new GameModeReply(client.getGameMode().get()));
             return;
         }
         System.out.println("\nConnection established!");
@@ -80,7 +82,7 @@ public class StartGame {
         if (gameMode == null)
             return;
         client.setGameMode(gameMode);
-        client.sendMessageToServer(new GameModeResponse(gameMode));
+        client.sendMessageToServer(new GameModeReply(gameMode));
     }
 
 
@@ -103,7 +105,7 @@ public class StartGame {
         System.out.println("Insert the number of players [2] , [3] , [4]");
         Integer choice = InputParser.getInt("Invalid number of players: please insert an integer number between 2 and 4", CLI.conditionOnIntegerRange(2, 4));
         if (choice != null)
-            client.sendMessageToServer(new NumberOfPlayersResponse(choice));
+            client.sendMessageToServer(new NumberOfPlayersReply(choice));
     }
 
     public static void WaitingMessage() {

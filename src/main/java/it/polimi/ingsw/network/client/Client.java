@@ -1,6 +1,9 @@
 package it.polimi.ingsw.network.client;
 
+import it.polimi.ingsw.model.GameMode;
 import it.polimi.ingsw.network.message.MessageType;
+import it.polimi.ingsw.network.message.toClient.MessagesToClient;
+import it.polimi.ingsw.network.message.toClient.TimeoutExpiredMessage;
 import it.polimi.ingsw.view.View;
 
 import java.io.IOException;
@@ -20,7 +23,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class Client implements Client_interface {
 
     private Optional<String> name;
-    private Optional<Boolean> expert_mode ;
+    private Optional<GameMode> expert_mode ;
     private boolean valid_name = false ;
 
     public static final int HEARTBEAT = 5000; //A ping message is sent every 5 seconds
@@ -74,7 +77,7 @@ public class Client implements Client_interface {
         });
     }
 
-    public Client(String IPaddress, int port, View view, Optional<Boolean> expert_mode, Optional<String> name){
+    public Client(String IPaddress, int port, View view, Optional<GameMode> expert_mode, Optional<String> name){
         this.expert_mode = expert_mode;
         this.name = name;
         this.valid_name = name.isPresent();
@@ -125,7 +128,7 @@ public class Client implements Client_interface {
                 return;
             }
 
-            ((MessageToClient) message).handleMessage(view);
+            ((MessagesToClient) message).handleMessage(view);
         }
     }
 
@@ -232,11 +235,11 @@ public class Client implements Client_interface {
         this.name = Optional.of(name);
     }
 
-    public void setExpert_mode(boolean expert_mode) {
+    public void setGameMode(GameMode expert_mode) {
         this.expert_mode = Optional.of(expert_mode);
     }
 
-    public boolean isValid_name() {
+    public boolean isValidName() {
         return valid_name;
     }
 
@@ -244,7 +247,7 @@ public class Client implements Client_interface {
         return name;
     }
 
-    public Optional<Boolean> getExpert_mode() {
+    public Optional<GameMode> getGameMode() {
         return expert_mode;
     }
 }
