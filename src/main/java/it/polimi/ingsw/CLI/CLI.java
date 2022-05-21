@@ -34,7 +34,7 @@ public class CLI implements View {
 
 
 
-    @Override
+
     public void displayMessage(String message) {
         System.out.println(message);
     }
@@ -80,7 +80,7 @@ public class CLI implements View {
         BoardCLI.displayStudentChosenPreviously(board,choiceStudent);
     }
     public void displayEntranceStudents(Board board){
-        BoardCLI.displayEntranceStudents();
+        BoardCLI.displayEntranceStudents(board);
     }
 
     public void displayTimeoutCloseConnection(){

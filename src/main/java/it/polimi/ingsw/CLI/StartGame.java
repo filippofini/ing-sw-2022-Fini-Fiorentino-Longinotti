@@ -39,7 +39,7 @@ public class StartGame {
             else
                 System.out.println("Invalid port number please enter an integer between 1024 and 65535");
             firstTry = false;
-            port = InputParser.getInt("Invalid port number please enter an integer between 1024 and 65535", CLI.conditionOnIntegerRange(1024, 65535));
+            port = InputParser.getInt();
         }while (!Utils.portIsValid(port));
         return new Client(IPAddress, port, cli);
     }
