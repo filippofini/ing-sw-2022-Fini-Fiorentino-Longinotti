@@ -52,4 +52,6 @@ public interface View_interface {
      */
     void displayDisconnection(String name);
 
+
+    void displayTimeoutFinished_message();
 }
