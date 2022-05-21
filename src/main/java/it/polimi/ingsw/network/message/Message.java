@@ -11,6 +11,7 @@ public abstract class Message implements Serializable {
     private static final long serialVersionUID = 6589184250663958343L;
     private final String name;
     private MessageType messageType;
+    private boolean timer;
 
     /**
      * Constructor of the class.
@@ -28,6 +29,10 @@ public abstract class Message implements Serializable {
 
     public MessageType getMessageType() {
         return messageType;
+    }
+
+    public boolean hasTimer() {
+        return timer;
     }
 
     @Override
