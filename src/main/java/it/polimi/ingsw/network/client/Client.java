@@ -1,7 +1,7 @@
 package it.polimi.ingsw.network.client;
 
 import it.polimi.ingsw.model.GameMode;
-import it.polimi.ingsw.network.message.MessageType;
+import it.polimi.ingsw.network.message.ConnectionMessage;
 import it.polimi.ingsw.network.message.toClient.MessagesToClient;
 import it.polimi.ingsw.network.message.toClient.TimeoutExpiredMessage;
 import it.polimi.ingsw.view.View;
@@ -68,7 +68,7 @@ public class Client implements Client_interface {
             while (connected.get()){
                 try {
                     Thread.sleep(HEARTBEAT);
-                    sendMessageToServer(MessageType.PING);
+                    sendMessageToServer(ConnectionMessage.PING);
                 } catch (InterruptedException e){
                     closeSocket();
                     break;
@@ -91,7 +91,7 @@ public class Client implements Client_interface {
             while (connected.get()){
                 try {
                     Thread.sleep(HEARTBEAT);
-                    sendMessageToServer(MessageType.PING);
+                    sendMessageToServer(ConnectionMessage.PING);
                 } catch (InterruptedException e){
                     closeSocket();
                     break;
@@ -143,7 +143,7 @@ public class Client implements Client_interface {
                 Object message = null;
                 message = inputStream.readObject();
 
-                if(message==MessageType.CONNECTION_CLOSED) {
+                if(message==ConnectionMessage.CONNECTION_CLOSED) {
                     closeSocket();
                 }
                 if (message instanceof TimeoutExpiredMessage){
@@ -152,7 +152,7 @@ public class Client implements Client_interface {
                     packetReceiver.interrupt();
                     ((TimeoutExpiredMessage) message).handleMessage(view);
                     return;
-                } else if (message!=null && !(message == MessageType.PING)) {
+                } else if (message!=null && !(message == ConnectionMessage.PING)) {
                     incomingPackets.add(message);
                 }
             }

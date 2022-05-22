@@ -54,4 +54,6 @@ public interface View_interface {
 
 
     void displayTimeoutFinished_message();
+
+    void displayMessage(String message);
 }
