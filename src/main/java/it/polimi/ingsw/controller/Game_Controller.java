@@ -1,7 +1,5 @@
 package it.polimi.ingsw.controller;
 
-import it.polimi.ingsw.network.message.Message;
-
 import java.io.Serializable;
 import java.util.Observable;
 
@@ -35,10 +33,7 @@ public class Game_Controller extends Observable implements Serializable {
     public void removeVirtualView(String name, boolean notifyEnabled) {
 
     }
-
-    public void onMessageReceived(Message message) {
-
-    }
+    
     /*
     public Turn_Controller getTurnController() {
 

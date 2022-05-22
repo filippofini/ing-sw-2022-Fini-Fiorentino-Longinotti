@@ -1,5 +1,8 @@
 package it.polimi.ingsw.network.message;
 
+/**
+ * This enumeration contains the basic messages for connection to server.
+ */
 public enum ConnectionMessage {
 
     PING ("Ping"),
