@@ -54,8 +54,6 @@ public class Game_Controller extends Observable implements Serializable {
    }
 
 
-
-
-
-
+    public void handleClientDisconnection(String nickname) {
+    }
 }
