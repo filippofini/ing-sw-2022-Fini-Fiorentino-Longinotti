@@ -1,6 +1,6 @@
 package it.polimi.ingsw.network.message;
 
-public enum Connection_message {
+public enum ConnectionMessage {
 
     PING ("Ping"),
     TIMER_EXPIRED ("Timer has expired"),
@@ -15,7 +15,7 @@ public enum Connection_message {
 
     String message;
 
-    Connection_message(String message){
+    ConnectionMessage(String message){
         this.message = message;
     }
 
