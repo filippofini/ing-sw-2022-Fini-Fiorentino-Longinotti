@@ -1,18 +1,19 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.network.server.Server;
 import java.io.Serializable;
-import java.util.Observable;
 
-public class Game_Controller extends Observable implements Serializable {
+
+public class Game_Controller implements Serializable {
 
     private static final long serialVersionUID = 4405183481677036856L;
-
     private String[] players;
     private int n_player;
     public static final String SERVER_NICKNAME = "server";
+    private Server server;
 
 
-    private Game_Controller(){
+    public Game_Controller(){
         this.players = new String[n_player];
     }
 
@@ -50,5 +51,9 @@ public class Game_Controller extends Observable implements Serializable {
 
 
     public void handleClientDisconnection(String nickname) {
+    }
+
+    public void setServer(Server server) {
+        this.server = server;
     }
 }

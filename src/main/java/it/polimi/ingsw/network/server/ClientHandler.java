@@ -2,7 +2,6 @@ package it.polimi.ingsw.network.server;
 
 import it.polimi.ingsw.controller.Game_Controller;
 import it.polimi.ingsw.network.message.ConnectionMessage;
-
 import it.polimi.ingsw.network.message.toClient.GameModeRequest;
 import it.polimi.ingsw.network.message.toClient.MessagesToClient;
 import it.polimi.ingsw.network.message.toClient.TextMessage;
@@ -10,13 +9,10 @@ import it.polimi.ingsw.network.message.toClient.TimeoutExpiredMessage;
 import it.polimi.ingsw.network.message.toServer.MessagesToServer;
 import it.polimi.ingsw.enumerations.ClientHandlerPhase;
 import it.polimi.ingsw.model.GameMode;
-
 import java.io.*;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
 import java.util.logging.Level;
-
-import it.polimi.ingsw.network.server.ClientHandlerInterface;
 
 public class ClientHandler implements ClientHandlerInterface, Runnable {
     public static final int HEARTBEAT = 5000;
@@ -30,6 +26,8 @@ public class ClientHandler implements ClientHandlerInterface, Runnable {
     private final Thread pinger;
     private boolean active = false;
     private boolean validNickname;
+    private int mnmovement;
+    private int pos;
 
     public boolean isGameStarted() {
         return gameStarted;
@@ -67,7 +65,7 @@ public class ClientHandler implements ClientHandlerInterface, Runnable {
     /**
      * Method used to start receiving messages in the client handler
      */
-    //TODO: capire come gestire la game phase
+    //TODO: capire come gestire la game phase tramite il controller.
     public void run(){
         try {
             outputStream = new ObjectOutputStream(socket.getOutputStream());
@@ -152,7 +150,7 @@ public class ClientHandler implements ClientHandlerInterface, Runnable {
 
     //TODO: implementare i messaggi mancanti
     private boolean checkMessage(Serializable message){
-        return !(message instanceof MatchDataMessage) && message != ConnectionMessage.PING && !(message instanceof LoadLeaderCardsMessage) && !(message instanceof LoadDevelopmentCardsMessage) && !(message instanceof TextMessage);
+        return (!(message instanceof MatchDataMessage) && message != ConnectionMessage.PING && !(message instanceof LoadLeaderCardsMessage) && !(message instanceof LoadDevelopmentCardsMessage) && !(message instanceof TextMessage));
     }
     /**
      * Method to handle client's disconnection
@@ -205,8 +203,18 @@ public class ClientHandler implements ClientHandlerInterface, Runnable {
     }
 
     @Override
+    public boolean checkMnMovThisTurn() {
+        return false;
+    }
+
+    @Override
     public ClientHandlerPhase getClientHandlerPhase(){
         return clientHandlerPhase;
+    }
+
+    @Override
+    public void setposToMove(int pos) {
+        this.pos = pos;
     }
 
 
@@ -214,6 +222,11 @@ public class ClientHandler implements ClientHandlerInterface, Runnable {
     public void setNickname(String nickname){
         this.nickname = nickname;
         server.handleNicknameChoice(this);
+    }
+
+    @Override
+    public void setMnmovement(int mnmovement) {
+        this.mnmovement = mnmovement;
     }
 
     @Override
