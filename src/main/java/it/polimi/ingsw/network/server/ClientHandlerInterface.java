@@ -10,8 +10,13 @@ public interface ClientHandlerInterface {
     void sendMessageToClient(Serializable message);
     GameMode getGameMode();
     String getNickname();
+    boolean checkMnMovThisTurn();
+
+
     ClientHandlerPhase getClientHandlerPhase();
+    void setposToMove(int pos);
     void setNickname(String nickname);
+    void setMnmovement(int mnmovement);
     void setClientHandlerPhase(ClientHandlerPhase clientHandlerPhase);
     void setGameMode(GameMode gameMode);
     void setGameStarted(boolean gameStarted);

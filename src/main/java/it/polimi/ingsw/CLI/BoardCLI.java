@@ -2,6 +2,7 @@ package it.polimi.ingsw.CLI;
 
 import it.polimi.ingsw.model.Board;
 import it.polimi.ingsw.network.client.Client;
+import it.polimi.ingsw.network.message.toServer.positionToMoveResponse;
 
 public class BoardCLI {
     public static void studentToMoveRequest(Client client, Board board) {
@@ -25,7 +26,6 @@ public class BoardCLI {
 
     public static void positionToMoveRequest(Client client, Board board, int choiceStudent) {
         boolean validChoice = true;
-        int studentsChosen = 0;
         int choicePosition;
 
 
@@ -41,7 +41,7 @@ public class BoardCLI {
                 }
 
             } while (validChoice);
-            client.sendMessageToServer(new positionToMoveResponse(choiceStudent));
+            client.sendMessageToServer(new positionToMoveResponse(choicePosition));
 
         }
     }

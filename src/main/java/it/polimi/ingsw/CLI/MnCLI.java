@@ -1,10 +1,14 @@
 package it.polimi.ingsw.CLI;
 
+import it.polimi.ingsw.model.GameMode;
 import it.polimi.ingsw.model.Game_State;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.network.client.Client;
+import it.polimi.ingsw.network.message.toServer.MessagesToServer;
+import it.polimi.ingsw.network.message.toServer.moveMnResponse;
 
 public class MnCLI {
+
 
     public static void motherNatureMovementRequest(Client client, int Mn_pos, Player Current_Player){
         System.out.println("Choose how many steps Mother Nature have to do:\n");
