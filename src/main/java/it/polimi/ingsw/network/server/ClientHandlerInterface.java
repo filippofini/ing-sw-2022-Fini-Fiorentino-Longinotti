@@ -14,7 +14,9 @@ public interface ClientHandlerInterface {
 
 
     ClientHandlerPhase getClientHandlerPhase();
+    void setstudToMove(int stud);
     void setposToMove(int pos);
+    void setcolour(int colour);
     void setNickname(String nickname);
     void setMnmovement(int mnmovement);
     void setClientHandlerPhase(ClientHandlerPhase clientHandlerPhase);
