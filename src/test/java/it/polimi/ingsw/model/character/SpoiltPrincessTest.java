@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * This class tests the class {@link SpoiltPrincess}.
  */
-class Spoilt_princessTest {
+class SpoiltPrincessTest {
     SpoiltPrincess spoilt_princess = new SpoiltPrincess(new int[]{0,0,1,0,3});
     GameState game_state = new GameState(2, new String[]{"FF", "HH"},new int[]{1,2},false,1);
 
