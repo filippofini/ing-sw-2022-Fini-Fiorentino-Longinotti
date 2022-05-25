@@ -6,10 +6,10 @@ package it.polimi.ingsw.model;
  * It also includes the flags for expert mode, the teams if the game is 4 players and the name of the players.
  * The class has the current turn.
  */
-public class Game_State {
+public class GameState {
     private int n_players;
     private Player[] players;
-    private Game_table GT;
+    private GameTable GT;
     private Turn turn;
     private int[] teams;
     private boolean chat;
@@ -26,7 +26,7 @@ public class Game_State {
      * @param wizard Array of integers containing the numbers of the wizards to be assigned to each player.
      * @param expert_mode {@code True} if expert mode is enabled, {@code False} if not.
      */
-    public Game_State(int n_players,String[] names,int wizard[], boolean expert_mode,int curr_player){
+    public GameState(int n_players, String[] names, int wizard[], boolean expert_mode, int curr_player){
         this.n_players = n_players;
         this.names = names;
         this.wizard = wizard;
@@ -36,10 +36,10 @@ public class Game_State {
 
         players = new Player[n_players];
         for(int i=0; i<n_players;i++){
-            players[i] = new Player(names[i], wizard[i], Tower_colour.values()[i], i+1);
+            players[i] = new Player(names[i], wizard[i], TowerColour.values()[i], i+1);
         }
 
-        GT = new Game_table(n_players, turn);
+        GT = new GameTable(n_players, turn);
         if(n_players == 4){
             teams = new int[4];
             chat = true;
@@ -50,7 +50,7 @@ public class Game_State {
      * This method returns the game table.
      * @return The game table.
      */
-    public Game_table getGT() {
+    public GameTable getGT() {
         return GT;
     }
 

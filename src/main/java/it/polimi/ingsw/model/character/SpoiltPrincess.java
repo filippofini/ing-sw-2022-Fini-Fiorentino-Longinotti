@@ -1,12 +1,12 @@
 package it.polimi.ingsw.model.character;
 
-import it.polimi.ingsw.model.Character_card;
-import it.polimi.ingsw.model.Game_State;
+import it.polimi.ingsw.model.CharacterCard;
+import it.polimi.ingsw.model.GameState;
 
 /**
  * This class represents the spoilt princess character card.
  */
-public class Spoilt_princess extends Character_card {
+public class SpoiltPrincess extends CharacterCard {
     private final int ID_code=11;
     private int cost=2;
     private int uses=0;
@@ -19,7 +19,7 @@ public class Spoilt_princess extends Character_card {
      * Constructor of the class.
      * @param princess_drawn The initial array containing 4 students.
      */
-    public Spoilt_princess(int[] princess_drawn){
+    public SpoiltPrincess(int[] princess_drawn){
         this.students = princess_drawn;
     }
 
@@ -31,7 +31,7 @@ public class Spoilt_princess extends Character_card {
      * @param game_state The game state.
      */
     @Override
-    public void effect(Game_State game_state){
+    public void effect(GameState game_state){
         game_state.getGT().getBoards()[current_player].setOneStudent(chosen_student);
         students[chosen_student]--;
         students[game_state.getGT().drawOne()]++;

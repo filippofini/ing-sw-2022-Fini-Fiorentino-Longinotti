@@ -20,7 +20,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 /**
  * This class manages the connection of the client with the server.
  */
-public class Client implements Client_interface {
+public class Client implements ClientInterface {
 
     private Optional<String> name;
     private Optional<GameMode> expert_mode ;

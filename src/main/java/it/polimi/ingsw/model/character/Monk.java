@@ -1,13 +1,12 @@
 package it.polimi.ingsw.model.character;
 
-import it.polimi.ingsw.model.Character_card;
-import it.polimi.ingsw.model.Game_State;
-import it.polimi.ingsw.model.Game_table;
+import it.polimi.ingsw.model.CharacterCard;
+import it.polimi.ingsw.model.GameState;
 
 /**
  * This class represents the monk character card.
  */
-public class Monk extends Character_card {
+public class Monk extends CharacterCard {
     private final int ID_code=1;
     private int cost=1;
     private int uses=0;
@@ -31,7 +30,7 @@ public class Monk extends Character_card {
      * @param game_state The game state.
      */
     @Override
-    public void effect(Game_State game_state){
+    public void effect(GameState game_state){
         game_state.getGT().getIslands().get(index_to).setOneStudent(chosen_student);
         students[chosen_student]--;
         students[game_state.getGT().drawOne()]++;

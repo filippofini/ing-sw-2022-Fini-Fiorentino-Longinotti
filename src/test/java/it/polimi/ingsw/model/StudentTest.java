@@ -11,14 +11,14 @@ class StudentTest {
 
     @Test
     public void testStudentsColor1(){
-        Student student = new Student(Disk_colour.YELLOW);
+        Student student = new Student(DiskColour.YELLOW);
 
         assertEquals(0, student.getColour());
     }
 
     @Test
     public void testStudentsTrue(){
-        Student student = new Student(Disk_colour.RED);
+        Student student = new Student(DiskColour.RED);
         student.Chosen();
 
         assertTrue(student.getIsChosen());
@@ -26,8 +26,8 @@ class StudentTest {
 
     @Test
     public void testStudentsColor2(){
-        Student student = new Student(Disk_colour.GREEN);
+        Student student = new Student(DiskColour.GREEN);
 
-        assertSame(Disk_colour.GREEN, student.getEnumColour());
+        assertSame(DiskColour.GREEN, student.getEnumColour());
     }
 }

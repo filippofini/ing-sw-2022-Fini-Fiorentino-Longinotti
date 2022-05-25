@@ -19,20 +19,20 @@ class IslandTest {
     @Test
     public void testIslandID() {
 
-        Island island = new Island(boards1,1, Tower_colour.STARTER);
+        Island island = new Island(boards1,1, TowerColour.STARTER);
         assertEquals(1,island.getIsland_ID());
 
         }
 
     @Test
     public void testBoards() {
-        Island island = new Island(boards1,1, Tower_colour.STARTER);
+        Island island = new Island(boards1,1, TowerColour.STARTER);
         assertArrayEquals(boards1,island.getBoards());
     }
 
     @Test
    void testCheck_controller() {
-    Island island = new Island(boards1, 1, Tower_colour.STARTER);
+    Island island = new Island(boards1, 1, TowerColour.STARTER);
         island.setPlayer_controller(1);
         assertEquals(1,island.getPlayer_controller());
     }
@@ -42,8 +42,8 @@ class IslandTest {
         boolean[] Arr_prof = {true,true,false,false,false};
         int[] Arr_stud = {7,2,4,5,4};
         int tower = 2;
-        Island island1 = new Island(boards1,1,Tower_colour.STARTER);
-        boards1[1] = new Board(4,1,Tower_colour.STARTER);
+        Island island1 = new Island(boards1,1, TowerColour.STARTER);
+        boards1[1] = new Board(4,1, TowerColour.STARTER);
 
         boards1[1].setArrProfessors(Arr_prof);
         island1.setArr_students(Arr_stud);
@@ -59,8 +59,8 @@ class IslandTest {
         boolean[] Arr_prof = {true,true,false,false,false};
         int[] Arr_stud = {7,2,4,5,4};
         int tower = 2;
-        Island island1 = new Island(boards1,1,Tower_colour.STARTER);
-        boards1[1] = new Board(4,1,Tower_colour.STARTER);
+        Island island1 = new Island(boards1,1, TowerColour.STARTER);
+        boards1[1] = new Board(4,1, TowerColour.STARTER);
 
 
 
@@ -79,8 +79,8 @@ class IslandTest {
         boolean[] Arr_prof = {true,true,false,false,false};
         int[] Arr_stud = {7,2,4,5,4};
         int tower = 2;
-        Island island1 = new Island(boards1,1,Tower_colour.STARTER);
-        boards1[3] = new Board(4,3,Tower_colour.STARTER);
+        Island island1 = new Island(boards1,1, TowerColour.STARTER);
+        boards1[3] = new Board(4,3, TowerColour.STARTER);
 
         boards1[3].setArrProfessors(Arr_prof);
         island1.setArr_students(Arr_stud);
@@ -98,9 +98,9 @@ class IslandTest {
         boolean[] Arr_prof = {true,true,false,false,false};
         int[] Arr_stud = {7,2,4,5,4};
         int tower = 2;
-        Island island2 = new Island(boards2,2,Tower_colour.STARTER);
-        boards2[1] = new Board(3,1,Tower_colour.STARTER);
-        boards2[2] = new Board(3,2,Tower_colour.STARTER);
+        Island island2 = new Island(boards2,2, TowerColour.STARTER);
+        boards2[1] = new Board(3,1, TowerColour.STARTER);
+        boards2[2] = new Board(3,2, TowerColour.STARTER);
 
         boards2[1].setArrProfessors(Arr_prof);
         island2.setArr_students(Arr_stud);
@@ -117,7 +117,7 @@ class IslandTest {
         boolean[] Arr_prof = {true,true,false,false,false};
         int[] Arr_stud = {7,2,4,5,4};
         int tower = 2;
-        Island island1 = new Island(boards1,1,Tower_colour.STARTER);
+        Island island1 = new Island(boards1,1, TowerColour.STARTER);
 
         island1.setProhibition_card(true);
         assertTrue(island1.calculate_influence(1,boards1));
@@ -125,15 +125,15 @@ class IslandTest {
 
     @Test
     void testMotherNatureTrue() {
-        Island island = new Island(boards1,1, Tower_colour.STARTER);
+        Island island = new Island(boards1,1, TowerColour.STARTER);
         island.setMother_nature(true);
         assertTrue(island.isMother_nature());
     }
 
     @Test
     void testAddStudents() {
-        transfer = new Student(Disk_colour.RED);
-        Island island = new Island(boards1,1,Tower_colour.STARTER);
+        transfer = new Student(DiskColour.RED);
+        Island island = new Island(boards1,1, TowerColour.STARTER);
         int[] start = {1,1,1,1,1};
         island.setArr_students(start);
         int[] ar = {1,2,1,1,1};
@@ -143,27 +143,27 @@ class IslandTest {
 
     @Test
     void testCheckController() {
-        Island island = new Island(boards1,1,Tower_colour.STARTER);
+        Island island = new Island(boards1,1, TowerColour.STARTER);
         island.setPlayer_controller(1);
         assertEquals(1,island.check_controller());
     }
 
     @Test
     void testIsProhibition_card() {
-        Island island = new Island(boards1,1,Tower_colour.STARTER);
+        Island island = new Island(boards1,1, TowerColour.STARTER);
         assertFalse(island.isProhibition_card());
     }
 
     @Test
     void testGetInfluenceController() {
-        Island island = new Island(boards1,1,Tower_colour.STARTER);
+        Island island = new Island(boards1,1, TowerColour.STARTER);
         assertEquals(0,island.getInfluence_controller());
     }
 
     @Test
     void testAddTower() {
-        Island island = new Island(boards1,1,Tower_colour.STARTER);
-        boards1[1]= new Board(2,1,Tower_colour.BLACK);
+        Island island = new Island(boards1,1, TowerColour.STARTER);
+        boards1[1]= new Board(2,1, TowerColour.BLACK);
         island.add_tower(1);
         assertEquals(2,island.getTower());
 
@@ -171,7 +171,7 @@ class IslandTest {
 
     @Test
     void testIncrementPos() {
-        Island island = new Island(boards1,1,Tower_colour.STARTER);
+        Island island = new Island(boards1,1, TowerColour.STARTER);
         int[] Arr_stud = {7,2,4,5,4};
         island.setArr_students(Arr_stud);
         island.incrementPos(0);

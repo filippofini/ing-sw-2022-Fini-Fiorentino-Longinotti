@@ -7,7 +7,7 @@ package it.polimi.ingsw.model;
  * its cost is increased by 1.
  * Each card has a unique ID code from 1 to 12.
  */
-public abstract class Character_card {
+public abstract class CharacterCard {
      int ID_code;
      int cost;
      int uses = 0;
@@ -19,7 +19,7 @@ public abstract class Character_card {
       * This method is overwritten by all the cards.
       * @param game_state The game state.
       */
-     public void effect(Game_State game_state){}
+     public void effect(GameState game_state){}
 
      /**
       * This method is used when a card has been used.

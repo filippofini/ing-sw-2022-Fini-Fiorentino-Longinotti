@@ -1,6 +1,6 @@
 package it.polimi.ingsw.network.message.toClient;
 
-import it.polimi.ingsw.view.View_interface;
+import it.polimi.ingsw.view.ViewInterface;
 
 import java.io.Serializable;
 
@@ -14,7 +14,7 @@ public abstract class MessagesToClient implements Serializable {
         this.timer = timer;
     }
 
-    public abstract void handleMessage(View_interface view);
+    public abstract void handleMessage(ViewInterface view);
 
     public boolean hasTimer(){
         return timer;

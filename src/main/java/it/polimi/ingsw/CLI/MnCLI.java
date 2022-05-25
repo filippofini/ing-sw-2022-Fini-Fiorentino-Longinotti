@@ -1,10 +1,7 @@
 package it.polimi.ingsw.CLI;
 
-import it.polimi.ingsw.model.GameMode;
-import it.polimi.ingsw.model.Game_State;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.network.client.Client;
-import it.polimi.ingsw.network.message.toServer.MessagesToServer;
 import it.polimi.ingsw.network.message.toServer.moveMnResponse;
 
 public class MnCLI {

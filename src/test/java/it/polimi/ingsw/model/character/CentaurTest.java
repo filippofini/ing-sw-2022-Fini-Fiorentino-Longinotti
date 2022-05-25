@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model.character;
 
-import it.polimi.ingsw.model.Game_State;
+import it.polimi.ingsw.model.GameState;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class CentaurTest {
 
     Centaur centaur = new Centaur();
-    Game_State game_state = new Game_State(2, new String[]{"FF", "HH"},new int[]{1,2},false, 1);
+    GameState game_state = new GameState(2, new String[]{"FF", "HH"},new int[]{1,2},false, 1);
 
     @Test
     public void testSetUses1(){

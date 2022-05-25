@@ -6,9 +6,9 @@ import java.util.Scanner;
 
 /**
  * This class represents the board.
- * Each student has his personal board containing an array of int representing the students (see more at: {@link it.polimi.ingsw.model.Disk_colour}.
+ * Each student has his personal board containing an array of int representing the students (see more at: {@link DiskColour}.
  * The class includes the methods to move the students into and out of the board.
- * Each board has towers with different colours (see more at: {@link it.polimi.ingsw.model.Tower_colour}).
+ * Each board has towers with different colours (see more at: {@link TowerColour}).
  * The towers in the board are 8 if the game has 2 or 4 players, 7 if the game has 3 players.
  */
 public class Board {
@@ -28,7 +28,7 @@ public class Board {
      * @param playerID The player ID assigned to the board. It's an indirect reference to the player.
      * @param tower The tower colour assigned to the player and to the board.
      */
-    public Board(int numOfPlayers, int playerID, Tower_colour tower){
+    public Board(int numOfPlayers, int playerID, TowerColour tower){
         this.board_player = playerID;
         this.tower = tower.getTower_translate();
         arrPositionStudents = new int[5];
@@ -63,10 +63,10 @@ public class Board {
         }
     }
 
-    public void add_prof(Disk_colour profColour){
+    public void add_prof(DiskColour profColour){
         arrProfessors[profColour.getTranslateColour()]=true;
     }
-    public void add_student(Disk_colour studentColour){
+    public void add_student(DiskColour studentColour){
         arrPositionStudents[studentColour.getTranslateColour()]++;
 
     }
@@ -75,7 +75,7 @@ public class Board {
      * This method moves students to the islands.
      * @return The list of students sent to an island.
      */
-    public List<Student> moveEntranceStudents(Game_State GS){
+    public List<Student> moveEntranceStudents(GameState GS){
         int choiceStudent;
         int choicePosition;
         int studentsChosen=0;
@@ -347,21 +347,21 @@ public class Board {
      * This method convert a position in the respective color
      * @param color The index of the array that rapresent a color
      */
-    public Disk_colour inverse_color(int color){
+    public DiskColour inverse_color(int color){
         if(color==0){
-            return Disk_colour.YELLOW;
+            return DiskColour.YELLOW;
         }
         else if(color==1){
-            return Disk_colour.RED;
+            return DiskColour.RED;
         }
         else if(color==2){
-            return Disk_colour.PINK;
+            return DiskColour.PINK;
         }
         else if(color==3){
-            return Disk_colour.BLUE;
+            return DiskColour.BLUE;
         }
         else{
-            return Disk_colour.GREEN;
+            return DiskColour.GREEN;
         }
     }
 

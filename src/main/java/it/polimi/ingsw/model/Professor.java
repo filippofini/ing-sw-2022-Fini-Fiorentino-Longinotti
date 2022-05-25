@@ -2,22 +2,22 @@ package it.polimi.ingsw.model;
 
 /**
  * This class represent the professors.
- * There is one professor for each colour. See more at: {@link it.polimi.ingsw.model.Disk_colour}.
+ * There is one professor for each colour. See more at: {@link DiskColour}.
  */
 public class Professor {
-    private final Disk_colour colour_prof;
+    private final DiskColour colour_prof;
 
     /**
      * Constructor of the class.
      * @param colour_prof The colour of the professor.
      */
-    public Professor(Disk_colour colour_prof) {
+    public Professor(DiskColour colour_prof) {
         this.colour_prof = colour_prof;
     }
 
     /**
      * This method returns the colour of the professor.
-     * @return The int representing the colour of the professor. See more at: {@link it.polimi.ingsw.model.Disk_colour}.
+     * @return The int representing the colour of the professor. See more at: {@link DiskColour}.
      */
     public int getColour_prof() {
         return colour_prof.getTranslateColour();

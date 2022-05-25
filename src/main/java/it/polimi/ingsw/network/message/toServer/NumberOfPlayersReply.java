@@ -3,7 +3,7 @@ package it.polimi.ingsw.network.message.toServer;
 import it.polimi.ingsw.enumerations.ClientHandlerPhase;
 import it.polimi.ingsw.network.message.toClient.WaitingInTheLobbyMessage;
 import it.polimi.ingsw.network.server.ClientHandlerInterface;
-import it.polimi.ingsw.network.server.Server_interface;
+import it.polimi.ingsw.network.server.ServerInterface;
 
 /**
  * Class to communicate the number of players desired.
@@ -16,7 +16,7 @@ public class NumberOfPlayersReply implements MessagesToServer{
     }
 
     @Override
-    public void handleMessage(Server_interface server, ClientHandlerInterface clientHandler) {
+    public void handleMessage(ServerInterface server, ClientHandlerInterface clientHandler) {
         if (clientHandler.getClientHandlerPhase() == ClientHandlerPhase.WAITING_NUMBER_OF_PLAYERS) {
             clientHandler.sendMessageToClient(new WaitingInTheLobbyMessage());
             clientHandler.setClientHandlerPhase(ClientHandlerPhase.WAITING_IN_THE_LOBBY);

@@ -1,6 +1,6 @@
 package it.polimi.ingsw.network.server;
 
-import it.polimi.ingsw.controller.Game_Controller;
+import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.network.message.ConnectionMessage;
 import it.polimi.ingsw.network.message.toClient.GameModeRequest;
 import it.polimi.ingsw.network.message.toClient.MessagesToClient;
@@ -22,7 +22,7 @@ public class ClientHandler implements ClientHandlerInterface, Runnable {
     private ObjectInputStream inputStream;
     private Server server;
     private Thread timer;
-    private Game_Controller controller;
+    private GameController controller;
     private final Thread pinger;
     private boolean active = false;
     private boolean validNickname;
@@ -248,7 +248,7 @@ public class ClientHandler implements ClientHandlerInterface, Runnable {
         server.setNumberOfPlayersForNextGame(this, numberOfPlayersForNextGame);
     }
 
-  public void setController(Game_Controller controller){
+  public void setController(GameController controller){
       this.controller = controller;
     }
 

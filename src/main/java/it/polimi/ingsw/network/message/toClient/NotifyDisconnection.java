@@ -1,6 +1,6 @@
 package it.polimi.ingsw.network.message.toClient;
 
-import it.polimi.ingsw.view.View_interface;
+import it.polimi.ingsw.view.ViewInterface;
 
 /**
  * Message to notify the disconnection of a player.
@@ -15,7 +15,7 @@ public class NotifyDisconnection extends MessagesToClient{
     }
 
     @Override
-    public void handleMessage(View_interface view) {
+    public void handleMessage(ViewInterface view) {
         view.displayDisconnection(name);
     }
 

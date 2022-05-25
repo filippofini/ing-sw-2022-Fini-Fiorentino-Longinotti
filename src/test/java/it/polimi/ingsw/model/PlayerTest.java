@@ -2,15 +2,13 @@ package it.polimi.ingsw.model;
 
 import org.junit.jupiter.api.Test;
 
-import java.net.PortUnreachableException;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * This class tests the class {@link it.polimi.ingsw.model.Player}.
  */
 class PlayerTest {
-    Player player = new Player("ff",1, Tower_colour.GREY,1);
+    Player player = new Player("ff",1, TowerColour.GREY,1);
 
     @Test
     public void testGetDeck(){

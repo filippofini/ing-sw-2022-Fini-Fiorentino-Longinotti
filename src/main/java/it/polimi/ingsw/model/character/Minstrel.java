@@ -1,9 +1,9 @@
 package it.polimi.ingsw.model.character;
 
 import it.polimi.ingsw.CLI.InputParser;
-import it.polimi.ingsw.model.Character_card;
-import it.polimi.ingsw.model.Disk_colour;
-import it.polimi.ingsw.model.Game_State;
+import it.polimi.ingsw.model.CharacterCard;
+import it.polimi.ingsw.model.DiskColour;
+import it.polimi.ingsw.model.GameState;
 import it.polimi.ingsw.model.Student;
 
 import java.util.Scanner;
@@ -11,12 +11,12 @@ import java.util.Scanner;
 /**
  * Minstrel character card
  */
-public class Minstrel extends Character_card {
+public class Minstrel extends CharacterCard {
     private final int ID_code=10;
     private int cost=1;
     private int uses=0;
     @Override
-    public void effect(Game_State game_state){
+    public void effect(GameState game_state){
         int numOfMoving;
         int studColour;
         int entrchange;
@@ -43,21 +43,21 @@ public class Minstrel extends Character_card {
      * This method convert a position in the respective color
      * @param color The index of the array that rapresent a color
      */
-    public Disk_colour inverse_color(int color){
+    public DiskColour inverse_color(int color){
         if(color==0){
-            return Disk_colour.YELLOW;
+            return DiskColour.YELLOW;
         }
         else if(color==1){
-            return Disk_colour.RED;
+            return DiskColour.RED;
         }
         else if(color==2){
-            return Disk_colour.PINK;
+            return DiskColour.PINK;
         }
         else if(color==3){
-            return Disk_colour.BLUE;
+            return DiskColour.BLUE;
         }
         else{
-            return Disk_colour.GREEN;
+            return DiskColour.GREEN;
         }
     }
 

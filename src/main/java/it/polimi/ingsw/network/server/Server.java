@@ -1,7 +1,7 @@
 package it.polimi.ingsw.network.server;
 
 
-import it.polimi.ingsw.controller.Game_Controller;
+import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.enumerations.ClientHandlerPhase;
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -23,7 +23,7 @@ import it.polimi.ingsw.network.message.toClient.WaitingInTheLobbyMessage;
 /**
  * Server class that starts a socket server.
  */
-public class Server implements Server_interface {
+public class Server implements ServerInterface {
 
     private int port;
     //Thread pool which contains a thread for each client connected to the server
@@ -174,7 +174,7 @@ public class Server implements Server_interface {
     private void startNewGame() {
         if (lobby.size() < numOfPlayersForNextGame)
             return;
-        Game_Controller controller = new Game_Controller();
+        GameController controller = new GameController();
 
         controller.setServer(this);
         lockLobby.lock();
@@ -217,7 +217,7 @@ public class Server implements Server_interface {
 
     }
 
-    public void removeGame(Game_Controller controller) {
+    public void removeGame(GameController controller) {
         activeGames.remove(controller);
     }
 

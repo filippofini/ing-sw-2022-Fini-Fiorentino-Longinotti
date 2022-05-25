@@ -1,7 +1,6 @@
 package it.polimi.ingsw.model.character;
 
-import it.polimi.ingsw.model.Character_card;
-import it.polimi.ingsw.model.Game_State;
+import it.polimi.ingsw.model.GameState;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -9,11 +8,11 @@ import static org.junit.jupiter.api.Assertions.*;
 //100% COVERAGE
 
 /**
- * This class tests the class {@link it.polimi.ingsw.model.character.Herbs_grandma}.
+ * This class tests the class {@link HerbsGrandma}.
  */
 class Herbs_grandmaTest {
-    Herbs_grandma grandma = new Herbs_grandma();
-    Game_State game_state = new Game_State(2, new String[]{"FF", "HH"},new int[]{1,2},false,1);
+    HerbsGrandma grandma = new HerbsGrandma();
+    GameState game_state = new GameState(2, new String[]{"FF", "HH"},new int[]{1,2},false,1);
 
     @Test
     public void testSetUses1(){

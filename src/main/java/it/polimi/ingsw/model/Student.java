@@ -2,11 +2,11 @@ package it.polimi.ingsw.model;
 
 /**
  * This class represent the students.
- * Each student has a colour. See more at: {@link it.polimi.ingsw.model.Disk_colour}.
+ * Each student has a colour. See more at: {@link DiskColour}.
  */
 public class Student {
     //When extracted from the bag the position of the array in the bag becomes the colour of the student
-    private Disk_colour colour;
+    private DiskColour colour;
     //To know in entrance if the student is chosen or not
     private boolean isChosen;
 
@@ -14,14 +14,14 @@ public class Student {
      * Constructor of the class.
      * @param colour The colour of the student.
      */
-    public Student(Disk_colour colour){
+    public Student(DiskColour colour){
         this.colour =colour;
         isChosen=false;
     }
 
     /**
      * This method returns the colour of the student.
-     * @return The int representing the colour of the student. See more at: {@link it.polimi.ingsw.model.Disk_colour}.
+     * @return The int representing the colour of the student. See more at: {@link DiskColour}.
      */
     public int getColour(){
         return colour.getTranslateColour();
@@ -46,7 +46,7 @@ public class Student {
      * This method returns the colour of the student.
      * @return The colour of the student.
      */
-    public Disk_colour getEnumColour(){
+    public DiskColour getEnumColour(){
         return colour;
     }
 }

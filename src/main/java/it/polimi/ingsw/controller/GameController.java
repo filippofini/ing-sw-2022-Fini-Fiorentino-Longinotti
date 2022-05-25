@@ -4,7 +4,7 @@ import it.polimi.ingsw.network.server.Server;
 import java.io.Serializable;
 
 
-public class Game_Controller implements Serializable {
+public class GameController implements Serializable {
 
     private static final long serialVersionUID = 4405183481677036856L;
     private String[] players;
@@ -13,7 +13,7 @@ public class Game_Controller implements Serializable {
     private Server server;
 
 
-    public Game_Controller(){
+    public GameController(){
         this.players = new String[n_player];
     }
 

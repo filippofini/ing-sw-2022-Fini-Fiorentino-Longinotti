@@ -3,7 +3,7 @@ package it.polimi.ingsw.network.message.toServer;
 import it.polimi.ingsw.enumerations.ClientHandlerPhase;
 import it.polimi.ingsw.network.message.toClient.NameRequest;
 import it.polimi.ingsw.network.server.ClientHandlerInterface;
-import it.polimi.ingsw.network.server.Server_interface;
+import it.polimi.ingsw.network.server.ServerInterface;
 
 import java.util.regex.Pattern;
 
@@ -25,7 +25,7 @@ public class NameReply implements MessagesToServer{
     }
 
     @Override
-    public void handleMessage(Server_interface server, ClientHandlerInterface clientHandler) {
+    public void handleMessage(ServerInterface server, ClientHandlerInterface clientHandler) {
         if (name == null || clientHandler.getClientHandlerPhase() != ClientHandlerPhase.WAITING_NICKNAME){
             return;
         } else if (!NAME_PATTERN.matcher(name).matches()) {

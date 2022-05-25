@@ -1,6 +1,6 @@
 package it.polimi.ingsw.network.message.toClient;
 
-import it.polimi.ingsw.view.View_interface;
+import it.polimi.ingsw.view.ViewInterface;
 
 import java.util.List;
 
@@ -19,7 +19,7 @@ public class SendPlayersNamesMessage extends MessagesToClient{
     }
 
     @Override
-    public void handleMessage(View_interface view) {
+    public void handleMessage(ViewInterface view) {
         view.setNicknames(player_name, other_names);
         other_names.add(player_name);
         view.displayPlayersReadyToStartMessage(other_names);

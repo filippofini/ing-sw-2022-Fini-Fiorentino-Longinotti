@@ -1,6 +1,6 @@
 package it.polimi.ingsw.CLI;
 
-import it.polimi.ingsw.model.Disk_colour;
+import it.polimi.ingsw.model.DiskColour;
 import it.polimi.ingsw.model.Island;
 import it.polimi.ingsw.model.Student;
 import it.polimi.ingsw.network.client.Client;
@@ -12,7 +12,7 @@ public class IslandCLI {
 
         System.out.println("Island["+islandID+":]\n");
         for (int k=0;k<5; k++){
-            System.out.println(Disk_colour.values()[k] +": "+island.getArr_students()[k]+"\n");
+            System.out.println(DiskColour.values()[k] +": "+island.getArr_students()[k]+"\n");
         }
 
         System.out.println("Influence: "+island.getInfluence_controller()+"\n");

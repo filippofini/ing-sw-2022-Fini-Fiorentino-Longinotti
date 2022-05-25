@@ -9,29 +9,29 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 class BoardTest {
     //Game with two players
-    Board board = new Board(2, 1, Tower_colour.STARTER);
+    Board board = new Board(2, 1, TowerColour.STARTER);
     //Game with three players
-    Board board3 = new Board(3,1,Tower_colour.STARTER);
+    Board board3 = new Board(3,1, TowerColour.STARTER);
     //Game with four players
-    Board board4 = new Board(4,1,Tower_colour.STARTER);
+    Board board4 = new Board(4,1, TowerColour.STARTER);
 
     private Student[] array = new Student[2];
 
     @Test
     void testAdd_profTrue() {
         boolean[] arrProfessors = board.getArrProfessors();
-        Disk_colour color = Disk_colour.RED;
+        DiskColour color = DiskColour.RED;
         board.add_prof(color);
-        assertTrue(arrProfessors[Disk_colour.RED.getTranslateColour()]);
+        assertTrue(arrProfessors[DiskColour.RED.getTranslateColour()]);
     }
 
     @Test
     void testAdd_studentTrue() {
         int[] arrPositionStudents = board.getArrPositionStudents();
-        Disk_colour color = Disk_colour.RED;
-        arrPositionStudents[Disk_colour.RED.getTranslateColour()] = 2;
+        DiskColour color = DiskColour.RED;
+        arrPositionStudents[DiskColour.RED.getTranslateColour()] = 2;
         board.add_student(color);
-        assertEquals(3, arrPositionStudents[Disk_colour.RED.getTranslateColour()]);
+        assertEquals(3, arrPositionStudents[DiskColour.RED.getTranslateColour()]);
     }
 
     @Test
@@ -67,8 +67,8 @@ class BoardTest {
     }
     @Test
     void testArrEntranceStudents() {
-        array[0] = new Student(Disk_colour.RED);
-        array[1] = new Student(Disk_colour.BLUE);
+        array[0] = new Student(DiskColour.RED);
+        array[1] = new Student(DiskColour.BLUE);
         board.setArrEntranceStudents(array);
         assertArrayEquals(array,board.getArrEntranceStudents());
     }

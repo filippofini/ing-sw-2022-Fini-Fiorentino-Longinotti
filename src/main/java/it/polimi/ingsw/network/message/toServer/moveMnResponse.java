@@ -1,10 +1,8 @@
 package it.polimi.ingsw.network.message.toServer;
 
 import it.polimi.ingsw.enumerations.ClientHandlerPhase;
-import it.polimi.ingsw.model.GameMode;
-import it.polimi.ingsw.network.message.toClient.NameRequest;
 import it.polimi.ingsw.network.server.ClientHandlerInterface;
-import it.polimi.ingsw.network.server.Server_interface;
+import it.polimi.ingsw.network.server.ServerInterface;
 
 public class moveMnResponse implements MessagesToServer{
     private final int Mnmovement;
@@ -14,7 +12,7 @@ public class moveMnResponse implements MessagesToServer{
     }
 
     @Override
-    public void handleMessage(Server_interface server, ClientHandlerInterface clientHandler) {
+    public void handleMessage(ServerInterface server, ClientHandlerInterface clientHandler) {
         /*
         if(!clientHandler.checkMnMovThisTurn()){
             clientHandler.sendMessageToClient(new MnmovementRequest());

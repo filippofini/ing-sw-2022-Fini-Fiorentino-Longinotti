@@ -1,7 +1,7 @@
 package it.polimi.ingsw.network.message.toClient;
 
 
-import it.polimi.ingsw.view.View_interface;
+import it.polimi.ingsw.view.ViewInterface;
 
 /**
  * Message to ask the game mode.
@@ -13,7 +13,7 @@ public class GameModeRequest extends MessagesToClient{
     }
 
     @Override
-    public void handleMessage(View_interface view) {
+    public void handleMessage(ViewInterface view) {
         view.displayGameModeRequest();
     }
 

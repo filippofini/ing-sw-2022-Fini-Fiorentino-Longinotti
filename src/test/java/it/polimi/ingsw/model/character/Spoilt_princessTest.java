@@ -1,16 +1,16 @@
 package it.polimi.ingsw.model.character;
 
-import it.polimi.ingsw.model.Game_State;
+import it.polimi.ingsw.model.GameState;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * This class tests the class {@link it.polimi.ingsw.model.character.Spoilt_princess}.
+ * This class tests the class {@link SpoiltPrincess}.
  */
 class Spoilt_princessTest {
-    Spoilt_princess spoilt_princess = new Spoilt_princess(new int[]{0,0,1,0,3});
-    Game_State game_state = new Game_State(2, new String[]{"FF", "HH"},new int[]{1,2},false,1);
+    SpoiltPrincess spoilt_princess = new SpoiltPrincess(new int[]{0,0,1,0,3});
+    GameState game_state = new GameState(2, new String[]{"FF", "HH"},new int[]{1,2},false,1);
 
     @Test
     public void testSetUses1(){

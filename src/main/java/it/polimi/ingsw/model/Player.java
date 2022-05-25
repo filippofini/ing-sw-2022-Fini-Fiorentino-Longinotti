@@ -1,7 +1,5 @@
 package it.polimi.ingsw.model;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 /**
@@ -16,7 +14,7 @@ public class Player {
     private final int wizard;
     private int coin;
     private final int player_ID;
-    private Assistance_card chosen_card; //chosen card to play during the turn
+    private AssistanceCard chosen_card; //chosen card to play during the turn
     private int moves;
     private final Deck deck;
 
@@ -25,10 +23,10 @@ public class Player {
      * Constructor of the class
      * @param name The string containing the name of the player.
      * @param wizard The number of wizard assigned to the player (from 1 to 3).
-     * @param tower_colour The colour of the tower assigned to the player. It gets translated to a number from 0 to 2 based on the colour. More info here: {@link it.polimi.ingsw.model.Assistance_card}.
+     * @param tower_colour The colour of the tower assigned to the player. It gets translated to a number from 0 to 2 based on the colour. More info here: {@link AssistanceCard}.
      * @param player_ID Player ID assigned to the player (from 1 to 4).
      */
-    public Player(String name, int wizard, Tower_colour tower_colour, int player_ID) {
+    public Player(String name, int wizard, TowerColour tower_colour, int player_ID) {
         this.coin = 1;
         this.name = name;
         this.wizard = wizard;
@@ -89,7 +87,7 @@ public class Player {
      * This method returns the chosen assistance card to be played.
      * @return The chosen assistance card to be played.
      */
-    public Assistance_card getChosen_card() {
+    public AssistanceCard getChosen_card() {
         return chosen_card;
     }
 
@@ -97,7 +95,7 @@ public class Player {
      * This method sets the chosen assistance card to be played.
      * @param chosen_card The chosen assistance card to be played.
      */
-    public void setChosen_card(Assistance_card chosen_card) {
+    public void setChosen_card(AssistanceCard chosen_card) {
         this.chosen_card = chosen_card;
     }
 

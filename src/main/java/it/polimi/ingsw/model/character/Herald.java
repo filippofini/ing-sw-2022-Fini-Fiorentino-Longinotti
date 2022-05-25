@@ -1,12 +1,12 @@
 package it.polimi.ingsw.model.character;
 
-import it.polimi.ingsw.model.Character_card;
-import it.polimi.ingsw.model.Game_State;
+import it.polimi.ingsw.model.CharacterCard;
+import it.polimi.ingsw.model.GameState;
 
 /**
  * This class represents the herald character card.
  */
-public class Herald extends Character_card {
+public class Herald extends CharacterCard {
     private final int ID_code=3;
     private int cost=3;
     private int uses=0;
@@ -19,7 +19,7 @@ public class Herald extends Character_card {
      * @param game_state The game state.
      */
     @Override
-    public void effect(Game_State game_state){
+    public void effect(GameState game_state){
         game_state.getGT().getIslands().get(index_to).calculate_influence(0, game_state.getGT().getBoards());
         setUses();
     }

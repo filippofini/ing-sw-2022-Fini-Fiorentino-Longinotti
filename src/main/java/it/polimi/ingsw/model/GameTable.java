@@ -10,7 +10,7 @@ import java.util.*;
  * The class includes methods to move mother nature in the islands and the merge of island if possible.
  * The discard deck of assistance cards is store here and the three character cards are drawn in the beginning.
  */
-public class Game_table {
+public class GameTable {
     private final int num_players;
     private int player_ID;
     private int current_player;
@@ -22,9 +22,9 @@ public class Game_table {
     private List<Cloud> tempclouds;
     private int mother_nature_pos;
     private int[] bag;
-    private Character_card[] arr_character;
+    private CharacterCard[] arr_character;
     private Turn turn;
-    private Assistance_card[] discard_deck;
+    private AssistanceCard[] discard_deck;
     private int general_reservoir;
 
     /**
@@ -32,7 +32,7 @@ public class Game_table {
      * @param num_players The number of players in the game. There can be 2,3 or 4 players.
      * @param turn The first turn of the game.
      */
-    public Game_table(int num_players, Turn turn){
+    public GameTable(int num_players, Turn turn){
         this.num_players = num_players;
         this.turn = turn;
         this.current_player = turn.getCurrent_player();
@@ -45,12 +45,12 @@ public class Game_table {
 
         boards = new Board[num_players];
         for(int i=0;i<num_players;i++) {
-            boards[i] = new Board(num_players,i+1, Tower_colour.values()[i]);
+            boards[i] = new Board(num_players,i+1, TowerColour.values()[i]);
         }
 
         islands = new LinkedList<Island>();
         for(int i=0;i<12;i++){
-            islands.add(new Island( boards, i+1, Tower_colour.STARTER));
+            islands.add(new Island( boards, i+1, TowerColour.STARTER));
         }
 
         setMother_nature_start();
@@ -61,12 +61,12 @@ public class Game_table {
         }
         cloud_start();
 
-        discard_deck = new Assistance_card[num_players];
+        discard_deck = new AssistanceCard[num_players];
         for (int i = 0; i < num_players; i++) {
-            discard_deck[i] = Assistance_card.STARTER;
+            discard_deck[i] = AssistanceCard.STARTER;
         }
 
-        arr_character = new Character_card[3];
+        arr_character = new CharacterCard[3];
         draw_three_charCards();
     }
 
@@ -77,7 +77,7 @@ public class Game_table {
      * @param chosen The assistance card chosen to be played.
      * @return {@code False} if card is already played, {@code True} otherwise.
      */
-    public boolean check_if_playable(Assistance_card chosen){
+    public boolean check_if_playable(AssistanceCard chosen){
         boolean playable_card = true;
         for (int i = 0; i < num_players && playable_card; i++) {
             if(discard_deck[i].equals(chosen)){
@@ -93,7 +93,7 @@ public class Game_table {
      * @param player The current player that is going to choose the assistance card.
      */
     public void choose_assistant(Player player){
-        Assistance_card choice;
+        AssistanceCard choice;
         int ass_chosen;
         boolean flag=true;
         Scanner sc= new Scanner(System.in);
@@ -364,7 +364,7 @@ public class Game_table {
             System.out.println("Cloud["+i+"]:\n");
             for(int j=0;j<5;j++){
 
-                System.out.println(Disk_colour.values()[j]+":"+tempclouds.get(i).getArr_students()[j]+"\n");
+                System.out.println(DiskColour.values()[j]+":"+tempclouds.get(i).getArr_students()[j]+"\n");
             }
         }
         choice= sc.nextInt();
@@ -418,19 +418,19 @@ public class Game_table {
             jester_drawn[draw_stud]++;
         }
 
-        List<Character_card> char_deck;
-        char_deck = new ArrayList<Character_card>(Arrays.asList(
+        List<CharacterCard> char_deck;
+        char_deck = new ArrayList<CharacterCard>(Arrays.asList(
                 new Monk(monk_drawn),
                 new Farmer(),
                 new Herald(),
-                new Magic_mailman(),
-                new Herbs_grandma(),
+                new MagicMailman(),
+                new HerbsGrandma(),
                 new Centaur(),
                 new Jester(jester_drawn),
                 new Knight(),
-                new Mushroom_collector(),
+                new MushroomCollector(),
                 new Minstrel(),
-                new Spoilt_princess(princess_drawn),
+                new SpoiltPrincess(princess_drawn),
                 new Thief()));
 
         drawn[0] = rand.nextInt(12);
@@ -620,7 +620,7 @@ public class Game_table {
      * This method returns the array of characters.
      * @return The array of characters.
      */
-    public Character_card[] getArr_character() {
+    public CharacterCard[] getArr_character() {
         return arr_character;
     }
 
@@ -637,7 +637,7 @@ public class Game_table {
      * This method returns the discard deck.
      * @return The discard deck.
      */
-    public Assistance_card[] getDiscard_deck() {
+    public AssistanceCard[] getDiscard_deck() {
         return discard_deck;
     }
 

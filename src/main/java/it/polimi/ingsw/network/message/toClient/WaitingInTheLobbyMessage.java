@@ -1,6 +1,6 @@
 package it.polimi.ingsw.network.message.toClient;
 
-import it.polimi.ingsw.view.View_interface;
+import it.polimi.ingsw.view.ViewInterface;
 
 /**
  * Message to notify that the player is waiting to start the game.
@@ -12,7 +12,7 @@ public class WaitingInTheLobbyMessage extends MessagesToClient{
     }
 
     @Override
-    public void handleMessage(View_interface view) {
+    public void handleMessage(ViewInterface view) {
         view.displayWaitingInTheLobbyMessage();
     }
 

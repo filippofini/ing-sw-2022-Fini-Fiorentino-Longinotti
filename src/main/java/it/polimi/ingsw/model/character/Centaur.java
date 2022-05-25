@@ -1,13 +1,12 @@
 package it.polimi.ingsw.model.character;
 
-import it.polimi.ingsw.model.Character_card;
-import it.polimi.ingsw.model.Game_State;
-import it.polimi.ingsw.model.Island;
+import it.polimi.ingsw.model.CharacterCard;
+import it.polimi.ingsw.model.GameState;
 
 /**
  * This class represents the centaur character card.
  */
-public class Centaur extends Character_card {
+public class Centaur extends CharacterCard {
     private final int ID_code=6;
     private int cost=3;
     private int uses=0;
@@ -18,7 +17,7 @@ public class Centaur extends Character_card {
      * @param GS The game state.
      */
     @Override
-    public void effect(Game_State GS){
+    public void effect(GameState GS){
         GS.getGT().getIslands().get(GS.getGT().getMother_nature_pos()).setInclude_towers(false);
 
         setUses();

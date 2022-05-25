@@ -4,7 +4,7 @@ package it.polimi.ingsw.model;
  * This enumeration contains all the assistance cards numbered from 1 to 10.
  * The card 0 is just used to set the discard deck at the start of the game.
  */
-public enum Assistance_card{
+public enum AssistanceCard {
     STARTER(0,0), TORTOISE(1,1), ELEPHANT(2,1),
     BULLDOG(3,2),OCTOPUS(4,2),
     LIZARD(5,3), FOX(6,3),
@@ -19,7 +19,7 @@ public enum Assistance_card{
      * @param value The value of the card (from 1 to 10).
      * @param mother_nature_movement The max movement of mother nature that player can do when the card is played (from 1 tp 5).
      */
-    Assistance_card(int value, int mother_nature_movement) {
+    AssistanceCard(int value, int mother_nature_movement) {
         this.value = value;
         this.mother_nature_movement = mother_nature_movement;
     }

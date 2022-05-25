@@ -1,17 +1,17 @@
 package it.polimi.ingsw.model.character;
 
-import it.polimi.ingsw.model.Character_card;
-import it.polimi.ingsw.model.Game_State;
+import it.polimi.ingsw.model.CharacterCard;
+import it.polimi.ingsw.model.GameState;
 
 /**
  * Farmer character card
  */
-public class Farmer extends Character_card {
+public class Farmer extends CharacterCard {
     private final int ID_code=2;
     private int cost=2;
     private int uses=0;
 //TODO: ask to the other, not convinced so much
-    public void effect(Game_State game_state){
+    public void effect(GameState game_state){
 
         game_state.getGT().getBoards()[game_state.getCurr_player()].setFarmer_state(true);
         setUses();

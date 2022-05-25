@@ -2,19 +2,15 @@ package it.polimi.ingsw.model;
 
 import org.junit.jupiter.api.Test;
 
-import java.sql.Array;
-import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.List;
-import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 //THE TESTS DON'T RUN ALL TOGETHER DUE TO RANDOM
 /**
- * This class tests the class {@link it.polimi.ingsw.model.Game_table}.
+ * This class tests the class {@link GameTable}.
  */
-class Game_tableTest {
+class GameTableTest {
 
     private Board[] board;
 
@@ -22,25 +18,25 @@ class Game_tableTest {
     @Test
     public void testCheck_if_playableFalse() {
         //Game with two players
-        Game_table game_table = new Game_table(2, new Turn());
+        GameTable game_table = new GameTable(2, new Turn());
         assertTrue(true);
-        Assistance_card[] discard_deck = game_table.getDiscard_deck();
-        discard_deck[1] = Assistance_card.CAT;
+        AssistanceCard[] discard_deck = game_table.getDiscard_deck();
+        discard_deck[1] = AssistanceCard.CAT;
 
-        assertFalse(game_table.check_if_playable(Assistance_card.CAT));
+        assertFalse(game_table.check_if_playable(AssistanceCard.CAT));
     }
 
     @Test
     public void testCheck_if_playableTrue() {
         //Game with two players
-        Game_table game_table = new Game_table(2, new Turn());
-        assertTrue(game_table.check_if_playable(Assistance_card.CAT));
+        GameTable game_table = new GameTable(2, new Turn());
+        assertTrue(game_table.check_if_playable(AssistanceCard.CAT));
     }
 
     @Test
     public void testSet_mother_nature_start1() {
         //Game with two players
-        Game_table game_table = new Game_table(2, new Turn());
+        GameTable game_table = new GameTable(2, new Turn());
         LinkedList<Island> islands = game_table.getIslands();
 
         assertTrue(islands.get(game_table.getMother_nature_pos()).isMother_nature());
@@ -50,7 +46,7 @@ class Game_tableTest {
     @Test
     public void testSet_mother_nature_start2() {
         //Game with two players
-        Game_table game_table = new Game_table(2, new Turn());
+        GameTable game_table = new GameTable(2, new Turn());
         LinkedList<Island> islands = game_table.getIslands();
         int get = game_table.getMother_nature_pos() - 1;
         if (get + 1 == 0) {
@@ -63,7 +59,7 @@ class Game_tableTest {
     @Test
     public void testMove_mother_nature1() {
         //Game with two players
-        Game_table game_table = new Game_table(2, new Turn());
+        GameTable game_table = new GameTable(2, new Turn());
         int pos = game_table.getMother_nature_pos();
         int moves = 3;
         game_table.move_mother_nature(moves);
@@ -78,7 +74,7 @@ class Game_tableTest {
     @Test
     public void testMove_mother_nature2() {
         //Game with two players
-        Game_table game_table = new Game_table(2, new Turn());
+        GameTable game_table = new GameTable(2, new Turn());
         int pos = game_table.getMother_nature_pos();
         int moves = 30;
         game_table.move_mother_nature(moves);
@@ -93,7 +89,7 @@ class Game_tableTest {
     @Test
     public void testMerge1() {
         //Game with three players
-        Game_table game_table = new Game_table(3, new Turn());
+        GameTable game_table = new GameTable(3, new Turn());
         LinkedList<Island> islands = game_table.getIslands();
         islands.get(1).setTower(2);
         islands.get(8).setTower(1);
@@ -107,7 +103,7 @@ class Game_tableTest {
     @Test
     public void testMerge2() {
         //Game with three players
-        Game_table game_table = new Game_table(3, new Turn());
+        GameTable game_table = new GameTable(3, new Turn());
         LinkedList<Island> islands = game_table.getIslands();
         islands.get(2).setTower(1);
         islands.get(3).setTower(1);
@@ -120,7 +116,7 @@ class Game_tableTest {
     @Test
     public void testMerge3() {
         //Game with two players
-        Game_table game_table = new Game_table(2, new Turn());
+        GameTable game_table = new GameTable(2, new Turn());
         //Merge to first of the list
         LinkedList<Island> islands = game_table.getIslands();
         islands.get(0).setTower(1);
@@ -134,7 +130,7 @@ class Game_tableTest {
     @Test
     public void testMerge4() {
         //Game with three players
-        Game_table game_table = new Game_table(3, new Turn());
+        GameTable game_table = new GameTable(3, new Turn());
         //Merge to last of the list
         LinkedList<Island> islands = game_table.getIslands();
         islands.get(11).setTower(1);
@@ -148,7 +144,7 @@ class Game_tableTest {
     @Test
     public void testMergeDouble() {
         //Game with three players
-        Game_table game_table = new Game_table(3, new Turn());
+        GameTable game_table = new GameTable(3, new Turn());
         //Merge twice
         LinkedList<Island> islands = game_table.getIslands();
         islands.get(11).setTower(1);
@@ -166,7 +162,7 @@ class Game_tableTest {
     @Test
     public void testMergeTriple() {
         //Game with three players
-        Game_table game_table = new Game_table(3, new Turn());
+        GameTable game_table = new GameTable(3, new Turn());
         //Merge three times
         LinkedList<Island> islands = game_table.getIslands();
         islands.get(11).setTower(1);
@@ -189,7 +185,7 @@ class Game_tableTest {
     @Test
     public void testNoMerge() {
         //Game with two players
-        Game_table game_table = new Game_table(2, new Turn());
+        GameTable game_table = new GameTable(2, new Turn());
         //No merge
         LinkedList<Island> islands = game_table.getIslands();
         islands.get(3).setTower(2);
@@ -202,8 +198,8 @@ class Game_tableTest {
     @Test
     public void testDraw_char1() {
         //Game with two players
-        Game_table game_table = new Game_table(2, new Turn());
-        Character_card[] drawn = game_table.getArr_character();
+        GameTable game_table = new GameTable(2, new Turn());
+        CharacterCard[] drawn = game_table.getArr_character();
 
         assertNotEquals(null, drawn[0]);
     }
@@ -211,8 +207,8 @@ class Game_tableTest {
     @Test
     public void testDraw_char2() {
         //Game with two players
-        Game_table game_table = new Game_table(2, new Turn());
-        Character_card[] drawn = game_table.getArr_character();
+        GameTable game_table = new GameTable(2, new Turn());
+        CharacterCard[] drawn = game_table.getArr_character();
 
         assertNotEquals(null, drawn[1]);
     }
@@ -220,8 +216,8 @@ class Game_tableTest {
     @Test
     public void testDraw_char3() {
         //Game with two players
-        Game_table game_table = new Game_table(2, new Turn());
-        Character_card[] drawn = game_table.getArr_character();
+        GameTable game_table = new GameTable(2, new Turn());
+        CharacterCard[] drawn = game_table.getArr_character();
 
         assertNotEquals(null, drawn[2]);
     }
@@ -229,14 +225,14 @@ class Game_tableTest {
     @Test
     public void testGetTurn() {
         Turn turn = new Turn();
-        Game_table game_table = new Game_table(2, turn);
+        GameTable game_table = new GameTable(2, turn);
         assertEquals(turn, game_table.getTurn());
     }
 
     @Test
     public void testGetBag() {
         int sum = 0;
-        Game_table game_table = new Game_table(3, new Turn());
+        GameTable game_table = new GameTable(3, new Turn());
         int[] arr = game_table.getBag();
         for (int i = 0; i < 5; i++) {
             sum = sum + arr[i];
@@ -246,7 +242,7 @@ class Game_tableTest {
 
     @Test
     public void testGetHow_many_left() {
-        Game_table game_table = new Game_table(2, new Turn());
+        GameTable game_table = new GameTable(2, new Turn());
         int cont = game_table.getIsland_counter();
         assertEquals(12 - cont, game_table.getHow_many_left());
     }
@@ -254,7 +250,7 @@ class Game_tableTest {
 
     @Test
     void testReplenish_clouds1() {
-        Game_table game_table = new Game_table(2,new Turn());
+        GameTable game_table = new GameTable(2,new Turn());
         int[] bag = {3,0,4,10,2};
         game_table.setBag(bag);
         game_table.replenish_clouds();
@@ -266,7 +262,7 @@ class Game_tableTest {
     @Test
     void testReplenish_cloud2() {
 
-        Game_table game_table = new Game_table(2,new Turn());
+        GameTable game_table = new GameTable(2,new Turn());
         int[] bag = {0,0,0,0,0};
         game_table.setBag(bag);
         game_table.replenish_clouds();
@@ -277,7 +273,7 @@ class Game_tableTest {
     @Test
     void testReplenish_cloud3() {
 
-        Game_table game_table = new Game_table(3,new Turn());
+        GameTable game_table = new GameTable(3,new Turn());
         int[] bag = {3,0,4,10,2};
         game_table.setBag(bag);
         game_table.replenish_clouds();
@@ -288,7 +284,7 @@ class Game_tableTest {
     @Test
     void testReplenish_cloud4() {
 
-        Game_table game_table = new Game_table(3,new Turn());
+        GameTable game_table = new GameTable(3,new Turn());
         int[] bag = {0,0,0,0,0};
         game_table.setBag(bag);
         game_table.replenish_clouds();

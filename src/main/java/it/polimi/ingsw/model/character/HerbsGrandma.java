@@ -1,13 +1,13 @@
 package it.polimi.ingsw.model.character;
 
-import it.polimi.ingsw.model.Character_card;
-import it.polimi.ingsw.model.Game_State;
+import it.polimi.ingsw.model.CharacterCard;
+import it.polimi.ingsw.model.GameState;
 
 /**
  * This class represents the herbs grandma character card.
  * This card starts with 4 prohibition cards that can be put on the island.
  */
-public class Herbs_grandma extends Character_card {
+public class HerbsGrandma extends CharacterCard {
     private final int ID_code=5;
     private int cost=1;
     private int uses=0;
@@ -22,7 +22,7 @@ public class Herbs_grandma extends Character_card {
      * @param game_state The game state.
      */
     @Override
-    public void effect(Game_State game_state){
+    public void effect(GameState game_state){
         if (prohibition_cards==0) {
             return;
         }

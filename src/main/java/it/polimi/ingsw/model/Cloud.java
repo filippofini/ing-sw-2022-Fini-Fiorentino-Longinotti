@@ -3,7 +3,7 @@ package it.polimi.ingsw.model;
 /**
  * This class represent the clouds.
  * An array of int is used to keep track of the students and their type:
- * Pos. 0 represent the yellow... More info at {@link it.polimi.ingsw.model.Disk_colour}.
+ * Pos. 0 represent the yellow... More info at {@link DiskColour}.
  *
  */
 public class Cloud {

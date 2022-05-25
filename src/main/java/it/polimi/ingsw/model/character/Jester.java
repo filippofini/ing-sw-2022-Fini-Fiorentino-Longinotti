@@ -1,13 +1,13 @@
 package it.polimi.ingsw.model.character;
 
-import it.polimi.ingsw.model.Character_card;
-import it.polimi.ingsw.model.Game_State;
+import it.polimi.ingsw.model.CharacterCard;
+import it.polimi.ingsw.model.GameState;
 import it.polimi.ingsw.model.Student;
 
 /**
  * This class represents the jester character card.
  */
-public class Jester extends Character_card {
+public class Jester extends CharacterCard {
     private final int ID_code=7;
     private int cost=1;
     private int uses=0;
@@ -21,7 +21,7 @@ public class Jester extends Character_card {
     }
 
     @Override
-    public void effect(Game_State game_state){
+    public void effect(GameState game_state){
         n_moved = 0;
         for (int i = 0; i < 5; i++) {
             n_moved = n_moved + students[i];

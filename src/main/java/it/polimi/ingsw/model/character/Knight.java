@@ -1,12 +1,12 @@
 package it.polimi.ingsw.model.character;
 
-import it.polimi.ingsw.model.Character_card;
-import it.polimi.ingsw.model.Game_State;
+import it.polimi.ingsw.model.CharacterCard;
+import it.polimi.ingsw.model.GameState;
 
 /**
  * This class represents the knight character card.
  */
-public class Knight extends Character_card {
+public class Knight extends CharacterCard {
     private final int ID_code=8;
     private int cost=2;
     private int uses=0;
@@ -18,7 +18,7 @@ public class Knight extends Character_card {
      * @param game_state The game state.
      */
     @Override
-    public void effect(Game_State game_state){
+    public void effect(GameState game_state){
         for(int i=0;i< game_state.getGT().getIslands().size();i++){
             game_state.getGT().getIslands().get(i).setExtra_influence(2);
         }

@@ -1,6 +1,6 @@
 package it.polimi.ingsw.CLI;
 
-import it.polimi.ingsw.model.Disk_colour;
+import it.polimi.ingsw.model.DiskColour;
 import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.network.server.ColourResponse;
 
@@ -9,7 +9,7 @@ public class ColourCLI {
         int choice;
         System.out.println("choose the number of a colour:\n");
         for(int i=0;i<5;i++){
-            System.out.println(Disk_colour.values()[i]+"["+i+"]\n");
+            System.out.println(DiskColour.values()[i]+"["+i+"]\n");
         }
         choice=InputParser.getInt();
 

@@ -10,7 +10,7 @@ import it.polimi.ingsw.GUI.GUI;
  * If the starting command has the argument "-cli", it starts the command line interface;
  * if it has nothing, it starts the graphical interface.
  */
-public class Client_main {
+public class ClientMain {
 
     private final static String CLI_STARTER = "-cli";
     private final static String HELP = "-help";

@@ -10,23 +10,23 @@ import java.util.Objects;
  * The cards are represented in a list.
  */
 public class Deck {
-    private List<Assistance_card> cards;
+    private List<AssistanceCard> cards;
 
     /**
      * Constructor of the class that creates a list of 10 assistance cards.
      */
     public Deck(){
-        cards = new ArrayList<Assistance_card>(Arrays.asList(
-                Assistance_card.TORTOISE,
-                Assistance_card.ELEPHANT,
-                Assistance_card.BULLDOG,
-                Assistance_card.OCTOPUS,
-                Assistance_card.LIZARD,
-                Assistance_card.FOX,
-                Assistance_card.EAGLE,
-                Assistance_card.CAT,
-                Assistance_card.OSTRICH,
-                Assistance_card.LION));
+        cards = new ArrayList<AssistanceCard>(Arrays.asList(
+                AssistanceCard.TORTOISE,
+                AssistanceCard.ELEPHANT,
+                AssistanceCard.BULLDOG,
+                AssistanceCard.OCTOPUS,
+                AssistanceCard.LIZARD,
+                AssistanceCard.FOX,
+                AssistanceCard.EAGLE,
+                AssistanceCard.CAT,
+                AssistanceCard.OSTRICH,
+                AssistanceCard.LION));
 
     }
 
@@ -34,7 +34,7 @@ public class Deck {
      * This method removes the used assistance card from the list.
      * @param chosen_remove The assistance card chosen to be played and removed.
      */
-    public void remove_used_card(Assistance_card chosen_remove){
+    public void remove_used_card(AssistanceCard chosen_remove){
         cards.remove(chosen_remove);
     }
 
@@ -63,7 +63,7 @@ public class Deck {
      * This method returns the list of assistance cards.
      * @return The list of assistance cards.
      */
-    public List<Assistance_card> getCards() {
+    public List<AssistanceCard> getCards() {
         return cards;
     }
 }

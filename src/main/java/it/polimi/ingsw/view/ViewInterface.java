@@ -2,7 +2,7 @@ package it.polimi.ingsw.view;
 
 import java.util.List;
 
-public interface View_interface {
+public interface ViewInterface {
 
     void handleCloseConnection(boolean was_connected);
 

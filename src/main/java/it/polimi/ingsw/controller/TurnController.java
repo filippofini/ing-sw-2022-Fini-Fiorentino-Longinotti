@@ -1,8 +1,7 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.model.character.Knight;
-import it.polimi.ingsw.model.character.Magic_mailman;
+import it.polimi.ingsw.model.character.MagicMailman;
 
 import java.util.List;
 import java.util.Scanner;
@@ -11,12 +10,12 @@ import java.util.Scanner;
  * This class represents the controller of the turn. It manages the planning phase and the action phase of each player.
  * It controls and calculates the player order for the next round.
  */
-public class Turn_Controller {
+public class TurnController {
     private int[] player_order;
-    private Game_State GS;
+    private GameState GS;
     private int n_players;
     List<Player> P_L;
-    Character_card played_cCard;
+    CharacterCard played_cCard;
 
     /**
      * Constructor of the class.
@@ -26,14 +25,14 @@ public class Turn_Controller {
      * @param expert_mode {@code True} if expert mode is enabled, {@code False} if not.
      * @param Player_List The list of player for turn order.
      */
-    public Turn_Controller(int n_players, String[] names, int wizard[], boolean expert_mode, List<Player> Player_List){
+    public TurnController(int n_players, String[] names, int wizard[], boolean expert_mode, List<Player> Player_List){
         this.n_players=n_players;
         this.P_L=Player_List;
         player_order= new int[n_players];
         for(int i=0; i<n_players;i++){
             player_order[i]=i;
         }
-        GS = new Game_State(n_players, names, wizard, expert_mode,0);
+        GS = new GameState(n_players, names, wizard, expert_mode,0);
     }
 
     /**
@@ -92,14 +91,14 @@ public class Turn_Controller {
             System.out.println("Mother Nature position: Island["+GS.getGT().getMother_nature_pos()+"]\n");
 
             //If the played character card is the magic mailman, it increases the possible movement by 2
-            if (played_cCard.equals(new Magic_mailman())){
+            if (played_cCard.equals(new MagicMailman())){
                 played_cCard.effect(GS);
             }
             System.out.println("Number of steps possible:"+P_L.get(player_order[i]).getChosen_card().getValue()+"\n");
             for(int j=0;j<GS.getGT().getHow_many_left();j++){
                 System.out.println("Island["+j+":]\n");
                 for (int k=0;k<5; k++){
-                    System.out.println(Disk_colour.values()[k] +": "+GS.getGT().getIslands().get(j).getArr_students()[k]+"\n");
+                    System.out.println(DiskColour.values()[k] +": "+GS.getGT().getIslands().get(j).getArr_students()[k]+"\n");
                 }
                 System.out.println("Owned by: player "+GS.getGT().getIslands().get(j).getPlayer_controller()+"\n");
                 System.out.println("Influence: "+GS.getGT().getIslands().get(j).getInfluence_controller()+"\n");
@@ -177,11 +176,11 @@ public class Turn_Controller {
         this.player_order = player_order;
     }
 
-    public Game_State getGS() {
+    public GameState getGS() {
         return GS;
     }
 
-    public void setGS(Game_State GS) {
+    public void setGS(GameState GS) {
         this.GS = GS;
     }
 

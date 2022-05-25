@@ -4,8 +4,8 @@ package it.polimi.ingsw.model;
 /**
  * This class represent the islands.
  * Each island has an array of int used to keep track of the students and their type.
- * Pos. 0 represent the yellow... More info at {@link it.polimi.ingsw.model.Disk_colour}.
- * One island has mother nature set at the beginning of the game and then moved with a method on {@link it.polimi.ingsw.model.Game_table}.
+ * Pos. 0 represent the yellow... More info at {@link DiskColour}.
+ * One island has mother nature set at the beginning of the game and then moved with a method on {@link GameTable}.
  * mother nature is represented by a boolean: {@code True} if is on the island, {@code False} if not on the island.
  * Each island can have at max 1 tower (more than 1 if merged). The tower can be placed by the player that control the island.
  */
@@ -28,9 +28,9 @@ public class Island {
      * Constructor of the class.
      * @param boards Reference to the boards of the players.
      * @param island_ID the starting ID of the island, it's not very useful.
-     * @param tower_colour Puts tower starter to the island, that means no tower (see: {@link it.polimi.ingsw.model.Tower_colour}).
+     * @param tower_colour Puts tower starter to the island, that means no tower (see: {@link TowerColour}).
      */
-    public Island( Board[] boards, int island_ID, Tower_colour tower_colour) {
+    public Island( Board[] boards, int island_ID, TowerColour tower_colour) {
         this.island_ID = island_ID;
 
         this.boards = boards;

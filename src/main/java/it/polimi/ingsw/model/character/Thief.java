@@ -1,19 +1,19 @@
 package it.polimi.ingsw.model.character;
 
-import it.polimi.ingsw.model.Character_card;
-import it.polimi.ingsw.model.Game_State;
+import it.polimi.ingsw.model.CharacterCard;
+import it.polimi.ingsw.model.GameState;
 
 import java.util.Scanner;
 
 /**
  * Thief character card
  */
-public class Thief extends Character_card {
+public class Thief extends CharacterCard {
     private final int ID_code=12;
     private int cost=3;
     private int uses=0;
     @Override
-    public void effect(Game_State game_state){
+    public void effect(GameState game_state){
         int chosencolour;
         Scanner sc= new Scanner(System.in);
         //TODO: CLI choose a number that represents colours

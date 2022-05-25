@@ -1,27 +1,25 @@
 package it.polimi.ingsw.model.character;
 
-import it.polimi.ingsw.model.Character_card;
-import it.polimi.ingsw.model.Game_State;
-import it.polimi.ingsw.model.Game_table;
-import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.CharacterCard;
+import it.polimi.ingsw.model.GameState;
+
+import java.util.Scanner;
 
 /**
- * This class represents the magic mailman character card.
+ * Mushroom collector character card
  */
-public class Magic_mailman extends Character_card {
-    private final int ID_code=4;
-    private int cost=1;
+public class MushroomCollector extends CharacterCard {
+    private final int ID_code=9;
+    private int cost=3;
     private int uses=0;
-
-    /**
-     * This method implements the effect of the magic mailman card.
-     * When played, it increases the possible moves of mother nature by 2.
-     * @param game_state The game state.
-     */
     @Override
-    public void effect(Game_State game_state){
-       game_state.getPlayers()[game_state.getGT().getCurrent_player()].setMoves(game_state.getPlayers()[game_state.getGT().getCurrent_player()].getChosen_card().getMother_nature_movement()+2);
-        this.setUses();
+    public void effect(GameState GS){
+        Scanner sc= new Scanner(System.in);
+        GS.getGT().getIslands().get(GS.getGT().getMother_nature_pos()).setProhibition_colour(true);
+        //TODO:CLI asking message to choose the colour
+        int choicecolor = sc.nextInt();
+        GS.getGT().getIslands().get(GS.getGT().getMother_nature_pos()).setProh_col(choicecolor);
+        setUses();
     }
 
     /**

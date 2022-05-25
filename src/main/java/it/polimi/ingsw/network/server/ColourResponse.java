@@ -7,7 +7,7 @@ public class ColourResponse implements MessagesToServer {
 
     public ColourResponse(int colour){this.colour=colour;}
 
-    public void handleMessage(Server_interface server, ClientHandlerInterface clientHandler) {
+    public void handleMessage(ServerInterface server, ClientHandlerInterface clientHandler) {
 
         clientHandler.setcolour(colour);
     }
