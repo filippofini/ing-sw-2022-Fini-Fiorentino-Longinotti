@@ -53,7 +53,32 @@ public interface ViewInterface {
     void displayDisconnection(String name);
 
 
-    void displayTimeoutFinished_message();
+    void displayTimeoutFinishedMessage();
 
     void displayMessage(String message);
+
+    /**
+     * This method displays the request of the mother nature movement.
+     */
+    void displayMoveMnRequest();
+
+    /**
+     * This method displays the request of the number of moves of mother nature.
+     */
+    void displayPositionToMoveRequest();
+
+    /**
+     * This method displays the request of the students to move.
+     */
+    void displayStudentToMoveRequest();
+
+    /**
+     * This method displays the number of conquered islands.
+     */
+    void displayConqueredIslands(int[] conquered);
+
+    /**
+     * This method displays the request of the choice for students movement.
+     */
+    void displayWhereToMoveStudents();
 }

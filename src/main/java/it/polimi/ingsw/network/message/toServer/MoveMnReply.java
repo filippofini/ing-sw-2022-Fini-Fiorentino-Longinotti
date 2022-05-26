@@ -4,10 +4,10 @@ import it.polimi.ingsw.enumerations.ClientHandlerPhase;
 import it.polimi.ingsw.network.server.ClientHandlerInterface;
 import it.polimi.ingsw.network.server.ServerInterface;
 
-public class moveMnResponse implements MessagesToServer{
+public class MoveMnReply implements MessagesToServer{
     private final int Mnmovement;
 
-    public moveMnResponse(int Mnmovement){
+    public MoveMnReply(int Mnmovement){
         this.Mnmovement = Mnmovement;
     }
 

@@ -2,7 +2,7 @@ package it.polimi.ingsw.CLI;
 
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.network.client.Client;
-import it.polimi.ingsw.network.message.toServer.moveMnResponse;
+import it.polimi.ingsw.network.message.toServer.MoveMnReply;
 
 public class MnCLI {
 
@@ -16,7 +16,7 @@ public class MnCLI {
             System.out.println("It's not possible to do this number of steps, please choose a valid number:\n");
             choice=InputParser.getInt();
         }
-        client.sendMessageToServer(new moveMnResponse(choice));
+        client.sendMessageToServer(new MoveMnReply(choice));
     }
 
 }

@@ -3,19 +3,24 @@ package it.polimi.ingsw.network.message.toServer;
 import it.polimi.ingsw.network.server.ClientHandlerInterface;
 import it.polimi.ingsw.network.server.ServerInterface;
 
-public class studentToMoveResponse implements MessagesToServer{
-    private final int num_stud;
+public class PositionToMoveReply implements MessagesToServer{
+    private final int pos;
 
-    public studentToMoveResponse(int num_stud){this.num_stud=num_stud;}
+    public PositionToMoveReply(int pos){this.pos=pos;}
+
+    public int getPos() {
+        return pos;
+    }
 
     public void handleMessage(ServerInterface server, ClientHandlerInterface clientHandler) {
         //TODO:change phase only when all the students are moved
         //clientHandler.setClientHandlerPhase(ClientHandlerPhase.WAITING_STUDENT_TO_TRANSFER);
-        clientHandler.setstudToMove(num_stud);
+        clientHandler.setposToMove(pos);
     }
 
     @Override
     public String toString() {
-        return "Student Number Received";
+        return "Position Received";
     }
+
 }
