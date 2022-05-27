@@ -27,5 +27,6 @@ public interface ClientHandlerInterface {
     //Controller getController();
     void startTimer();
     void setAssistantCardChosen(int assistantCardChosen);
+    void setCloudChosen(int cloudChosen);
 
 }

@@ -86,4 +86,9 @@ public interface ViewInterface {
      * This method displays the request of the choice for the assistant card.
      */
     void displayChooseAssistantCardRequest();
+
+    /**
+     * This method displays the request of the choice for a cloud.
+     */
+    void displayChooseCloudRequest();
 }
