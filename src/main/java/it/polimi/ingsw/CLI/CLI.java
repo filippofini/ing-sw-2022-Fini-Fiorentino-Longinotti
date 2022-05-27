@@ -20,7 +20,7 @@ public class CLI implements View {
     private void setUpGame(){
         boolean error = true;
         boolean firstTry = true;
-        logo.print();
+        Logo.print();
         MatchData.getInstance().setView(this);
         while (error) {
             client = StartGame.InitialConnection(this, firstTry);

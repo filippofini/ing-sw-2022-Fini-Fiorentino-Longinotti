@@ -4,7 +4,7 @@ import it.polimi.ingsw.model.DiskColour;
 import it.polimi.ingsw.model.Island;
 import it.polimi.ingsw.model.Student;
 import it.polimi.ingsw.network.client.Client;
-import it.polimi.ingsw.network.message.toServer.moveStudentResponse;
+import it.polimi.ingsw.network.message.toServer.MoveStudentReply;
 
 import java.util.List;
 
@@ -31,7 +31,7 @@ public class IslandCLI {
                 choice=InputParser.getInt();
             }
 
-            client.sendMessageToServer(new moveStudentResponse(choice));
+            client.sendMessageToServer(new MoveStudentReply(choice));
 
     }
 
