@@ -15,6 +15,7 @@ public interface ClientHandlerInterface {
 
     ClientHandlerPhase getClientHandlerPhase();
     void setstudToMove(int stud);
+    void setIslandToMove(int isl);
     void setposToMove(int pos);
     void setcolour(int colour);
     void setNickname(String nickname);

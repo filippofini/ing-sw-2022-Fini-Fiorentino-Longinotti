@@ -6,6 +6,7 @@ import it.polimi.ingsw.view.View;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.function.Predicate;
 
 public class CLI implements View {
 
@@ -43,6 +44,9 @@ public class CLI implements View {
     public void displayNicknameRequest(boolean retry, boolean alreadyTaken) {
 
         StartGame.displayNicknameRequest(client,retry,alreadyTaken);
+    }
+    public static Predicate<Integer> conditionOnIntegerRange(int min, int max){
+        return p -> p >= min && p <= max;
     }
 
     public void displayGameModeRequest() {

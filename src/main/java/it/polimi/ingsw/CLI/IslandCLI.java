@@ -4,6 +4,8 @@ import it.polimi.ingsw.model.DiskColour;
 import it.polimi.ingsw.model.Island;
 import it.polimi.ingsw.model.Student;
 import it.polimi.ingsw.network.client.Client;
+import it.polimi.ingsw.network.message.toServer.moveStudentResponse;
+
 import java.util.List;
 
 public class IslandCLI {
