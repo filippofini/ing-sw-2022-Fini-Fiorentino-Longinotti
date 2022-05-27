@@ -1,15 +1,12 @@
 package it.polimi.ingsw.network.message.toServer;
 
-import it.polimi.ingsw.enumerations.ClientHandlerPhase;
-import it.polimi.ingsw.model.GameMode;
-import it.polimi.ingsw.network.message.toClient.NameRequest;
 import it.polimi.ingsw.network.server.ClientHandlerInterface;
 import it.polimi.ingsw.network.server.ServerInterface;
 
-public class moveStudentResponse implements MessagesToServer{
+public class MoveStudentReply implements MessagesToServer{
     private final int IslandToMove;
 
-    public moveStudentResponse(int IslandToMove){
+    public MoveStudentReply(int IslandToMove){
         this.IslandToMove=IslandToMove;
     }
 

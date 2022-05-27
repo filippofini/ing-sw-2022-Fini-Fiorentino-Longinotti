@@ -1,7 +1,7 @@
 package it.polimi.ingsw.CLI;
 
 
-public class logo {
+public class Logo {
     public static void print(){
         System.out.println(
                         "███████╗██████╗░██╗░░░██╗░█████╗░███╗░░██╗████████╗██╗░██████╗\n"+
