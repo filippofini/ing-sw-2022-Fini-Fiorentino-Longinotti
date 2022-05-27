@@ -81,4 +81,9 @@ public interface ViewInterface {
      * This method displays the request of the choice for students movement.
      */
     void displayWhereToMoveStudents();
+
+    /**
+     * This method displays the request of the choice for the assistant card.
+     */
+    void displayChooseAssistantCardRequest();
 }

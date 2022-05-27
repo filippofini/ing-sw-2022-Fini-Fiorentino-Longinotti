@@ -26,4 +26,6 @@ public interface ClientHandlerInterface {
     void setNumberOfPlayersForNextGame(int numberOfPlayersForNextGame);
     //Controller getController();
     void startTimer();
+    void setAssistantCardChosen(int assistantCardChosen);
+
 }
