@@ -91,4 +91,19 @@ public interface ViewInterface {
      * This method displays the request of the choice for a cloud.
      */
     void displayChooseCloudRequest();
+
+    /**
+     * This method informs that the game is started.
+     */
+    void displayStartGameNotify();
+
+    /**
+     * This method informs that the game is ended.
+     */
+    void displayEndGameNotify();
+
+    /**
+     * This method shows the results of the game.
+     */
+    void displayResults();
 }
