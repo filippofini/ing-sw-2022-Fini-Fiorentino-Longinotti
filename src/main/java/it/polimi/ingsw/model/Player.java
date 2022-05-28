@@ -136,4 +136,5 @@ public class Player {
         return tower_colour == player.tower_colour && wizard == player.wizard && coin == player.coin && player_ID == player.player_ID && Objects.equals(name, player.name) && chosen_card == player.chosen_card  && Objects.equals(deck, player.deck);
     }
 
+
 }

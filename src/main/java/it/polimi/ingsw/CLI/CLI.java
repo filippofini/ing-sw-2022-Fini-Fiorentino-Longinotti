@@ -91,6 +91,13 @@ public class CLI implements View {
         System.out.println("Timeout expired, you will be now disconnected");
         closeConnection();
     }
+    public void chooseAssistantCard( Player player,GameTable GT){
+        AssistantCLI.chooseAssistantCard(client,player,GT);
+
+    }
+    public void chooseCloud( List<Cloud> clouds,Player player){
+        CloudCLI.chooseCloud(client,clouds,player);
+    }
     public void closeConnection(){
         System.out.close();
         client.closeSocket();
