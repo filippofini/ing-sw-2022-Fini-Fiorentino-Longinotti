@@ -2,7 +2,7 @@ package it.polimi.ingsw.CLI;
 
 import it.polimi.ingsw.model.DiskColour;
 import it.polimi.ingsw.network.client.Client;
-import it.polimi.ingsw.network.server.ColourResponse;
+import it.polimi.ingsw.network.message.toServer.ColourResponse;
 
 public class ColourCLI {
     public static void chooseColourRequest(Client client){

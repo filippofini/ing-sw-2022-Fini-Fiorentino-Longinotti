@@ -1,6 +1,7 @@
-package it.polimi.ingsw.network.server;
+package it.polimi.ingsw.network.message.toServer;
 
-import it.polimi.ingsw.network.message.toServer.MessagesToServer;
+import it.polimi.ingsw.network.server.ClientHandlerInterface;
+import it.polimi.ingsw.network.server.ServerInterface;
 
 public class ColourResponse implements MessagesToServer {
     private final int colour;

@@ -106,4 +106,9 @@ public interface ViewInterface {
      * This method shows the results of the game.
      */
     void displayResults();
+
+    /**
+     * This method displays the request of the colour of disk's student prompt to use two character cards.
+     */
+    void displayColourRequest();
 }
