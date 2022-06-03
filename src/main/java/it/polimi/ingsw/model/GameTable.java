@@ -662,6 +662,5 @@ public class GameTable {
         }
         return chosen;
     }
-    //TODO:check who has the professors
-    //public void setProfessors(){}
+
 }

@@ -125,6 +125,7 @@ public class Board {
                                 for(int i=0;i<GS.getGT().getNum_players();i++){
                                     if(GS.getGT().getBoards()[GS.getCurr_player()].getArrPositionStudents()[j]>=GS.getGT().getBoards()[i].getArrPositionStudents()[j] && GS.getCurr_player()!=i && GS.getGT().getBoards()[i].getArrProfessors()[j]){
                                         GS.getGT().getBoards()[GS.getCurr_player()].setprofessor(j,true);
+                                        GS.getGT().getBoards()[i].setprofessor(j,false);
                                     }
                                 }
 
@@ -135,6 +136,8 @@ public class Board {
                                 for(int i=0;i<GS.getGT().getNum_players();i++){
                                     if(GS.getGT().getBoards()[GS.getCurr_player()].getArrPositionStudents()[j]>GS.getGT().getBoards()[i].getArrPositionStudents()[j] && GS.getCurr_player()!=i && GS.getGT().getBoards()[i].getArrProfessors()[j]){
                                         GS.getGT().getBoards()[GS.getCurr_player()].setprofessor(j,true);
+                                        GS.getGT().getBoards()[i].setprofessor(j,false);
+
                                     }
                                 }
 

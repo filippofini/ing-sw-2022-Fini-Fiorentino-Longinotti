@@ -73,8 +73,6 @@ public class TurnController {
         for(int i=0;i<n_players;i++){
             GS.setCurr_player(player_order[i]);
             stud_to_island=GS.getGT().getBoards()[player_order[i]].moveEntranceStudents(GS);
-            //TODO:setProfessors()
-            GS.getGT().setProfessors();
 
             //add all the student to the islands
             for(int j=0;j< stud_to_island.size();j++){
