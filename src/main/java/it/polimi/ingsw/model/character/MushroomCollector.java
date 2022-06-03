@@ -16,8 +16,8 @@ public class MushroomCollector extends CharacterCard {
     public void effect(GameState GS){
         Scanner sc= new Scanner(System.in);
         GS.getGT().getIslands().get(GS.getGT().getMother_nature_pos()).setProhibition_colour(true);
-        //TODO:CLI asking message to choose the colour
-        int choicecolor = sc.nextInt();
+
+        int choicecolor = sc.nextInt();//colourCLI
         GS.getGT().getIslands().get(GS.getGT().getMother_nature_pos()).setProh_col(choicecolor);
         setUses();
     }

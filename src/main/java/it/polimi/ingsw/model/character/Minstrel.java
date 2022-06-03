@@ -23,14 +23,21 @@ public class Minstrel extends CharacterCard {
 
 
         Scanner sc= new Scanner(System.in);
-        //TODO:cornercase
-        numOfMoving= sc.nextInt();
+
+        numOfMoving= sc.nextInt();//positionCLI
+        while(numOfMoving>0 && numOfMoving<3 ){
+            numOfMoving= sc.nextInt();//positionCLI
+        }
         for (int i=0;i<numOfMoving;i++){
-            studColour=sc.nextInt();
-            for(int j=0;j<game_state.getGT().getBoards()[game_state.getCurr_player()].getArrEntranceStudents().length;j++){
-                //print all of the entrance students
+            studColour=sc.nextInt();//pos cli
+            while(game_state.getGT().getBoards()[game_state.getCurr_player()].getArrPositionStudents()[studColour]==0){
+                studColour=sc.nextInt();//pos cli
             }
-            entrchange= InputParser.getInt();
+            for(int j=0;j<game_state.getGT().getBoards()[game_state.getCurr_player()].getArrEntranceStudents().length;j++){
+                //Boardcli,print entrance students
+            }
+            entrchange= InputParser.getInt();//positionCLI
+
             game_state.getGT().getBoards()[game_state.getCurr_player()].getArrPositionStudents()[studColour]--;
             game_state.getGT().getBoards()[game_state.getCurr_player()].getArrPositionStudents()[game_state.getGT().getBoards()[game_state.getCurr_player()].getArrEntranceStudents()[entrchange].getColour()]++;
             game_state.getGT().getBoards()[game_state.getCurr_player()].getArrEntranceStudents()[entrchange]= new Student(inverse_color(studColour));

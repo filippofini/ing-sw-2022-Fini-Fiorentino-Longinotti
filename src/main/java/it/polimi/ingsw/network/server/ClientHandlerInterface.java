@@ -17,6 +17,7 @@ public interface ClientHandlerInterface {
     void setstudToMove(int stud);
     void setIslandToMove(int isl);
     void setposToMove(int pos);
+    void setpos(int pos);
     void setcolour(int colour);
     void setNickname(String nickname);
     void setMnmovement(int mnmovement);

@@ -16,8 +16,8 @@ public class Thief extends CharacterCard {
     public void effect(GameState game_state){
         int chosencolour;
         Scanner sc= new Scanner(System.in);
-        //TODO: CLI choose a number that represents colours
-        chosencolour=sc.nextInt();
+
+        chosencolour=sc.nextInt();//colourCLI
         while(chosencolour<0 || chosencolour>4){
             System.out.println("Number not valid, please select a number from the list above");
             chosencolour=sc.nextInt();

@@ -11,6 +11,7 @@ import java.util.function.Predicate;
 public class CLI implements View {
 
     private Client client;
+    private Thread inputObserverOutOfTurn;
 
     public static void main(String[] args) {
         CLI cli= new CLI();
@@ -95,12 +96,23 @@ public class CLI implements View {
         AssistantCLI.chooseAssistantCard(client,player,GT);
 
     }
+    public void choosePositionRequest(int upperLimit){
+        PositionCLI.choosePositionRequest(client,upperLimit);
+    }
     public void chooseCloud( List<Cloud> clouds,Player player){
         CloudCLI.chooseCloud(client,clouds,player);
     }
     public void closeConnection(){
         System.out.close();
         client.closeSocket();
+    }
+    public void handleCloseConnection(boolean wasConnected) {
+        displayUnreachableServer(wasConnected);
+        if (inputObserverOutOfTurn != null && inputObserverOutOfTurn.isAlive())
+            inputObserverOutOfTurn.interrupt();
+    }
+    private void displayUnreachableServer(boolean wasConnected){
+        System.out.println((wasConnected ? "The server is not reachable anymore" : "The server is unreachable at the moment") + ". Try again later.");
     }
 
 //called when the condition for the endgame are met,calculate and send the result to each player

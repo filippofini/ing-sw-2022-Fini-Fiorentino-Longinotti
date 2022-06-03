@@ -59,7 +59,7 @@ public class TurnController {
 
     }
 
-    //TODO: there can be problems with mn position(it depends if we consider island_ID or island position in the list...for now I'm choosing the second)
+
     /**
      * This method represents the action phase of the round. It moves the students to the islands, moves mother nature
      * and checks if island can be conquered and merged.

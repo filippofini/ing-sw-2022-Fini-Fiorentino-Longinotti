@@ -10,7 +10,7 @@ public class Farmer extends CharacterCard {
     private final int ID_code=2;
     private int cost=2;
     private int uses=0;
-//TODO: ask to the other, not convinced so much
+
     public void effect(GameState game_state){
 
         game_state.getGT().getBoards()[game_state.getCurr_player()].setFarmer_state(true);
