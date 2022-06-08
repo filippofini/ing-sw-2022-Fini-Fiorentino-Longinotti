@@ -9,7 +9,7 @@ public interface ViewInterface {
     /**
      * This method notifies that the time to send a response is over.
      */
-    void displayTimeoutExpiredMessage();
+    void displayTimeoutCloseConnection();
 
     /**
      * This method asks the name.

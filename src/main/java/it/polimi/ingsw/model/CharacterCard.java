@@ -12,7 +12,6 @@ public abstract class CharacterCard {
      int cost;
      int uses = 0;
 
-     //TODO: IMPLEMENT EFFECTS OF ALL THE CARDS
 
      /**
       * This method is the general method to represent the different effects of all the cards.

@@ -75,16 +75,32 @@ public class GameTable {
      * This method checks if an assistance card is playable.
      * That means it can't be on the discard deck of any other player.
      * @param chosen The assistance card chosen to be played.
+     * @param deck The deck of the player
      * @return {@code False} if card is already played, {@code True} otherwise.
      */
-    public boolean check_if_playable(AssistanceCard chosen){
+    public boolean check_if_playable(AssistanceCard chosen, Deck deck){
         boolean playable_card = true;
         for (int i = 0; i < num_players && playable_card; i++) {
-            if(discard_deck[i].equals(chosen)){
+            if(discard_deck[i].equals(chosen)  && !check_only_this_card(deck,chosen)){
                 playable_card = false;
             }
         }
         return playable_card;
+    }
+    /**
+     * This method checks if  assistance card is the only card playable.
+     * @param chosen The assistance card chosen to be played.
+     * @param deck The deck of the player
+     * @return {@code False} if card isn't the only card playable
+     */
+    public boolean check_only_this_card(Deck deck,AssistanceCard chosen){
+        boolean check = true;
+        for (int i = 0; i<deck.getCards().size() && check; i++) {
+            if(!deck.getCards().get(i).equals(chosen)){
+                check = false;
+            }
+        }
+        return check;
     }
 
     //TODO corner cases (n_assistant in deck =0) && modify check_if_playable to consider if player as no other option to play that card
@@ -102,7 +118,7 @@ public class GameTable {
             System.out.println(player.getDeck().getCards().get(i)+"["+i+"]\n");
         }
         ass_chosen=sc.nextInt();
-        while(ass_chosen<0 || ass_chosen>=player.getDeck().count_elements() || !check_if_playable(player.getDeck().getCards().get(ass_chosen))){
+        while(ass_chosen<0 || ass_chosen>=player.getDeck().count_elements() || !check_if_playable(player.getDeck().getCards().get(ass_chosen),player.getDeck())){
             ass_chosen=sc.nextInt();
         }
         choice=player.getDeck().getCards().get(ass_chosen);
@@ -359,9 +375,8 @@ public class GameTable {
         Scanner sc= new Scanner(System.in);
         System.out.println("Choose the number of the cloud you want:\n");
 
-        //TODO: fix the tempclouds thing
         for(int i=0;i<tempclouds.size();i++){
-            System.out.println("Cloud["+i+"]:\n");
+            System.out.println("Cloud["+i+"]:\n");//cloudCLI
             for(int j=0;j<5;j++){
 
                 System.out.println(DiskColour.values()[j]+":"+tempclouds.get(i).getArr_students()[j]+"\n");
@@ -374,7 +389,9 @@ public class GameTable {
         }
         chosen_cloud=tempclouds.get(choice);
         tempclouds=del_temp_cloud(choice);
-
+        if(tempclouds.size()==0){
+            reset_temp_clouds();
+        }
         return chosen_cloud;
 
     }

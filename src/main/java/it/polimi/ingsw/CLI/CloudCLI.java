@@ -16,7 +16,7 @@ public class CloudCLI {
         for(int i=0;i<clouds.size();i++){
             System.out.println("Cloud["+i+"]\n");
             for(int j=0;j<5;j++){
-                System.out.println(DiskColour.values()[j] +clouds.get(i).getArr_students().[j]);
+                System.out.println(DiskColour.printColour(j) + clouds.get(i).getArr_students()[j]);
             }
         }
         choice=InputParser.getInt();

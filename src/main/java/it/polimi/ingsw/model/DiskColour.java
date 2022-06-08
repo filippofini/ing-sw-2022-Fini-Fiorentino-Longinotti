@@ -23,4 +23,23 @@ public enum DiskColour {
     public int getTranslateColour(){
         return translateColour;
     }
+
+    public static String printColour(int colour){
+        if(colour==0){
+            return "YELLOW";
+        }
+        if(colour==1){
+            return "RED";
+        }
+        if(colour==2){
+            return "PINK";
+        }
+        if(colour==3){
+            return "BLUE";
+        }
+        else{
+            return "GREEN";
+        }
+
+    }
 }

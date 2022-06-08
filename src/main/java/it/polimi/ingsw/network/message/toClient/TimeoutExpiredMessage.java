@@ -12,6 +12,6 @@ public class TimeoutExpiredMessage extends MessagesToClient{
 
     @Override
     public void handleMessage(ViewInterface view){
-        view.displayTimeoutExpiredMessage();
+        view.displayTimeoutCloseConnection();
     }
 }
