@@ -1,40 +1,31 @@
 package it.polimi.ingsw.network.message.toClient;
 
+import it.polimi.ingsw.model.Board;
+import it.polimi.ingsw.model.Island;
+import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.view.ViewInterface;
+
+import java.util.List;
 
 /**
  * This message is used to show the results of the game.
  */
 public class ResultsNotify extends MessagesToClient {
 
-    String FirstPlace;
-    String SecondPlace;
-    String ThirdPlace;
+    java.util.List<Island> islands;
+    List<Player> players;
+    Board[] boards;
 
-    String[] Winners;
-    String[] Losers;
-
-    public ResultsNotify(String FirstPlace, String SecondPlace) {
+    public ResultsNotify(List<Island> islands, List<Player> players, Board[] boards) {
         super(true);
-        this.FirstPlace = FirstPlace;
-        this.SecondPlace = SecondPlace;
-    }
-    public ResultsNotify(String FirstPlace, String SecondPlace, String ThirdPlace) {
-        super(true);
-        this.FirstPlace = FirstPlace;
-        this.SecondPlace = SecondPlace;
-        this.ThirdPlace = ThirdPlace;
-    }
-
-    public ResultsNotify(String[] Winners, String[] Losers) {
-        super(true);
-        this.Winners = Winners;
-        this.Losers = Losers;
+        this.islands = islands;
+        this.players = players;
+        this.boards=boards;
     }
 
     @Override
     public void handleMessage(ViewInterface view) {
-        view.displayResults();
+        view.displayResults(islands,players,boards);
     }
 
     @Override

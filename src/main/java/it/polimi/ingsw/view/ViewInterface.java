@@ -1,8 +1,11 @@
 package it.polimi.ingsw.view;
 
+import it.polimi.ingsw.model.*;
+
 import java.util.List;
 
 public interface ViewInterface {
+
 
     void handleCloseConnection(boolean was_connected);
 
@@ -28,84 +31,106 @@ public interface ViewInterface {
      */
     void displayNumberOfPlayersRequest();
 
-    /**
+    /*
      * This method sets the players names.
      * @param player_name The name of the client receiving the message.
      * @param other_names The names of the other players.
-     */
+     *
     void setNicknames(String player_name, List<String> other_names);
 
     /**
      * This method notifies all the players that are ready to play.
      * @param names The list of names.
-     */
+     *
     void displayPlayersReadyToStartMessage(List<String> names);
-
+    */
     /**
      * This method notifies the waiting before starting the game.
      */
-    void displayWaitingInTheLobbyMessage();
+    void displayWaitingMessage();
 
-    /**
+    /*
      * This method informs a disconnection.
      * @param name The name of the player.
-     */
+     *
     void displayDisconnection(String name);
-
+    *
 
     void displayTimeoutFinishedMessage();
+    */
 
     void displayMessage(String message);
 
     /**
      * This method displays the request of the mother nature movement.
      */
-    void displayMoveMnRequest();
+    void motherNatureMovementRequest(int Mn_pos, Player Current_Player);
 
-    /**
+    /*
      * This method displays the request of the number of moves of mother nature.
-     */
+     *
     void displayPositionToMoveRequest();
-
+    */
     /**
      * This method displays the request of the students to move.
      */
-    void displayStudentToMoveRequest();
+    void displayStudentToMoveRequest(Board board);
 
-    /**
+    /*
      * This method displays the number of conquered islands.
-     */
+     *
     void displayConqueredIslands(int[] conquered);
+    */
 
     /**
      * This method displays the request of the choice for students movement.
      */
-    void displayWhereToMoveStudents();
-
+    void displayWhereToMoveStudents(Board board, int choiceStudent);
+    /**
+     * This method request in which island the student must be moved.
+     */
+    void MoveStudentToIslandRequest(List<Island> islands, Student stud_to_island);
     /**
      * This method displays the request of the choice for the assistant card.
      */
-    void displayChooseAssistantCardRequest();
+    void displayChooseAssistantCardRequest(Player player, GameTable GT);
 
     /**
      * This method displays the request of the choice for a cloud.
      */
-    void displayChooseCloudRequest();
-
+    void displayChooseCloudRequest(List<Cloud> clouds,Player player);
     /**
+     * This method displays the Island info.
+     */
+    void displayIslandInfo(Island island, int islandID);
+    /**
+     * This method displays the :Dining Room table of the colour "x" is full message.
+     */
+    void displayDiningRoomColourFull( Board board,int choiceStudent);
+    /**
+     * This method displays the: student chosen previously message.
+     */
+    void displayStudentChosenPreviously( Board board,int choiceStudent);
+    /**
+     * This method displays the entrance students.
+     */
+    void displayEntranceStudents(Board board);
+
+    /*
      * This method informs that the game is started.
-     */
+     *
     void displayStartGameNotify();
+    */
 
-    /**
+    /*
      * This method informs that the game is ended.
-     */
+     *
     void displayEndGameNotify();
-
+    */
     /**
      * This method shows the results of the game.
      */
-    void displayResults();
+    void displayResults( List<Island> islands, List<Player> players,Board[] boards);
 
     /**
      * This method displays the request of the colour of disk's student prompt to use two character cards.

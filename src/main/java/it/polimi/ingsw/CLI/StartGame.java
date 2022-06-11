@@ -108,7 +108,7 @@ public class StartGame {
             client.sendMessageToServer(new NumberOfPlayersReply(choice));
     }
 
-    public static void WaitingMessage() {
+    public static void displayWaitingMessage() {
         System.out.println("making the island floating...");
     }
 }

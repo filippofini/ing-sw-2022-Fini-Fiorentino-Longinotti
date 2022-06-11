@@ -13,7 +13,7 @@ public class WaitingInTheLobbyMessage extends MessagesToClient{
 
     @Override
     public void handleMessage(ViewInterface view) {
-        view.displayWaitingInTheLobbyMessage();
+        view.displayWaitingMessage();
     }
 
     @Override

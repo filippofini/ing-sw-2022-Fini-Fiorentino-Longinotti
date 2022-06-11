@@ -22,7 +22,7 @@ public class CLI implements View {
         boolean error = true;
         boolean firstTry = true;
         Logo.print();
-        MatchData.getInstance().setView(this);
+        //MatchData.getInstance().setView(this);
         while (error) {
             client = StartGame.InitialConnection(this, firstTry);
             try {
@@ -54,11 +54,11 @@ public class CLI implements View {
 
         StartGame.displayGameModeRequest(client);
     }
-    public void NumberOfPlayerRequest(){
+    public void displayNumberOfPlayersRequest(){
         StartGame.NumberOfPlayersRequest(client);
     }
-    public void WaitingMessage(){
-        StartGame.WaitingMessage();
+    public void displayWaitingMessage(){
+        StartGame.displayWaitingMessage();
     }
     public void motherNatureMovementRequest(int Mn_pos, Player Current_Player){
         MnCLI.motherNatureMovementRequest(client,Mn_pos,Current_Player);
@@ -69,13 +69,13 @@ public class CLI implements View {
     public void MoveStudentToIslandRequest(List<Island> islands, Student stud_to_island){
         IslandCLI.MoveStudentToIslandRequest(client,islands,stud_to_island);
     }
-    public void chooseColourRequest(){
+    public void displayColourRequest(){
         ColourCLI.chooseColourRequest(client);
     }
-    public void studentToMoveRequest(Board board){
+    public void displayStudentToMoveRequest(Board board){
         BoardCLI.studentToMoveRequest(client,board);
     }
-    public void positionToMoveRequest(Board board, int choiceStudent){
+    public void displayWhereToMoveStudents(Board board, int choiceStudent){
         BoardCLI.positionToMoveRequest(client,board,choiceStudent);
     }
     public void displayDiningRoomColourFull( Board board,int choiceStudent){
@@ -92,14 +92,14 @@ public class CLI implements View {
         System.out.println("Timeout expired, you will be now disconnected");
         closeConnection();
     }
-    public void chooseAssistantCard( Player player,GameTable GT){
+    public void displayChooseAssistantCardRequest( Player player,GameTable GT){
         AssistantCLI.chooseAssistantCard(client,player,GT);
 
     }
     public void choosePositionRequest(int upperLimit){
         PositionCLI.choosePositionRequest(client,upperLimit);
     }
-    public void chooseCloud( List<Cloud> clouds,Player player){
+    public void displayChooseCloudRequest( List<Cloud> clouds,Player player){
         CloudCLI.chooseCloud(client,clouds,player);
     }
     public void closeConnection(){

@@ -19,5 +19,5 @@ public class EndGameNotify extends MessagesToClient{
     }
 
     @Override
-    public String toString() {return "The game is end";}
+    public String toString() {return "The game is ended";}
 }
