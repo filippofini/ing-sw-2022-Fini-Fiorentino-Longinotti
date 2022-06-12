@@ -115,6 +115,14 @@ public interface ViewInterface {
      * This method displays the entrance students.
      */
     void displayEntranceStudents(Board board);
+    /**
+     * This method request a position.
+     */
+    void choosePositionRequest(int upperLimit);
+    /**
+     * This method close the connection.
+     */
+    void closeConnection();
 
     /*
      * This method informs that the game is started.
