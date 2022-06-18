@@ -28,6 +28,13 @@ public class ClientHandler implements ClientHandlerInterface, Runnable {
     private boolean validNickname;
     private int mnmovement;
     private int pos;
+    private int islandToMove;
+    private int studToMove;
+    private int positionChosen;
+    private int colour;
+    private  int assistantCardChosen;
+    private  int cloudChosen;
+
 
     public boolean isGameStarted() {
         return gameStarted;
@@ -265,6 +272,36 @@ public class ClientHandler implements ClientHandlerInterface, Runnable {
 
     public void setValidNickname(boolean validNickname) {
         this.validNickname = validNickname;
+    }
+
+    @Override
+    public void setIslandToMove(int islandToMove) {
+        this.islandToMove = islandToMove;
+    }
+
+    @Override
+    public void setstudToMove(int studToMove) {
+        this.studToMove=studToMove;
+    }
+
+    @Override
+    public void setpos(int positionChosen) {
+        this.positionChosen=positionChosen;
+    }
+
+    @Override
+    public void setcolour(int colour) {
+        this.colour=colour;
+    }
+
+    @Override
+    public void setCloudChosen(int cloudChosen) {
+        this.cloudChosen = cloudChosen;
+    }
+
+    @Override
+    public void setAssistantCardChosen(int assistantCardChosen) {
+        this.assistantCardChosen = assistantCardChosen;
     }
 }
 

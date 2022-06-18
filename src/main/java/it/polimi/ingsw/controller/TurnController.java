@@ -3,6 +3,7 @@ package it.polimi.ingsw.controller;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.character.Knight;
 import it.polimi.ingsw.model.character.MagicMailman;
+import it.polimi.ingsw.network.server.ClientHandler;
 
 import java.util.List;
 import java.util.Scanner;
@@ -17,6 +18,7 @@ public class TurnController {
     private int n_players;
     List<Player> P_L;
     CharacterCard played_cCard;
+    private ClientHandler clienthandler;
 
     /**
      * Constructor of the class.
@@ -70,7 +72,7 @@ public class TurnController {
         int choice;
         boolean check_for_tower;
         int[] tempCloud;
-        Scanner sc= new Scanner(System.in);
+        //Scanner sc= new Scanner(System.in);
         for(int i=0;i<n_players;i++){
             GS.setCurr_player(player_order[i]);
             stud_to_island=GS.getGT().getBoards()[player_order[i]].moveEntranceStudents(GS);
