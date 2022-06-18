@@ -17,6 +17,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 import java.util.stream.Collectors;
+
+import it.polimi.ingsw.model.GameMode;
 import it.polimi.ingsw.network.message.toClient.NumberOfPlayersRequest;
 import it.polimi.ingsw.network.message.toClient.WaitingInTheLobbyMessage;
 
@@ -33,6 +35,7 @@ public class Server implements ServerInterface {
     private int numOfPlayersForNextGame = -1;
     private List<ClientHandler> lobby;
 
+    private List<GameController> activeGames;
     private Set<String> groupOfNicknames;
     private ReentrantLock lockLobby = new ReentrantLock(true);
     private ReentrantLock lockGames = new ReentrantLock(true);
@@ -170,12 +173,56 @@ public class Server implements ServerInterface {
         }
     }
 
-    //TODO:Mettere un modo per indicare se è expert mode o no; aggiorno le fasi in base al controller.
+    /**
+     * Method used to manage the start of a expert mode game.
+     */
     private void startNewGame() {
         if (lobby.size() < numOfPlayersForNextGame)
             return;
-        GameController controller = new GameController();
+        GameController controller = new GameController(GameMode.EXPERT);
+        controller.setServer(this);
+        lockLobby.lock();
+        try {
+            List<String> playersInGame = lobby.stream().filter(x -> lobby.indexOf(x) < numOfPlayersForNextGame).map(x -> x.getNickname()).collect(Collectors.toList());
 
+            for (int i = 0; i < numOfPlayersForNextGame; i++) {
+                lobby.get(0).setClientHandlerPhase(ClientHandlerPhase.READY_TO_START);
+                lobby.get(0).setGameStarted(true);
+                controller.addConnection(lobby.get(0));
+                lobby.get(0).setController(controller);
+                lobby.remove(0);
+            }
+
+            for (String nickname : playersInGame) {
+                controller.getConnectionByNickname(nickname).sendMessageToClient(new SendPlayersNicknamesMessage(nickname, playersInGame.stream().filter(x -> !(x.equals(nickname))).collect(Collectors.toList())));
+            }
+
+            controller.setControllerID(playersInGame.stream().sorted().reduce("", String::concat).hashCode());
+            lockGames.lock();
+            try {
+                activeGames.add(controller);
+            } finally {
+                lockGames.unlock();
+            }
+            assert controller != null;
+            controller.start();
+            numOfPlayersForNextGame = -1;
+            if (lobby.size() > 0) {
+                lobby.get(0).setClientHandlerPhase(ClientHandlerPhase.WAITING_NUMBER_OF_PLAYERS);
+                lobby.get(0).sendMessageToClient(new NumberOfPlayersRequest());
+            }
+        } finally {
+            lockLobby.unlock();
+        }
+    }
+
+    /**
+     * Method used to manage the start of a standard mode game.
+     */
+    private void startNewGame() {
+        if (lobby.size() < numOfPlayersForNextGame)
+            return;
+        GameController controller = new GameController(GameMode.STANDARD);
         controller.setServer(this);
         lockLobby.lock();
         try {
@@ -214,6 +261,7 @@ public class Server implements ServerInterface {
 
 
     public void removeConnectionLobby(ClientHandler clientHandler) {
+
 
     }
 

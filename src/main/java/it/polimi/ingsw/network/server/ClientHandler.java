@@ -147,11 +147,10 @@ public class ClientHandler implements ClientHandlerInterface, Runnable {
      * @param message the message to check
      * @return true only if the message must be printed
      */
-
-    //TODO: implementare i messaggi mancanti
     private boolean checkMessage(Serializable message){
-        return (!(message instanceof MatchDataMessage) && message != ConnectionMessage.PING && !(message instanceof LoadLeaderCardsMessage) && !(message instanceof LoadDevelopmentCardsMessage) && !(message instanceof TextMessage));
+        return  message != ConnectionMessage.PING && !(message instanceof TextMessage));
     }
+
     /**
      * Method to handle client's disconnection
      */
