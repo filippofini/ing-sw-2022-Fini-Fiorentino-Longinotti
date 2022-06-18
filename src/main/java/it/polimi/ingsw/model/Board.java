@@ -1,5 +1,11 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.network.message.toClient.ChooseIslandOrBoardRequest;
+import it.polimi.ingsw.network.message.toClient.StudentToMoveRequest;
+import it.polimi.ingsw.network.message.toClient.displayDiningRoomColourFullRequest;
+import it.polimi.ingsw.network.message.toClient.displayStudentChosenPreviouslyRequest;
+import it.polimi.ingsw.network.server.ClientHandler;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -40,9 +46,6 @@ public class Board {
         }
         farmer_state=false;
 
-        //for now with if, maybe later will become switch case
-        // need re-check values
-        // remember that now there is the space for the students, not the instances of the students!
         if(numOfPlayers == 2 ){
             arrEntranceStudents = new Student[7];
             maxEntranceStudents=7;
@@ -53,7 +56,7 @@ public class Board {
             maxEntranceStudents=9;
             n_towers = 6;
         }
-        //I had supposed that the squads where players(1-2) && players(3-4), if not it will need changes!
+
         else if(numOfPlayers == 4){
             arrEntranceStudents = new Student[7];
             maxEntranceStudents=7;
@@ -75,50 +78,22 @@ public class Board {
      * This method moves students to the islands.
      * @return The list of students sent to an island.
      */
-    public List<Student> moveEntranceStudents(GameState GS){
-        int choiceStudent;
-        int choicePosition;
+    public List<Student> moveEntranceStudents(GameState GS, ClientHandler clientHandler){
+
         int studentsChosen=0;
         boolean validChoice = true;
         List<Student> studentToIslands = new ArrayList<Student>();
-        Scanner sc= new Scanner(System.in);
-        System.out.println("choose the number of one of the students to move:\n");
 
-        for (int i=0;i< maxEntranceStudents-1;i++) {
-            System.out.println(arrEntranceStudents[i].getEnumColour() + "["+(i)+"] ");
-        }
-        System.out.println(arrEntranceStudents[maxEntranceStudents-1].getEnumColour() + "["+(maxEntranceStudents-1)+"]\n");
-        do{
-            choiceStudent = sc.nextInt();
-            if(choiceStudent<maxEntranceStudents){
-                validChoice=false;
-            }
-            else {
-                System.out.println("Number not valid,please choose a number from the list");
-            }
-        } while(validChoice);
-
-        validChoice=true;
+        clientHandler.sendMessageToClient(new StudentToMoveRequest(this));
 
         while(studentsChosen <3) {
-            if (arrEntranceStudents[choiceStudent].getIsChosen() == false) {
-                System.out.println("where do you want to move the student?:\n");
-                System.out.println("Dining Room[0] Island[1]");
-                do{
-                    choicePosition = sc.nextInt();
-                    if(choiceStudent<2){
-                        validChoice=false;
-                    }
-                    else {
-                        System.out.println("Number not valid,please choose a number from the list");
-                    }
-                } while(validChoice);
-                validChoice=true;
+            if (arrEntranceStudents[clientHandler.getStudToMove()].getIsChosen() == false) {
+                clientHandler.sendMessageToClient(new ChooseIslandOrBoardRequest(this,clientHandler.getStudToMove()));
 
-                if(choicePosition == 0){
-                    if(arrPositionStudents[arrEntranceStudents[choiceStudent].getColour()]<10){
-                        arrPositionStudents[arrEntranceStudents[choiceStudent].getColour()]++;
-                        arrEntranceStudents[choiceStudent].Chosen();
+                if(clientHandler.getPos() == 0){
+                    if(arrPositionStudents[arrEntranceStudents[clientHandler.getStudToMove()].getColour()]<10){
+                        arrPositionStudents[arrEntranceStudents[clientHandler.getStudToMove()].getColour()]++;
+                        arrEntranceStudents[clientHandler.getStudToMove()].Chosen();
                         studentsChosen++;
                         if(farmer_state){
                             for(int j=0;j<5;j++){
@@ -145,39 +120,20 @@ public class Board {
                         }
                     }
                     else{
-                        System.out.println("table of colour:"+arrEntranceStudents[choiceStudent].getEnumColour() +" is full, please choose another student");
+                        clientHandler.sendMessageToClient(new displayDiningRoomColourFullRequest(this,clientHandler.getStudToMove()));
                     }
                 }
-                else if(choicePosition == 1){
-                    studentToIslands.add(new Student(arrEntranceStudents[choiceStudent].getEnumColour()));
-                    arrEntranceStudents[choiceStudent].Chosen();
+                else if(clientHandler.getPos() == 1){
+                    studentToIslands.add(new Student(arrEntranceStudents[clientHandler.getStudToMove()].getEnumColour()));
+                    arrEntranceStudents[clientHandler.getStudToMove()].Chosen();
                     studentsChosen++;
                 }
-                System.out.println("choose the number of one of the students to move:\n");
-                do{
-                    choiceStudent = sc.nextInt();
-                    if(choiceStudent<maxEntranceStudents){
-                        validChoice=false;
-                    }
-                    else {
-                        System.out.println("Number not valid,please choose a number from the list");
-                    }
-                } while(validChoice);
-                validChoice=true;
-
+                clientHandler.sendMessageToClient(new StudentToMoveRequest(this));
             }
-            else if (arrEntranceStudents[choiceStudent].getIsChosen() == true){
-                System.out.println("Student chosen previously,please choose another student\n");
-                do{
-                    choiceStudent = sc.nextInt();
-                    if(choiceStudent<maxEntranceStudents){
-                        validChoice=false;
-                    }
-                    else {
-                        System.out.println("Number not valid,please choose a number from the list");
-                    }
-                } while(validChoice);
-                validChoice=true;
+            else if (arrEntranceStudents[clientHandler.getStudToMove()].getIsChosen() == true){
+                clientHandler.sendMessageToClient(new displayStudentChosenPreviouslyRequest(this,clientHandler.getStudToMove()));
+                clientHandler.sendMessageToClient(new StudentToMoveRequest(this));
+
             }
         }
         if(farmer_state){

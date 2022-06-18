@@ -10,7 +10,7 @@ import it.polimi.ingsw.network.message.toServer.ChooseCloudReply;
 import java.util.List;
 
 public class CloudCLI {
-    public static void chooseCloud(Client client, List<Cloud> clouds,Player player){
+    public static void chooseCloud(Client client, List<Cloud> clouds){
         int choice;
         System.out.println("choose the number of the cloud you want to choose:\n");
         for(int i=0;i<clouds.size();i++){
@@ -21,7 +21,7 @@ public class CloudCLI {
         }
         choice=InputParser.getInt();
 
-        while(choice<0 || choice>=player.getDeck().count_elements()){
+        while(choice<0 || choice>=clouds.size()){
             System.out.println("Number not valid,please choose a number from the list");
             choice=InputParser.getInt();
         }

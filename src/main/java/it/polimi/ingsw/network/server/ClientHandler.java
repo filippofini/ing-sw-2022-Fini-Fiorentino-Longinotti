@@ -304,5 +304,29 @@ public class ClientHandler implements ClientHandlerInterface, Runnable {
     public void setAssistantCardChosen(int assistantCardChosen) {
         this.assistantCardChosen = assistantCardChosen;
     }
+
+    public int getIslandToMove() {
+        return islandToMove;
+    }
+
+    public int getMnmovement() {
+        return mnmovement;
+    }
+
+    public int getAssistantCardChosen() {
+        return assistantCardChosen;
+    }
+
+    public int getStudToMove() {
+        return studToMove;
+    }
+
+    public int getPos() {
+        return pos;
+    }
+
+    public int getCloudChosen() {
+        return cloudChosen;
+    }
 }
 

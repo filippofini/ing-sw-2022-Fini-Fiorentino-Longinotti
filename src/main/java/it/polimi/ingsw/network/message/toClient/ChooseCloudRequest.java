@@ -11,15 +11,14 @@ import java.util.List;
  */
 public class ChooseCloudRequest extends MessagesToClient{
     List<Cloud> clouds;
-    Player player;
-    public ChooseCloudRequest(List<Cloud> clouds,Player player) {
+    public ChooseCloudRequest(List<Cloud> clouds) {
         super(true);
         this.clouds=clouds;
-        this.player=player;
+
     }
 
     @Override
-    public void handleMessage(ViewInterface view) { view.displayChooseCloudRequest(clouds,player);}
+    public void handleMessage(ViewInterface view) { view.displayChooseCloudRequest(clouds);}
 
     @Override
     public String toString() { return "Asking to choose a cloud";}

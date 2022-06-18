@@ -38,7 +38,7 @@ public class BoardCLI {
                 if (choiceStudent < 2) {
                     validChoice = false;
                 } else {
-                    System.out.println("Number not valid,please choose a number from the list");
+                    System.out.println("Number not valid,please ");
                 }
 
             } while (validChoice);

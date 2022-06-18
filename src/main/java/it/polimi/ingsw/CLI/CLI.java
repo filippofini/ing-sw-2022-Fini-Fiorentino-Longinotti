@@ -99,8 +99,8 @@ public class CLI implements View {
     public void choosePositionRequest(int upperLimit){
         PositionCLI.choosePositionRequest(client,upperLimit);
     }
-    public void displayChooseCloudRequest( List<Cloud> clouds,Player player){
-        CloudCLI.chooseCloud(client,clouds,player);
+    public void displayChooseCloudRequest( List<Cloud> clouds){
+        CloudCLI.chooseCloud(client,clouds);
     }
     public void closeConnection(){
         System.out.close();

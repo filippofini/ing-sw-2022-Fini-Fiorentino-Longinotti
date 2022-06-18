@@ -98,7 +98,7 @@ public interface ViewInterface {
     /**
      * This method displays the request of the choice for a cloud.
      */
-    void displayChooseCloudRequest(List<Cloud> clouds,Player player);
+    void displayChooseCloudRequest(List<Cloud> clouds);
     /**
      * This method displays the Island info.
      */

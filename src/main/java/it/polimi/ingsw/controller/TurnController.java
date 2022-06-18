@@ -3,6 +3,11 @@ package it.polimi.ingsw.controller;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.character.Knight;
 import it.polimi.ingsw.model.character.MagicMailman;
+import it.polimi.ingsw.network.message.toClient.ChooseAssistantCardRequest;
+import it.polimi.ingsw.network.message.toClient.ChooseIslandRequest;
+import it.polimi.ingsw.network.message.toClient.MoveMnRequest;
+import it.polimi.ingsw.network.message.toClient.displayIslandinfoRequest;
+import it.polimi.ingsw.network.message.toServer.MoveMnReply;
 import it.polimi.ingsw.network.server.ClientHandler;
 
 import java.util.List;
@@ -58,8 +63,9 @@ public class TurnController {
      */
     public void planning_phase_personal(int i){
 
-       GS.getGT().choose_assistant(P_L.get(i));
 
+       clienthandler.sendMessageToClient(new ChooseAssistantCardRequest(P_L.get(i),GS.getGT()));
+        GS.getGT().choose_assistant(P_L.get(i),clienthandler.getAssistantCardChosen());
     }
 
 
@@ -72,44 +78,29 @@ public class TurnController {
         int choice;
         boolean check_for_tower;
         int[] tempCloud;
-        //Scanner sc= new Scanner(System.in);
+
         for(int i=0;i<n_players;i++){
             GS.setCurr_player(player_order[i]);
-            stud_to_island=GS.getGT().getBoards()[player_order[i]].moveEntranceStudents(GS);
+            stud_to_island=GS.getGT().getBoards()[player_order[i]].moveEntranceStudents(GS,clienthandler);
 
             //add all the student to the islands
             for(int j=0;j< stud_to_island.size();j++){
 
-                System.out.println("Choose the island where to add the student:"+stud_to_island.get(j)+"\n");
-                choice=sc.nextInt();
-                while (choice<0 ||choice>=GS.getGT().getHow_many_left()){
-                    System.out.println("This Island does not exit, please choose a valid number:\n");
-                    choice=sc.nextInt();
-                }
-                GS.getGT().getIslands().get(choice).add_students(stud_to_island.get(j));
+                clienthandler.sendMessageToClient(new ChooseIslandRequest( GS.getGT().getIslands(),stud_to_island.get(j)));
+                GS.getGT().getIslands().get(clienthandler.getIslandToMove()).add_students(stud_to_island.get(j));
             }
-            System.out.println("Choose how many steps Mother Nature have to do:\n");
-            System.out.println("Mother Nature position: Island["+GS.getGT().getMother_nature_pos()+"]\n");
+
 
             //If the played character card is the magic mailman, it increases the possible movement by 2
             if (played_cCard.equals(new MagicMailman())){
                 played_cCard.effect(GS);
             }
-            System.out.println("Number of steps possible:"+P_L.get(player_order[i]).getChosen_card().getValue()+"\n");
+
             for(int j=0;j<GS.getGT().getHow_many_left();j++){
-                System.out.println("Island["+j+":]\n");
-                for (int k=0;k<5; k++){
-                    System.out.println(DiskColour.values()[k] +": "+GS.getGT().getIslands().get(j).getArr_students()[k]+"\n");
-                }
-                System.out.println("Owned by: player "+GS.getGT().getIslands().get(j).getPlayer_controller()+"\n");
-                System.out.println("Influence: "+GS.getGT().getIslands().get(j).getInfluence_controller()+"\n");
+              clienthandler.sendMessageToClient(new displayIslandinfoRequest(GS.getGT().getIslands().get(j),j));
             }
-            choice=sc.nextInt();
-            while (choice<0 ||choice>=P_L.get(player_order[i]).getChosen_card().getValue()){
-                System.out.println("It's not possible to do this number of steps, please choose a valid number:\n");
-                choice=sc.nextInt();
-            }
-            GS.getGT().move_mother_nature(choice);
+            clienthandler.sendMessageToClient(new MoveMnRequest(GS.getGT().getMother_nature_pos(),P_L.get(GS.getCurr_player())));
+            GS.getGT().move_mother_nature(clienthandler.getMnmovement());
             check_for_tower=GS.getGT().getIslands().get(GS.getGT().getMother_nature_pos()).calculate_influence(player_order[i],GS.getGT().getBoards());
 
             //if(!check_for_tower) means that you have gained the control of the island
@@ -129,7 +120,7 @@ public class TurnController {
             }
 
             GS.getGT().merge(GS.getGT().getMother_nature_pos(),player_order[i],GS.getGT().getBoards());
-            tempCloud=GS.getGT().choose_cloud().getArr_students();
+            tempCloud=GS.getGT().choose_cloud(clienthandler).getArr_students();
             GS.getGT().getBoards()[player_order[i]].setArrEntranceStudents(tempCloud);
 
             for(int n=0;n<3;n++){
