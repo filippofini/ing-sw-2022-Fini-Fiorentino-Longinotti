@@ -1,6 +1,5 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.CLI.CloudCLI;
 import it.polimi.ingsw.model.character.*;
 
 import java.util.*;
@@ -373,7 +372,6 @@ public class GameTable {
     public Cloud choose_cloud(){
         int choice;
         Cloud chosen_cloud;
-        CloudCLI.chooseCloud(client,clouds,player);
         Scanner sc= new Scanner(System.in);
         System.out.println("Choose the number of the cloud you want:\n");
 
