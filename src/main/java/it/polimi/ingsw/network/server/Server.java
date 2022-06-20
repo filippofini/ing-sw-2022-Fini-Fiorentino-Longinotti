@@ -17,7 +17,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 import java.util.stream.Collectors;
-
 import it.polimi.ingsw.model.GameMode;
 import it.polimi.ingsw.network.message.toClient.NumberOfPlayersRequest;
 import it.polimi.ingsw.network.message.toClient.WaitingInTheLobbyMessage;
@@ -34,7 +33,6 @@ public class Server implements ServerInterface {
     private ServerSocket serverSocket;
     private int numOfPlayersForNextGame = -1;
     private List<ClientHandler> lobby;
-
     private List<GameController> activeGames;
     private Set<String> groupOfNicknames;
     private ReentrantLock lockLobby = new ReentrantLock(true);
@@ -265,15 +263,17 @@ public class Server implements ServerInterface {
 
     }
 
-    public void removeGame(GameController controller) {
-        activeGames.remove(controller);
-    }
-
-
     public void gameEnded() {
 
     }
 
 
+    public void removeConnectionGame(ClientHandler connection) {
+        groupOfNicknames.remove(connection.getNickname());
+    }
+
+    public void removeNickname(String nickname) {
+        groupOfNicknames.remove(nickname);
+    }
 }
 
