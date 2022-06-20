@@ -43,15 +43,15 @@ public class EndGameCLI {
 
             }
             if(players.size()==2 || players.size()==3){
-                System.out.println("the winner is: "+players.get(winnerID).getName()+" with a number of "+winnertowers+" towers!\n");
+                System.out.println("the winner is: "+players.get(winnerID).getNickname()+" with a number of "+winnertowers+" towers!\n");
 
             }
             else if(players.size()==4){
                 if(winnerID==0 || winnerID ==1){
-                    System.out.println("the winners are: "+players.get(0).getName()+" and "+players.get(1).getName()+" with a number of "+winnertowers+" towers!\n");
+                    System.out.println("the winners are: "+players.get(0).getNickname()+" and "+players.get(1).getNickname()+" with a number of "+winnertowers+" towers!\n");
                 }
                 else if(winnerID==2 || winnerID ==3){
-                    System.out.println("the winners are: "+players.get(2).getName()+" and "+players.get(3).getName()+" with a number of "+winnertowers+" towers!\n");
+                    System.out.println("the winners are: "+players.get(2).getNickname()+" and "+players.get(3).getNickname()+" with a number of "+winnertowers+" towers!\n");
                 }
 
             }
@@ -67,7 +67,7 @@ public class EndGameCLI {
                         tempprof++;
                     }
                 }
-                System.out.println(players.get(i).getName()+":\n");
+                System.out.println(players.get(i).getNickname()+":\n");
                 System.out.println("towers:"+temptowers+"\n");
                 System.out.println("professors:"+tempprof+"\n");
             }
