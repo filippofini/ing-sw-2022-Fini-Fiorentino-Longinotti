@@ -1,8 +1,7 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.CLI.CloudCLI;
 import it.polimi.ingsw.model.character.*;
-import it.polimi.ingsw.network.message.toClient.ChooseCloudRequest;
-import it.polimi.ingsw.network.server.ClientHandler;
 
 import java.util.*;
 
@@ -110,9 +109,19 @@ public class GameTable {
      * This method lets the player choose their assistance card
      * @param player The current player that is going to choose the assistance card.
      */
-    public void choose_assistant(Player player,int ass_chosen){
+    public void choose_assistant(Player player){
         AssistanceCard choice;
+        int ass_chosen;
         boolean flag=true;
+        Scanner sc= new Scanner(System.in);
+        System.out.println("Choose the assistant that you want to play from the ones below:\n");
+        for(int i=0;i<player.getDeck().count_elements();i++){
+            System.out.println(player.getDeck().getCards().get(i)+"["+i+"]\n");
+        }
+        ass_chosen=sc.nextInt();
+        while(ass_chosen<0 || ass_chosen>=player.getDeck().count_elements() || !check_if_playable(player.getDeck().getCards().get(ass_chosen),player.getDeck())){
+            ass_chosen=sc.nextInt();
+        }
         choice=player.getDeck().getCards().get(ass_chosen);
         player.setMoves(choice.getMother_nature_movement());
         discard_deck[player.getPlayer_ID()]=choice;
@@ -361,12 +370,27 @@ public class GameTable {
     /**
      * This method lets the player choose the cloud that he wants.
      */
-    public Cloud choose_cloud(ClientHandler clientHandler){
-
+    public Cloud choose_cloud(){
+        int choice;
         Cloud chosen_cloud;
-        clientHandler.sendMessageToClient(new ChooseCloudRequest(tempclouds));
-        chosen_cloud=tempclouds.get(clientHandler.getCloudChosen());
-        tempclouds=del_temp_cloud(clientHandler.getCloudChosen());
+        CloudCLI.chooseCloud(client,clouds,player);
+        Scanner sc= new Scanner(System.in);
+        System.out.println("Choose the number of the cloud you want:\n");
+
+        for(int i=0;i<tempclouds.size();i++){
+            System.out.println("Cloud["+i+"]:\n");//cloudCLI
+            for(int j=0;j<5;j++){
+
+                System.out.println(DiskColour.values()[j]+":"+tempclouds.get(i).getArr_students()[j]+"\n");
+            }
+        }
+        choice= sc.nextInt();
+        while(choice>= tempclouds.size() || choice<0){
+            System.out.println("This Cloud does not exit, please choose a valid number:\n");
+            choice= sc.nextInt();
+        }
+        chosen_cloud=tempclouds.get(choice);
+        tempclouds=del_temp_cloud(choice);
         if(tempclouds.size()==0){
             reset_temp_clouds();
         }
