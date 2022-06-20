@@ -9,7 +9,7 @@ import java.util.Objects;
  * Each player starts with 1 coin if the expert mode is enabled.
  */
 public class Player {
-    private final String name;
+    private final String nickname;
     private final int tower_colour;
     private final int wizard;
     private int coin;
@@ -17,22 +17,24 @@ public class Player {
     private AssistanceCard chosen_card; //chosen card to play during the turn
     private int moves;
     private final Deck deck;
+    private boolean active;
 
 
     /**
      * Constructor of the class
-     * @param name The string containing the name of the player.
+     * @param nickname The string containing the name of the player.
      * @param wizard The number of wizard assigned to the player (from 1 to 3).
      * @param tower_colour The colour of the tower assigned to the player. It gets translated to a number from 0 to 2 based on the colour. More info here: {@link AssistanceCard}.
      * @param player_ID Player ID assigned to the player (from 1 to 4).
      */
-    public Player(String name, int wizard, TowerColour tower_colour, int player_ID) {
+    public Player(String nickname, int wizard, TowerColour tower_colour, int player_ID) {
         this.coin = 1;
-        this.name = name;
+        this.nickname = nickname;
         this.wizard = wizard;
         this.tower_colour = tower_colour.getTower_translate();
         this.player_ID = player_ID;
         deck = new Deck();
+        this.active = active;
     }
 
     /**
@@ -63,8 +65,8 @@ public class Player {
      * This method returns the name of the player.
      * @return The name of the player.
      */
-    public String getName() {
-        return name;
+    public String getNickname() {
+        return nickname;
     }
 
     /**
@@ -133,8 +135,11 @@ public class Player {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Player player = (Player) o;
-        return tower_colour == player.tower_colour && wizard == player.wizard && coin == player.coin && player_ID == player.player_ID && Objects.equals(name, player.name) && chosen_card == player.chosen_card  && Objects.equals(deck, player.deck);
+        return tower_colour == player.tower_colour && wizard == player.wizard && coin == player.coin && player_ID == player.player_ID && Objects.equals(nickname, player.nickname) & chosen_card == player.chosen_card  && Objects.equals(deck, player.deck);
     }
 
 
+    public boolean isActive() {
+        return active;
+    }
 }

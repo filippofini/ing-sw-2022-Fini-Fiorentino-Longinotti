@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network.server;
 
+import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.enumerations.ClientHandlerPhase;
 import it.polimi.ingsw.model.GameMode;
 
@@ -30,4 +31,5 @@ public interface ClientHandlerInterface {
     void setAssistantCardChosen(int assistantCardChosen);
     void setCloudChosen(int cloudChosen);
 
+    GameController getGameController();
 }

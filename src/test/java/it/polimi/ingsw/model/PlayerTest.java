@@ -36,7 +36,7 @@ class PlayerTest {
 
     @Test
     public void testGetName() {
-        assertEquals("ff",player.getName());
+        assertEquals("ff",player.getNickname());
     }
 
     @Test

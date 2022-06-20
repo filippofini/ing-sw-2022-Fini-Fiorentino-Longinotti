@@ -22,7 +22,7 @@ public class ClientHandler implements ClientHandlerInterface, Runnable {
     private ObjectInputStream inputStream;
     private Server server;
     private Thread timer;
-    private GameController controller;
+    private GameController gameController;
     private final Thread pinger;
     private boolean active = false;
     private boolean validNickname;
@@ -89,7 +89,7 @@ public class ClientHandler implements ClientHandlerInterface, Runnable {
                     if(messageFromClient != null && !(messageFromClient == ConnectionMessage.PING)) {
                         stopTimer();
                         Server.SERVER_LOGGER.log(Level.INFO, "[" + (nickname != null ? nickname : socket.getInetAddress().getHostAddress()) + "]: " + messageFromClient);
-                        if(active && !(gameStarted && controller.getGamePhase() instanceof PlayPhase && !(((PlayPhase) controller.getGamePhase()).getTurnController().getCurrentPlayer().getNickname().equals(nickname))))
+                        if(active && !(gameStarted && gameController.getGamePhase() instanceof PlayPhase && !(((PlayPhase) gameController.getGamePhase()).getTurnController().getCurrentPlayer().getNickname().equals(nickname))))
                             ((MessagesToServer) messageFromClient).handleMessage(server, this);
                     }
 
@@ -171,7 +171,7 @@ public class ClientHandler implements ClientHandlerInterface, Runnable {
         Server.SERVER_LOGGER.log(Level.SEVERE, "[" + (nickname != null ? nickname : socket.getInetAddress().getHostAddress())+ "]: " + "client disconnected" + (timeout ? " because the timeout has expired" : ""));
         //If the game is started, the controller will handle his disconnection
         if (gameStarted){
-            controller.handleClientDisconnection(nickname);
+            gameController.handleClientDisconnection(nickname);
         } else {
             //If the game is not started yet, I simply remove the player from the list of waiting players
             server.removeConnectionLobby(this);
@@ -254,10 +254,13 @@ public class ClientHandler implements ClientHandlerInterface, Runnable {
         server.setNumberOfPlayersForNextGame(this, numberOfPlayersForNextGame);
     }
 
-  public void setController(GameController controller){
-      this.controller = controller;
+  public void setGameController(GameController gameController){
+      this.gameController = gameController;
     }
 
+    public GameController getGameController() {
+        return gameController;
+    }
     public Server getServer(){
         return server;
     }
