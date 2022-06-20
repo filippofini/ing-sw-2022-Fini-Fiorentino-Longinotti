@@ -59,7 +59,7 @@ public class GameController implements Serializable {
             if (player.isActive()) {
                 getConnectionByNickname(player.getNickname()).sendMessageToClient(new NotifyDisconnection(nickname));
                 getConnectionByNickname(player.getNickname()).setGameStarted(false);
-                getConnectionByNickname(player.getNickname()).setController(null);
+                getConnectionByNickname(player.getNickname()).setGameController(null);
                 getConnectionByNickname(player.getNickname()).setClientHandlerPhase(ClientHandlerPhase.WAITING_IN_THE_LOBBY);
                 server.addClientHandler(getConnectionByNickname(player.getNickname()));
             } else {

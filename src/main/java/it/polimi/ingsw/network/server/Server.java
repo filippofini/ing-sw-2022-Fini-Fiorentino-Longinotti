@@ -187,7 +187,7 @@ public class Server implements ServerInterface {
                 lobby.get(0).setClientHandlerPhase(ClientHandlerPhase.READY_TO_START);
                 lobby.get(0).setGameStarted(true);
                 controller.addConnection(lobby.get(0));
-                lobby.get(0).setController(controller);
+                lobby.get(0).setGameController(controller);
                 lobby.remove(0);
             }
 
@@ -230,7 +230,7 @@ public class Server implements ServerInterface {
                 lobby.get(0).setClientHandlerPhase(ClientHandlerPhase.READY_TO_START);
                 lobby.get(0).setGameStarted(true);
                 controller.addConnection(lobby.get(0));
-                lobby.get(0).setController(controller);
+                lobby.get(0).setGameController(controller);
                 lobby.remove(0);
             }
 
@@ -270,6 +270,7 @@ public class Server implements ServerInterface {
 
     public void removeConnectionGame(ClientHandler connection) {
         groupOfNicknames.remove(connection.getNickname());
+        connection.getGameController().removeConnection(connection);
     }
 
     public void removeNickname(String nickname) {
