@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.character;
 
 import it.polimi.ingsw.CLI.InputParser;
+import it.polimi.ingsw.CLI.PositionCLI;
 import it.polimi.ingsw.model.CharacterCard;
 import it.polimi.ingsw.model.DiskColour;
 import it.polimi.ingsw.model.GameState;
@@ -21,6 +22,7 @@ public class Minstrel extends CharacterCard {
         int studColour;
         int entrchange;
 
+        PositionCLI.choosePositionRequest(Client);
 
         Scanner sc= new Scanner(System.in);
 
