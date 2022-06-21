@@ -67,7 +67,6 @@ public class GameController implements Serializable {
             }
         }
 
-        server.newGameManager();
     }
 
     public Player[] getPlayer_ID() {
