@@ -19,6 +19,7 @@ import java.util.logging.SimpleFormatter;
 import java.util.stream.Collectors;
 import it.polimi.ingsw.model.GameMode;
 import it.polimi.ingsw.network.message.toClient.NumberOfPlayersRequest;
+import it.polimi.ingsw.network.message.toClient.SendPlayersNamesMessage;
 import it.polimi.ingsw.network.message.toClient.WaitingInTheLobbyMessage;
 
 /**
@@ -33,10 +34,9 @@ public class Server implements ServerInterface {
     private ServerSocket serverSocket;
     private int numOfPlayersForNextGame = -1;
     private List<ClientHandler> lobby;
-    private List<GameController> activeGames;
+
     private Set<String> groupOfNicknames;
     private ReentrantLock lockLobby = new ReentrantLock(true);
-    private ReentrantLock lockGames = new ReentrantLock(true);
     public static final Logger SERVER_LOGGER = Logger.getLogger("Server logger");
     private boolean IsLog;
 
@@ -100,7 +100,7 @@ public class Server implements ServerInterface {
      * - If both a) and b) are true a new multiplayer game starts
      */
     @Override
-    public synchronized void newGameManager() {
+    public synchronized void newGameManager(GameMode mode) {
         lockLobby.lock();
         try {
             if (numOfPlayersForNextGame == -1 && lobby.size() > 0 && lobby.get(0).getClientHandlerPhase() != ClientHandlerPhase.WAITING_NUMBER_OF_PLAYERS) {
@@ -108,7 +108,7 @@ public class Server implements ServerInterface {
                 lobby.get(0).sendMessageToClient(new NumberOfPlayersRequest());
             } else if (numOfPlayersForNextGame != -1 && lobby.size() >= numOfPlayersForNextGame) {
                 if (!invalidNickname())
-                    startNewGame();
+                    startNewGame(mode);
             }
         } finally {
             lockLobby.unlock();
@@ -138,7 +138,8 @@ public class Server implements ServerInterface {
     @Override
     public void setNumberOfPlayersForNextGame(ClientHandlerInterface clientHandler, int numOfPlayersForNextGame) {
         this.numOfPlayersForNextGame = numOfPlayersForNextGame;
-        newGameManager();
+        GameMode mode = clientHandler.getGameMode();
+        newGameManager(mode);
     }
 
     /**
@@ -163,7 +164,7 @@ public class Server implements ServerInterface {
             if (!lobby.contains(connection)) {
                 lobby.add(connection);
             }
-            newGameManager();
+            newGameManager(connection.getGameMode());
             if (lobby.contains(connection) && connection.getClientHandlerPhase() == ClientHandlerPhase.WAITING_IN_THE_LOBBY)
                 connection.sendMessageToClient(new WaitingInTheLobbyMessage());
         } finally {
@@ -174,11 +175,11 @@ public class Server implements ServerInterface {
     /**
      * Method used to manage the start of a expert mode game.
      */
-    private void startNewGame() {
+    private void startNewGame(GameMode mode) {
         if (lobby.size() < numOfPlayersForNextGame)
             return;
-        GameController controller = new GameController(GameMode.EXPERT);
-        controller.setServer(this);
+        GameController gamecontroller = new GameController((mode));
+        gamecontroller.setServer(this);
         lockLobby.lock();
         try {
             List<String> playersInGame = lobby.stream().filter(x -> lobby.indexOf(x) < numOfPlayersForNextGame).map(x -> x.getNickname()).collect(Collectors.toList());
@@ -186,24 +187,18 @@ public class Server implements ServerInterface {
             for (int i = 0; i < numOfPlayersForNextGame; i++) {
                 lobby.get(0).setClientHandlerPhase(ClientHandlerPhase.READY_TO_START);
                 lobby.get(0).setGameStarted(true);
-                controller.addConnection(lobby.get(0));
-                lobby.get(0).setGameController(controller);
+                gamecontroller.addConnection(lobby.get(0));
+                lobby.get(0).setGameController(gamecontroller);
                 lobby.remove(0);
             }
 
             for (String nickname : playersInGame) {
-                controller.getConnectionByNickname(nickname).sendMessageToClient(new SendPlayersNicknamesMessage(nickname, playersInGame.stream().filter(x -> !(x.equals(nickname))).collect(Collectors.toList())));
+                gamecontroller.getConnectionByNickname(nickname).sendMessageToClient(new SendPlayersNamesMessage(nickname, playersInGame.stream().filter(x -> !(x.equals(nickname))).collect(Collectors.toList())));
             }
 
-            controller.setControllerID(playersInGame.stream().sorted().reduce("", String::concat).hashCode());
-            lockGames.lock();
-            try {
-                activeGames.add(controller);
-            } finally {
-                lockGames.unlock();
-            }
-            assert controller != null;
-            controller.start();
+
+            assert gamecontroller != null;
+            gamecontroller.start();
             numOfPlayersForNextGame = -1;
             if (lobby.size() > 0) {
                 lobby.get(0).setClientHandlerPhase(ClientHandlerPhase.WAITING_NUMBER_OF_PLAYERS);
@@ -214,48 +209,6 @@ public class Server implements ServerInterface {
         }
     }
 
-    /**
-     * Method used to manage the start of a standard mode game.
-     */
-    private void startNewGame() {
-        if (lobby.size() < numOfPlayersForNextGame)
-            return;
-        GameController controller = new GameController(GameMode.STANDARD);
-        controller.setServer(this);
-        lockLobby.lock();
-        try {
-            List<String> playersInGame = lobby.stream().filter(x -> lobby.indexOf(x) < numOfPlayersForNextGame).map(x -> x.getNickname()).collect(Collectors.toList());
-
-            for (int i = 0; i < numOfPlayersForNextGame; i++) {
-                lobby.get(0).setClientHandlerPhase(ClientHandlerPhase.READY_TO_START);
-                lobby.get(0).setGameStarted(true);
-                controller.addConnection(lobby.get(0));
-                lobby.get(0).setGameController(controller);
-                lobby.remove(0);
-            }
-
-            for (String nickname : playersInGame) {
-                controller.getConnectionByNickname(nickname).sendMessageToClient(new SendPlayersNicknamesMessage(nickname, playersInGame.stream().filter(x -> !(x.equals(nickname))).collect(Collectors.toList())));
-            }
-
-            controller.setControllerID(playersInGame.stream().sorted().reduce("", String::concat).hashCode());
-            lockGames.lock();
-            try {
-                activeGames.add(controller);
-            } finally {
-                lockGames.unlock();
-            }
-            assert controller != null;
-            controller.start();
-            numOfPlayersForNextGame = -1;
-            if (lobby.size() > 0) {
-                lobby.get(0).setClientHandlerPhase(ClientHandlerPhase.WAITING_NUMBER_OF_PLAYERS);
-                lobby.get(0).sendMessageToClient(new NumberOfPlayersRequest());
-            }
-        } finally {
-            lockLobby.unlock();
-        }
-    }
 
 
     public void removeConnectionLobby(ClientHandler clientHandler) {
