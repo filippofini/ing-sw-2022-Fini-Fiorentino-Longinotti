@@ -85,12 +85,12 @@ public class ClientHandler implements ClientHandlerInterface, Runnable {
 
             while(active){
                 try {
-                    Object messageFromClient = inputStream.readObject();
-                    if(messageFromClient != null && !(messageFromClient == ConnectionMessage.PING)) {
+                    Object message = inputStream.readObject();
+                    if(message != null && !(message == ConnectionMessage.PING)) {
                         stopTimer();
-                        Server.SERVER_LOGGER.log(Level.INFO, "[" + (nickname != null ? nickname : socket.getInetAddress().getHostAddress()) + "]: " + messageFromClient);
+                        Server.SERVER_LOGGER.log(Level.INFO, "[" + (nickname != null ? nickname : socket.getInetAddress().getHostAddress()) + "]: " + message);
                         if(active && !(gameStarted && gameController.getGamePhase() instanceof PlayPhase && !(((PlayPhase) gameController.getGamePhase()).getTurnController().getCurrentPlayer().getNickname().equals(nickname))))
-                            ((MessagesToServer) messageFromClient).handleMessage(server, this);
+                            ((MessagesToServer) message).handleMessage(server, this);
                     }
 
                 } catch (ClassNotFoundException ignored) {
@@ -155,7 +155,7 @@ public class ClientHandler implements ClientHandlerInterface, Runnable {
      * @return true only if the message must be printed
      */
     private boolean checkMessage(Serializable message){
-        return  message != ConnectionMessage.PING && !(message instanceof TextMessage));
+        return  (message != ConnectionMessage.PING && !(message instanceof TextMessage));
     }
 
     /**
