@@ -12,7 +12,7 @@ import java.util.List;
  */
 public class ResultsNotify extends MessagesToClient {
 
-    java.util.List<Island> islands;
+    List<Island> islands;
     List<Player> players;
     Board[] boards;
 

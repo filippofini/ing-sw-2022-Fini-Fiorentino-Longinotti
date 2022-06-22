@@ -19,6 +19,7 @@ import java.util.logging.SimpleFormatter;
 import java.util.stream.Collectors;
 import it.polimi.ingsw.model.GameMode;
 import it.polimi.ingsw.network.message.toClient.NumberOfPlayersRequest;
+import it.polimi.ingsw.network.message.toClient.ResultsNotify;
 import it.polimi.ingsw.network.message.toClient.SendPlayersNamesMessage;
 import it.polimi.ingsw.network.message.toClient.WaitingInTheLobbyMessage;
 
@@ -216,7 +217,9 @@ public class Server implements ServerInterface {
 
     }
 
-    public void gameEnded() {
+    public void gameEnded(GameController gamecontroller, ResultsNotify resultsNotify) {
+        gamecontroller.getPlayers_ID().forEach(x -> groupOfNicknames.remove(x.getNickname()));
+        gamecontroller.sendMessageToAll(resultsNotify);
 
     }
 
