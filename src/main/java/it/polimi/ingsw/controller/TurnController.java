@@ -24,6 +24,7 @@ public class TurnController {
     List<Player> P_L;
     CharacterCard played_cCard;
     private ClientHandler clienthandler;
+    private boolean endgame;
 
     /**
      * Constructor of the class.
@@ -34,6 +35,7 @@ public class TurnController {
      * @param Player_List The list of player for turn order.
      */
     public TurnController(int n_players, String[] names, int wizard[], boolean expert_mode, List<Player> Player_List){
+        endgame=false;
         this.n_players=n_players;
         this.P_L=Player_List;
         player_order= new int[n_players];
@@ -48,14 +50,14 @@ public class TurnController {
      * and replenishing the clouds at the beginning of the round
      */
     public void planning_phase_general(){
-        GS.getGT().replenish_clouds();
+        GS.getGT().replenish_clouds(this);
         for(int i=0;i<n_players;i++){
             planning_phase_personal(player_order[i]);
         }
         Calculate_Player_order();
     }
 
-    //TODO: this method is temporary because the gui need to show up just to the player that has to choose the assistant
+
     /**
      * This method represent the planning phase of the current player. Here the player decides which assistance card
      *  he wants to play.
@@ -80,6 +82,9 @@ public class TurnController {
         int[] tempCloud;
 
         for(int i=0;i<n_players;i++){
+            if(endgame){
+                break;
+            }
             GS.setCurr_player(player_order[i]);
             stud_to_island=GS.getGT().getBoards()[player_order[i]].moveEntranceStudents(GS,clienthandler);
 
@@ -89,7 +94,7 @@ public class TurnController {
                 clienthandler.sendMessageToClient(new ChooseIslandRequest( GS.getGT().getIslands(),stud_to_island.get(j)));
                 GS.getGT().getIslands().get(clienthandler.getIslandToMove()).add_students(stud_to_island.get(j));
             }
-
+            //TODO:want to play a card CLI?
 
             //If the played character card is the magic mailman, it increases the possible movement by 2
             if (played_cCard.equals(new MagicMailman())){
@@ -106,20 +111,43 @@ public class TurnController {
             //if(!check_for_tower) means that you have gained the control of the island
             if(!check_for_tower){
                 if(n_players==4){
-                    if(player_order[i]==1 || player_order[i]==2){
+                    if((player_order[i]==1 || player_order[i]==2) && GS.getGT().getBoards()[1].getN_towers()>0 ){
                         GS.getGT().getBoards()[1].setN_towers(GS.getGT().getBoards()[1].getN_towers()-1);
+                        if(GS.getGT().getBoards()[1].getN_towers()==0){
+                            endgame=true;
+                        }
                     }
-                    else if(player_order[i]==3 || player_order[i]==4){
+
+                    else if((player_order[i]==3 || player_order[i]==4) && GS.getGT().getBoards()[3].getN_towers()>0){
                         GS.getGT().getBoards()[3].setN_towers(GS.getGT().getBoards()[3].getN_towers()-1);
+                        if(GS.getGT().getBoards()[3].getN_towers()==0){
+                            endgame=true;
+                        }
                     }
                 }
                 else{
+                    if(GS.getGT().getBoards()[i].getN_towers()>0){
                     GS.getGT().getBoards()[player_order[i]].setN_towers(GS.getGT().getBoards()[player_order[i]].getN_towers()-1);
+                        if(GS.getGT().getBoards()[i].getN_towers()==0){
+                            endgame=true;
+                        }
+                    }
                 }
 
+
+            }
+            if(endgame){
+                break;
             }
 
+
             GS.getGT().merge(GS.getGT().getMother_nature_pos(),player_order[i],GS.getGT().getBoards());
+            if(GS.getGT().getIslands().size()==3){
+                endgame=true;
+            }
+            if(endgame){
+                break;
+            }
             tempCloud=GS.getGT().choose_cloud(clienthandler).getArr_students();
             GS.getGT().getBoards()[player_order[i]].setArrEntranceStudents(tempCloud);
 
@@ -130,6 +158,7 @@ public class TurnController {
                     }
                 }
             }
+
 
         }
 
@@ -187,5 +216,11 @@ public class TurnController {
     public void setP_L(List<Player> p_L) {
         P_L = p_L;
     }
+    public boolean getendgame(){
+        return endgame;
+    }
 
+    public void setEndgame(boolean endgame) {
+        this.endgame = endgame;
+    }
 }

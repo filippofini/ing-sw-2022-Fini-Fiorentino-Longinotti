@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.controller.TurnController;
 import it.polimi.ingsw.model.character.*;
 import it.polimi.ingsw.network.message.toClient.ChooseCloudRequest;
 import it.polimi.ingsw.network.server.ClientHandler;
@@ -291,7 +292,7 @@ public class GameTable {
     /**
      * This method refills each cloud with students.
      */
-    public void replenish_clouds(){
+    public void replenish_clouds(TurnController TC){
         Random rand = new Random();
         int temprand;
         int count = 0;
@@ -353,6 +354,9 @@ public class GameTable {
                     }
                 }
             }
+        }
+        if(!bag_not_empty){
+            TC.setEndgame(true);
         }
 
     }
