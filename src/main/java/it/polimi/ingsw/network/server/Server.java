@@ -210,14 +210,7 @@ public class Server implements ServerInterface {
         }
     }
 
-
-
-    public void removeConnectionLobby(ClientHandler clientHandler) {
-
-
-    }
-
-    public void gameEnded(GameController gamecontroller, ResultsNotify resultsNotify) {
+        public void gameEnded(GameController gamecontroller, ResultsNotify resultsNotify) {
         gamecontroller.getPlayers_ID().forEach(x -> groupOfNicknames.remove(x.getNickname()));
         gamecontroller.sendMessageToAll(resultsNotify);
 
