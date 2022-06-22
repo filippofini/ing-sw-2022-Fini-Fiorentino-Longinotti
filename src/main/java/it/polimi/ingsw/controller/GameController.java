@@ -4,7 +4,9 @@ import it.polimi.ingsw.enumerations.ClientHandlerPhase;
 import it.polimi.ingsw.model.GameMode;
 import it.polimi.ingsw.model.GameState;
 import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.network.message.toClient.MessagesToClient;
 import it.polimi.ingsw.network.message.toClient.NotifyDisconnection;
+import it.polimi.ingsw.network.message.toClient.ResultsNotify;
 import it.polimi.ingsw.network.server.ClientHandler;
 import it.polimi.ingsw.network.server.Server;
 import java.io.Serializable;
@@ -21,7 +23,7 @@ public class GameController implements Serializable {
 
     private static final long serialVersionUID = 4405183481677036856L;
     private GameMode gameMode;
-    private Player[] players;
+    private List<Player> players;
     private List<ClientHandler> clientHandlers;
     private int n_player;
     public static final String SERVER_NICKNAME = "server";
@@ -32,7 +34,7 @@ public class GameController implements Serializable {
 
     public GameController(GameMode gameMode){
         this.gameMode = gameMode;
-        this.players = new Player[n_player];
+        this.players = new LinkedList<Player>() ;
         this.clientHandlers = new LinkedList<>();
     }
 
@@ -54,7 +56,7 @@ public class GameController implements Serializable {
      * @param nickname the nickname of the disconnected client.
      */
     private void forceEndMultiplayerGame(String nickname){
-        for (Player player : getPlayer_ID()) {
+        for (Player player : getPlayers_ID()) {
             //For each player that is still active I notify the end of the game and I reinsert him in the lobby room
             if (player.isActive()) {
                 getConnectionByNickname(player.getNickname()).sendMessageToClient(new NotifyDisconnection(nickname));
@@ -69,7 +71,7 @@ public class GameController implements Serializable {
 
     }
 
-    public Player[] getPlayer_ID() {
+    public List<Player> getPlayers_ID() {
         return players;
     }
 
@@ -109,37 +111,6 @@ public class GameController implements Serializable {
         }
     }
 
-    /*
-    public boolean isGameStarted() {
-    }
-
-    public boolean checkLoginName(String name, VirtualView virtualView) {
-
-    }
-
-    public void loginHandler(String name, VirtualView virtualView) {
-
-    }
-     */
-
-    public void removeVirtualView(String name, boolean notifyEnabled) {
-
-    }
-    
-    /*
-    public Turn_Controller getTurnController() {
-
-    }
-    */
-
-    public void broadcastDisconnectionMessage(String name, String s){
-
-    }
-
-   public void endGame() {
-
-   }
-
 
     public ClientHandler getConnectionByNickname(String nickname){
         lockConnections.lock();
@@ -155,7 +126,31 @@ public class GameController implements Serializable {
         return null;
     }
 
+
+    public void endGame() {
+        getServer().gameEnded(this,new ResultsNotify());
+
+    }
+
+    /**
+     * Method to send the same message to all the clients connected
+     * @param message to be sent
+     */
+    public void sendMessageToAll(MessagesToClient message){
+        lockConnections.lock();
+        try{
+            for (ClientHandler clientHandler : clientHandlers)
+                clientHandler.sendMessageToClient(message);
+        } finally {
+            lockConnections.unlock();
+        }
+    }
+
     public void setServer(Server server) {
         this.server = server;
+    }
+
+    public Server getServer() {
+        return server;
     }
 }
