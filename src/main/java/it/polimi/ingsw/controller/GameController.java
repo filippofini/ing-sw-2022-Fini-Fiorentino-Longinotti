@@ -3,6 +3,7 @@ package it.polimi.ingsw.controller;
 import it.polimi.ingsw.enumerations.ClientHandlerPhase;
 import it.polimi.ingsw.model.GameMode;
 import it.polimi.ingsw.model.GameState;
+import it.polimi.ingsw.model.GameTable;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.network.message.toClient.MessagesToClient;
 import it.polimi.ingsw.network.message.toClient.NotifyDisconnection;
@@ -29,8 +30,8 @@ public class GameController implements Serializable {
     public static final String SERVER_NICKNAME = "server";
     private Server server;
     private ReentrantLock lockConnections = new ReentrantLock(true);
+    GameTable GameTable;
 
-    //per gestire le partite multiple creare la classe Game o usare gamestate?
 
     public GameController(GameMode gameMode){
         this.gameMode = gameMode;
@@ -128,7 +129,7 @@ public class GameController implements Serializable {
 
 
     public void endGame() {
-        getServer().gameEnded(this,new ResultsNotify());
+        getServer().gameEnded(this,new ResultsNotify(getGameTable().getIslands(),players,getGameTable().getBoards()));
 
     }
 
@@ -152,5 +153,9 @@ public class GameController implements Serializable {
 
     public Server getServer() {
         return server;
+    }
+
+    public GameTable getGameTable() {
+        return GameTable;
     }
 }
