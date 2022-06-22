@@ -100,6 +100,7 @@ public class Server implements ServerInterface {
      * b) If the nicknames of the players who will join the game are unique
      * - If both a) and b) are true a new multiplayer game starts
      */
+
     @Override
     public synchronized void newGameManager(GameMode mode) {
         lockLobby.lock();
@@ -210,7 +211,36 @@ public class Server implements ServerInterface {
         }
     }
 
-        public void gameEnded(GameController gamecontroller, ResultsNotify resultsNotify) {
+
+
+    /**
+     * Method to handle disconnection of clients that has not been added to a game
+     * @param connection
+     */
+    public void removeConnectionLobby(ClientHandler connection){
+        int position = -1;
+        try{
+            lockLobby.lock();
+            //If the client has already taken a valid nickname, I remove it from the list.
+            if (connection.getClientHandlerPhase() != ClientHandlerPhase.WAITING_NICKNAME && connection.getClientHandlerPhase() !=ClientHandlerPhase.WAITING_GAME_MODE)
+                groupOfNicknames.remove(connection.getNickname());
+            position = lobby.indexOf(connection);
+            if (position > -1) {
+                lobby.remove(connection);
+                groupOfNicknames.remove(connection.getNickname());
+                if (position == 0)
+                    numOfPlayersForNextGame = -1;
+                if(position < numOfPlayersForNextGame || numOfPlayersForNextGame == -1)
+                    newGameManager(connection.getGameMode());
+            }
+        }
+        finally {
+            lockLobby.unlock();
+        }
+    }
+
+
+    public void gameEnded(GameController gamecontroller, ResultsNotify resultsNotify) {
         gamecontroller.getPlayers_ID().forEach(x -> groupOfNicknames.remove(x.getNickname()));
         gamecontroller.sendMessageToAll(resultsNotify);
 
