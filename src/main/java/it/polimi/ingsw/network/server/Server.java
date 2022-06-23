@@ -175,7 +175,7 @@ public class Server implements ServerInterface {
     }
 
     /**
-     * Method used to manage the start of a expert mode game.
+     * Method used to manage the start of a game.
      */
     private void startNewGame(GameMode mode) {
         if (lobby.size() < numOfPlayersForNextGame)

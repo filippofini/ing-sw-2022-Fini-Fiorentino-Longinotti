@@ -2,7 +2,6 @@ package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.enumerations.ClientHandlerPhase;
 import it.polimi.ingsw.model.GameMode;
-import it.polimi.ingsw.model.GameState;
 import it.polimi.ingsw.model.GameTable;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.network.message.toClient.MessagesToClient;
@@ -35,7 +34,7 @@ public class GameController implements Serializable {
 
     public GameController(GameMode gameMode){
         this.gameMode = gameMode;
-        this.players = new LinkedList<Player>() ;
+        this.players = new LinkedList<>() ;
         this.clientHandlers = new LinkedList<>();
     }
 
@@ -45,7 +44,6 @@ public class GameController implements Serializable {
      */
     public synchronized void handleClientDisconnection(String nickname) {
         ClientHandler connection = getConnectionByNickname(nickname);
-        clientHandlers.remove(connection);
         forceEndMultiplayerGame(nickname);
         server.removeConnectionGame(connection);
 
