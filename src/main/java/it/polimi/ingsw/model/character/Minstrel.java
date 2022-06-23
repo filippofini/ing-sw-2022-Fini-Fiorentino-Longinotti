@@ -22,7 +22,7 @@ public class Minstrel extends CharacterCard {
         int studColour;
         int entrchange;
 
-        PositionCLI.choosePositionRequest(Client);
+        //PositionCLI.ChoosePositionRequest(Client);
 
         Scanner sc= new Scanner(System.in);
 

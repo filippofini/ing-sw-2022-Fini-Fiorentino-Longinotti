@@ -4,10 +4,13 @@ package it.polimi.ingsw.network.message.toClient;
 import it.polimi.ingsw.model.Island;
 import it.polimi.ingsw.view.ViewInterface;
 
-public class displayIslandinfoRequest extends MessagesToClient{
+/**
+ * Message to request the info of the island.
+ */
+public class DisplayIslandinfoRequest extends MessagesToClient{
     Island island;
     int islandID;
-    public displayIslandinfoRequest(Island island, int islandID){
+    public DisplayIslandinfoRequest(Island island, int islandID){
         super(true);
         this.island=island;
         this.islandID=islandID;
@@ -16,4 +19,8 @@ public class displayIslandinfoRequest extends MessagesToClient{
     public void handleMessage(ViewInterface view) {
         view.displayIslandInfo(island,islandID);}
 
+    @Override
+    public String toString(){
+        return "Asking to display the info of the island";
+    }
 }

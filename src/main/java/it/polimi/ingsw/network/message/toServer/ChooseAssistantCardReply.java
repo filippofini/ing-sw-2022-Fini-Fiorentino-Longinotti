@@ -3,6 +3,9 @@ package it.polimi.ingsw.network.message.toServer;
 import it.polimi.ingsw.network.server.ClientHandlerInterface;
 import it.polimi.ingsw.network.server.ServerInterface;
 
+/**
+ * Message for the chosen assistant card.
+ */
 public class ChooseAssistantCardReply implements MessagesToServer{
     private final int AssistantCardChosen;
 

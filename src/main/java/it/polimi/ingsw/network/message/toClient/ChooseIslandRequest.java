@@ -6,6 +6,9 @@ import it.polimi.ingsw.view.ViewInterface;
 
 import java.util.List;
 
+/**
+ * Message to choose an island where to move students.
+ */
 public class ChooseIslandRequest extends MessagesToClient{
     List<Island> islands;
     Student stud_to_island;
