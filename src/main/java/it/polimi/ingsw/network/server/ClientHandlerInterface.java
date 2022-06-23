@@ -30,6 +30,13 @@ public interface ClientHandlerInterface {
     void startTimer();
     void setAssistantCardChosen(int assistantCardChosen);
     void setCloudChosen(int cloudChosen);
-
+    int getIslandToMove();
+    int getMnmovement();
+    int getAssistantCardChosen();
+    int getStudToMove();
+    int getPos();
+    int getCloudChosen();
+    void setUseCharacterCard(int useChCard);
+    int getUseCharacterCard();
     GameController getGameController();
 }
