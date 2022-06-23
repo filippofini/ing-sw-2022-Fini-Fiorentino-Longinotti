@@ -34,7 +34,7 @@ public class ClientHandler implements ClientHandlerInterface, Runnable {
     private int colour;
     private  int assistantCardChosen;
     private  int cloudChosen;
-    private int useChCard=false;
+    private int useChCard=0;
 
 
     public boolean isGameStarted() {
