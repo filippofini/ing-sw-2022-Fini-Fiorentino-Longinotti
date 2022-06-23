@@ -6,12 +6,10 @@ import it.polimi.ingsw.model.character.MagicMailman;
 import it.polimi.ingsw.network.message.toClient.ChooseAssistantCardRequest;
 import it.polimi.ingsw.network.message.toClient.ChooseIslandRequest;
 import it.polimi.ingsw.network.message.toClient.MoveMnRequest;
-import it.polimi.ingsw.network.message.toClient.displayIslandinfoRequest;
-import it.polimi.ingsw.network.message.toServer.MoveMnReply;
+import it.polimi.ingsw.network.message.toClient.DisplayIslandinfoRequest;
 import it.polimi.ingsw.network.server.ClientHandler;
 
 import java.util.List;
-import java.util.Scanner;
 
 /**
  * This class represents the controller of the turn. It manages the planning phase and the action phase of each player.
@@ -102,7 +100,7 @@ public class TurnController {
             }
 
             for(int j=0;j<GS.getGT().getHow_many_left();j++){
-              clienthandler.sendMessageToClient(new displayIslandinfoRequest(GS.getGT().getIslands().get(j),j));
+              clienthandler.sendMessageToClient(new DisplayIslandinfoRequest(GS.getGT().getIslands().get(j),j));
             }
             clienthandler.sendMessageToClient(new MoveMnRequest(GS.getGT().getMother_nature_pos(),P_L.get(GS.getCurr_player())));
             GS.getGT().move_mother_nature(clienthandler.getMnmovement());

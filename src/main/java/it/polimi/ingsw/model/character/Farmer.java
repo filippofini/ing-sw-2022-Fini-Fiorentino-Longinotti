@@ -4,13 +4,21 @@ import it.polimi.ingsw.model.CharacterCard;
 import it.polimi.ingsw.model.GameState;
 
 /**
- * Farmer character card
+ * This class represents the farmer character card.
  */
 public class Farmer extends CharacterCard {
     private final int ID_code=2;
     private int cost=2;
     private int uses=0;
 
+
+    /**
+     * This method implements the effect of the farmer card.
+     * When this card is played, the player takes control of the professors even if he/she has the same number of
+     * students as the controller.
+     * @param game_state The game state.
+     */
+    @Override
     public void effect(GameState game_state){
 
         game_state.getGT().getBoards()[game_state.getCurr_player()].setFarmer_state(true);

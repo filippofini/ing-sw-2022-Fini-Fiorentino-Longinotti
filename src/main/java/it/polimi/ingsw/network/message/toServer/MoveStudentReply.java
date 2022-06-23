@@ -3,6 +3,9 @@ package it.polimi.ingsw.network.message.toServer;
 import it.polimi.ingsw.network.server.ClientHandlerInterface;
 import it.polimi.ingsw.network.server.ServerInterface;
 
+/**
+ * Message to move students.
+ */
 public class MoveStudentReply implements MessagesToServer{
     private final int IslandToMove;
 

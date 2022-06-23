@@ -2,13 +2,12 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.network.message.toClient.ChooseIslandOrBoardRequest;
 import it.polimi.ingsw.network.message.toClient.StudentToMoveRequest;
-import it.polimi.ingsw.network.message.toClient.displayDiningRoomColourFullRequest;
-import it.polimi.ingsw.network.message.toClient.displayStudentChosenPreviouslyRequest;
+import it.polimi.ingsw.network.message.toClient.DisplayDiningRoomColourFullRequest;
+import it.polimi.ingsw.network.message.toClient.DisplayStudentChosenPreviouslyRequest;
 import it.polimi.ingsw.network.server.ClientHandler;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 /**
  * This class represents the board.
@@ -120,7 +119,7 @@ public class Board {
                         }
                     }
                     else{
-                        clientHandler.sendMessageToClient(new displayDiningRoomColourFullRequest(this,clientHandler.getStudToMove()));
+                        clientHandler.sendMessageToClient(new DisplayDiningRoomColourFullRequest(this,clientHandler.getStudToMove()));
                     }
                 }
                 else if(clientHandler.getPos() == 1){
@@ -131,7 +130,7 @@ public class Board {
                 clientHandler.sendMessageToClient(new StudentToMoveRequest(this));
             }
             else if (arrEntranceStudents[clientHandler.getStudToMove()].getIsChosen() == true){
-                clientHandler.sendMessageToClient(new displayStudentChosenPreviouslyRequest(this,clientHandler.getStudToMove()));
+                clientHandler.sendMessageToClient(new DisplayStudentChosenPreviouslyRequest(this,clientHandler.getStudToMove()));
                 clientHandler.sendMessageToClient(new StudentToMoveRequest(this));
 
             }

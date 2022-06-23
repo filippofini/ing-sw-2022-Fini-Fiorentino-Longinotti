@@ -4,9 +4,17 @@ import it.polimi.ingsw.model.*;
 
 import java.util.List;
 
+
+/**
+ * This interface contains the methods to handle the request sent to/by the client.
+ */
 public interface ViewInterface {
 
 
+    /**
+     * This method handle the closing of connections.
+     * @param was_connected Boolean to check if there was a connection.
+     */
     void handleCloseConnection(boolean was_connected);
 
     /**

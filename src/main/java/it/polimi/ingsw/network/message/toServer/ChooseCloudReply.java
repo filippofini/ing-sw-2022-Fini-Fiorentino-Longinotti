@@ -3,6 +3,9 @@ package it.polimi.ingsw.network.message.toServer;
 import it.polimi.ingsw.network.server.ClientHandlerInterface;
 import it.polimi.ingsw.network.server.ServerInterface;
 
+/**
+ * Message for the chosen cloud.
+ */
 public class ChooseCloudReply implements MessagesToServer{
 
     private final int CloudChosen;
