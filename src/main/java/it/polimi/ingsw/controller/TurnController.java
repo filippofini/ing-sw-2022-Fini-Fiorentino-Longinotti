@@ -49,6 +49,7 @@ public class TurnController {
      * and replenishing the clouds at the beginning of the round
      */
     public void planning_phase_general(){
+        gameController.setCheck(true);
         GS.getGT().replenish_clouds(this);
         for(int i=0;i<n_players;i++){
             planning_phase_personal(player_order[i]);

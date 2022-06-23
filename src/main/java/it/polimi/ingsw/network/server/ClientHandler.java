@@ -89,7 +89,7 @@ public class ClientHandler implements ClientHandlerInterface, Runnable {
                     if(message != null && !(message == ConnectionMessage.PING)) {
                         stopTimer();
                         Server.SERVER_LOGGER.log(Level.INFO, "[" + (nickname != null ? nickname : socket.getInetAddress().getHostAddress()) + "]: " + message);
-                        if(active && !(gameStarted && gameController.getGamePhase() instanceof PlayPhase && !(((PlayPhase) gameController.getGamePhase()).getTurnController().getCurrentPlayer().getNickname().equals(nickname))))
+                        if(active && !(gameStarted && gameController.getCheck() == true && !(((PlayPhase) gameController.getGamePhase()).getTurnController().getCurrentPlayer().getNickname().equals(nickname))))
                             ((MessagesToServer) message).handleMessage(server, this);
                     }
 
