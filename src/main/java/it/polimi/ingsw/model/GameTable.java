@@ -406,6 +406,7 @@ public class GameTable {
             princess_drawn[draw_stud]++;
         }
 
+        /*
         //Random drawn of 6 students to be placed on the jester card.
         for (int i = 0; i < 6; i++) {
             draw_stud = rand.nextInt(5);
@@ -415,6 +416,7 @@ public class GameTable {
             bag[draw_stud]--;
             jester_drawn[draw_stud]++;
         }
+        */
 
         List<CharacterCard> char_deck;
         char_deck = new ArrayList<CharacterCard>(Arrays.asList(
@@ -424,23 +426,24 @@ public class GameTable {
                 new MagicMailman(),
                 new HerbsGrandma(),
                 new Centaur(),
-                new Jester(jester_drawn),
+                //new Jester(jester_drawn),
                 new Knight(),
-                new MushroomCollector(),
-                new Minstrel(),
-                new SpoiltPrincess(princess_drawn),
-                new Thief()));
+                //new MushroomCollector(),
+                //new Minstrel(),
+                new SpoiltPrincess(princess_drawn)
+                //new Thief()
+        ));
 
-        drawn[0] = rand.nextInt(12);
+        drawn[0] = rand.nextInt(8);
         arr_character[0] = char_deck.get(drawn[0]);
-        drawn[1] = rand.nextInt(12);
+        drawn[1] = rand.nextInt(8);
         while (drawn[1]==drawn[0]){
-            drawn[1] = rand.nextInt(12);
+            drawn[1] = rand.nextInt(8);
         }
         arr_character[1] = char_deck.get(drawn[1]);
-        drawn[2] = rand.nextInt(12);
+        drawn[2] = rand.nextInt(8);
         while (drawn[2]==drawn[0] || drawn[2]==drawn[1]){
-            drawn[2] = rand.nextInt(12);
+            drawn[2] = rand.nextInt(8);
         }
         arr_character[2] = char_deck.get(drawn[2]);
 
@@ -468,6 +471,7 @@ public class GameTable {
             }
         }
 
+        /*
         //Check if a card is the jester, if not puts the students back
         check=false;
         for (int i = 0; i < 3 && check==false; i++) {
@@ -479,6 +483,7 @@ public class GameTable {
                 bag[i] = bag[i]+monk_drawn[i];
             }
         }
+        */
     }
 
 
