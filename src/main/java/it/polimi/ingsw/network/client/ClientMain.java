@@ -1,8 +1,6 @@
 package it.polimi.ingsw.network.client;
-import javafx.application.Application;
 
 import it.polimi.ingsw.CLI.CLI;
-import it.polimi.ingsw.GUI.GUI;
 
 
 /**
@@ -17,14 +15,14 @@ public class ClientMain {
 
     public static void main(String[] args) {
         if (args.length==0){
-            Application.launch(GUI.class, args);
+            CLI.main(args);
         } else if (args.length>1) {
-            System.out.println("Too many arguments, insert " + HELP + " to see all the available graphical interface options.");
+            System.out.println("Too many arguments, insert " + HELP + " to see all the options.");
         } else {
             if (CLI_STARTER.equals(args[0])){
                 CLI.main(args);
             } else if (HELP.equals(args[0])) {
-                System.out.println("Insert " + CLI_STARTER + " to start the game in command line interface mode, otherwise insert nothing to start the GUI.");
+                System.out.println("Insert " + CLI_STARTER + " to start the game in command line interface mode, otherwise insert nothing.");
             } else {
                 System.out.println("Command not found, insert " + HELP + " to see the available graphical interface options.");
             }
