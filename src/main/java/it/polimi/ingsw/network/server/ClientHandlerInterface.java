@@ -38,5 +38,9 @@ public interface ClientHandlerInterface {
     int getCloudChosen();
     void setUseCharacterCard(int useChCard);
     int getUseCharacterCard();
+    void setChCardUsed(int chCardUsed);
+    int getChCardUsed();
+    boolean getCanBeUsed();
+    void setCanBeUsed(boolean canBeUsed);
     GameController getGameController();
 }

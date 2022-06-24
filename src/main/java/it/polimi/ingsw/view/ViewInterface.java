@@ -139,6 +139,10 @@ public interface ViewInterface {
      * This method ask if the player wants to use a character card.
      */
     void UseCharacterCard();
+    /**
+     * This method displays the request the Character card the player wants to use.
+     */
+    void ChooseCharacterCard(Player player,CharacterCard[] cc);
 
     /*
      * This method informs that the game is started.

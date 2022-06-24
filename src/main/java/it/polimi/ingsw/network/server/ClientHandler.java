@@ -35,6 +35,8 @@ public class ClientHandler implements ClientHandlerInterface, Runnable {
     private  int assistantCardChosen;
     private  int cloudChosen;
     private int useChCard=0;
+    private int ChCardUsed;
+    private boolean canBeUsed;
 
 
     public boolean isGameStarted() {
@@ -338,6 +340,22 @@ public class ClientHandler implements ClientHandlerInterface, Runnable {
 
     public int getUseCharacterCard() {
         return useChCard;
+    }
+
+    public void setChCardUsed(int chCardUsed) {
+        ChCardUsed = chCardUsed;
+    }
+
+    public int getChCardUsed() {
+        return ChCardUsed;
+    }
+
+    public boolean getCanBeUsed() {
+        return canBeUsed;
+    }
+
+    public void setCanBeUsed(boolean canBeUsed) {
+        this.canBeUsed = canBeUsed;
     }
 }
 

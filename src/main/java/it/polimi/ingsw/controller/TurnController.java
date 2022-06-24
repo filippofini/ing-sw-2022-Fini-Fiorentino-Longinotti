@@ -91,12 +91,17 @@ public class TurnController {
             //add all the student to the islands
             for(int j=0;j< stud_to_island.size();j++){
 
-                clienthandler.get(i).sendMessageToClient(new ChooseIslandRequest( GS.getGT().getIslands(),stud_to_island.get(j)));
-                GS.getGT().getIslands().get(clienthandler.get(i).getIslandToMove()).add_students(stud_to_island.get(j));
+                clienthandler.get(player_order[i]).sendMessageToClient(new ChooseIslandRequest( GS.getGT().getIslands(),stud_to_island.get(j)));
+                GS.getGT().getIslands().get(clienthandler.get(player_order[i]).getIslandToMove()).add_students(stud_to_island.get(j));
             }
-            //TODO:want to play a card CLI?
-            clienthandler.get(i).sendMessageToClient(new UseCharacterCardRequest());
-            if(clienthandler.get(i).getUseCharacterCard()==1){
+
+            clienthandler.get(player_order[i]).sendMessageToClient(new UseCharacterCardRequest());
+            if(clienthandler.get(player_order[i]).getUseCharacterCard()==1){
+                clienthandler.get(player_order[i]).sendMessageToClient(new ChooseCharacterCardRequest(P_L.get(player_order[i]),GS.getGT().getArr_character()));
+                if(clienthandler.get(player_order[i]).getCanBeUsed()){
+                    GS.getGT().getArr_character()[clienthandler.get(player_order[i]).getChCardUsed()].effect(GS);
+                    clienthandler.get(player_order[i]).setCanBeUsed(false);
+                }
 
             }
 
@@ -106,10 +111,10 @@ public class TurnController {
             }
 
             for(int j=0;j<GS.getGT().getHow_many_left();j++){
-              clienthandler.get(i).sendMessageToClient(new displayIslandinfoRequest(GS.getGT().getIslands().get(j),j));
+              clienthandler.get(player_order[i]).sendMessageToClient(new DisplayIslandinfoRequest(GS.getGT().getIslands().get(j),j));
             }
-            clienthandler.get(i).sendMessageToClient(new MoveMnRequest(GS.getGT().getMother_nature_pos(),P_L.get(GS.getCurr_player())));
-            GS.getGT().move_mother_nature(clienthandler.get(i).getMnmovement());
+            clienthandler.get(player_order[i]).sendMessageToClient(new MoveMnRequest(GS.getGT().getMother_nature_pos(),P_L.get(GS.getCurr_player())));
+            GS.getGT().move_mother_nature(clienthandler.get(player_order[i]).getMnmovement());
             check_for_tower=GS.getGT().getIslands().get(GS.getGT().getMother_nature_pos()).calculate_influence(player_order[i],GS.getGT().getBoards());
 
             //if(!check_for_tower) means that you have gained the control of the island
@@ -152,7 +157,7 @@ public class TurnController {
             if(endgame){
                 gameController.endGame();
             }
-            tempCloud=GS.getGT().choose_cloud(clienthandler.get(i)).getArr_students();
+            tempCloud=GS.getGT().choose_cloud(clienthandler.get(player_order[i])).getArr_students();
             GS.getGT().getBoards()[player_order[i]].setArrEntranceStudents(tempCloud);
 
             for(int n=0;n<3;n++){
