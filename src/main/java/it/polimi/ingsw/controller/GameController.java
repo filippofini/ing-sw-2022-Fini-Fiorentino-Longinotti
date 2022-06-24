@@ -31,11 +31,14 @@ public class GameController implements Serializable {
     private ReentrantLock lockConnections = new ReentrantLock(true);
     GameTable GameTable;
 
+    private boolean check;
+
 
     public GameController(GameMode gameMode){
         this.gameMode = gameMode;
         this.players = new LinkedList<>() ;
         this.clientHandlers = new LinkedList<>();
+        check = false;
     }
 
     /**
@@ -156,4 +159,13 @@ public class GameController implements Serializable {
     public GameTable getGameTable() {
         return GameTable;
     }
+
+    public void setCheck(boolean check) {
+        this.check = check;
+    }
+
+    public boolean getCheck() {
+        return check;
+    }
+
 }

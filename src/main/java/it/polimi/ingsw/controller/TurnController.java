@@ -22,6 +22,7 @@ public class TurnController {
     CharacterCard played_cCard;
     List<ClientHandler> clienthandler;
     private boolean endgame;
+    private GameController gameController;
 
     /**
      * Constructor of the class.
@@ -48,6 +49,7 @@ public class TurnController {
      * and replenishing the clouds at the beginning of the round
      */
     public void planning_phase_general(){
+        gameController.setCheck(true);
         GS.getGT().replenish_clouds(this);
         for(int i=0;i<n_players;i++){
             planning_phase_personal(player_order[i]);
@@ -81,7 +83,7 @@ public class TurnController {
 
         for(int i=0;i<n_players;i++){
             if(endgame){
-                break;
+                gameController.endGame();
             }
             GS.setCurr_player(player_order[i]);
             stud_to_island=GS.getGT().getBoards()[player_order[i]].moveEntranceStudents(GS,clienthandler.get(i));
@@ -139,7 +141,7 @@ public class TurnController {
 
             }
             if(endgame){
-                break;
+                gameController.endGame();
             }
 
 
@@ -148,7 +150,7 @@ public class TurnController {
                 endgame=true;
             }
             if(endgame){
-                break;
+                gameController.endGame();
             }
             tempCloud=GS.getGT().choose_cloud(clienthandler.get(i)).getArr_students();
             GS.getGT().getBoards()[player_order[i]].setArrEntranceStudents(tempCloud);
@@ -224,5 +226,12 @@ public class TurnController {
 
     public void setEndgame(boolean endgame) {
         this.endgame = endgame;
+    }
+    public GameController getGameController() {
+        return gameController;
+    }
+
+    public void setGameController(GameController gameController) {
+        this.gameController = gameController;
     }
 }
