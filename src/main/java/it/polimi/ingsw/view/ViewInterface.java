@@ -131,6 +131,18 @@ public interface ViewInterface {
      * This method close the connection.
      */
     void closeConnection();
+    /**
+     * This method display a player disconnection message.
+     */
+    void displayDisconnection(String name);
+    /**
+     * This method ask if the player wants to use a character card.
+     */
+    void UseCharacterCard();
+    /**
+     * This method displays the request the Character card the player wants to use.
+     */
+    void ChooseCharacterCard(Player player,CharacterCard[] cc);
 
     /*
      * This method informs that the game is started.
@@ -152,4 +164,5 @@ public interface ViewInterface {
      * This method displays the request of the colour of disk's student prompt to use two character cards.
      */
     void displayColourRequest();
+
 }

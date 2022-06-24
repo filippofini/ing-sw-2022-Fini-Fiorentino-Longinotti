@@ -3,13 +3,12 @@ package it.polimi.ingsw.controller;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.character.Knight;
 import it.polimi.ingsw.model.character.MagicMailman;
-import it.polimi.ingsw.network.message.toClient.ChooseAssistantCardRequest;
-import it.polimi.ingsw.network.message.toClient.ChooseIslandRequest;
-import it.polimi.ingsw.network.message.toClient.MoveMnRequest;
-import it.polimi.ingsw.network.message.toClient.DisplayIslandinfoRequest;
+import it.polimi.ingsw.network.message.toClient.*;
+import it.polimi.ingsw.network.message.toServer.MoveMnReply;
 import it.polimi.ingsw.network.server.ClientHandler;
 
 import java.util.List;
+import java.util.Scanner;
 
 /**
  * This class represents the controller of the turn. It manages the planning phase and the action phase of each player.
@@ -21,7 +20,7 @@ public class TurnController {
     private int n_players;
     List<Player> P_L;
     CharacterCard played_cCard;
-    private ClientHandler clienthandler;
+    List<ClientHandler> clienthandler;
     private boolean endgame;
     private GameController gameController;
 
@@ -33,9 +32,10 @@ public class TurnController {
      * @param expert_mode {@code True} if expert mode is enabled, {@code False} if not.
      * @param Player_List The list of player for turn order.
      */
-    public TurnController(int n_players, String[] names, int wizard[], boolean expert_mode, List<Player> Player_List){
+    public TurnController(int n_players, String[] names, int wizard[], boolean expert_mode, List<Player> Player_List,List<ClientHandler> clienthandler){
         endgame=false;
         this.n_players=n_players;
+        this.clienthandler=clienthandler;
         this.P_L=Player_List;
         player_order= new int[n_players];
         for(int i=0; i<n_players;i++){
@@ -66,8 +66,8 @@ public class TurnController {
     public void planning_phase_personal(int i){
 
 
-       clienthandler.sendMessageToClient(new ChooseAssistantCardRequest(P_L.get(i),GS.getGT()));
-        GS.getGT().choose_assistant(P_L.get(i),clienthandler.getAssistantCardChosen());
+       clienthandler.get(i).sendMessageToClient(new ChooseAssistantCardRequest(P_L.get(i),GS.getGT()));
+        GS.getGT().choose_assistant(P_L.get(i),clienthandler.get(i).getAssistantCardChosen());
     }
 
 
@@ -86,15 +86,24 @@ public class TurnController {
                 break;
             }
             GS.setCurr_player(player_order[i]);
-            stud_to_island=GS.getGT().getBoards()[player_order[i]].moveEntranceStudents(GS,clienthandler);
+            stud_to_island=GS.getGT().getBoards()[player_order[i]].moveEntranceStudents(GS,clienthandler.get(i));
 
             //add all the student to the islands
             for(int j=0;j< stud_to_island.size();j++){
 
-                clienthandler.sendMessageToClient(new ChooseIslandRequest( GS.getGT().getIslands(),stud_to_island.get(j)));
-                GS.getGT().getIslands().get(clienthandler.getIslandToMove()).add_students(stud_to_island.get(j));
+                clienthandler.get(player_order[i]).sendMessageToClient(new ChooseIslandRequest( GS.getGT().getIslands(),stud_to_island.get(j)));
+                GS.getGT().getIslands().get(clienthandler.get(player_order[i]).getIslandToMove()).add_students(stud_to_island.get(j));
             }
-            //TODO:want to play a card CLI?
+
+            clienthandler.get(player_order[i]).sendMessageToClient(new UseCharacterCardRequest());
+            if(clienthandler.get(player_order[i]).getUseCharacterCard()==1){
+                clienthandler.get(player_order[i]).sendMessageToClient(new ChooseCharacterCardRequest(P_L.get(player_order[i]),GS.getGT().getArr_character()));
+                if(clienthandler.get(player_order[i]).getCanBeUsed()){
+                    GS.getGT().getArr_character()[clienthandler.get(player_order[i]).getChCardUsed()].effect(GS);
+                    clienthandler.get(player_order[i]).setCanBeUsed(false);
+                }
+
+            }
 
             //If the played character card is the magic mailman, it increases the possible movement by 2
             if (played_cCard.equals(new MagicMailman())){
@@ -102,10 +111,10 @@ public class TurnController {
             }
 
             for(int j=0;j<GS.getGT().getHow_many_left();j++){
-              clienthandler.sendMessageToClient(new DisplayIslandinfoRequest(GS.getGT().getIslands().get(j),j));
+              clienthandler.get(player_order[i]).sendMessageToClient(new DisplayIslandinfoRequest(GS.getGT().getIslands().get(j),j));
             }
-            clienthandler.sendMessageToClient(new MoveMnRequest(GS.getGT().getMother_nature_pos(),P_L.get(GS.getCurr_player())));
-            GS.getGT().move_mother_nature(clienthandler.getMnmovement());
+            clienthandler.get(player_order[i]).sendMessageToClient(new MoveMnRequest(GS.getGT().getMother_nature_pos(),P_L.get(GS.getCurr_player())));
+            GS.getGT().move_mother_nature(clienthandler.get(player_order[i]).getMnmovement());
             check_for_tower=GS.getGT().getIslands().get(GS.getGT().getMother_nature_pos()).calculate_influence(player_order[i],GS.getGT().getBoards());
 
             //if(!check_for_tower) means that you have gained the control of the island
@@ -148,7 +157,7 @@ public class TurnController {
             if(endgame){
                 break;
             }
-            tempCloud=GS.getGT().choose_cloud(clienthandler).getArr_students();
+            tempCloud=GS.getGT().choose_cloud(clienthandler.get(player_order[i])).getArr_students();
             GS.getGT().getBoards()[player_order[i]].setArrEntranceStudents(tempCloud);
 
             for(int n=0;n<3;n++){

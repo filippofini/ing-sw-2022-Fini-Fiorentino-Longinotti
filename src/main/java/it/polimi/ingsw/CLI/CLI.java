@@ -2,6 +2,9 @@ package it.polimi.ingsw.CLI;
 
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.network.client.Client;
+import it.polimi.ingsw.network.message.toClient.ChooseCharacterCardRequest;
+import it.polimi.ingsw.network.message.toServer.PositionReply;
+import it.polimi.ingsw.network.message.toServer.UseCharacterCardReply;
 import it.polimi.ingsw.view.View;
 
 import java.io.IOException;
@@ -115,9 +118,50 @@ public class CLI implements View {
         System.out.println((wasConnected ? "The server is not reachable anymore" : "The server is unreachable at the moment") + ". Try again later.");
     }
 
+    public void displayDisconnection(String name){
+        System.out.println(name+ "has quit the game, all players will be transferred to the lobby");
+    }
 //called when the condition for the endgame are met,calculate and send the result to each player
     public void displayResults( List<Island> islands, List<Player> players,Board[] boards) {
         EndGameCLI.displayResults(client,islands,players,boards);
+    }
+
+    public void UseCharacterCard(){
+        int choice;
+        System.out.println("Do you want to use a character card? no[0] or yes[1]\n");
+        choice=InputParser.getInt();
+
+        while(choice!=0 || choice!=1){
+            System.out.println("Number not allowed,please choose another number");
+            choice=InputParser.getInt();
+        }
+
+        client.sendMessageToServer(new UseCharacterCardReply(choice));
+    }
+    public void ChooseCharacterCard(Player player,CharacterCard[] cc){
+        int choice;
+        boolean poor=true;
+        System.out.println("choose a character card character card from the one below: \n");
+        for(int i=0;i<3;i++){
+            System.out.println( "["+i+"]\n");
+            System.out.println( "   ID: "+cc[i].getID_code()+"\n");
+            System.out.println( "   Cost: "+cc[i].getCost()+"\n");
+            if(player.getCoin()>=cc[i].getCost()){
+                poor=false;
+            }
+        }
+        if(poor==false){
+            choice=InputParser.getInt();
+
+            while(choice<0 || choice>3){
+                System.out.println("Number not allowed,please choose another number\n");
+                choice=InputParser.getInt();
+            }
+            client.sendMessageToServer(new ChooseCharacterCardRequest(player,cc));
+        }
+        else{
+            System.out.println("It seem you have not enough coin..\n");
+        }
     }
 
 
