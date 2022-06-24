@@ -31,6 +31,8 @@ public class GameController implements Serializable {
     private ReentrantLock lockConnections = new ReentrantLock(true);
     GameTable GameTable;
 
+    TurnController turnController;
+
     private boolean check;
 
 
@@ -83,7 +85,12 @@ public class GameController implements Serializable {
     }
     private void startNewGame() {
         Server.SERVER_LOGGER.log(Level.INFO, "Creating a new " + gameMode.name().replace("_"," ") + ", players: " + clientHandlers.stream().map(ClientHandler::getNickname).collect(Collectors.toList()));
-        //this.setGame(new TurnController());  TODO:CAPIRE COME LANCIARE LA PRIMA FASE DEL GIOCO CHE SI TROVA IN TURN CONTROLLER!!
+        while(turnController.getendgame()==false) {
+            turnController.planning_phase_general();
+            turnController.action_phase();
+
+        }
+        endGame();
     }
 
     /**

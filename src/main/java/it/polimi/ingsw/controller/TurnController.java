@@ -83,7 +83,7 @@ public class TurnController {
 
         for(int i=0;i<n_players;i++){
             if(endgame){
-                gameController.endGame();
+                break;
             }
             GS.setCurr_player(player_order[i]);
             stud_to_island=GS.getGT().getBoards()[player_order[i]].moveEntranceStudents(GS,clienthandler);
@@ -137,7 +137,7 @@ public class TurnController {
 
             }
             if(endgame){
-                gameController.endGame();
+                break;
             }
 
 
@@ -146,7 +146,7 @@ public class TurnController {
                 endgame=true;
             }
             if(endgame){
-                gameController.endGame();
+                break;
             }
             tempCloud=GS.getGT().choose_cloud(clienthandler).getArr_students();
             GS.getGT().getBoards()[player_order[i]].setArrEntranceStudents(tempCloud);
