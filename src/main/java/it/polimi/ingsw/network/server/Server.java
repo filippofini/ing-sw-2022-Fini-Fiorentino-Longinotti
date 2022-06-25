@@ -42,6 +42,11 @@ public class Server implements ServerInterface {
     private boolean IsLog;
 
 
+    /**
+     * Constructor of the class.
+     * @param port The server port.
+     * @param IsLog Boolean to check the log.
+     */
     public Server(int port, boolean IsLog) {
         this.port = port;
         this.executor = Executors.newCachedThreadPool();
@@ -50,7 +55,7 @@ public class Server implements ServerInterface {
     }
 
     /**
-     * Method used to start the server
+     * This method is used to start the server.
      */
     public void startServer() {
         if (IsLog)
@@ -78,7 +83,7 @@ public class Server implements ServerInterface {
     }
 
     /**
-     * Method used to initialise the logger file
+     * This method is used to initialise the logger file.
      */
     private void InLogger() {
         Date date = GregorianCalendar.getInstance().getTime();
@@ -93,14 +98,14 @@ public class Server implements ServerInterface {
     }
 
     /**
-     * Method used to check the state of the waiting clients. In particular:
+     * This method is used to check the state of the waiting clients. In particular:
      * - If the number of players has not been asked, it sends a request to the first player of the queue
      * - If the number of players is already been decided, it checks whether a game is ready to start. In particular it checks:
      * a) If there are enough players in the lobby
      * b) If the nicknames of the players who will join the game are unique
-     * - If both a) and b) are true a new multiplayer game starts
+     * - If both a) and b) are true a new multiplayer game starts.
+     * @param mode The game mode.
      */
-
     @Override
     public synchronized void newGameManager(GameMode mode) {
         lockLobby.lock();
@@ -119,9 +124,8 @@ public class Server implements ServerInterface {
 
 
     /**
-     * Method to check if the nicknames are all different.
-     *
-     * @return true if all the nicknames are valid
+     * This method is used to check if the nicknames are all different.
+     * @return {@code True} if all the nicknames are valid, {@code False} if not.
      */
     private boolean invalidNickname() {
         lockLobby.lock();
@@ -137,6 +141,11 @@ public class Server implements ServerInterface {
     }
 
 
+    /**
+     * This method sets the number of players for the next game.
+     * @param clientHandler The client handler interface.
+     * @param numOfPlayersForNextGame The number of players for the next game.
+     */
     @Override
     public void setNumberOfPlayersForNextGame(ClientHandlerInterface clientHandler, int numOfPlayersForNextGame) {
         this.numOfPlayersForNextGame = numOfPlayersForNextGame;
@@ -145,9 +154,8 @@ public class Server implements ServerInterface {
     }
 
     /**
-     * Method to add a client handler to the clientInLobby's list
-     *
-     * @param clientHandler the client handler to add
+     * This method is used to add a client handler to the clientInLobby's list.
+     * @param clientHandler The client handler to add.
      */
     public void addClientHandler(ClientHandler clientHandler) {
         lockLobby.lock();
@@ -156,6 +164,10 @@ public class Server implements ServerInterface {
     }
 
 
+    /**
+     * This method is used to handle the nickname choice (if the nickname is valid).
+     * @param connection The connection from the client handler.
+     */
     public synchronized void handleNicknameChoice(ClientHandler connection) {
 
         groupOfNicknames.add(connection.getNickname());
@@ -175,7 +187,8 @@ public class Server implements ServerInterface {
     }
 
     /**
-     * Method used to manage the start of a game.
+     * This method is used to manage the start of a game.
+     * @param mode The game mode.
      */
     private void startNewGame(GameMode mode) {
         if (lobby.size() < numOfPlayersForNextGame)
@@ -214,8 +227,8 @@ public class Server implements ServerInterface {
 
 
     /**
-     * Method to handle disconnection of clients that has not been added to a game
-     * @param connection
+     * This method is used to handle disconnection of clients that has not been added to a game.
+     * @param connection The connection from the client handler.
      */
     public void removeConnectionLobby(ClientHandler connection){
         int position = -1;
@@ -240,6 +253,12 @@ public class Server implements ServerInterface {
     }
 
 
+    /**
+     * This method is used to manage the end of the game.
+     * It removes all nicknames from the list and sends the results message to the players.
+     * @param gamecontroller The game controller.
+     * @param resultsNotify The message used to notify the results of the game.
+     */
     public void gameEnded(GameController gamecontroller, ResultsNotify resultsNotify) {
         gamecontroller.getPlayers_ID().forEach(x -> groupOfNicknames.remove(x.getNickname()));
         gamecontroller.sendMessageToAll(resultsNotify);
@@ -247,11 +266,19 @@ public class Server implements ServerInterface {
     }
 
 
+    /**
+     * This method removes the connection with the clients after the game ends.
+     * @param connection The connection from the client handler.
+     */
     public void removeConnectionGame(ClientHandler connection) {
         groupOfNicknames.remove(connection.getNickname());
         connection.getGameController().removeConnection(connection);
     }
 
+    /**
+     * This method removes the nickname from the list.
+     * @param nickname The nickname to be removed.
+     */
     public void removeNickname(String nickname) {
         groupOfNicknames.remove(nickname);
     }

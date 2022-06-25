@@ -3,7 +3,7 @@ package it.polimi.ingsw.network.server;
 import java.util.*;
 
 /**
- * Class used to start the server on a given port
+ * Class used to start the server on a given port.
  */
 public class ServerMain {
     private static final int DefaultPort = 1250;
