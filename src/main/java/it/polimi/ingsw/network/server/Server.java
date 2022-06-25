@@ -18,10 +18,8 @@ import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 import java.util.stream.Collectors;
 import it.polimi.ingsw.model.GameMode;
-import it.polimi.ingsw.network.message.toClient.NumberOfPlayersRequest;
-import it.polimi.ingsw.network.message.toClient.ResultsNotify;
-import it.polimi.ingsw.network.message.toClient.SendPlayersNamesMessage;
-import it.polimi.ingsw.network.message.toClient.WaitingInTheLobbyMessage;
+import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.network.message.toClient.*;
 
 /**
  * Server class that starts a socket server.
@@ -40,6 +38,7 @@ public class Server implements ServerInterface {
     private ReentrantLock lockLobby = new ReentrantLock(true);
     public static final Logger SERVER_LOGGER = Logger.getLogger("Server logger");
     private boolean IsLog;
+    private List<Player> P_L;
 
 
     /**
@@ -75,7 +74,16 @@ public class Server implements ServerInterface {
                 Socket clientSocket = serverSocket.accept();
                 SERVER_LOGGER.log(Level.INFO, "Received connection from address: [" + clientSocket.getInetAddress().getHostAddress() + "]");
                 ClientHandler clientHandler = new ClientHandler(clientSocket, this);
+                addClientHandler(clientHandler);
+                if(lobby.size()==1){
+                    lobby.get(lobby.size()-1).sendMessageToClient(new GameModeRequest());
+                    lobby.get(lobby.size()-1).sendMessageToClient(new NumberOfPlayersRequest());
+                }
+                lobby.get(lobby.size()-1).sendMessageToClient(new NameRequest(false, false));
+
+
                 executor.submit(clientHandler);
+
             }
         } catch (IOException e) {
             SERVER_LOGGER.log(Level.SEVERE, "An exception caused the server to stop working.");
@@ -109,18 +117,21 @@ public class Server implements ServerInterface {
     @Override
     public synchronized void newGameManager(GameMode mode) {
         lockLobby.lock();
+        /*
         try {
             if (numOfPlayersForNextGame == -1 && lobby.size() > 0 && lobby.get(0).getClientHandlerPhase() != ClientHandlerPhase.WAITING_NUMBER_OF_PLAYERS) {
                 lobby.get(0).setClientHandlerPhase(ClientHandlerPhase.WAITING_NUMBER_OF_PLAYERS);
                 lobby.get(0).sendMessageToClient(new NumberOfPlayersRequest());
-            } else if (numOfPlayersForNextGame != -1 && lobby.size() >= numOfPlayersForNextGame) {
+            } else
+            */if (numOfPlayersForNextGame != -1 && lobby.size() >= numOfPlayersForNextGame) {
                 if (!invalidNickname())
                     startNewGame(mode);
             }
-        } finally {
-            lockLobby.unlock();
+        lockLobby.unlock();
         }
-    }
+
+
+
 
 
     /**
