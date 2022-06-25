@@ -5,7 +5,16 @@ import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.network.message.toServer.PositionToMoveReply;
 import it.polimi.ingsw.network.message.toServer.StudentToMoveReply;
 
+/**
+ * This class represent the board in the CLI.
+ */
 public class BoardCLI {
+
+    /**
+     * Constructor of the class.
+     * @param client The client.
+     * @param board The board.
+     */
     public static void studentToMoveRequest(Client client, Board board) {
         boolean validChoice = true;
         int choiceStudent;
@@ -25,6 +34,12 @@ public class BoardCLI {
     }
 
 
+    /**
+     * This method requests the position to move the students.
+     * @param client The client.
+     * @param board The board.
+     * @param choiceStudent The student chosen.
+     */
     public static void positionToMoveRequest(Client client, Board board, int choiceStudent) {
         boolean validChoice = true;
         int choicePosition;
@@ -47,13 +62,29 @@ public class BoardCLI {
         }
     }
 
+    /**
+     * This method displays the dining room.
+     * @param board The board.
+     * @param choiceStudent The students.
+     */
     public static void displayDiningRoomColourFull( Board board,int choiceStudent) {
         System.out.println("table of colour:"+board.getArrEntranceStudents()[choiceStudent].getEnumColour() +" is full, please choose another student");
 
     }
+
+    /**
+     * This method displays the students chosen previously.
+     * @param board The board.
+     * @param choiceStudent The students.
+     */
     public static void displayStudentChosenPreviously( Board board,int choiceStudent) {
         System.out.println("Student chosen previously,please choose another student\n");
     }
+
+    /**
+     * This method displays the entrance of students.
+     * @param board The board.
+     */
     public static void displayEntranceStudents( Board board) {
         for (int i = 0; i < board.getMaxEntranceStudents() - 1; i++) {
             System.out.println(board.getArrEntranceStudents()[i].getEnumColour() + "[" + (i) + "] ");

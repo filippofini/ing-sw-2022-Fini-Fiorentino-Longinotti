@@ -7,8 +7,17 @@ import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.network.message.toServer.ChooseAssistantCardReply;
 
-
+/**
+ * This class represent the choice for the assistant in the CLI.
+ */
 public class AssistantCLI {
+
+    /**
+     * Constructor of the class.
+     * @param client The client.
+     * @param player The current player.
+     * @param GT The game table.
+     */
     public static void chooseAssistantCard(Client client, Player player, GameTable GT){
         int choice;
         System.out.println("choose the number of a assistant:\n");
@@ -27,6 +36,7 @@ public class AssistantCLI {
      * This method checks if an assistance card is playable.
      * That means it can't be on the discard deck of any other player.
      * @param chosen The assistance card chosen to be played.
+     * @param GT The game table.
      * @return {@code False} if card is already played, {@code True} otherwise.
      */
     public static boolean check_if_playable(AssistanceCard chosen, GameTable GT){

@@ -7,7 +7,19 @@ import it.polimi.ingsw.network.client.Client;
 
 import java.util.List;
 
+
+/**
+ * This class represents the CLI for the endgame.
+ */
 public class EndGameCLI {
+
+    /**
+     * This method displays the results of the game.
+     * @param client The client.
+     * @param islands The list of islands.
+     * @param players The list of players.
+     * @param boards The array of boards.
+     */
     public static void displayResults(Client client, List<Island> islands, List<Player> players, Board[] boards){
             int winnerID=-1;
             int winnertowers=0;

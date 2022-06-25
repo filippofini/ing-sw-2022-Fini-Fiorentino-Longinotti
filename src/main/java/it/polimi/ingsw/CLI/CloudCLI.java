@@ -9,7 +9,16 @@ import it.polimi.ingsw.network.message.toServer.ChooseCloudReply;
 
 import java.util.List;
 
+/**
+ * This class represents the CLI for the clouds.
+ */
 public class CloudCLI {
+
+    /**
+     * This method lets the player choose a cloud to take the students.
+     * @param client The client.
+     * @param clouds The list of clouds.
+     */
     public static void chooseCloud(Client client, List<Cloud> clouds){
         int choice;
         System.out.println("choose the number of the cloud you want to choose:\n");

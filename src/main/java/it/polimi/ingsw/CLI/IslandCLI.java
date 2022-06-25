@@ -8,8 +8,16 @@ import it.polimi.ingsw.network.message.toServer.MoveStudentReply;
 
 import java.util.List;
 
+/**
+ * This class represents the CLI for the island.
+ */
 public class IslandCLI {
 
+    /**
+     * This method displays the island info.
+     * @param island The island.
+     * @param islandID The island ID.
+     */
     public static void displayIslandInfo(Island island, int islandID){
 
         System.out.println("Island["+islandID+":]\n");
@@ -22,6 +30,12 @@ public class IslandCLI {
         System.out.println("Owned by: player "+island.getPlayer_controller()+"\n");
     }
 
+    /**
+     * This method requests the island where to move the student.
+     * @param client The client.
+     * @param islands The list of islands.
+     * @param stud_to_island The chosen student to be moved.
+     */
     public  static void MoveStudentToIslandRequest(Client client, List<Island> islands, Student stud_to_island){
 
             System.out.println("Choose the island where to add the student:"+stud_to_island+"\n");
@@ -34,7 +48,5 @@ public class IslandCLI {
             client.sendMessageToServer(new MoveStudentReply(choice));
 
     }
-
-
 
 }

@@ -8,10 +8,21 @@ import it.polimi.ingsw.network.message.toServer.NumberOfPlayersReply;
 
 import java.io.IOException;
 
+
+/**
+ * This class represents the start of the game.
+ */
 public class StartGame {
     private static final String DEFAULT_ADDRESS = "127.0.0.1";
     private static final int DEFAULT_PORT = 1234;
 
+
+    /**
+     * This method handles the starting connection.
+     * @param cli The CLI main.
+     * @param firstConnection {@code False} if it's the first connection.
+     * @return The client.
+     */
     public static Client InitialConnection(CLI cli, boolean firstConnection){
         int port;
         String IPAddress;
@@ -46,6 +57,13 @@ public class StartGame {
         return new Client(IPAddress, port, cli);
     }
 
+
+    /**
+     * This method displays the nickname request.
+     * @param client The client.
+     * @param retry {@code False} if it's the first request of nickname, {@code True} if not.
+     * @param alreadyTaken {@code True} if the nickname is already taken, {@code False} if not.
+     */
     public static void displayNicknameRequest(Client client, boolean retry, boolean alreadyTaken) {
         if (client.isValidName() && client.getName().isPresent()){
             client.sendMessageToServer(new NameReply(client.getName().get()));
@@ -66,6 +84,10 @@ public class StartGame {
         client.sendMessageToServer(new NameReply(selection));
     }
 
+    /**
+     * This method displays the game mode request.
+     * @param client The client.
+     */
     public static void displayGameModeRequest(Client client) {
         if (client.getGameMode().isPresent()){
             client.sendMessageToServer(new GameModeReply(client.getGameMode().get()));
@@ -85,7 +107,12 @@ public class StartGame {
         client.sendMessageToServer(new GameModeReply(gameMode));
     }
 
-
+    /**
+     * This method gets the game mode.
+     * @param client The client.
+     * @return The game mode.
+     * @throws IOException
+     */
     private static GameMode getGameMode(Client client) throws IOException {
         while(true) {
             String gameModeString = InputParser.getLine();
@@ -101,6 +128,10 @@ public class StartGame {
         }
     }
 
+    /**
+     * This method requests the number of players in the game.
+     * @param client The client.
+     */
     public static void NumberOfPlayersRequest(Client client){
         System.out.println("Insert the number of players [2] , [3] , [4]");
         Integer choice = InputParser.getInt("Invalid number of players: please insert an integer number between 2 and 4", CLI.conditionOnIntegerRange(2, 4));
@@ -108,6 +139,9 @@ public class StartGame {
             client.sendMessageToServer(new NumberOfPlayersReply(choice));
     }
 
+    /**
+     * This method displays the waiting message.
+     */
     public static void displayWaitingMessage() {
         System.out.println("making the island floating...");
     }
