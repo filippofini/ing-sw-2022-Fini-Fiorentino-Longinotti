@@ -65,16 +65,26 @@ public class Board {
         }
     }
 
+    /**
+     * This method adds a professor to the board.
+     * @param profColour The colour of the professor to be added.
+     */
     public void add_prof(DiskColour profColour){
         arrProfessors[profColour.getTranslateColour()]=true;
     }
+
+    /**
+     * This method adds a student to the board.
+     * @param studentColour The colour of the student to be added.
+     */
     public void add_student(DiskColour studentColour){
         arrPositionStudents[studentColour.getTranslateColour()]++;
-
     }
 
     /**
      * This method moves students to the islands.
+     * @param GS The game state.
+     * @param clientHandler The client handler.
      * @return The list of students sent to an island.
      */
     public List<Student> moveEntranceStudents(GameState GS, ClientHandler clientHandler){
@@ -280,6 +290,7 @@ public class Board {
     public void setOneStudent(int index){
         arrPositionStudents[index]++;
     }
+
     /**
      * This method adds a student to the entrance
      * @param Cloud_Students The array that contains the students on the clouds
@@ -301,9 +312,10 @@ public class Board {
         }
 
     }
+
     /**
      * This method convert a position in the respective color
-     * @param color The index of the array that rapresent a color
+     * @param color The index of the array that represent a color
      */
     public DiskColour inverse_color(int color){
         if(color==0){
@@ -323,10 +335,18 @@ public class Board {
         }
     }
 
+    /**
+     * This method is used to check if the farmer character card is used, and its effect it's active.
+     * @param farmer_state {@code True} if the effect is active, {@code False} if not.
+     */
     public void setFarmer_state(boolean farmer_state) {
         this.farmer_state = farmer_state;
     }
 
+    /**
+     * This method returns the max entrance of students.
+     * @return The max entrance of students.
+     */
     public int getMaxEntranceStudents() {
         return maxEntranceStudents;
     }

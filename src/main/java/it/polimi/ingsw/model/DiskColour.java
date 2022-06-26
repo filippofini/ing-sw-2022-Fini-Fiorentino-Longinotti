@@ -24,22 +24,27 @@ public enum DiskColour {
         return translateColour;
     }
 
+
+    /**
+     * This method return a string containing the colour given the colour.
+     * @param colour A colour.
+     * @return A string containing the colour
+     */
     public static String printColour(int colour){
         if(colour==0){
             return "YELLOW";
         }
-        if(colour==1){
+        else if(colour==1){
             return "RED";
         }
-        if(colour==2){
+        else if(colour==2){
             return "PINK";
         }
-        if(colour==3){
+        else if(colour==3){
             return "BLUE";
         }
         else{
             return "GREEN";
         }
-
     }
 }

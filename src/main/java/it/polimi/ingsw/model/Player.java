@@ -34,7 +34,7 @@ public class Player {
         this.tower_colour = tower_colour.getTower_translate();
         this.player_ID = player_ID;
         deck = new Deck();
-        this.active = active;
+        //this.active = active;    useless???
     }
 
     /**
@@ -139,6 +139,10 @@ public class Player {
     }
 
 
+    /**
+     * This method returns if the player is active.
+     * @return {@code True} if the player is active, {@code False} if not.
+     */
     public boolean isActive() {
         return active;
     }

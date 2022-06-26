@@ -3,8 +3,7 @@ package it.polimi.ingsw.model;
 /**
  * This class represent the clouds.
  * An array of int is used to keep track of the students and their type:
- * Pos. 0 represent the yellow... More info at {@link DiskColour}.
- *
+ * position 0 represent the yellow... More info at {@link DiskColour}.
  */
 public class Cloud {
     private int[] arr_students;
@@ -12,6 +11,7 @@ public class Cloud {
 
     /**
      * Constructor of the class.
+     * @param cloud_ID The cloud ID.
      */
     public Cloud(int cloud_ID) {
         this.cloud_ID = cloud_ID;

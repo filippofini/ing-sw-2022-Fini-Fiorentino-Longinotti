@@ -25,6 +25,7 @@ public class GameState {
      * @param names Strings containing the names of the players.
      * @param wizard Array of integers containing the numbers of the wizards to be assigned to each player.
      * @param expert_mode {@code True} if expert mode is enabled, {@code False} if not.
+     * @param curr_player The current player.
      */
     public GameState(int n_players, String[] names, int wizard[], boolean expert_mode, int curr_player){
         this.n_players = n_players;
@@ -62,10 +63,20 @@ public class GameState {
         return players;
     }
 
+
+    /**
+     * This method sets the current player.
+     * @param player The current player.
+     */
     public void setCurr_player(int player){
         curr_player=player;
     }
 
+
+    /**
+     * This method returns the current player.
+     * @return The current player.
+     */
     public int getCurr_player() {
         return curr_player;
     }

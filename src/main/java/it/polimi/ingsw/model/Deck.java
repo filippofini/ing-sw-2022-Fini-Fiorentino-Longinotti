@@ -27,7 +27,6 @@ public class Deck {
                 AssistanceCard.CAT,
                 AssistanceCard.OSTRICH,
                 AssistanceCard.LION));
-
     }
 
     /**

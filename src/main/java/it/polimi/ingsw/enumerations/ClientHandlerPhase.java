@@ -1,5 +1,8 @@
 package it.polimi.ingsw.enumerations;
 
+/**
+ * This enumeration is used to manage the phases of the game.
+ */
 public enum ClientHandlerPhase {
     WAITING_GAME_MODE,
     WAITING_NICKNAME,

@@ -53,7 +53,7 @@ public class Client implements ClientInterface {
      * It builds the threads and the object to start the game.
      * @param IPaddress The IP of the server.
      * @param port The port of the server.
-     * @param view the instance of a {@link it.polimi.ingsw.CLI} or a {@link it.polimi.ingsw.GUI}.
+     * @param view the instance of a {@link it.polimi.ingsw.CLI}.
      */
     public Client(String IPaddress, int port, View view){
         this.name = Optional.empty();

@@ -58,10 +58,12 @@ public class GameTable {
 
         setMother_nature_start();
         bag_island_start();
+
         clouds = new ArrayList<Cloud>();
         for(int i=0;i<num_players;i++){
             clouds.add(new Cloud(i+1));
         }
+
         cloud_start();
 
         discard_deck = new AssistanceCard[num_players];
@@ -70,6 +72,7 @@ public class GameTable {
         }
 
         arr_character = new CharacterCard[3];
+
         draw_three_charCards();
     }
 
@@ -90,6 +93,7 @@ public class GameTable {
         }
         return playable_card;
     }
+
     /**
      * This method checks if  assistance card is the only card playable.
      * @param chosen The assistance card chosen to be played.
@@ -110,6 +114,7 @@ public class GameTable {
     /**
      * This method lets the player choose their assistance card
      * @param player The current player that is going to choose the assistance card.
+     * @param ass_chosen The chosen assistant.
      */
     public void choose_assistant(Player player,int ass_chosen){
         AssistanceCard choice;
@@ -237,6 +242,7 @@ public class GameTable {
         }
     }
 
+    //Sets mother nature on a random island
     private void setMother_nature_start() {
         Random rand = new Random();
         this.mother_nature_pos = rand.nextInt(12);
@@ -288,9 +294,10 @@ public class GameTable {
         }
     }
 
-    //TODO:endGame method that need to be called when bag_not_empty=false
+    //TODO:endGame method that need to be called when bag_not_empty==false
     /**
      * This method refills each cloud with students.
+     * @param TC The turn controller.
      */
     public void replenish_clouds(TurnController TC){
         Random rand = new Random();
@@ -363,6 +370,7 @@ public class GameTable {
 
     /**
      * This method lets the player choose the cloud that he wants.
+     * @param clientHandler The client handler.
      */
     public Cloud choose_cloud(ClientHandler clientHandler){
         int choice;
@@ -406,6 +414,8 @@ public class GameTable {
             princess_drawn[draw_stud]++;
         }
 
+
+        //NOT NECESSARY ANYMORE
         /*
         //Random drawn of 6 students to be placed on the jester card.
         for (int i = 0; i < 6; i++) {
@@ -449,11 +459,11 @@ public class GameTable {
 
         boolean check=false;
         //Check if a card is the monk, if not puts the students back
-        for (int i = 0; i < 3 && check==false; i++) {
+        for (int i = 0; i < 3 && !check; i++) {
             if ( arr_character[i].getID_code()==1)
                 check = true;
         }
-        if (check==false){
+        if (!check){
             for (int i = 0; i < 5; i++) {
                 bag[i] = bag[i]+monk_drawn[i];
             }
@@ -461,13 +471,13 @@ public class GameTable {
 
         //Check if a card is the spoilt princess, if not puts the students back
         check=false;
-        for (int i = 0; i < 3 && check==false; i++) {
+        for (int i = 0; i < 3 && !check; i++) {
             if ( arr_character[i].getID_code()==11)
                 check = true;
         }
         if (check==false){
             for (int i = 0; i < 5; i++) {
-                bag[i] = bag[i]+monk_drawn[i];
+                bag[i] = bag[i]+princess_drawn[i];
             }
         }
 
@@ -618,7 +628,12 @@ public class GameTable {
         return bag;
     }
 
+    /**
+     * This method sets the bag
+     * @param bag The bag.
+     */
     public void setBag(int[] bag) { this.bag = bag;}
+
     /**
      * This method returns the array of characters.
      * @return The array of characters.

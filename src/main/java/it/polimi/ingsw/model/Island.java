@@ -272,6 +272,7 @@ public class Island {
     public void setOneStudent(int index){
         arr_students[index]++;
     }
+
     /**
      * This method sets the include_towers variable
      * @param include_towers indicate if the towers must be counted in the influence
@@ -281,24 +282,24 @@ public class Island {
     }
 
     /**
-     *
-     * @param prohibition_colour
+     * This method sets the prohibition.
+     * @param prohibition_colour {@code True} if the brohibition is enabled, {@code False} if not.
      */
     public void setProhibition_colour(boolean prohibition_colour) {
         this.prohibition_colour = prohibition_colour;
     }
 
     /**
-     *
-     * @param proh_col
+     * This method sets the prohibition on a colour.
+     * @param proh_col The number representing the colour to be prohibited.
      */
     public void setProh_col(int proh_col) {
         this.proh_col = proh_col;
     }
 
     /**
-     *
-     * @param extra_influence
+     * This method sets the extra influence activated by a character card.
+     * @param extra_influence The extra influence to be added to the calculus of the influence.
      */
     public void setExtra_influence(int extra_influence) {
         this.extra_influence = extra_influence;
