@@ -5,6 +5,8 @@ import it.polimi.ingsw.model.GameState;
 
 import java.util.Scanner;
 
+//CARD NOT IMPLEMENTED
+
 /**
  * Thief character card
  */

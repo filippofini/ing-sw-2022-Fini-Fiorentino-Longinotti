@@ -83,7 +83,7 @@ public class HerbsGrandma extends CharacterCard {
     }
 
     /**
-     * This method return the ID code of the card.
+     * This method returns the ID code of the card.
      * @return The ID code of the card.
      */
     public int getID_code() {

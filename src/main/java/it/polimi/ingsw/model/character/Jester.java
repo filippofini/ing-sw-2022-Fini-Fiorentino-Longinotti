@@ -4,6 +4,8 @@ import it.polimi.ingsw.model.CharacterCard;
 import it.polimi.ingsw.model.GameState;
 import it.polimi.ingsw.model.Student;
 
+//CARD NOT IMPLEMENTED
+
 /**
  * This class represents the jester character card.
  */
@@ -20,6 +22,8 @@ public class Jester extends CharacterCard {
         this.students = students;
     }
 
+
+    //effect not finished
     @Override
     public void effect(GameState game_state){
         n_moved = 0;
@@ -27,7 +31,6 @@ public class Jester extends CharacterCard {
             n_moved = n_moved + students[i];
         }
         Student moved;
-        //TODO: finish
         for (int i = 0; i < n_moved; i++) {
             for (int j = 0; j < 5; j++) {
                 moved = game_state.getGT().getBoards()[current_player].getArrEntranceStudents()[j];
@@ -86,7 +89,7 @@ public class Jester extends CharacterCard {
     }
 
     /**
-     * This method return the ID code of the card.
+     * This method returns the ID code of the card.
      * @return The ID code of the card.
      */
     public int getID_code() {

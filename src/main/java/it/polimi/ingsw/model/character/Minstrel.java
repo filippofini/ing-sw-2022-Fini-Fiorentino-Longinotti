@@ -9,6 +9,8 @@ import it.polimi.ingsw.model.Student;
 
 import java.util.Scanner;
 
+//CARD NOT IMPLEMENTED
+
 /**
  * Minstrel character card
  */
@@ -16,6 +18,8 @@ public class Minstrel extends CharacterCard {
     private final int ID_code=10;
     private int cost=1;
     private int uses=0;
+
+
     @Override
     public void effect(GameState game_state){
         int numOfMoving;

@@ -60,16 +60,25 @@ public class Knight extends CharacterCard {
     }
 
     /**
-     * This method return the ID code of the card.
+     * This method returns the ID code of the card.
      * @return The ID code of the card.
      */
     public int getID_code() {
         return ID_code;
     }
 
+    /**
+     * This method sets if the card has been used.
+     * @param used {@code True} if the card has been used, {@code False} if not.
+     */
     public void setUsed(boolean used) {
         isUsed = used;
     }
+
+    /**
+     * This method returns if a card has been used.
+     * @return {@code True} if the card has been used, {@code False} if not.
+     */
     public boolean getUsed(){
         return  isUsed;
     }
