@@ -14,7 +14,7 @@ public interface ClientHandlerInterface {
 
     /**
      * This method sends a message to the client.
-     * @param message A message.
+     * @param message The message to be sent.
      */
     void sendMessageToClient(Serializable message);
 
@@ -164,26 +164,26 @@ public interface ClientHandlerInterface {
     int getCloudChosen();
 
     /**
-     * This method sets the
-     * @param useChCard
+     * This method sets if the player wants to play a card.
+     * @param useChCard The parameter used to see if the player wants to play a card.
      */
     void setUseCharacterCard(int useChCard);
 
     /**
-     * This method returns
-     * @return
+     * This method returns value that is used to see if the player wants to play a card.
+     * @return A value that is used to see if the player wants to play a card.
      */
     int getUseCharacterCard();
 
     /**
-     * This method sets
-     * @param chCardUsed
+     * This method sets the card chosen to be played by the player.
+     * @param chCardUsed The card chosen to be played by the player.
      */
     void setChCardUsed(int chCardUsed);
 
     /**
-     * This method returns
-     * @return
+     * This method returns the card chosen to be played by the player.
+     * @return The card chosen to be played by the player.
      */
     int getChCardUsed();
 
@@ -194,7 +194,7 @@ public interface ClientHandlerInterface {
     boolean getCanBeUsed();
 
     /**
-     * This method sets if it can be used.
+     * This method sets if the character card can be used.
      * @param canBeUsed {@code True} if it can be used, {@code False} if it can't.
      */
     void setCanBeUsed(boolean canBeUsed);

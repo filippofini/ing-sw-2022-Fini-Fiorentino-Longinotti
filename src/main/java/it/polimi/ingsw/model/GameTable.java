@@ -294,7 +294,6 @@ public class GameTable {
         }
     }
 
-    //TODO:endGame method that need to be called when bag_not_empty==false
     /**
      * This method refills each cloud with students.
      * @param TC The turn controller.
