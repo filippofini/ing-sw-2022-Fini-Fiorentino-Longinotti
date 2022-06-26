@@ -74,7 +74,9 @@ public class Server implements ServerInterface {
                 Socket clientSocket = serverSocket.accept();
                 SERVER_LOGGER.log(Level.INFO, "Received connection from address: [" + clientSocket.getInetAddress().getHostAddress() + "]");
                 ClientHandler clientHandler = new ClientHandler(clientSocket, this);
+                executor.submit(clientHandler);
                 addClientHandler(clientHandler);
+
                 if(lobby.size()==1){
                     lobby.get(0).sendMessageToClient(new GameModeRequest());
                     lobby.get(0).sendMessageToClient(new NumberOfPlayersRequest());
@@ -89,7 +91,6 @@ public class Server implements ServerInterface {
                     newGameManager(mode);
                 }
 
-                executor.submit(clientHandler);
 
             }
         } catch (IOException e) {

@@ -14,7 +14,7 @@ import java.io.IOException;
  */
 public class StartGame {
     private static final String DEFAULT_ADDRESS = "127.0.0.1";
-    private static final int DEFAULT_PORT = 1234;
+    private static final int DEFAULT_PORT = 1250;
 
 
     /**
@@ -133,8 +133,8 @@ public class StartGame {
      * @param client The client.
      */
     public static void NumberOfPlayersRequest(Client client){
-        System.out.println("Insert the number of players [2] , [3] , [4]");
-        Integer choice = InputParser.getInt("Invalid number of players: please insert an integer number between 2 and 4", CLI.conditionOnIntegerRange(2, 4));
+        System.out.println("Insert the number of players [2] , [3] ");
+        Integer choice = InputParser.getInt("Invalid number of players: please insert an integer number between 2 and 3", CLI.conditionOnIntegerRange(2, 3));
         if (choice != null)
             client.sendMessageToServer(new NumberOfPlayersReply(choice));
     }

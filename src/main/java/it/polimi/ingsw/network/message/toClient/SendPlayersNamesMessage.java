@@ -20,10 +20,11 @@ public class SendPlayersNamesMessage extends MessagesToClient{
 
     @Override
     public void handleMessage(ViewInterface view) {
-        view.setNicknames(player_name, other_names);
-        other_names.add(player_name);
-        view.displayPlayersReadyToStartMessage(other_names);
+        //view.setNicknames(player_name, other_names);
+        //other_names.add(player_name);
+        //view.displayPlayersReadyToStartMessage(other_names);
     }
+
 
     @Override
     public String toString(){

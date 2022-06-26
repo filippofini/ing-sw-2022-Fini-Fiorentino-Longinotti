@@ -14,7 +14,7 @@ public class StartGameNotify extends MessagesToClient{
 
     @Override
     public void handleMessage(ViewInterface view) {
-        view.displayStartGameNotify();
+        //view.displayStartGameNotify();
     }
 
     @Override

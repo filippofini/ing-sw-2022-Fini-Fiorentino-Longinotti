@@ -16,7 +16,7 @@ public class IslandConqueredNotify extends MessagesToClient{
 
     @Override
     public void handleMessage(ViewInterface view) {
-        view.displayConqueredIslands(conquered);
+       // view.displayConqueredIslands(conquered);
     }
 
     @Override

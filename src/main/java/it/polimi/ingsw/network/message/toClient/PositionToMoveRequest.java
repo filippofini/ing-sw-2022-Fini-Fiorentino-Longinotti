@@ -12,7 +12,7 @@ public class PositionToMoveRequest extends  MessagesToClient{
 
     @Override
     public void handleMessage(ViewInterface view) {
-        view.displayPositionToMoveRequest();
+        //view.displayPositionToMoveRequest();
     }
 
     @Override
