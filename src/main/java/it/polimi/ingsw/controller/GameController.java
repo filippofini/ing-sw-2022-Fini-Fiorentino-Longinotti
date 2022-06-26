@@ -4,6 +4,7 @@ import it.polimi.ingsw.enumerations.ClientHandlerPhase;
 import it.polimi.ingsw.model.GameMode;
 import it.polimi.ingsw.model.GameTable;
 import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.TowerColour;
 import it.polimi.ingsw.network.message.toClient.MessagesToClient;
 import it.polimi.ingsw.network.message.toClient.NotifyDisconnection;
 import it.polimi.ingsw.network.message.toClient.ResultsNotify;
@@ -23,14 +24,20 @@ public class GameController implements Serializable {
 
     private static final long serialVersionUID = 4405183481677036856L;
     private GameMode gameMode;
+    private int i=0;
+    private int j =0;
     private List<Player> players;
+    private String[] names;
     private List<ClientHandler> clientHandlers;
-    private int n_player;
+    private int player_ID=0;
     public static final String SERVER_NICKNAME = "server";
     private Server server;
     private ReentrantLock lockConnections = new ReentrantLock(true);
 
+   // private String[] wizards = new String[] {"Nature Wizard","Sand Wizard","Air Wizard","Ice Wizard"};
 
+    private int[] wizards = {0,1,2,3};
+    private int wizard = 0;
 
     GameTable GameTable;
     private boolean check;
@@ -84,7 +91,8 @@ public class GameController implements Serializable {
     }
     private void startNewGame() {
         Server.SERVER_LOGGER.log(Level.INFO, "Creating a new " + gameMode.name().replace("_"," ") + ", players: " + clientHandlers.stream().map(ClientHandler::getNickname).collect(Collectors.toList()));
-        TurnController turnController = new TurnController(,,,getBooleanGameMode(gameMode),players,clientHandlers);
+        players = addPlayer(server.getLobby());
+        TurnController turnController = new TurnController(server.getLobby().size(),getArrayNickname(server.getLobby()),wizards,getBooleanGameMode(gameMode),players,clientHandlers);
         while(turnController.getendgame()==false) {
             turnController.planning_phase_general();
             turnController.action_phase();
@@ -120,17 +128,55 @@ public class GameController implements Serializable {
         }
     }
 
-    public void addPlayer(Player player) {
-        this.players.add(player);
+    public List<Player> addPlayer(List<ClientHandler> clientHandlers) {
+        TowerColour towerColour = null;
+        for (ClientHandler clientHandler : clientHandlers) {
+            String nickname = clientHandler.getNickname();
+            if(clientHandlers.size() == 4) {
+                if(player_ID == 0 || player_ID ==2) {
+                    towerColour = TowerColour.BLACK;
+                }
+                if(player_ID == 1 || player_ID == 3) {
+                    towerColour = TowerColour.WHITE;
+                }
+            }
+            else if(clientHandlers.size()==3) {
+                if(player_ID == 0) 
+                    towerColour =TowerColour.BLACK;
+                if (player_ID==1)
+                    towerColour = TowerColour.WHITE;
+                if (player_ID==2)
+                    towerColour = TowerColour.GREY;
+            }
+                else if(clientHandlers.size()==2)
+            {
+                if (player_ID==0) 
+                    towerColour = TowerColour.BLACK;
+                
+                if (player_ID==1)
+                    towerColour = TowerColour.WHITE;
+                
+            }
+                int wiz = wizard;
+                int ID = player_ID;
+                player_ID++;
+                wizard++;
+
+            Player p = new Player(nickname,wiz,towerColour,ID);
+            players.add(p);
+        }
+        return players;
     }
 
-    public void removePlayer(Player player) {
-        this.players.remove(player);
+    public String[] getArrayNickname(List<ClientHandler> clientHandlers) {
+        for (ClientHandler clientHandler : clientHandlers) {
+                names[i] = (clientHandler.getNickname());
+                i++;
+        }
+
+        return names;
     }
 
-    public void getArrayNickname(List<Player> players) {
-
-    }
 
 
     public ClientHandler getConnectionByNickname(String nickname){
@@ -170,9 +216,9 @@ public class GameController implements Serializable {
     public boolean getBooleanGameMode(GameMode gameMode) {
         if(gameMode==GameMode.STANDARD)
             return false;
-        else if (gameMode==GameMode.EXPERT) {
+        else
             return true;
-        }
+
     }
 
     public void setServer(Server server) {

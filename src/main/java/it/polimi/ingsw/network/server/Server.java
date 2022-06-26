@@ -300,5 +300,9 @@ public class Server implements ServerInterface {
     public void removeNickname(String nickname) {
         groupOfNicknames.remove(nickname);
     }
+
+    public List<ClientHandler> getLobby() {
+        return lobby;
+    }
 }
 
