@@ -76,11 +76,18 @@ public class Server implements ServerInterface {
                 ClientHandler clientHandler = new ClientHandler(clientSocket, this);
                 addClientHandler(clientHandler);
                 if(lobby.size()==1){
-                    lobby.get(lobby.size()-1).sendMessageToClient(new GameModeRequest());
-                    lobby.get(lobby.size()-1).sendMessageToClient(new NumberOfPlayersRequest());
+                    lobby.get(0).sendMessageToClient(new GameModeRequest());
+                    lobby.get(0).sendMessageToClient(new NumberOfPlayersRequest());
                 }
                 lobby.get(lobby.size()-1).sendMessageToClient(new NameRequest(false, false));
 
+                if(lobby.size()>1){
+                lobby.get(lobby.size()-1).sendMessageToClient(new WaitingInTheLobbyMessage());}
+
+                if(numOfPlayersForNextGame!=-1 && lobby.size()==numOfPlayersForNextGame){
+                    GameMode mode = lobby.get(0).getGameMode();
+                    newGameManager(mode);
+                }
 
                 executor.submit(clientHandler);
 
@@ -123,10 +130,10 @@ public class Server implements ServerInterface {
                 lobby.get(0).setClientHandlerPhase(ClientHandlerPhase.WAITING_NUMBER_OF_PLAYERS);
                 lobby.get(0).sendMessageToClient(new NumberOfPlayersRequest());
             } else
-            */if (numOfPlayersForNextGame != -1 && lobby.size() >= numOfPlayersForNextGame) {
-                if (!invalidNickname())
-                    startNewGame(mode);
-            }
+            */
+
+        if (!invalidNickname())
+            startNewGame(mode);
         lockLobby.unlock();
         }
 
@@ -160,8 +167,7 @@ public class Server implements ServerInterface {
     @Override
     public void setNumberOfPlayersForNextGame(ClientHandlerInterface clientHandler, int numOfPlayersForNextGame) {
         this.numOfPlayersForNextGame = numOfPlayersForNextGame;
-        GameMode mode = clientHandler.getGameMode();
-        newGameManager(mode);
+
     }
 
     /**
@@ -226,10 +232,11 @@ public class Server implements ServerInterface {
             assert gamecontroller != null;
             gamecontroller.start();
             numOfPlayersForNextGame = -1;
+            /*
             if (lobby.size() > 0) {
                 lobby.get(0).setClientHandlerPhase(ClientHandlerPhase.WAITING_NUMBER_OF_PLAYERS);
                 lobby.get(0).sendMessageToClient(new NumberOfPlayersRequest());
-            }
+            }*/
         } finally {
             lockLobby.unlock();
         }
