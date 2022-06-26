@@ -29,12 +29,11 @@ public class GameController implements Serializable {
     public static final String SERVER_NICKNAME = "server";
     private Server server;
     private ReentrantLock lockConnections = new ReentrantLock(true);
+
+
+
     GameTable GameTable;
-
-    TurnController turnController;
-
     private boolean check;
-
 
     public GameController(GameMode gameMode){
         this.gameMode = gameMode;
@@ -85,6 +84,7 @@ public class GameController implements Serializable {
     }
     private void startNewGame() {
         Server.SERVER_LOGGER.log(Level.INFO, "Creating a new " + gameMode.name().replace("_"," ") + ", players: " + clientHandlers.stream().map(ClientHandler::getNickname).collect(Collectors.toList()));
+        TurnController turnController = new TurnController(,,,getBooleanGameMode(gameMode),players,clientHandlers);
         while(turnController.getendgame()==false) {
             turnController.planning_phase_general();
             turnController.action_phase();
@@ -118,6 +118,18 @@ public class GameController implements Serializable {
         } finally {
             lockConnections.unlock();
         }
+    }
+
+    public void addPlayer(Player player) {
+        this.players.add(player);
+    }
+
+    public void removePlayer(Player player) {
+        this.players.remove(player);
+    }
+
+    public void getArrayNickname(List<Player> players) {
+
     }
 
 
@@ -155,6 +167,14 @@ public class GameController implements Serializable {
         }
     }
 
+    public boolean getBooleanGameMode(GameMode gameMode) {
+        if(gameMode==GameMode.STANDARD)
+            return false;
+        else if (gameMode==GameMode.EXPERT) {
+            return true;
+        }
+    }
+
     public void setServer(Server server) {
         this.server = server;
     }
@@ -163,6 +183,9 @@ public class GameController implements Serializable {
         return server;
     }
 
+    public void setGameTable(GameTable gameTable) {
+        GameTable = gameTable;
+    }
     public GameTable getGameTable() {
         return GameTable;
     }
