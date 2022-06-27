@@ -12,8 +12,7 @@ class BoardTest {
     Board board = new Board(2, 1, TowerColour.STARTER);
     //Game with three players
     Board board3 = new Board(3,1, TowerColour.STARTER);
-    //Game with four players
-    Board board4 = new Board(4,1, TowerColour.STARTER);
+
 
     private Student[] array = new Student[2];
 
