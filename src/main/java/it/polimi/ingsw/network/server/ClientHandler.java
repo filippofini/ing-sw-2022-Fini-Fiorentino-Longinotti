@@ -91,7 +91,7 @@ public class ClientHandler implements ClientHandlerInterface, Runnable {
             pinger.start();
 
             clientHandlerPhase = ClientHandlerPhase.WAITING_GAME_MODE;
-            sendMessageToClient(new GameModeRequest());
+            //sendMessageToClient(new GameModeRequest());
 
             while(active){
                 try {

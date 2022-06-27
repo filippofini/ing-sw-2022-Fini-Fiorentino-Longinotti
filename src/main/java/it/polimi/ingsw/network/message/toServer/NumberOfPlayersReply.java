@@ -17,11 +17,9 @@ public class NumberOfPlayersReply implements MessagesToServer{
 
     @Override
     public void handleMessage(ServerInterface server, ClientHandlerInterface clientHandler) {
-        if (clientHandler.getClientHandlerPhase() == ClientHandlerPhase.WAITING_NUMBER_OF_PLAYERS) {
-            clientHandler.sendMessageToClient(new WaitingInTheLobbyMessage());
-            clientHandler.setClientHandlerPhase(ClientHandlerPhase.WAITING_IN_THE_LOBBY);
-            clientHandler.setNumberOfPlayersForNextGame(n_players);
-        }
+        //clientHandler.sendMessageToClient(new WaitingInTheLobbyMessage());
+        clientHandler.setClientHandlerPhase(ClientHandlerPhase.WAITING_IN_THE_LOBBY);
+        clientHandler.setNumberOfPlayersForNextGame(n_players);
     }
 
     @Override

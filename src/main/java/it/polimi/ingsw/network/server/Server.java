@@ -83,10 +83,12 @@ public class Server implements ServerInterface {
                 }
                 lobby.get(lobby.size()-1).sendMessageToClient(new NameRequest(false, false));
 
-                if(lobby.size()>1){
+                if(lobby.size()>=1){
                 lobby.get(lobby.size()-1).sendMessageToClient(new WaitingInTheLobbyMessage());}
 
-                if(numOfPlayersForNextGame!=-1 && lobby.size()==numOfPlayersForNextGame){
+
+                if(lobby.size()==numOfPlayersForNextGame){
+                    //System.out.println(numOfPlayersForNextGame);
                     GameMode mode = lobby.get(0).getGameMode();
                     newGameManager(mode);
                 }
@@ -134,6 +136,8 @@ public class Server implements ServerInterface {
             */
 
         if (!invalidNickname())
+
+
             startNewGame(mode);
         lockLobby.unlock();
         }
