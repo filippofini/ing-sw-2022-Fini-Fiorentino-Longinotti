@@ -1,11 +1,13 @@
 package it.polimi.ingsw.model;
 
+import java.io.Serializable;
+
 /**
  * This class represent the clouds.
  * An array of int is used to keep track of the students and their type:
  * position 0 represent the yellow... More info at {@link DiskColour}.
  */
-public class Cloud {
+public class Cloud implements Serializable {
     private int[] arr_students;
     private final int cloud_ID;
 

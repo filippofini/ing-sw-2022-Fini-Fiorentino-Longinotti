@@ -6,6 +6,7 @@ import it.polimi.ingsw.network.message.toClient.DisplayDiningRoomColourFullReque
 import it.polimi.ingsw.network.message.toClient.DisplayStudentChosenPreviouslyRequest;
 import it.polimi.ingsw.network.server.ClientHandler;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +17,7 @@ import java.util.List;
  * Each board has towers with different colours (see more at: {@link TowerColour}).
  * The towers in the board are 8 if the game has 2 or 4 players, 7 if the game has 3 players.
  */
-public class Board {
+public class Board implements Serializable {
     private final int board_player;
     private int n_towers;
     private int[] arrPositionStudents;
@@ -55,7 +56,7 @@ public class Board {
             maxEntranceStudents=9;
             n_towers = 6;
         }
-
+        /*
         else if(numOfPlayers == 4){
             arrEntranceStudents = new Student[7];
             maxEntranceStudents=7;
@@ -63,6 +64,9 @@ public class Board {
             if((playerID == 1 || playerID == 3))
             n_towers = 8;
         }
+
+         */
+
     }
 
     /**

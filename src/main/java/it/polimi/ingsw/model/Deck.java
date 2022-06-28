@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -9,7 +10,7 @@ import java.util.Objects;
  * This class represent the deck of assistance cards. 1 deck of 10 assistance cards for each player.
  * The cards are represented in a list.
  */
-public class Deck {
+public class Deck implements Serializable {
     private List<AssistanceCard> cards;
 
     /**

@@ -1,10 +1,12 @@
 package it.polimi.ingsw.model;
 
+import java.io.Serializable;
+
 /**
  * This class represent the professors.
  * There is one professor for each colour. See more at: {@link DiskColour}.
  */
-public class Professor {
+public class Professor implements Serializable {
     private final DiskColour colour_prof;
 
     /**

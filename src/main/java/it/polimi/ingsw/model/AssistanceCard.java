@@ -1,10 +1,12 @@
 package it.polimi.ingsw.model;
 
+import java.io.Serializable;
+
 /**
  * This enumeration contains all the assistance cards numbered from 1 to 10.
  * The card 0 is just used to set the discard deck at the start of the game.
  */
-public enum AssistanceCard {
+public enum AssistanceCard implements Serializable {
     STARTER(0,0), TORTOISE(1,1), ELEPHANT(2,1),
     BULLDOG(3,2),OCTOPUS(4,2),
     LIZARD(5,3), FOX(6,3),

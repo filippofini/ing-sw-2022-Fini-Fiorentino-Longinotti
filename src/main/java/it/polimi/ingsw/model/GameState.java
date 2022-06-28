@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model;
 
+import java.util.List;
+
 /**
  * This class represent the game state.
  * It creates the game table and the class player.
@@ -27,7 +29,7 @@ public class GameState {
      * @param expert_mode {@code True} if expert mode is enabled, {@code False} if not.
      * @param curr_player The current player.
      */
-    public GameState(int n_players, String[] names, int wizard[], boolean expert_mode, int curr_player){
+    public GameState(int n_players, String[] names, int wizard[], boolean expert_mode, int curr_player, List<Player> p_l){
         this.n_players = n_players;
         this.names = names;
         this.wizard = wizard;
@@ -37,9 +39,10 @@ public class GameState {
 
         players = new Player[n_players];
         for(int i=0; i<n_players;i++){
-            players[i] = new Player(names[i], wizard[i], TowerColour.values()[i], i+1);
+            players[i] = p_l.get(i);
         }
 
+        System.out.println("\nGAMETABLE\n");
         GT = new GameTable(n_players, turn);
         if(n_players == 4){
             teams = new int[4];

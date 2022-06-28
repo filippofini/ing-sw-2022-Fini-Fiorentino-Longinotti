@@ -182,7 +182,6 @@ public class CLI implements View {
      */
     public void displayChooseAssistantCardRequest( Player player,GameTable GT){
         AssistantCLI.chooseAssistantCard(client,player,GT);
-
     }
 
     /**

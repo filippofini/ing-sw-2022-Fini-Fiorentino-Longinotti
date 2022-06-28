@@ -1,9 +1,12 @@
 package it.polimi.ingsw.model;
 
+import java.io.Serial;
+import java.io.Serializable;
+
 /**
  * This class represents the current turn. Two ints represent the current player (0) and the next player (1).
  */
-public class Turn{
+public class Turn implements Serializable {
     private int current_player;
     private int player_next_turn;
 

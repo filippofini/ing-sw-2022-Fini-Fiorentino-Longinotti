@@ -1,10 +1,12 @@
 package it.polimi.ingsw.model;
 
+import java.io.Serializable;
+
 /**
  * This class represent the students.
  * Each student has a colour. See more at: {@link DiskColour}.
  */
-public class Student {
+public class Student implements Serializable {
     //When extracted from the bag the position of the array in the bag becomes the colour of the student
     private DiskColour colour;
     //To know in entrance if the student is chosen or not

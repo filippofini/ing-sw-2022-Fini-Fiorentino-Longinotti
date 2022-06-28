@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.character.*;
 import it.polimi.ingsw.network.message.toClient.ChooseCloudRequest;
 import it.polimi.ingsw.network.server.ClientHandler;
 
+import java.io.Serializable;
 import java.util.*;
 
 
@@ -13,7 +14,7 @@ import java.util.*;
  * The class includes methods to move mother nature in the islands and the merge of island if possible.
  * The discard deck of assistance cards is store here and the three character cards are drawn in the beginning.
  */
-public class GameTable {
+public class GameTable implements Serializable {
     private final int num_players;
     private int player_ID;
     private int current_player;

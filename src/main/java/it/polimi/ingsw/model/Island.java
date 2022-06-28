@@ -1,6 +1,8 @@
 package it.polimi.ingsw.model;
 
 
+import java.io.Serializable;
+
 /**
  * This class represent the islands.
  * Each island has an array of int used to keep track of the students and their type.
@@ -9,7 +11,7 @@ package it.polimi.ingsw.model;
  * mother nature is represented by a boolean: {@code True} if is on the island, {@code False} if not on the island.
  * Each island can have at max 1 tower (more than 1 if merged). The tower can be placed by the player that control the island.
  */
-public class Island {
+public class Island implements Serializable {
 
     private Board[] boards;
     private boolean mother_nature;

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
@@ -8,7 +9,7 @@ import java.util.Objects;
  * A wizard and a tower colour is assigned to each player at the beginning.
  * Each player starts with 1 coin if the expert mode is enabled.
  */
-public class Player {
+public class Player implements Serializable {
     private final String nickname;
     private final int tower_colour;
     private final int wizard;

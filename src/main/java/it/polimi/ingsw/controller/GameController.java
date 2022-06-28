@@ -91,8 +91,9 @@ public class GameController implements Serializable {
     }
     private void startNewGame() {
         Server.SERVER_LOGGER.log(Level.INFO, "Creating a new " + gameMode.name().replace("_"," ") + ", players: " + clientHandlers.stream().map(ClientHandler::getNickname).collect(Collectors.toList()));
-        players = addPlayer(server.getLobby());
-        TurnController turnController = new TurnController(server.getLobby().size(),getArrayNickname(server.getLobby()),wizards,getBooleanGameMode(gameMode),players,clientHandlers);
+        players = addPlayer(clientHandlers);
+        TurnController turnController = new TurnController(clientHandlers.size(),getArrayNickname(clientHandlers),wizards,getBooleanGameMode(gameMode),players,clientHandlers);
+        turnController.setGameController(this);
         while(turnController.getendgame()==false) {
             turnController.planning_phase_general();
             turnController.action_phase();
@@ -130,37 +131,36 @@ public class GameController implements Serializable {
 
     public List<Player> addPlayer(List<ClientHandler> clientHandlers) {
         TowerColour towerColour = null;
-        for (ClientHandler clientHandler : clientHandlers) {
-            String nickname = clientHandler.getNickname();
+        for (int i=0; i<clientHandlers.size(); i++) {
+            String nickname = clientHandlers.get(i).getNickname();
             if(clientHandlers.size() == 4) {
-                if(player_ID == 0 || player_ID ==2) {
+                if(i == 0 || i ==2) {
                     towerColour = TowerColour.BLACK;
                 }
-                if(player_ID == 1 || player_ID == 3) {
+                if(i == 1 || i == 3) {
                     towerColour = TowerColour.WHITE;
                 }
             }
             else if(clientHandlers.size()==3) {
-                if(player_ID == 0) 
+                if(i == 0)
                     towerColour =TowerColour.BLACK;
-                if (player_ID==1)
+                if (i==1)
                     towerColour = TowerColour.WHITE;
-                if (player_ID==2)
+                if (i==2)
                     towerColour = TowerColour.GREY;
             }
                 else if(clientHandlers.size()==2)
             {
-                if (player_ID==0) 
+                if (i==0)
                     towerColour = TowerColour.BLACK;
                 
-                if (player_ID==1)
+                if (i==1)
                     towerColour = TowerColour.WHITE;
                 
             }
-                int wiz = wizard;
-                int ID = player_ID;
-                player_ID++;
-                wizard++;
+                int wiz = i;
+                int ID = i;
+
 
             Player p = new Player(nickname,wiz,towerColour,ID);
             players.add(p);
@@ -169,9 +169,9 @@ public class GameController implements Serializable {
     }
 
     public String[] getArrayNickname(List<ClientHandler> clientHandlers) {
-        for (ClientHandler clientHandler : clientHandlers) {
-                names[i] = (clientHandler.getNickname());
-                i++;
+        names = new String[clientHandlers.size()];
+        for (int i=0; i<clientHandlers.size(); i++) {
+                names[i] = clientHandlers.get(i).getNickname();
         }
 
         return names;

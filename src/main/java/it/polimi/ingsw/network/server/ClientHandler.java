@@ -151,12 +151,14 @@ public class ClientHandler implements ClientHandlerInterface, Runnable {
         try {
             if (checkMessage(message))
                 Server.SERVER_LOGGER.log(Level.INFO, "[" + (nickname != null ? nickname : socket.getInetAddress().getHostAddress()) + "]: " + message.toString());
+
             outputStream.writeObject(message);
             outputStream.flush();
             outputStream.reset();
             if (message instanceof MessagesToClient &&((MessagesToClient) message).hasTimer())
                 startTimer();
         } catch (IOException e) {
+            e.printStackTrace();
             handleSocketDisconnection(e instanceof SocketTimeoutException);
         }
     }
@@ -263,7 +265,7 @@ public class ClientHandler implements ClientHandlerInterface, Runnable {
     @Override
     public void setNickname(String nickname){
         this.nickname = nickname;
-        server.handleNicknameChoice(this);
+        //server.handleNicknameChoice(this);
     }
 
     /**

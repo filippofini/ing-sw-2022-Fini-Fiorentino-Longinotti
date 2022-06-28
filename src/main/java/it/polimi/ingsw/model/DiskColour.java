@@ -1,10 +1,13 @@
 package it.polimi.ingsw.model;
 
+import java.awt.*;
+import java.io.Serializable;
+
 /**
  * This enumeration defines the color of students.
  * 0 is yellow, 1 is red, 2 is pink, 3 is blue, 4 is green.
  */
-public enum DiskColour {
+public enum DiskColour implements Serializable {
     YELLOW(0), RED(1), PINK(2), BLUE(3), GREEN(4);
     private final int translateColour;
 

@@ -3,6 +3,8 @@ package it.polimi.ingsw.model.character;
 import it.polimi.ingsw.model.CharacterCard;
 import it.polimi.ingsw.model.GameState;
 
+import java.io.Serializable;
+
 /**
  * This class represents the farmer character card.
  */

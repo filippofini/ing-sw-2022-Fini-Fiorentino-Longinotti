@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model;
 
+import java.io.Serializable;
+
 /**
  * This abstract class represents the character cards.
  * There are 12 character cards, all of them with different effect and some with different costs.
@@ -7,7 +9,7 @@ package it.polimi.ingsw.model;
  * its cost is increased by 1.
  * Each card has a unique ID code from 1 to 12.
  */
-public abstract class CharacterCard {
+public abstract class CharacterCard implements Serializable {
      int ID_code;
      int cost;
      int uses = 0;

@@ -40,6 +40,8 @@ public class Server implements ServerInterface {
     private boolean IsLog;
     private List<Player> P_L;
 
+    private int t=0;
+
 
     /**
      * Constructor of the class.
@@ -71,11 +73,18 @@ public class Server implements ServerInterface {
         try {
             //server accepts connections from clients
             while (true) {
+                System.out.println(numOfPlayersForNextGame);
                 Socket clientSocket = serverSocket.accept();
                 SERVER_LOGGER.log(Level.INFO, "Received connection from address: [" + clientSocket.getInetAddress().getHostAddress() + "]");
                 ClientHandler clientHandler = new ClientHandler(clientSocket, this);
                 executor.submit(clientHandler);
                 addClientHandler(clientHandler);
+
+                lobby.get(t).setNickname("player"+ t);
+                t++;
+
+
+
 
                 if(lobby.size()==1){
                     lobby.get(0).sendMessageToClient(new GameModeRequest());
@@ -88,8 +97,8 @@ public class Server implements ServerInterface {
 
 
                 if(lobby.size()==numOfPlayersForNextGame){
-                    //System.out.println(numOfPlayersForNextGame);
                     GameMode mode = lobby.get(0).getGameMode();
+                    System.out.println("\nOKOK\n");
                     newGameManager(mode);
                 }
 
@@ -135,9 +144,8 @@ public class Server implements ServerInterface {
             } else
             */
 
-        if (!invalidNickname())
-
-
+        //if (!invalidNickname())
+            System.out.println("\nSTART\n");
             startNewGame(mode);
         lockLobby.unlock();
         }
@@ -215,6 +223,8 @@ public class Server implements ServerInterface {
     private void startNewGame(GameMode mode) {
         if (lobby.size() < numOfPlayersForNextGame)
             return;
+
+        System.out.println("\nCONTROLLER\n");
         GameController gamecontroller = new GameController((mode));
         gamecontroller.setServer(this);
         lockLobby.lock();
