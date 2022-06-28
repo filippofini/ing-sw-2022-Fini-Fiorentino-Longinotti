@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 class MonkTest {
     Monk monk = new Monk(new int[]{1,0,0,2,1});
-    GameState game_state = new GameState(2, new String[]{"FF", "HH"},new int[]{1,2},false,1 );
+    //GameState game_state = new GameState(2, new String[]{"FF", "HH"},new int[]{1,2},false,1 );
 
     @Test
     public void testSetUses1(){
@@ -41,7 +41,7 @@ class MonkTest {
         int sum=0;
         monk.setIndex_to(5);
         monk.setChosen_student(3);
-        monk.effect(game_state);
+        //monk.effect(game_state);
         int[] arr_stud = monk.getStudents();
 
         for (int i = 0; i < 5; i++) {

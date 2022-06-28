@@ -37,7 +37,6 @@ public class TurnController {
         this.n_players=n_players;
         this.clienthandler=clienthandler;
         this.P_L=Player_List;
-
         player_order= new int[n_players];
         for(int i=0; i<n_players;i++){
             player_order[i]=i;
@@ -66,8 +65,8 @@ public class TurnController {
      */
     public void planning_phase_personal(int i){
 
-        System.out.println();
-        clienthandler.get(i).sendMessageToClient(new ChooseAssistantCardRequest(P_L.get(i),GS.getGT()));
+
+       clienthandler.get(i).sendMessageToClient(new ChooseAssistantCardRequest(P_L.get(i),GS.getGT()));
         GS.getGT().choose_assistant(P_L.get(i),clienthandler.get(i).getAssistantCardChosen());
     }
 

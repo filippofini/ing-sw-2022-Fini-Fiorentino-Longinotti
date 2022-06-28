@@ -228,8 +228,8 @@ public class Board implements Serializable {
      * This method sets the array of entrance of students.
      * @param arrEntranceStudents The array of entrance of students.
      */
-    public void setArrEntranceStudents(Student[] arrEntranceStudents) {
-        this.arrEntranceStudents = arrEntranceStudents;
+    public void setArrEntranceStudents(Student arrEntranceStudents, int pos) {
+        this.arrEntranceStudents[pos] = arrEntranceStudents;
     }
 
     /**

@@ -68,7 +68,7 @@ class BoardTest {
     void testArrEntranceStudents() {
         array[0] = new Student(DiskColour.RED);
         array[1] = new Student(DiskColour.BLUE);
-        board.setArrEntranceStudents(array);
+        //board.setArrEntranceStudents(array);
         assertArrayEquals(array,board.getArrEntranceStudents());
     }
 

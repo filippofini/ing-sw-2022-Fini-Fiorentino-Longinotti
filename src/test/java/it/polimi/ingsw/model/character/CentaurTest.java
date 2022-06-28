@@ -8,6 +8,8 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * This class tests the class {@link it.polimi.ingsw.model.character.Centaur}.
  */
+
+/*
 class CentaurTest {
 
     Centaur centaur = new Centaur();
@@ -45,4 +47,8 @@ class CentaurTest {
 
         assertEquals(0, game_state.getGT().getIslands().get(game_state.getGT().getMother_nature_pos()).getInfluence_controller());
     }
+
+
 }
+
+ */

@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class KnightTest {
     
     Knight knight = new Knight();
-    GameState game_state = new GameState(2, new String[]{"FF", "HH"},new int[]{1,2},false, 1);
+    //GameState game_state = new GameState(2, new String[]{"FF", "HH"},new int[]{1,2},false, 1);
 
     @Test
     public void testSetUses1(){
@@ -33,7 +33,7 @@ class KnightTest {
     public void testCost(){
         assertEquals(2, knight.getCost());
     }
-
+    /*
     @Test
     public void testEffect(){
         knight.effect(game_state);
@@ -42,5 +42,8 @@ class KnightTest {
 
         //assertEquals(2, game_state.getGT().getIslands().get(game_state.getGT().getMother_nature_pos()).getInfluence_controller());
     }
+
+     */
+
 
 }

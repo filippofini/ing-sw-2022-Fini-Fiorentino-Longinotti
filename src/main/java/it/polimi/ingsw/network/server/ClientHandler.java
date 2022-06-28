@@ -158,7 +158,7 @@ public class ClientHandler implements ClientHandlerInterface, Runnable {
             if (message instanceof MessagesToClient &&((MessagesToClient) message).hasTimer())
                 startTimer();
         } catch (IOException e) {
-            e.printStackTrace();
+
             handleSocketDisconnection(e instanceof SocketTimeoutException);
         }
     }

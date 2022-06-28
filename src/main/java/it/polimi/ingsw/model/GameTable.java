@@ -52,6 +52,25 @@ public class GameTable implements Serializable {
             boards[i] = new Board(num_players,i+1, TowerColour.values()[i]);
         }
 
+        for (int i = 0; i < num_players; i++) {
+            Random random = new Random();
+
+            if (num_players == 2) {
+                for (int j = 0; j < 7; j++) {
+                    int temprand = random.nextInt(5);
+                    boards[i].setArrEntranceStudents(new Student(boards[i].inverse_color(temprand)), j);
+                    bag[temprand]--;
+                }
+            } else if (num_players == 3) {
+                for (int j = 0; j < 9; j++) {
+                    int temprand = random.nextInt(5);
+                    boards[i].setArrEntranceStudents(new Student(boards[i].inverse_color(temprand)), j);
+                    bag[temprand]--;
+                }
+
+            }
+        }
+
         islands = new LinkedList<Island>();
         for(int i=0;i<12;i++){
             islands.add(new Island( boards, i+1, TowerColour.STARTER));
