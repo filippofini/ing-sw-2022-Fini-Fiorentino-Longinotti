@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.Board;
 import it.polimi.ingsw.model.Island;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.network.client.Client;
+import it.polimi.ingsw.network.message.toServer.ResultNotifyReply;
 
 import java.util.List;
 
@@ -84,6 +85,7 @@ public class EndGameCLI {
                 System.out.println("professors:"+tempprof+"\n");
             }
 
+            client.sendMessageToServer(new ResultNotifyReply());
     }
 
 }

@@ -208,4 +208,13 @@ public interface ClientHandlerInterface {
     void setWaitingInTheLobby(boolean waitingInTheLobby);
 
 
+    void setDisplayDiningRoom(boolean displayDiningRoom);
+
+    void setDisplayIslandInfo(boolean displayIslandInfo);
+
+    void setDisplayStudentChosenPreviously(boolean displayStudentChosenPreviously);
+
+    void setResultNotify(boolean resultNotify);
+
+    void setTimeoutExpired(boolean timeoutExpired);
 }

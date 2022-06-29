@@ -2,8 +2,7 @@ package it.polimi.ingsw.CLI;
 
 import it.polimi.ingsw.model.Board;
 import it.polimi.ingsw.network.client.Client;
-import it.polimi.ingsw.network.message.toServer.PositionToMoveReply;
-import it.polimi.ingsw.network.message.toServer.StudentToMoveReply;
+import it.polimi.ingsw.network.message.toServer.*;
 
 /**
  * This class represent the board in the CLI.
@@ -64,21 +63,27 @@ public class BoardCLI {
 
     /**
      * This method displays the dining room.
-     * @param board The board.
+     *
+     * @param client
+     * @param board         The board.
      * @param choiceStudent The students.
      */
-    public static void displayDiningRoomColourFull( Board board,int choiceStudent) {
+    public static void displayDiningRoomColourFull(Client client, Board board, int choiceStudent) {
         System.out.println("table of colour:"+board.getArrEntranceStudents()[choiceStudent].getEnumColour() +" is full, please choose another student");
-
+        client.sendMessageToServer(new DisplayDiningRoomColourFullReply());
     }
 
     /**
      * This method displays the students chosen previously.
-     * @param board The board.
+     *
+     * @param client
+     * @param board         The board.
      * @param choiceStudent The students.
      */
-    public static void displayStudentChosenPreviously( Board board,int choiceStudent) {
+    public static void displayStudentChosenPreviously(Client client, Board board, int choiceStudent) {
         System.out.println("Student chosen previously,please choose another student\n");
+
+        client.sendMessageToServer(new DisplayStudentChosenPreviouslyReply());
     }
 
     /**

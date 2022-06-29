@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.network.message.toClient.ChooseCharacterCardRequest;
 import it.polimi.ingsw.network.message.toServer.PositionReply;
+import it.polimi.ingsw.network.message.toServer.TimeoutExpiredReply;
 import it.polimi.ingsw.network.message.toServer.UseCharacterCardReply;
 import it.polimi.ingsw.view.View;
 
@@ -106,7 +107,7 @@ public class CLI implements View {
      * @param islandID The ID of the island.
      */
     public void displayIslandInfo(Island island, int islandID){
-        IslandCLI.displayIslandInfo(island,islandID);
+        IslandCLI.displayIslandInfo(client,island,islandID);
     }
 
     /**
@@ -148,7 +149,7 @@ public class CLI implements View {
      * @param choiceStudent The student.
      */
     public void displayDiningRoomColourFull( Board board,int choiceStudent){
-        BoardCLI.displayDiningRoomColourFull(board,choiceStudent);
+        BoardCLI.displayDiningRoomColourFull(client,board,choiceStudent);
     }
 
     /**
@@ -157,7 +158,7 @@ public class CLI implements View {
      * @param choiceStudent The student.
      */
     public void displayStudentChosenPreviously( Board board,int choiceStudent){
-        BoardCLI.displayStudentChosenPreviously(board,choiceStudent);
+        BoardCLI.displayStudentChosenPreviously(client,board,choiceStudent);
     }
 
     /**
@@ -174,6 +175,7 @@ public class CLI implements View {
     public void displayTimeoutCloseConnection(){
         System.out.println("Timeout expired, you will be now disconnected");
         closeConnection();
+        client.sendMessageToServer(new TimeoutExpiredReply());
     }
 
     /**

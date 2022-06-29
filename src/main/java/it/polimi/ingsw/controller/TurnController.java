@@ -113,7 +113,7 @@ public class TurnController {
             }
 
             for(int j=0;j<GS.getGT().getHow_many_left();j++){
-              clienthandler.get(player_order[i]).sendMessageToClient(new DisplayIslandinfoRequest(GS.getGT().getIslands().get(j),j));
+              clienthandler.get(player_order[i]).sendMessageToClient(new DisplayIslandInfoRequest((GS.getGT().getIslands().get(j)),j));
             }
             clienthandler.get(player_order[i]).sendMessageToClient(new MoveMnRequest(GS.getGT().getMother_nature_pos(),P_L.get(GS.getCurr_player())));
             GS.getGT().move_mother_nature(clienthandler.get(player_order[i]).getMnmovement());

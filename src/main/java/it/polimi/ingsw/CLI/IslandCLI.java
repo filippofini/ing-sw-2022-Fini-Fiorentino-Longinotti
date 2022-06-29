@@ -4,6 +4,8 @@ import it.polimi.ingsw.model.DiskColour;
 import it.polimi.ingsw.model.Island;
 import it.polimi.ingsw.model.Student;
 import it.polimi.ingsw.network.client.Client;
+import it.polimi.ingsw.network.message.toClient.DisplayIslandInfoRequest;
+import it.polimi.ingsw.network.message.toServer.DisplayIslandInfoReply;
 import it.polimi.ingsw.network.message.toServer.MoveStudentReply;
 
 import java.util.List;
@@ -15,10 +17,12 @@ public class IslandCLI {
 
     /**
      * This method displays the island info.
-     * @param island The island.
+     *
+     * @param client
+     * @param island   The island.
      * @param islandID The island ID.
      */
-    public static void displayIslandInfo(Island island, int islandID){
+    public static void displayIslandInfo(Client client, Island island, int islandID){
 
         System.out.println("Island["+islandID+":]\n");
         for (int k=0;k<5; k++){
@@ -28,6 +32,8 @@ public class IslandCLI {
         System.out.println("Influence: "+island.getInfluence_controller()+"\n");
         System.out.println("number of towers: "+island.getTower()+"\n");
         System.out.println("Owned by: player "+island.getPlayer_controller()+"\n");
+
+        client.sendMessageToServer(new DisplayIslandInfoReply());
     }
 
     /**

@@ -42,6 +42,11 @@ public class ClientHandler implements ClientHandlerInterface, Runnable {
     private int ChCardUsed;
     private boolean canBeUsed;
     private boolean waitingInTheLobby;
+    private boolean displayDiningRoom;
+    private boolean displayIslandInfo;
+    private boolean displayStudentChosenPreviously;
+    private boolean resultNotify;
+    private boolean timeoutExpired;
 
     /**
      * This method checks if the game has started.
@@ -541,6 +546,29 @@ public class ClientHandler implements ClientHandlerInterface, Runnable {
         notify();
     }
 
+    public synchronized void setDisplayDiningRoom(boolean displayDiningRoom) {
+        this.displayDiningRoom = displayDiningRoom;
+        notify();
+    }
+    
+    public synchronized void setDisplayIslandInfo(boolean displayIslandInfo) {
+        this.displayIslandInfo = displayIslandInfo;
+        notify();
+    }
 
+    public synchronized void setDisplayStudentChosenPreviously(boolean displayStudentChosenPreviously) {
+        this.displayStudentChosenPreviously = displayStudentChosenPreviously;
+        notify();
+    }
+    
+    public synchronized void setResultNotify(boolean resultNotify) {
+        this.resultNotify = resultNotify;
+        notify();
+    }
+
+    public synchronized void setTimeoutExpired(boolean timeoutExpired) {
+        this.timeoutExpired = timeoutExpired;
+        notify();
+    }
 }
 
