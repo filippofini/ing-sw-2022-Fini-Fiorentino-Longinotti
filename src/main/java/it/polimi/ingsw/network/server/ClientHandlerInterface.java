@@ -204,4 +204,8 @@ public interface ClientHandlerInterface {
      * @return The game controller.
      */
     GameController getGameController();
+
+    void setWaitingInTheLobby(boolean waitingInTheLobby);
+
+
 }

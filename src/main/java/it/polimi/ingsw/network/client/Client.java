@@ -163,11 +163,12 @@ public class Client implements ClientInterface {
     }
 
     @Override
-    public void sendMessageToServer(Serializable message){
+    public synchronized void sendMessageToServer(Serializable message){
         if (connected.get()){
             try {
                 outputStream.writeObject(message);
                 outputStream.flush();
+
             }catch (IOException e){
                 closeSocket();
             }

@@ -5,6 +5,7 @@ import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.network.message.toServer.GameModeReply;
 import it.polimi.ingsw.network.message.toServer.NameReply;
 import it.polimi.ingsw.network.message.toServer.NumberOfPlayersReply;
+import it.polimi.ingsw.network.message.toServer.WaitingInTheLobbyReply;
 
 import java.io.IOException;
 
@@ -142,7 +143,8 @@ public class StartGame {
     /**
      * This method displays the waiting message.
      */
-    public static void displayWaitingMessage() {
+    public static void displayWaitingMessage(Client client) {
         System.out.println("making the island floating...");
+        client.sendMessageToServer(new WaitingInTheLobbyReply());
     }
 }

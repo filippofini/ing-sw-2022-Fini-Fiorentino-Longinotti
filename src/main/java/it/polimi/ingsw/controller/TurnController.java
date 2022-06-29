@@ -52,7 +52,9 @@ public class TurnController {
         gameController.setCheck(true);
         GS.getGT().replenish_clouds(this);
         for(int i=0;i<n_players;i++){
+            System.out.println("\nTIMES: "+i);
             planning_phase_personal(player_order[i]);
+
         }
         Calculate_Player_order();
     }

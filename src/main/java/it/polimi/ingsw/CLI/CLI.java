@@ -87,7 +87,8 @@ public class CLI implements View {
      * This method displays the waiting message.
      */
     public void displayWaitingMessage(){
-        StartGame.displayWaitingMessage();
+        StartGame.displayWaitingMessage(client);
+
     }
 
     /**

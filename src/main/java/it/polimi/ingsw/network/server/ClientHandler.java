@@ -41,6 +41,7 @@ public class ClientHandler implements ClientHandlerInterface, Runnable {
     private int useChCard=0;
     private int ChCardUsed;
     private boolean canBeUsed;
+    private boolean waitingInTheLobby;
 
     /**
      * This method checks if the game has started.
@@ -72,7 +73,7 @@ public class ClientHandler implements ClientHandlerInterface, Runnable {
             while (active){
                 try{
                     Thread.sleep(HEARTBEAT);
-                    sendMessageToClient(ConnectionMessage.PING);
+                    //sendMessageToClient(ConnectionMessage.PING);
                 }catch (InterruptedException e){
                     break;
                 }
@@ -155,11 +156,18 @@ public class ClientHandler implements ClientHandlerInterface, Runnable {
             outputStream.writeObject(message);
             outputStream.flush();
             outputStream.reset();
+            System.out.println("\nPREWAIT\n");
+            if (!message.equals(ConnectionMessage.PING))
+             wait();
+
+            System.out.println("\nPOST\n");
             if (message instanceof MessagesToClient &&((MessagesToClient) message).hasTimer())
                 startTimer();
         } catch (IOException e) {
 
             handleSocketDisconnection(e instanceof SocketTimeoutException);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -254,8 +262,9 @@ public class ClientHandler implements ClientHandlerInterface, Runnable {
      * @param pos The position where to move the student.
      */
     @Override
-    public void setposToMove(int pos) {
+    public synchronized void setposToMove(int pos) {
         this.pos = pos;
+        notify();
     }
 
     /**
@@ -263,8 +272,9 @@ public class ClientHandler implements ClientHandlerInterface, Runnable {
      * @param nickname The nickname.
      */
     @Override
-    public void setNickname(String nickname){
+    public synchronized void setNickname(String nickname){
         this.nickname = nickname;
+        notify();
         //server.handleNicknameChoice(this);
     }
 
@@ -273,8 +283,9 @@ public class ClientHandler implements ClientHandlerInterface, Runnable {
      * @param mnmovement The movement of mother nature.
      */
     @Override
-    public void setMnmovement(int mnmovement) {
+    public synchronized void setMnmovement(int mnmovement) {
         this.mnmovement = mnmovement;
+        notify();
     }
 
     /**
@@ -291,8 +302,9 @@ public class ClientHandler implements ClientHandlerInterface, Runnable {
      * @param gameMode The game mode.
      */
     @Override
-    public void setGameMode(GameMode gameMode){
+    public synchronized void setGameMode(GameMode gameMode){
         this.gameMode = gameMode;
+        notify();
     }
 
     /**
@@ -300,24 +312,27 @@ public class ClientHandler implements ClientHandlerInterface, Runnable {
      * @param gameStarted {@code true} to start the game.
      */
     @Override
-    public void setGameStarted(boolean gameStarted){
+    public synchronized void setGameStarted(boolean gameStarted){
         this.gameStarted = gameStarted;
+        notify();
     }
 
     /**
      * This method sets the number of players for the next game.
      * @param numberOfPlayersForNextGame The number of players for the next game.
      */
-    public void setNumberOfPlayersForNextGame(int numberOfPlayersForNextGame){
+    public synchronized void setNumberOfPlayersForNextGame(int numberOfPlayersForNextGame){
         server.setNumberOfPlayersForNextGame(this, numberOfPlayersForNextGame);
+        notify();
     }
 
     /**
      * This method sets the game controller.
      * @param gameController The game controller.
      */
-    public void setGameController(GameController gameController){
+    public synchronized void setGameController(GameController gameController){
         this.gameController = gameController;
+        notify();
     }
 
     /**
@@ -356,8 +371,9 @@ public class ClientHandler implements ClientHandlerInterface, Runnable {
      * This method sets a valid nickname.
      * @param validNickname A valid nickname.
      */
-    public void setValidNickname(boolean validNickname) {
+    public synchronized void setValidNickname(boolean validNickname) {
         this.validNickname = validNickname;
+        notify();
     }
 
     /**
@@ -365,8 +381,9 @@ public class ClientHandler implements ClientHandlerInterface, Runnable {
      * @param islandToMove The island where to move the student.
      */
     @Override
-    public void setIslandToMove(int islandToMove) {
+    public synchronized void setIslandToMove(int islandToMove) {
         this.islandToMove = islandToMove;
+        notify();
     }
 
     /**
@@ -374,8 +391,9 @@ public class ClientHandler implements ClientHandlerInterface, Runnable {
      * @param studToMove The student to be moved.
      */
     @Override
-    public void setstudToMove(int studToMove) {
+    public synchronized void setstudToMove(int studToMove) {
         this.studToMove=studToMove;
+        notify();
     }
 
     /**
@@ -383,8 +401,9 @@ public class ClientHandler implements ClientHandlerInterface, Runnable {
      * @param positionChosen The position.
      */
     @Override
-    public void setpos(int positionChosen) {
+    public synchronized void setpos(int positionChosen) {
         this.positionChosen=positionChosen;
+        notify();
     }
 
     /**
@@ -392,8 +411,9 @@ public class ClientHandler implements ClientHandlerInterface, Runnable {
      * @param colour The colour.
      */
     @Override
-    public void setcolour(int colour) {
+    public synchronized void setcolour(int colour) {
         this.colour=colour;
+        notify();
     }
 
     /**
@@ -401,8 +421,9 @@ public class ClientHandler implements ClientHandlerInterface, Runnable {
      * @param cloudChosen The chosen cloud.
      */
     @Override
-    public void setCloudChosen(int cloudChosen) {
+    public synchronized void setCloudChosen(int cloudChosen) {
         this.cloudChosen = cloudChosen;
+        notify();
     }
 
     /**
@@ -410,8 +431,10 @@ public class ClientHandler implements ClientHandlerInterface, Runnable {
      * @param assistantCardChosen The chosen assistant card to be played.
      */
     @Override
-    public void setAssistantCardChosen(int assistantCardChosen) {
+    public synchronized void setAssistantCardChosen(int assistantCardChosen) {
+        System.out.println("\nDENTRO\n");
         this.assistantCardChosen = assistantCardChosen;
+        notify();
     }
 
     /**
@@ -466,8 +489,9 @@ public class ClientHandler implements ClientHandlerInterface, Runnable {
      * This method sets if the player wants to play a card.
      * @param useChCard The parameter used to see if the player wants to play a card.
      */
-    public void setUseCharacterCard(int useChCard) {
+    public synchronized void setUseCharacterCard(int useChCard) {
         this.useChCard = useChCard;
+        notify();
     }
 
     /**
@@ -482,8 +506,9 @@ public class ClientHandler implements ClientHandlerInterface, Runnable {
      * This method sets the card chosen to be played by the player.
      * @param chCardUsed The card chosen to be played by the player.
      */
-    public void setChCardUsed(int chCardUsed) {
+    public synchronized void setChCardUsed(int chCardUsed) {
         ChCardUsed = chCardUsed;
+        notify();
     }
 
     /**
@@ -506,8 +531,16 @@ public class ClientHandler implements ClientHandlerInterface, Runnable {
      * This method sets if the character card can be used.
      * @param canBeUsed {@code True} if it can be used, {@code False} if it can't.
      */
-    public void setCanBeUsed(boolean canBeUsed) {
+    public synchronized void setCanBeUsed(boolean canBeUsed) {
         this.canBeUsed = canBeUsed;
+        notify();
     }
+
+    public synchronized void setWaitingInTheLobby(boolean waitingInTheLobby) {
+        this.waitingInTheLobby = waitingInTheLobby;
+        notify();
+    }
+
+
 }
 

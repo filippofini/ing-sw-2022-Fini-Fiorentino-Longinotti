@@ -30,6 +30,7 @@ public class AssistantCLI {
             System.out.println("Number not valid,please choose a number from the list");
             choice=InputParser.getInt();
         }
+
         client.sendMessageToServer(new ChooseAssistantCardReply(choice));
     }
     /**

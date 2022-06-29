@@ -73,7 +73,7 @@ public class Server implements ServerInterface {
         try {
             //server accepts connections from clients
             while (true) {
-                System.out.println(numOfPlayersForNextGame);
+
                 Socket clientSocket = serverSocket.accept();
                 SERVER_LOGGER.log(Level.INFO, "Received connection from address: [" + clientSocket.getInetAddress().getHostAddress() + "]");
                 ClientHandler clientHandler = new ClientHandler(clientSocket, this);
@@ -90,10 +90,11 @@ public class Server implements ServerInterface {
                     lobby.get(0).sendMessageToClient(new GameModeRequest());
                     lobby.get(0).sendMessageToClient(new NumberOfPlayersRequest());
                 }
-                lobby.get(lobby.size()-1).sendMessageToClient(new NameRequest(false, false));
+                //lobby.get(lobby.size()-1).sendMessageToClient(new NameRequest(false, false));
 
                 if(lobby.size()>=1){
-                lobby.get(lobby.size()-1).sendMessageToClient(new WaitingInTheLobbyMessage());}
+                     lobby.get(lobby.size()-1).sendMessageToClient(new WaitingInTheLobbyMessage());}
+                System.out.println(lobby.size());
 
 
                 if(lobby.size()==numOfPlayersForNextGame){
@@ -224,7 +225,6 @@ public class Server implements ServerInterface {
         if (lobby.size() < numOfPlayersForNextGame)
             return;
 
-        System.out.println("\nCONTROLLER\n");
         GameController gamecontroller = new GameController((mode));
         gamecontroller.setServer(this);
         lockLobby.lock();
@@ -238,10 +238,13 @@ public class Server implements ServerInterface {
                 lobby.get(0).setGameController(gamecontroller);
                 lobby.remove(0);
             }
-
+            /*
             for (String nickname : playersInGame) {
                 gamecontroller.getConnectionByNickname(nickname).sendMessageToClient(new SendPlayersNamesMessage(nickname, playersInGame.stream().filter(x -> !(x.equals(nickname))).collect(Collectors.toList())));
             }
+
+             */
+
 
 
             assert gamecontroller != null;

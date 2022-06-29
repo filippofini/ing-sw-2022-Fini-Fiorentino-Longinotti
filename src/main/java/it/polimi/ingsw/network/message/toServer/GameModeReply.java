@@ -21,11 +21,11 @@ public class GameModeReply implements MessagesToServer{
     }
 
     @Override
-    public void handleMessage(ServerInterface server, ClientHandlerInterface clientHandler){
-        if (clientHandler.getClientHandlerPhase() == ClientHandlerPhase.WAITING_GAME_MODE){
-            clientHandler.setGameMode(gameMode);
-            clientHandler.setClientHandlerPhase(ClientHandlerPhase.WAITING_NICKNAME);
-        }
+    public synchronized void handleMessage(ServerInterface server, ClientHandlerInterface clientHandler){
+
+        clientHandler.setGameMode(gameMode);
+
+        clientHandler.setClientHandlerPhase(ClientHandlerPhase.WAITING_NICKNAME);
     }
 
     @Override
