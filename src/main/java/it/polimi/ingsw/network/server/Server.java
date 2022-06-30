@@ -149,10 +149,10 @@ public class Server implements ServerInterface {
 
 
 
-    /**
+    /*
      * This method is used to check if the nicknames are all different.
      * @return {@code True} if all the nicknames are valid, {@code False} if not.
-     */
+     *
     private boolean invalidNickname() {
         lockLobby.lock();
         try {
@@ -164,7 +164,7 @@ public class Server implements ServerInterface {
             lockLobby.unlock();
         }
         return false;
-    }
+    }*/
 
 
     /**
@@ -290,7 +290,6 @@ public class Server implements ServerInterface {
      * @param resultsNotify The message used to notify the results of the game.
      */
     public void gameEnded(GameController gamecontroller, ResultsNotify resultsNotify) {
-        gamecontroller.getPlayers_ID().forEach(x -> groupOfNicknames.remove(x.getNickname()));
         gamecontroller.sendMessageToAll(resultsNotify);
 
     }
@@ -301,7 +300,7 @@ public class Server implements ServerInterface {
      * @param connection The connection from the client handler.
      */
     public void removeConnectionGame(ClientHandler connection) {
-        groupOfNicknames.remove(connection.getNickname());
+        //groupOfNicknames.remove(connection.getNickname());
         connection.getGameController().removeConnection(connection);
     }
 

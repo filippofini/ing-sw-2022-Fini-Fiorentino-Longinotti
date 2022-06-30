@@ -27,9 +27,12 @@ public class EndGameCLI {
             int temptowers=0;
             int tempprof=0;
             for(int i=0;i<players.size();i++){
+
                 for(int j=0;j<islands.size();j++){
+
                         if(islands.get(j).getPlayer_controller()==i){
                             temptowers+=islands.get(j).getTower();
+
                         }
 
                 }
@@ -56,7 +59,7 @@ public class EndGameCLI {
 
             }
             if(players.size()==2 || players.size()==3){
-                System.out.println("the winner is: "+players.get(winnerID).getNickname()+" with a number of "+winnertowers+" towers!\n");
+                System.out.println("\nThe winner is: "+players.get(winnerID).getNickname()+" with a number of "+winnertowers+" towers placed!\n");
 
             }
             else if(players.size()==4){
@@ -82,7 +85,9 @@ public class EndGameCLI {
                 }
                 System.out.println(players.get(i).getNickname()+":\n");
                 System.out.println("towers:"+temptowers+"\n");
-                System.out.println("professors:"+tempprof+"\n");
+                System.out.println("professors:"+tempprof+"\n\n");
+                temptowers=0;
+                tempprof=0;
             }
 
             client.sendMessageToServer(new ResultNotifyReply());

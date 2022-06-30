@@ -74,7 +74,7 @@ public class Island implements Serializable {
 
             if(include_towers){
                 if(current_player==player_controller){
-                    temp_influence+=tower+extra_influence;
+                    temp_influence+=tower;
                 }
             }
             System.out.println("TEMPINF"+temp_influence+"\n\n");
@@ -105,14 +105,14 @@ public class Island implements Serializable {
                         }
                         player_controller = current_player;
                         tower = 1;
-                        influence_controller = temp_influence+1;
+                        influence_controller = temp_influence+1+extra_influence;
                         same_player=false;
                         System.out.println("towers"+tower+"\n\n");
                     }
 
                 }
                 else {
-                    influence_controller = temp_influence;
+                    influence_controller = temp_influence+extra_influence;
                 }
             }
         }

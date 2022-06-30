@@ -39,6 +39,7 @@ public class GameController implements Serializable {
 
     GameTable GameTable;
     private boolean check;
+    private TurnController turnController;
 
 
     /**
@@ -108,6 +109,7 @@ public class GameController implements Serializable {
         players = addPlayer(clientHandlers);
         TurnController turnController = new TurnController(clientHandlers.size(),getArrayNickname(clientHandlers),wizards,getBooleanGameMode(gameMode),players,clientHandlers);
         turnController.setGameController(this);
+        setturnController(turnController);
 
         while(turnController.getendgame()==false) {
 
@@ -115,7 +117,7 @@ public class GameController implements Serializable {
             turnController.action_phase();
 
         }
-        endGame();
+        endGame(turnController);
     }
 
     /**
@@ -228,8 +230,8 @@ public class GameController implements Serializable {
     /**
      * This method is used to start the end game. It gives the results to the players.
      */
-    public void endGame() {
-        getServer().gameEnded(this,new ResultsNotify(getGameTable().getIslands(),players,getGameTable().getBoards()));
+    public void endGame(TurnController turnController) {
+        getServer().gameEnded(this,new ResultsNotify(turnController.getGS().getGT().getIslands(),players,turnController.getGS().getGT().getBoards()));
 
     }
 
@@ -312,4 +314,15 @@ public class GameController implements Serializable {
         return gameMode;
     }
 
+    public void setturnController(TurnController turnController){
+        this.turnController=turnController;
+    }
+
+    public TurnController getTurnController() {
+        return turnController;
+    }
+
+    public List<ClientHandler> getClientHandlers() {
+        return clientHandlers;
+    }
 }

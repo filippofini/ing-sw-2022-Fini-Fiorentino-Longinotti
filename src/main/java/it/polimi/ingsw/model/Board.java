@@ -50,11 +50,13 @@ public class Board implements Serializable {
             arrEntranceStudents = new Student[7];
             maxEntranceStudents=7;
             n_towers = 8;
+
         }
         else if(numOfPlayers == 3){
             arrEntranceStudents = new Student[9];
             maxEntranceStudents=9;
             n_towers = 6;
+
         }
         /*
         else if(numOfPlayers == 4){
@@ -118,8 +120,9 @@ public class Board implements Serializable {
                                 }
                                 for(int i=0;i<GS.getGT().getNum_players();i++){
                                     if((GS.getGT().getBoards()[GS.getCurr_player()].getArrPositionStudents()[j]>=GS.getGT().getBoards()[i].getArrPositionStudents()[j] && GS.getCurr_player()!=i) || (noOneProf==true && GS.getGT().getBoards()[GS.getCurr_player()].getArrPositionStudents()[j]>=GS.getGT().getBoards()[i].getArrPositionStudents()[j])){
-                                        //if(!GS.getGT().getBoards()[i].getArrProfessors()[j])
+
                                         GS.getGT().getBoards()[GS.getCurr_player()].setprofessor(j,true);
+                                        System.out.println("PROF: "+GS.getGT().getBoards()[GS.getCurr_player()].getArrProfessors()[j]+"\n\n");
                                         GS.getGT().getBoards()[i].setprofessor(j,false);
                                     }
                                 }
@@ -137,6 +140,7 @@ public class Board implements Serializable {
                                 for(int i=0;i<GS.getGT().getNum_players();i++){
                                     if((GS.getGT().getBoards()[GS.getCurr_player()].getArrPositionStudents()[j]>GS.getGT().getBoards()[i].getArrPositionStudents()[j] && GS.getCurr_player()!=i && GS.getGT().getBoards()[i].getArrProfessors()[j])|| (noOneProf==true && GS.getGT().getBoards()[GS.getCurr_player()].getArrPositionStudents()[j]>GS.getGT().getBoards()[i].getArrPositionStudents()[j])){
                                         GS.getGT().getBoards()[GS.getCurr_player()].setprofessor(j,true);
+                                        System.out.println("PROF: "+GS.getGT().getBoards()[GS.getCurr_player()].getArrProfessors()[j]+"\n\n");
                                         GS.getGT().getBoards()[i].setprofessor(j,false);
 
                                     }

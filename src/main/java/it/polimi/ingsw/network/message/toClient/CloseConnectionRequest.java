@@ -6,7 +6,7 @@ import it.polimi.ingsw.view.ViewInterface;
  * Message to request the closing of a connection.
  */
 public class CloseConnectionRequest extends MessagesToClient{
-    CloseConnectionRequest(){
+    public CloseConnectionRequest(){
         super(true);
     }
 

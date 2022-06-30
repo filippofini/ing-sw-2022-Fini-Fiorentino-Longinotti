@@ -66,10 +66,13 @@ public class TurnController {
      */
     public void planning_phase_personal(int i){
 
-
+        if(P_L.get(i).getDeck().getCards().size()>0){
        clienthandler.get(i).sendMessageToClient(new ChooseAssistantCardRequest(P_L.get(i),GS.getGT()));
-       GS.getGT().choose_assistant(P_L.get(i),clienthandler.get(i).getAssistantCardChosen());
-        System.out.println("VALUE"+P_L.get(i).getChosen_card().getValue()+"\n\n");
+       GS.getGT().choose_assistant(P_L.get(i),clienthandler.get(i).getAssistantCardChosen());}
+        else if(P_L.get(i).getDeck().getCards().size()==0){
+            endgame=true;
+        }
+
     }
 
 
@@ -158,6 +161,7 @@ public class TurnController {
 
 
             GS.getGT().merge(GS.getGT().getMother_nature_pos(),player_order[i],GS.getGT().getBoards());
+
             if(GS.getGT().getIslands().size()==3){
                 endgame=true;
             }

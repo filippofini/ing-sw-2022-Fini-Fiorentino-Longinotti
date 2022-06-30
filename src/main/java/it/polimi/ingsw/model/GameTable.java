@@ -52,6 +52,7 @@ public class GameTable implements Serializable {
             boards[i] = new Board(num_players,i, TowerColour.values()[i]);
         }
 
+
         for (int i = 0; i < num_players; i++) {
             Random random = new Random();
 
@@ -131,7 +132,6 @@ public class GameTable implements Serializable {
         return check;
     }
 
-    //TODO corner cases (n_assistant in deck =0) && modify check_if_playable to consider if player as no other option to play that card
     /**
      * This method lets the player choose their assistance card
      * @param player The current player that is going to choose the assistance card.
@@ -144,6 +144,7 @@ public class GameTable implements Serializable {
         discard_deck[player.getPlayer_ID()]=choice;
         player.setChosen_card(choice);
         player.getDeck().remove_used_card(choice);
+
     }
 
     /**
@@ -221,7 +222,7 @@ public class GameTable implements Serializable {
         }
 
         islands.get(island_index).calculate_influence(current_player,Boards);
-        System.out.println("\n\nECCOLOO\n\n");
+
 
         boolean removed = false;
         if (toMerge_indexes[0] >= 0) {
