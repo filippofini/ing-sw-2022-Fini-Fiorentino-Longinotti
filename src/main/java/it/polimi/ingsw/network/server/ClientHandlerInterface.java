@@ -222,4 +222,6 @@ public interface ClientHandlerInterface {
     void setTimeoutExpired(boolean timeoutExpired);
 
     void setNotEnoughCoin(boolean notEnoughCoin);
+
+    void setHeraldIsland(int heraldIsland);
 }

@@ -47,6 +47,8 @@ public class ClientHandler implements ClientHandlerInterface, Runnable {
     private boolean notEnoughCoin;
     private int monkStudent;
 
+    private int heraldIsland;
+
     /**
      * This method checks if the game has started.
      * @return {@code True} if the game has started, {@code False} if not.
@@ -570,12 +572,18 @@ public class ClientHandler implements ClientHandlerInterface, Runnable {
         notify();
     }
 
-    public void setMonkStudent(int monkStudent) {
+    public synchronized void setMonkStudent(int monkStudent) {
         this.monkStudent = monkStudent;
+        notify();
     }
 
     public int getMonkStudent() {
         return monkStudent;
+    }
+
+    public synchronized void setHeraldIsland(int heraldIsland) {
+        this.heraldIsland=heraldIsland;
+        notify();
     }
 }
 
