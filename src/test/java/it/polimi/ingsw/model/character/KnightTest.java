@@ -1,14 +1,26 @@
 package it.polimi.ingsw.model.character;
 
 import it.polimi.ingsw.model.GameState;
+import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.TowerColour;
 import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class KnightTest {
+
+    List<Player> lPlayers = new ArrayList<>();
+    private List<Player> addLPlayers(List lPlayers){
+        lPlayers.add(new Player("ff",1, TowerColour.GREY,1));
+        lPlayers.add(new Player("gg",2,TowerColour.GREY,2));
+        return lPlayers;
+    }
     
     Knight knight = new Knight();
-    //GameState game_state = new GameState(2, new String[]{"FF", "HH"},new int[]{1,2},false, 1);
+    GameState game_state = new GameState(2, new String[]{"FF", "HH"},new int[]{1,2},false, 1, addLPlayers(lPlayers));
 
     @Test
     public void testSetUses1(){
@@ -33,17 +45,18 @@ class KnightTest {
     public void testCost(){
         assertEquals(2, knight.getCost());
     }
-    /*
+
+
     @Test
     public void testEffect(){
         knight.effect(game_state);
         game_state.getGT().getIslands().get(game_state.getGT().getMother_nature_pos()).calculate_influence(1, game_state.getGT().getBoards());
 
 
-        //assertEquals(2, game_state.getGT().getIslands().get(game_state.getGT().getMother_nature_pos()).getInfluence_controller());
+        assertEquals(2, game_state.getGT().getIslands().get(game_state.getGT().getMother_nature_pos()).getInfluence_controller());
     }
 
-     */
+
 
 
 }

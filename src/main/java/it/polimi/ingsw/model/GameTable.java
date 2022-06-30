@@ -157,30 +157,30 @@ public class GameTable implements Serializable {
 
         //Check if there are islands prev or next to the current that can be merged
         if(island_index<island_counter-1 && island_index>0) {
-            if (islands.get(island_index).getTower() == islands.get(island_index + 1).getTower()) {
+            if (islands.get(island_index).getTower() == islands.get(island_index + 1).getTower() && islands.get(island_index).getTower()!=0 && islands.get(island_index+1).getTower()!=0) {
                 indexes[1] = island_index+1;
             }
-            if (islands.get(island_index).getTower() == islands.get(island_index-1).getTower()){
+            if (islands.get(island_index).getTower() == islands.get(island_index-1).getTower() && islands.get(island_index).getTower()!=0 && islands.get(island_index-1).getTower()!=0){
                 indexes[0] = island_index-1;
             }
         }
 
         //Check the same thing for the last island of the list but goes to 0 to check the next
         else if(island_index == island_counter-1){
-            if (islands.get(island_index).getTower() == islands.get(0).getTower()) {
+            if (islands.get(island_index).getTower() == islands.get(0).getTower() && islands.get(island_index).getTower()!=0 && islands.get(0).getTower()!=0) {
                 indexes[1] = 0;
             }
-            if (islands.get(island_index).getTower() == islands.get(island_index-1).getTower()){
+            if (islands.get(island_index).getTower() == islands.get(island_index-1).getTower() && islands.get(island_index).getTower()!=0 && islands.get(island_index-1).getTower()!=0){
                 indexes[0] = island_index-1;
             }
         }
 
         //Check the first element of the list. If prev can be merged goes to the last element of the list
         else if (island_index==0){
-            if (islands.get(island_index).getTower() == islands.get(1).getTower()) {
+            if (islands.get(island_index).getTower() == islands.get(1).getTower() && islands.get(island_index).getTower()!=0 && islands.get(1).getTower()!=0) {
                 indexes[1] = 1;
             }
-            if (islands.get(island_index).getTower() == islands.get(island_counter-1).getTower()){
+            if (islands.get(island_index).getTower() == islands.get(island_counter-1).getTower() && islands.get(island_index).getTower()!=0 && islands.get(island_index-1).getTower()!=0){
                 indexes[0] = island_counter-1;
             }
         }

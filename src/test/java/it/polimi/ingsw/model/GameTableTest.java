@@ -11,7 +11,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-//THE TESTS DON'T RUN ALL TOGETHER DUE TO RANDOM
+
 /**
  * This class tests the class {@link GameTable}.
  */
@@ -21,7 +21,13 @@ class GameTableTest {
     private Deck deck = new Deck();
     private List<Player> player = new ArrayList<Player>();
 
-    //private TurnController turnController = new TurnController(2, new String[]{"ff", "hh"}, new int[]{1,2},false,player.add(new Player("ff",1,TowerColour.GREY,1),));
+    private List<Player> addPList(){
+        player.add(new Player("ff",1,TowerColour.GREY,1));
+        player.add(new Player("gg",2,TowerColour.GREY,2));
+        return player;
+    }
+
+    //private TurnController turnController = new TurnController(2, new String[]{"ff", "hh"}, new int[]{1,2},false, player));
 
 
     @Test
@@ -246,19 +252,19 @@ class GameTableTest {
         for (int i = 0; i < 5; i++) {
             sum = sum + arr[i];
         }
-        if (sum == 104)
-            assertEquals(104, sum);
-        else if(sum==100)
-            assertEquals(100, sum);
-        else
+        if (sum == 108)
             assertEquals(108, sum);
+        else if(sum==116)
+            assertEquals(116, sum);
+        else
+            assertEquals(120, sum);
     }
 
     @Test
     public void testGetHow_many_left() {
         GameTable game_table = new GameTable(2, new Turn());
         int cont = game_table.getIsland_counter();
-        assertEquals(12 - cont, game_table.getHow_many_left());
+        assertEquals(cont, game_table.getHow_many_left());
     }
 
 

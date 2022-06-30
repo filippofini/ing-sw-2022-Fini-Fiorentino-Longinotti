@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,6 +21,7 @@ public class GameState {
 
     private String[] names;
     private int[] wizard;
+    private List<Player> lPlayers = new ArrayList<>();
 
     /**
      * Constructor of the class.
@@ -35,6 +37,7 @@ public class GameState {
         this.wizard = wizard;
         this.expert_mode = expert_mode;
         this.curr_player=curr_player;
+        this.lPlayers = p_l;
         turn = new Turn();
 
         players = new Player[n_players];
@@ -66,6 +69,13 @@ public class GameState {
         return players;
     }
 
+    /**
+     * This method returns the list of players.
+     * @return The list of players.
+     */
+    public List<Player> getlPlayers() {
+        return lPlayers;
+    }
 
     /**
      * This method sets the current player.

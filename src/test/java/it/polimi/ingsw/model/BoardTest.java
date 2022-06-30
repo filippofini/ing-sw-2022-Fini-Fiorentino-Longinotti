@@ -14,7 +14,7 @@ class BoardTest {
     Board board3 = new Board(3,1, TowerColour.STARTER);
 
 
-    private Student[] array = new Student[2];
+    private Student[] array = new Student[7];
 
     @Test
     void testAdd_profTrue() {
@@ -64,11 +64,18 @@ class BoardTest {
         board.setArrProfessors(arr1);
         assertArrayEquals(arr2, board.getArrProfessors());
     }
+
     @Test
     void testArrEntranceStudents() {
         array[0] = new Student(DiskColour.RED);
         array[1] = new Student(DiskColour.BLUE);
-        //board.setArrEntranceStudents(array);
+        for (int i = 0; i < 7; i++) {
+            array[0] = new Student(DiskColour.RED);
+        }
+        for (int i = 0; i < 7; i++) {
+            board.setArrEntranceStudents(array[i],i);
+        }
+
         assertArrayEquals(array,board.getArrEntranceStudents());
     }
 
@@ -78,6 +85,6 @@ class BoardTest {
         assertEquals(4,board.getTower());
     }
 
-    }
+}
 
 
