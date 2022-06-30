@@ -585,5 +585,9 @@ public class ClientHandler implements ClientHandlerInterface, Runnable {
         this.heraldIsland=heraldIsland;
         notify();
     }
+
+    public int getHeraldIsland() {
+        return heraldIsland;
+    }
 }
 

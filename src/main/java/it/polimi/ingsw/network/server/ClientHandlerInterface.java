@@ -224,4 +224,6 @@ public interface ClientHandlerInterface {
     void setNotEnoughCoin(boolean notEnoughCoin);
 
     void setHeraldIsland(int heraldIsland);
+
+    int getHeraldIsland();
 }
