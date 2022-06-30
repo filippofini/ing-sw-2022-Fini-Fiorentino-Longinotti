@@ -363,4 +363,15 @@ public class Board implements Serializable {
     public int getMaxEntranceStudents() {
         return maxEntranceStudents;
     }
+
+
+    /**
+     * This method returns if the farmer character card has been played.
+     * @return {@code True} if the farmer character card has been played.
+     */
+    public boolean isFarmer_state() {
+        return farmer_state;
+    }
 }
+
+
