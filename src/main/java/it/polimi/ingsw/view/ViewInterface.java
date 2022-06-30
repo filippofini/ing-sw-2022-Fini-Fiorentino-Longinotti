@@ -1,6 +1,7 @@
 package it.polimi.ingsw.view;
 
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.network.client.Client;
 
 import java.util.List;
 
@@ -38,6 +39,10 @@ public interface ViewInterface {
      * This method asks the desired number of players for the game.
      */
     void displayNumberOfPlayersRequest();
+    /**
+     * This method asks the desired Student from the monk.
+     */
+    void showStudent(Student[] students);
 
     /*
      * This method sets the players names.

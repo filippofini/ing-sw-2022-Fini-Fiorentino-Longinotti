@@ -298,6 +298,7 @@ public class CLI implements View {
             client.sendMessageToServer(new NotenoughCoinReply());
         }
     }
-
-
+    public void showStudent(Student[] students){
+        AssistantCLI.ShowStudent(client,students);
+    }
 }

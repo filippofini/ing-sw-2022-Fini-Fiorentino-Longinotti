@@ -53,6 +53,16 @@ public class GameTable implements Serializable {
         }
 
 
+
+
+        islands = new LinkedList<Island>();
+        for(int i=0;i<12;i++){
+            islands.add(new Island( boards, i+1, TowerColour.STARTER));
+        }
+
+        setMother_nature_start();
+        bag_island_start();
+
         for (int i = 0; i < num_players; i++) {
             Random random = new Random();
 
@@ -71,14 +81,6 @@ public class GameTable implements Serializable {
 
             }
         }
-
-        islands = new LinkedList<Island>();
-        for(int i=0;i<12;i++){
-            islands.add(new Island( boards, i+1, TowerColour.STARTER));
-        }
-
-        setMother_nature_start();
-        bag_island_start();
 
         clouds = new ArrayList<Cloud>();
         tempclouds=new ArrayList<Cloud>();

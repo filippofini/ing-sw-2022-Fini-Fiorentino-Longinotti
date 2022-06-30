@@ -50,6 +50,7 @@ public class Board implements Serializable {
             arrEntranceStudents = new Student[7];
             maxEntranceStudents=7;
             n_towers = 8;
+            n_towers=1;
 
         }
         else if(numOfPlayers == 3){

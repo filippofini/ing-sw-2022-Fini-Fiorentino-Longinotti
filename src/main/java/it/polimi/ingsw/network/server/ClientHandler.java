@@ -2,10 +2,7 @@ package it.polimi.ingsw.network.server;
 
 import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.network.message.ConnectionMessage;
-import it.polimi.ingsw.network.message.toClient.GameModeRequest;
-import it.polimi.ingsw.network.message.toClient.MessagesToClient;
-import it.polimi.ingsw.network.message.toClient.TextMessage;
-import it.polimi.ingsw.network.message.toClient.TimeoutExpiredMessage;
+import it.polimi.ingsw.network.message.toClient.*;
 import it.polimi.ingsw.network.message.toServer.MessagesToServer;
 import it.polimi.ingsw.enumerations.ClientHandlerPhase;
 import it.polimi.ingsw.model.GameMode;
@@ -158,8 +155,11 @@ public class ClientHandler implements ClientHandlerInterface, Runnable {
             outputStream.writeObject(message);
             outputStream.flush();
             outputStream.reset();
-            if (!message.equals(ConnectionMessage.PING))
-             wait();
+            System.out.println();
+            System.out.println("PREWAIT\n\n");
+            if (!message.equals(ConnectionMessage.PING)){
+             wait();}
+            System.out.println("POSTWAIT\n\n");
             if (message instanceof MessagesToClient &&((MessagesToClient) message).hasTimer())
                 startTimer();
         } catch (IOException e) {

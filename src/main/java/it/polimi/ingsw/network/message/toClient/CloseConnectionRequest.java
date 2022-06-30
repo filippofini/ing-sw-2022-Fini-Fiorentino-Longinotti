@@ -18,4 +18,6 @@ public class CloseConnectionRequest extends MessagesToClient{
     public String toString(){
         return "Asking to close the connection";
     }
+
+
 }

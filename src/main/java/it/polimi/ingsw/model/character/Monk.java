@@ -50,7 +50,7 @@ public class Monk extends CharacterCard {
      * @param index_to The index of the island into which the prohibition card will be moved to.
      */
     public void setIndex_to(int index_to) {
-        this.index_to = index_to-1;
+        this.index_to = index_to;
     }
 
     /**

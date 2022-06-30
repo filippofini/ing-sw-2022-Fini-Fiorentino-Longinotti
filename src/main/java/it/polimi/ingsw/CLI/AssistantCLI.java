@@ -1,11 +1,13 @@
 package it.polimi.ingsw.CLI;
 
 
-import it.polimi.ingsw.model.AssistanceCard;
-import it.polimi.ingsw.model.GameTable;
-import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.network.message.toServer.ChooseAssistantCardReply;
+import it.polimi.ingsw.network.message.toServer.ShowStudentsReply;
+import it.polimi.ingsw.network.message.toServer.StudentToMoveReply;
+
+import java.util.List;
 
 /**
  * This class represent the choice for the assistant in the CLI.
@@ -49,4 +51,20 @@ public class AssistantCLI {
         }
         return playable_card;
     }
+
+    public static void ShowStudent(Client client, Student[] students){
+        int choice;
+        System.out.println("choose the number of a student on the monk:\n");
+        for(int i=0;i<students.length;i++){
+            System.out.println(students[i].getEnumColour()+":["+i+"]\n");
+        }
+        choice=InputParser.getInt();
+
+        while(choice<0 || choice>3){
+            System.out.println("Number not valid,please choose a number from the list");
+            choice=InputParser.getInt();
+        }
+        client.sendMessageToServer(new ShowStudentsReply(choice));
+    }
+
 }
