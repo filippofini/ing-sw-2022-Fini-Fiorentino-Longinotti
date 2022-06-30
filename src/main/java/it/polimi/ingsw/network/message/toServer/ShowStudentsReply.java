@@ -14,7 +14,7 @@ public class ShowStudentsReply implements MessagesToServer{
 
     public void handleMessage(ServerInterface server, ClientHandlerInterface clientHandler) {
 
-        clientHandler.monkstudent(index);
+        clientHandler.setMonkStudent(index);
     }
 
     @Override

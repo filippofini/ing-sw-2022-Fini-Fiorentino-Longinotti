@@ -301,4 +301,8 @@ public class CLI implements View {
     public void showStudent(Student[] students){
         AssistantCLI.ShowStudent(client,students);
     }
+
+    public void heraldIsland(List<Island> islands) {
+        AssistantCLI.HeraldIsland(client,islands);
+    }
 }

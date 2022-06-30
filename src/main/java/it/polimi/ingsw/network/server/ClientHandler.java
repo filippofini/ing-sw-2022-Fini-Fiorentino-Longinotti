@@ -45,6 +45,7 @@ public class ClientHandler implements ClientHandlerInterface, Runnable {
     private boolean resultNotify;
     private boolean timeoutExpired;
     private boolean notEnoughCoin;
+    private int monkStudent;
 
     /**
      * This method checks if the game has started.
@@ -567,6 +568,14 @@ public class ClientHandler implements ClientHandlerInterface, Runnable {
     public synchronized void setNotEnoughCoin(boolean notEnoughCoin) {
         this.notEnoughCoin = notEnoughCoin;
         notify();
+    }
+
+    public void setMonkStudent(int monkStudent) {
+        this.monkStudent = monkStudent;
+    }
+
+    public int getMonkStudent() {
+        return monkStudent;
     }
 }
 

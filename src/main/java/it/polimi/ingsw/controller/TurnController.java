@@ -94,15 +94,6 @@ public class TurnController {
             GS.setCurr_player(player_order[i]);
             System.out.println("MOTHERNATURE"+GS.getGT().getMother_nature_pos()+"\n\n");
 
-            stud_to_island=GS.getGT().getBoards()[player_order[i]].moveEntranceStudents(GS,clienthandler.get(player_order[i]));
-
-
-            //add all the student to the islands
-            for(int j=0;j< stud_to_island.size();j++){
-
-                clienthandler.get(player_order[i]).sendMessageToClient(new ChooseIslandRequest( GS.getGT().getIslands(),stud_to_island.get(j)));
-                GS.getGT().getIslands().get(clienthandler.get(player_order[i]).getIslandToMove()).add_students(stud_to_island.get(j));
-            }
             if (gameController.getGameMode() == GameMode.EXPERT) {
                 clienthandler.get(player_order[i]).sendMessageToClient(new UseCharacterCardRequest());
                 if (clienthandler.get(player_order[i]).getUseCharacterCard() == 1) {
@@ -114,6 +105,17 @@ public class TurnController {
                     }
                 }
             }
+
+            stud_to_island=GS.getGT().getBoards()[player_order[i]].moveEntranceStudents(GS,clienthandler.get(player_order[i]));
+
+
+            //add all the student to the islands
+            for(int j=0;j< stud_to_island.size();j++){
+
+                clienthandler.get(player_order[i]).sendMessageToClient(new ChooseIslandRequest( GS.getGT().getIslands(),stud_to_island.get(j)));
+                GS.getGT().getIslands().get(clienthandler.get(player_order[i]).getIslandToMove()).add_students(stud_to_island.get(j));
+            }
+
 
 
 
