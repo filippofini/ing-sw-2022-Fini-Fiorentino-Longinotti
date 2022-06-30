@@ -3,6 +3,7 @@ package it.polimi.ingsw.CLI;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.network.message.toClient.ChooseCharacterCardRequest;
+import it.polimi.ingsw.network.message.toServer.ChooseCharacterCardReply;
 import it.polimi.ingsw.network.message.toServer.PositionReply;
 import it.polimi.ingsw.network.message.toServer.TimeoutExpiredReply;
 import it.polimi.ingsw.network.message.toServer.UseCharacterCardReply;
@@ -290,7 +291,7 @@ public class CLI implements View {
                 System.out.println("Number not allowed,please choose another number\n");
                 choice=InputParser.getInt();
             }
-            client.sendMessageToServer(new ChooseCharacterCardRequest(player,cc));
+            client.sendMessageToServer(new ChooseCharacterCardReply(choice));
         }
         else{
             System.out.println("It seem you have not enough coin..\n");
