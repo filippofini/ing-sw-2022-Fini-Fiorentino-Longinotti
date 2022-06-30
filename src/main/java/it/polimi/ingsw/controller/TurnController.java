@@ -54,7 +54,6 @@ public class TurnController {
         GS.getGT().replenish_clouds(this);
         for(int i=0;i<n_players;i++){
             planning_phase_personal(player_order[i]);
-
         }
         Calculate_Player_order();
     }

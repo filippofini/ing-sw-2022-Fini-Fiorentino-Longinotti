@@ -24,14 +24,14 @@ public class IslandCLI {
      */
     public static void displayIslandInfo(Client client, Island island, int islandID){
 
-        System.out.println("Island["+islandID+":]\n");
+        System.out.println("Island["+islandID+"]:\n");
         for (int k=0;k<5; k++){
             System.out.println(DiskColour.values()[k] +": "+island.getArr_students()[k]+"\n");
         }
 
         System.out.println("Influence: "+island.getInfluence_controller()+"\n");
         System.out.println("number of towers: "+island.getTower()+"\n");
-        System.out.println("Owned by: player "+island.getPlayer_controller()+"\n");
+        System.out.println("Owned by: player "+island.getPlayer_controller()+"\n\n");
 
         client.sendMessageToServer(new DisplayIslandInfoReply());
     }
@@ -53,7 +53,7 @@ public class IslandCLI {
 
                 System.out.println("Influence: "+islands.get(i).getInfluence_controller()+"\n");
                 System.out.println("number of towers: "+ islands.get(i).getTower()+"\n");
-                System.out.println("Owned by: player "+ islands.get(i).getPlayer_controller()+"\n");
+                System.out.println("Owned by: player "+ islands.get(i).getPlayer_controller()+"\n\n");
             }
 
 
