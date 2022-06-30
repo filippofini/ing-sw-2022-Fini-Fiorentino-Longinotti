@@ -79,7 +79,7 @@ public class ClientHandler implements ClientHandlerInterface, Runnable {
             while (active){
                 try{
                     Thread.sleep(HEARTBEAT);
-                    //sendMessageToClient(ConnectionMessage.PING);
+                    sendMessageToClient(ConnectionMessage.PING);
                 }catch (InterruptedException e){
                     break;
                 }
@@ -96,10 +96,6 @@ public class ClientHandler implements ClientHandlerInterface, Runnable {
             inputStream = new ObjectInputStream(socket.getInputStream());
             active = true;
             pinger.start();
-
-            //clientHandlerPhase = ClientHandlerPhase.WAITING_GAME_MODE;
-            //sendMessageToClient(new GameModeRequest());
-
             while(active){
                 try {
                     Object message = inputStream.readObject();
@@ -162,11 +158,8 @@ public class ClientHandler implements ClientHandlerInterface, Runnable {
             outputStream.writeObject(message);
             outputStream.flush();
             outputStream.reset();
-            System.out.println("\nPREWAIT\n");
             if (!message.equals(ConnectionMessage.PING))
              wait();
-
-            System.out.println("\nPOST\n");
             if (message instanceof MessagesToClient &&((MessagesToClient) message).hasTimer())
                 startTimer();
         } catch (IOException e) {
@@ -438,7 +431,6 @@ public class ClientHandler implements ClientHandlerInterface, Runnable {
      */
     @Override
     public synchronized void setAssistantCardChosen(int assistantCardChosen) {
-        System.out.println("\nDENTRO\n");
         this.assistantCardChosen = assistantCardChosen;
         notify();
     }

@@ -108,12 +108,7 @@ public class GameController implements Serializable {
         players = addPlayer(clientHandlers);
         TurnController turnController = new TurnController(clientHandlers.size(),getArrayNickname(clientHandlers),wizards,getBooleanGameMode(gameMode),players,clientHandlers);
         turnController.setGameController(this);
-        /*for (int i = 0; i < clientHandlers.size(); i++) {
-            clientHandlers.get(0).setClientHandlerPhase(ClientHandlerPhase.READY_TO_START);
-            clientHandlers.get(0).setGameStarted(true);
-            turnController.addConnection(clientHandlers.get(0));
-            clientHandlers.remove(0);
-        }*/
+
         while(turnController.getendgame()==false) {
 
             turnController.planning_phase_general();

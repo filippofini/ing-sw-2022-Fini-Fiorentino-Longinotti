@@ -314,26 +314,19 @@ public class Board implements Serializable {
     public void setArrEntranceStudents(int[] Cloud_Students ){
         int pos=0;
         while(pos<4){
-
-            System.out.println("pos:"+pos+"\n\n");
-
             if(Cloud_Students[pos]>0){
                 for(int i=0;i<arrEntranceStudents.length;i++){
-
                     if(arrEntranceStudents[i].getIsChosen()){
                         arrEntranceStudents[i]=new Student(inverse_color(pos));
-                        System.out.println("STTUDPOSPRE"+Cloud_Students[pos]);
                         Cloud_Students[pos]--;
-                        System.out.println("STTUDPOSPOST"+Cloud_Students[pos]);
                         pos=0;
                         break;
                     }
-
                 }
-
             }else{pos++;}
 
         }
+        System.out.println("\n\n\nENDWHILE\n\n\n");
 
     }
 
