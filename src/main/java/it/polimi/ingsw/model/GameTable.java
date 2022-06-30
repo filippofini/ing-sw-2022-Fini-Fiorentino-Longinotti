@@ -158,30 +158,30 @@ public class GameTable implements Serializable {
 
         //Check if there are islands prev or next to the current that can be merged
         if(island_index<island_counter-1 && island_index>0) {
-            if (islands.get(island_index).getTower() == islands.get(island_index + 1).getTower() && islands.get(island_index).getTower()!=0 && islands.get(island_index+1).getTower()!=0) {
+            if (islands.get(island_index).getPlayer_controller() == islands.get(island_index + 1).getPlayer_controller() && islands.get(island_index).getPlayer_controller()!=-1) {
                 indexes[1] = island_index+1;
             }
-            if (islands.get(island_index).getTower() == islands.get(island_index-1).getTower() && islands.get(island_index).getTower()!=0 && islands.get(island_index-1).getTower()!=0){
+            if (islands.get(island_index).getPlayer_controller() == islands.get(island_index-1).getPlayer_controller() && islands.get(island_index).getPlayer_controller()!=-1 ){
                 indexes[0] = island_index-1;
             }
         }
 
         //Check the same thing for the last island of the list but goes to 0 to check the next
         else if(island_index == island_counter-1){
-            if (islands.get(island_index).getTower() == islands.get(0).getTower() && islands.get(island_index).getTower()!=0 && islands.get(0).getTower()!=0) {
+            if (islands.get(island_index).getPlayer_controller() == islands.get(0).getPlayer_controller() && islands.get(island_index).getPlayer_controller()!=-1) {
                 indexes[1] = 0;
             }
-            if (islands.get(island_index).getTower() == islands.get(island_index-1).getTower() && islands.get(island_index).getTower()!=0 && islands.get(island_index-1).getTower()!=0){
+            if (islands.get(island_index).getPlayer_controller() == islands.get(island_index-1).getPlayer_controller() && islands.get(island_index).getPlayer_controller()!=-1){
                 indexes[0] = island_index-1;
             }
         }
 
         //Check the first element of the list. If prev can be merged goes to the last element of the list
         else if (island_index==0){
-            if (islands.get(island_index).getTower() == islands.get(1).getTower() && islands.get(island_index).getTower()!=0 && islands.get(1).getTower()!=0) {
+            if (islands.get(island_index).getPlayer_controller() == islands.get(1).getPlayer_controller() && islands.get(island_index).getPlayer_controller()!=-1) {
                 indexes[1] = 1;
             }
-            if (islands.get(island_index).getTower() == islands.get(island_counter-1).getTower() && islands.get(island_index).getTower()!=0 && islands.get(island_counter-1).getTower()!=0){
+            if (islands.get(island_index).getPlayer_controller() == islands.get(island_counter-1).getPlayer_controller() && islands.get(island_index).getPlayer_controller()!=-1){
                 indexes[0] = island_counter-1;
             }
         }
@@ -221,6 +221,7 @@ public class GameTable implements Serializable {
         }
 
         islands.get(island_index).calculate_influence(current_player,Boards);
+        System.out.println("\n\nECCOLOO\n\n");
 
         boolean removed = false;
         if (toMerge_indexes[0] >= 0) {
@@ -331,7 +332,6 @@ public class GameTable implements Serializable {
             }
         }
         if(num_players==2 || num_players==4){
-
             for(int i=0;i<num_players && bag_not_empty;i++){
                 while(count<3 && bag_not_empty){
                     temprand=rand.nextInt(5);
@@ -381,11 +381,12 @@ public class GameTable implements Serializable {
                         }
                     }
                     if(bag_not_empty==true){
-                        clouds.get(i).getArr_students()[temprand]++;
+                        clouds.get(i).setArr_students(temprand);
                         bag[temprand]--;
                         count++;
                     }
                 }
+                count=0;
             }
         }
         if(!bag_not_empty){
