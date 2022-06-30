@@ -101,7 +101,7 @@ public class Board implements Serializable {
 
 
 
-        while(studentsChosen <3) {
+        while(studentsChosen <(GS.getGT().getNum_players()+1)) {
             clientHandler.sendMessageToClient(new StudentToMoveRequest(this));
             if (arrEntranceStudents[clientHandler.getStudToMove()].getIsChosen() == false) {
                 clientHandler.sendMessageToClient(new ChooseIslandOrBoardRequest(this,clientHandler.getStudToMove()));
@@ -317,7 +317,7 @@ public class Board implements Serializable {
      */
     public void setArrEntranceStudents(int[] Cloud_Students ){
         int pos=0;
-        while(pos<4){
+        while(pos<5){
             if(Cloud_Students[pos]>0){
                 for(int i=0;i<arrEntranceStudents.length;i++){
                     if(arrEntranceStudents[i].getIsChosen()){
