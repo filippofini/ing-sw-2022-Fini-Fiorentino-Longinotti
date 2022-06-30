@@ -204,6 +204,9 @@ public interface ClientHandlerInterface {
      * @return The game controller.
      */
     GameController getGameController();
+    int getMonkStudent();
+
+    void setMonkStudent(int monkStudent);
 
     void setWaitingInTheLobby(boolean waitingInTheLobby);
 

@@ -4,6 +4,7 @@ package it.polimi.ingsw.CLI;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.network.message.toServer.ChooseAssistantCardReply;
+import it.polimi.ingsw.network.message.toServer.MoveStudentReply;
 import it.polimi.ingsw.network.message.toServer.ShowStudentsReply;
 import it.polimi.ingsw.network.message.toServer.StudentToMoveReply;
 
@@ -65,6 +66,25 @@ public class AssistantCLI {
             choice=InputParser.getInt();
         }
         client.sendMessageToServer(new ShowStudentsReply(choice));
+    }
+    public static void HeraldIsland(Client client, List<Island> islands) {
+        System.out.println("Choose the island where to calculate the influence\n");
+
+        for (int i=0;i< islands.size();i++){
+            System.out.println("Island["+i+"]:\n");
+            for (int k=0;k<5; k++){
+                System.out.println(DiskColour.values()[k] +": "+islands.get(i).getArr_students()[k]+"\n");
+            }
+        }
+
+
+        int choice=InputParser.getInt();
+        while (choice<0 ||choice>=islands.size()){
+            System.out.println("This Island does not exit, please choose a valid number:\n");
+            choice=InputParser.getInt();
+        }
+
+        client.sendMessageToServer(new HeraldIslandReply(choice));
     }
 
 }

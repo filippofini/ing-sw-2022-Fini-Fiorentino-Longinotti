@@ -43,6 +43,10 @@ public interface ViewInterface {
      * This method asks the desired Student from the monk.
      */
     void showStudent(Student[] students);
+    /**
+     * This method asks the desired island where to calculate influence.
+     */
+    void heraldIsland(List<Island> islands);
 
     /*
      * This method sets the players names.
