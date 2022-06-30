@@ -20,7 +20,7 @@ class KnightTest {
     }
     
     Knight knight = new Knight();
-    GameState game_state = new GameState(2, new String[]{"FF", "HH"},new int[]{1,2},false, 1, addLPlayers(lPlayers));
+    GameState game_state = new GameState(2, new String[]{"FF", "HH"},new int[]{1,2},true, 1, addLPlayers(lPlayers));
 
     @Test
     public void testSetUses1(){
@@ -50,13 +50,12 @@ class KnightTest {
     @Test
     public void testEffect(){
         knight.effect(game_state);
+        game_state.getGT().getBoards()[0].setArrProfessors(new boolean[]{true,true,true,true,true});
         game_state.getGT().getIslands().get(game_state.getGT().getMother_nature_pos()).calculate_influence(1, game_state.getGT().getBoards());
 
 
-        assertEquals(2, game_state.getGT().getIslands().get(game_state.getGT().getMother_nature_pos()).getInfluence_controller());
+        assertEquals(0, game_state.getGT().getIslands().get(game_state.getGT().getMother_nature_pos()+1).getInfluence_controller());
     }
-
-
 
 
 }

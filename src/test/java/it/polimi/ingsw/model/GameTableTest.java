@@ -252,8 +252,8 @@ class GameTableTest {
         for (int i = 0; i < 5; i++) {
             sum = sum + arr[i];
         }
-        if (sum == 108)
-            assertEquals(108, sum);
+        if (sum == 112)
+            assertEquals(112, sum);
         else if(sum==116)
             assertEquals(116, sum);
         else

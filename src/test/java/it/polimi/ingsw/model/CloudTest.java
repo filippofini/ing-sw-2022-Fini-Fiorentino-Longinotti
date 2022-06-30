@@ -14,7 +14,9 @@ class CloudTest {
     @Test
     public void testCloud1(){
         Cloud cloud = new Cloud(1);
-        //cloud.setArr_students(new int[]{1,0,0,1,1});
+        cloud.setArr_students(0);
+        cloud.setArr_students(3);
+        cloud.setArr_students(4);
 
         assertArrayEquals(new int[]{1,0,0,1,1}, cloud.getArr_students());
     }
