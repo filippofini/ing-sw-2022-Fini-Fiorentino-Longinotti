@@ -38,10 +38,10 @@ public class Cloud implements Serializable {
 
     /**
      * This method sets the array of students on the island.
-     * @param arr_students The array of students on the island.
+     * @param pos The position where to put the student.
      */
-    public void setArr_students(int[] arr_students) {
-        this.arr_students = arr_students;
+    public void setArr_students(int pos) {
+        this.arr_students[pos]++;
     }
 }
 

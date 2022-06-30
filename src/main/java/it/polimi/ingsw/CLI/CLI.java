@@ -3,14 +3,12 @@ package it.polimi.ingsw.CLI;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.network.message.toClient.ChooseCharacterCardRequest;
-import it.polimi.ingsw.network.message.toServer.ChooseCharacterCardReply;
-import it.polimi.ingsw.network.message.toServer.PositionReply;
-import it.polimi.ingsw.network.message.toServer.TimeoutExpiredReply;
-import it.polimi.ingsw.network.message.toServer.UseCharacterCardReply;
+import it.polimi.ingsw.network.message.toServer.*;
 import it.polimi.ingsw.view.View;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Scanner;
 import java.util.function.Predicate;
 
 /**
@@ -186,6 +184,7 @@ public class CLI implements View {
      */
     public void displayChooseAssistantCardRequest( Player player,GameTable GT){
         AssistantCLI.chooseAssistantCard(client,player,GT);
+
     }
 
     /**
@@ -274,6 +273,7 @@ public class CLI implements View {
      */
     public void ChooseCharacterCard(Player player,CharacterCard[] cc){
         int choice;
+        Scanner sc=new Scanner(System.in);
         boolean poor=true;
         System.out.println("choose a character card character card from the one below: \n");
         for(int i=0;i<3;i++){
@@ -285,16 +285,17 @@ public class CLI implements View {
             }
         }
         if(poor==false){
-            choice=InputParser.getInt();
+            choice= sc.nextInt();
 
-            while(choice<0 || choice>3){
+            while((choice<0 || choice>3) && player.getCoin()<cc[choice].getCost()){
                 System.out.println("Number not allowed,please choose another number\n");
-                choice=InputParser.getInt();
+                choice= sc.nextInt();
             }
             client.sendMessageToServer(new ChooseCharacterCardReply(choice));
         }
         else{
             System.out.println("It seem you have not enough coin..\n");
+            client.sendMessageToServer(new NotenoughCoinReply());
         }
     }
 

@@ -94,7 +94,7 @@ public class Board implements Serializable {
     public List<Student> moveEntranceStudents(GameState GS, ClientHandler clientHandler){
 
         int studentsChosen=0;
-        boolean validChoice = true;
+        boolean noOneProf = true;
         List<Student> studentToIslands = new ArrayList<>();
 
 
@@ -111,24 +111,37 @@ public class Board implements Serializable {
                         studentsChosen++;
                         if(farmer_state){
                             for(int j=0;j<5;j++){
+                                for(int k=0;k<GS.getGT().getNum_players();k++){
+                                    if(GS.getGT().getBoards()[k].getArrProfessors()[j]){
+                                        noOneProf=false;
+                                    }
+                                }
                                 for(int i=0;i<GS.getGT().getNum_players();i++){
-                                    if(GS.getGT().getBoards()[GS.getCurr_player()].getArrPositionStudents()[j]>=GS.getGT().getBoards()[i].getArrPositionStudents()[j] && GS.getCurr_player()!=i && GS.getGT().getBoards()[i].getArrProfessors()[j]){
+                                    if((GS.getGT().getBoards()[GS.getCurr_player()].getArrPositionStudents()[j]>=GS.getGT().getBoards()[i].getArrPositionStudents()[j] && GS.getCurr_player()!=i) || (noOneProf==true && GS.getGT().getBoards()[GS.getCurr_player()].getArrPositionStudents()[j]>=GS.getGT().getBoards()[i].getArrPositionStudents()[j])){
+                                        //if(!GS.getGT().getBoards()[i].getArrProfessors()[j])
                                         GS.getGT().getBoards()[GS.getCurr_player()].setprofessor(j,true);
                                         GS.getGT().getBoards()[i].setprofessor(j,false);
                                     }
                                 }
+                                noOneProf=true;
 
                             }
                         }
                         else{
                             for(int j=0;j<5;j++){
+                                for(int k=0;k<GS.getGT().getNum_players();k++){
+                                    if(GS.getGT().getBoards()[k].getArrProfessors()[j]){
+                                        noOneProf=false;
+                                    }
+                                }
                                 for(int i=0;i<GS.getGT().getNum_players();i++){
-                                    if(GS.getGT().getBoards()[GS.getCurr_player()].getArrPositionStudents()[j]>GS.getGT().getBoards()[i].getArrPositionStudents()[j] && GS.getCurr_player()!=i && GS.getGT().getBoards()[i].getArrProfessors()[j]){
+                                    if((GS.getGT().getBoards()[GS.getCurr_player()].getArrPositionStudents()[j]>GS.getGT().getBoards()[i].getArrPositionStudents()[j] && GS.getCurr_player()!=i && GS.getGT().getBoards()[i].getArrProfessors()[j])|| (noOneProf==true && GS.getGT().getBoards()[GS.getCurr_player()].getArrPositionStudents()[j]>GS.getGT().getBoards()[i].getArrPositionStudents()[j])){
                                         GS.getGT().getBoards()[GS.getCurr_player()].setprofessor(j,true);
                                         GS.getGT().getBoards()[i].setprofessor(j,false);
 
                                     }
                                 }
+                                noOneProf=true;
 
                             }
                         }
@@ -146,8 +159,6 @@ public class Board implements Serializable {
             }
             else if (arrEntranceStudents[clientHandler.getStudToMove()].getIsChosen() == true){
                 clientHandler.sendMessageToClient(new DisplayStudentChosenPreviouslyRequest(this,clientHandler.getStudToMove()));
-                clientHandler.sendMessageToClient(new StudentToMoveRequest(this));
-
             }
         }
         if(farmer_state){

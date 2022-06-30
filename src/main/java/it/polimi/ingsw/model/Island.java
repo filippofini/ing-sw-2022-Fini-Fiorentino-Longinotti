@@ -58,9 +58,12 @@ public class Island implements Serializable {
     public boolean calculate_influence(int current_player,Board[] Boards) {
         boolean same_player=true;
         int temp_influence = 0;
+        System.out.println("\n\nDENTROCI\n\n");
+        System.out.println("\n\nProibitionCard"+prohibition_card+"\n\n");
         if(!prohibition_card){
             for (int i = 0; i<5;i++) {
                 if (boards[current_player].getArrProfessors()[i]) {
+                    System.out.println("professors"+i+" "+boards[current_player].getArrProfessors()[i]+"\n\n");
                     if(prohibition_colour){
                         if(i!=proh_col){
                             temp_influence+= arr_students[i];
@@ -69,14 +72,15 @@ public class Island implements Serializable {
                     else{
                         temp_influence+= arr_students[i];
                     }
-
-                }
-                if(include_towers){
-                    if(current_player==player_controller){
-                        temp_influence+=tower;
-                    }
                 }
             }
+
+            if(include_towers){
+                if(current_player==player_controller){
+                    temp_influence+=tower;
+                }
+            }
+            System.out.println("TEMPINF"+temp_influence);
 
             if (temp_influence > influence_controller) {
                 if(current_player!=player_controller){
@@ -97,10 +101,12 @@ public class Island implements Serializable {
                         }
                     }
                     else{
-                        Boards[player_controller].setN_towers(Boards[player_controller].getN_towers()+tower);
+                        if(player_controller!=-1){
+                            Boards[player_controller].setN_towers(Boards[player_controller].getN_towers()+tower);
+                        }
                         player_controller = current_player;
                         tower = 1;
-                        influence_controller = temp_influence;
+                        influence_controller = temp_influence+1;
                         same_player=false;
                     }
 

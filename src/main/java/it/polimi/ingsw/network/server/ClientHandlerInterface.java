@@ -217,4 +217,6 @@ public interface ClientHandlerInterface {
     void setResultNotify(boolean resultNotify);
 
     void setTimeoutExpired(boolean timeoutExpired);
+
+    void setNotEnoughCoin(boolean notEnoughCoin);
 }

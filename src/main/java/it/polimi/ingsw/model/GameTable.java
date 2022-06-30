@@ -49,7 +49,7 @@ public class GameTable implements Serializable {
 
         boards = new Board[num_players];
         for(int i=0;i<num_players;i++) {
-            boards[i] = new Board(num_players,i+1, TowerColour.values()[i]);
+            boards[i] = new Board(num_players,i, TowerColour.values()[i]);
         }
 
         for (int i = 0; i < num_players; i++) {
@@ -80,6 +80,7 @@ public class GameTable implements Serializable {
         bag_island_start();
 
         clouds = new ArrayList<Cloud>();
+        tempclouds=new ArrayList<Cloud>();
         for(int i=0;i<num_players;i++){
             clouds.add(new Cloud(i+1));
         }
@@ -324,8 +325,13 @@ public class GameTable implements Serializable {
         int count = 0;
         boolean bag_not_empty = true;
         boolean check = true;
-
+        for(int i=0;i<num_players;i++){
+            for(int j=0;j<5;j++){
+                clouds.get(i).getArr_students()[j]=0;
+            }
+        }
         if(num_players==2 || num_players==4){
+
             for(int i=0;i<num_players && bag_not_empty;i++){
                 while(count<3 && bag_not_empty){
                     temprand=rand.nextInt(5);
@@ -346,7 +352,7 @@ public class GameTable implements Serializable {
                         }
                     }
                     if(bag_not_empty==true){
-                        clouds.get(i).getArr_students()[temprand]++;
+                        clouds.get(i).setArr_students(temprand);
                         bag[temprand]--;
                         count++;
                     }
@@ -530,7 +536,7 @@ public class GameTable implements Serializable {
      * This method resets the temporary clouds.
      */
     public void reset_temp_clouds(){
-        tempclouds=clouds;
+        tempclouds.addAll(clouds);
     }
 
     /**
