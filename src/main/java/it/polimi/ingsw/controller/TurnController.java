@@ -3,7 +3,9 @@ package it.polimi.ingsw.controller;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.character.Knight;
 import it.polimi.ingsw.model.character.MagicMailman;
+import it.polimi.ingsw.model.character.Monk;
 import it.polimi.ingsw.network.message.toClient.*;
+import it.polimi.ingsw.network.message.toServer.HeraldIslandReply;
 import it.polimi.ingsw.network.message.toServer.MoveMnReply;
 import it.polimi.ingsw.network.server.ClientHandler;
 
@@ -85,6 +87,7 @@ public class TurnController {
         int choice;
         boolean check_for_tower;
         int[] tempCloud;
+        Student[] tempCCStud=new Student[4] ;
 
         for(int i=0;i<n_players;i++){
 
@@ -99,9 +102,53 @@ public class TurnController {
                 if (clienthandler.get(player_order[i]).getUseCharacterCard() == 1) {
                     clienthandler.get(player_order[i]).sendMessageToClient(new ChooseCharacterCardRequest(P_L.get(player_order[i]), GS.getGT().getArr_character()));
                     if (clienthandler.get(player_order[i]).getCanBeUsed()) {
-                        GS.getGT().getArr_character()[clienthandler.get(player_order[i]).getChCardUsed()].effect(GS);
-                        played_cCard = GS.getGT().getArr_character()[clienthandler.get(player_order[i]).getChCardUsed()];
-                        clienthandler.get(player_order[i]).setCanBeUsed(false);
+                        if(GS.getGT().getArr_character()[clienthandler.get(player_order[i]).getChCardUsed()].getID_code()==1){
+                            for(int l=0;l<4;l++){
+                                tempCCStud[l]=new Student(GS.getGT().getBoards()[i].inverse_color(GS.getGT().getArr_character()[clienthandler.get(player_order[i]).getChCardUsed()].getStudents()[l]));
+                            }
+                            clienthandler.get(player_order[i]).sendMessageToClient(new ShowStudentRequest(tempCCStud));
+                            GS.getGT().getArr_character()[clienthandler.get(player_order[i]).getChCardUsed()].setChosen_student(clienthandler.get(player_order[i]).getMonkStudent());
+                            clienthandler.get(player_order[i]).sendMessageToClient(new HeraldIslandRequest(GS.getGT().getIslands()));
+                            GS.getGT().getArr_character()[clienthandler.get(player_order[i]).getChCardUsed()].setIndex_to(clienthandler.get(player_order[i]).getHeraldIsland());
+                            GS.getGT().getArr_character()[clienthandler.get(player_order[i]).getChCardUsed()].effect(getGS());
+                        }
+                        else if(GS.getGT().getArr_character()[clienthandler.get(player_order[i]).getChCardUsed()].getID_code()==2){
+
+                            GS.getGT().getArr_character()[clienthandler.get(player_order[i]).getChCardUsed()].effect(getGS());
+                        }
+                        else if(GS.getGT().getArr_character()[clienthandler.get(player_order[i]).getChCardUsed()].getID_code()==3){
+
+                            clienthandler.get(player_order[i]).sendMessageToClient(new HeraldIslandRequest(GS.getGT().getIslands()));
+                            GS.getGT().getArr_character()[clienthandler.get(player_order[i]).getChCardUsed()].setIndex_to(clienthandler.get(player_order[i]).getHeraldIsland());
+                            GS.getGT().getArr_character()[clienthandler.get(player_order[i]).getChCardUsed()].effect(getGS());
+                        }
+                        else if(GS.getGT().getArr_character()[clienthandler.get(player_order[i]).getChCardUsed()].getID_code()==4){
+
+                            GS.getGT().getArr_character()[clienthandler.get(player_order[i]).getChCardUsed()].effect(getGS());
+                        }
+                        else if(GS.getGT().getArr_character()[clienthandler.get(player_order[i]).getChCardUsed()].getID_code()==5){
+
+                            clienthandler.get(player_order[i]).sendMessageToClient(new HeraldIslandRequest(GS.getGT().getIslands()));
+                            GS.getGT().getArr_character()[clienthandler.get(player_order[i]).getChCardUsed()].setIndex_to(clienthandler.get(player_order[i]).getHeraldIsland());
+                            GS.getGT().getArr_character()[clienthandler.get(player_order[i]).getChCardUsed()].effect(getGS());
+                        }
+                        else if(GS.getGT().getArr_character()[clienthandler.get(player_order[i]).getChCardUsed()].getID_code()==6){
+
+                            GS.getGT().getArr_character()[clienthandler.get(player_order[i]).getChCardUsed()].effect(getGS());
+                        }
+                        else if(GS.getGT().getArr_character()[clienthandler.get(player_order[i]).getChCardUsed()].getID_code()==8){
+
+                            GS.getGT().getArr_character()[clienthandler.get(player_order[i]).getChCardUsed()].effect(getGS());
+                        }
+                        else if(GS.getGT().getArr_character()[clienthandler.get(player_order[i]).getChCardUsed()].getID_code()==11){
+                            for(int l=0;l<4;l++){
+                                tempCCStud[l]=new Student(GS.getGT().getBoards()[i].inverse_color(GS.getGT().getArr_character()[clienthandler.get(player_order[i]).getChCardUsed()].getStudents()[l]));
+                            }
+                            clienthandler.get(player_order[i]).sendMessageToClient(new ShowStudentRequest(tempCCStud));
+                            GS.getGT().getArr_character()[clienthandler.get(player_order[i]).getChCardUsed()].setChosen_student(clienthandler.get(player_order[i]).getMonkStudent());
+                            GS.getGT().getArr_character()[clienthandler.get(player_order[i]).getChCardUsed()].setCurrent_player(player_order[i]);
+                            GS.getGT().getArr_character()[clienthandler.get(player_order[i]).getChCardUsed()].effect(getGS());
+                        }
                     }
                 }
             }

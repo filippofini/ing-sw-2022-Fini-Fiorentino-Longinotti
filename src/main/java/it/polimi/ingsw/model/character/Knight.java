@@ -10,7 +10,6 @@ public class Knight extends CharacterCard {
     private final int ID_code=8;
     private int cost=2;
     private int uses=0;
-    private boolean isUsed=false;
 
     /**
      * This method implements the effect of the knight card.
@@ -23,7 +22,7 @@ public class Knight extends CharacterCard {
             game_state.getGT().getIslands().get(i).setExtra_influence(2);
         }
         this.setUses();
-        setUsed(true);
+
     }
 
     /**
@@ -70,7 +69,7 @@ public class Knight extends CharacterCard {
     /**
      * This method sets if the card has been used.
      * @param used {@code True} if the card has been used, {@code False} if not.
-     */
+     *
     public void setUsed(boolean used) {
         isUsed = used;
     }
@@ -78,8 +77,8 @@ public class Knight extends CharacterCard {
     /**
      * This method returns if a card has been used.
      * @return {@code True} if the card has been used, {@code False} if not.
-     */
+     *
     public boolean getUsed(){
         return  isUsed;
-    }
+    }*/
 }

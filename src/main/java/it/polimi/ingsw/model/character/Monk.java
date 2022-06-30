@@ -41,6 +41,7 @@ public class Monk extends CharacterCard {
      * This method sets the student to be moved from the card to the island.
      * @param chosen_student The student to be moved from the card to the island.
      */
+    @Override
     public void setChosen_student(int chosen_student) {
         this.chosen_student = chosen_student;
     }
@@ -98,6 +99,7 @@ public class Monk extends CharacterCard {
      * This method returns the array of students on the card.
      * @return The array of students on the card.
      */
+    @Override
     public int[] getStudents() {
         return students;
     }

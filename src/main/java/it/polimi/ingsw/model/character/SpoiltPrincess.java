@@ -50,8 +50,9 @@ public class SpoiltPrincess extends CharacterCard {
      * This method sets the player that plays the card.
      * @param player The number representing the player that played the card.
      */
+    @Override
     public void setCurrent_player(int player) {
-        this.current_player = player-1;
+        this.current_player = player;
     }
 
     /**
@@ -99,6 +100,7 @@ public class SpoiltPrincess extends CharacterCard {
      * This method returns the array of students on the card.
      * @return The array of students on the card.
      */
+    @Override
     public int[] getStudents() {
         return students;
     }

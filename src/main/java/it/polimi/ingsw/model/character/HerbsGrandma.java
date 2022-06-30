@@ -37,6 +37,7 @@ public class HerbsGrandma extends CharacterCard {
      * This method sets the index of the island into which the prohibition card will be moved to.
      * @param index_to The index of the island into which the prohibition card will be moved to.
      */
+    @Override
     public void setIndex_to(int index_to) {
         this.index_to = index_to-1;
     }
