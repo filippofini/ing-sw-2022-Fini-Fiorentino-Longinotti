@@ -180,7 +180,7 @@ public class GameTable implements Serializable {
             if (islands.get(island_index).getTower() == islands.get(1).getTower() && islands.get(island_index).getTower()!=0 && islands.get(1).getTower()!=0) {
                 indexes[1] = 1;
             }
-            if (islands.get(island_index).getTower() == islands.get(island_counter-1).getTower() && islands.get(island_index).getTower()!=0 && islands.get(island_index-1).getTower()!=0){
+            if (islands.get(island_index).getTower() == islands.get(island_counter-1).getTower() && islands.get(island_index).getTower()!=0 && islands.get(island_counter-1).getTower()!=0){
                 indexes[0] = island_counter-1;
             }
         }
