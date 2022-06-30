@@ -211,7 +211,7 @@ public class TurnController {
 
         }
         for(int i=0;i<n_players;i++){
-            P_L.get(player).setChosen(false);
+            P_L.get(i).setChosen(false);
         }
     }
 
