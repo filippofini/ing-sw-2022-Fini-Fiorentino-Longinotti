@@ -60,7 +60,7 @@ class IslandTest {
         int[] Arr_stud = {7,2,4,5,4};
         int tower = 2;
         Island island1 = new Island(boards1,1, TowerColour.STARTER);
-        boards1[1] = new Board(4,1, TowerColour.STARTER);
+        boards1[1] = new Board(3,1, TowerColour.STARTER);
 
 
 

@@ -308,4 +308,8 @@ public class GameController implements Serializable {
         return check;
     }
 
+    public GameMode getGameMode() {
+        return gameMode;
+    }
+
 }

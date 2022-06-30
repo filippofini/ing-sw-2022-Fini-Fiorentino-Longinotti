@@ -100,14 +100,15 @@ public class TurnController {
                 clienthandler.get(player_order[i]).sendMessageToClient(new ChooseIslandRequest( GS.getGT().getIslands(),stud_to_island.get(j)));
                 GS.getGT().getIslands().get(clienthandler.get(player_order[i]).getIslandToMove()).add_students(stud_to_island.get(j));
             }
-
-            clienthandler.get(player_order[i]).sendMessageToClient(new UseCharacterCardRequest());
-            if(clienthandler.get(player_order[i]).getUseCharacterCard()==1){
-                clienthandler.get(player_order[i]).sendMessageToClient(new ChooseCharacterCardRequest(P_L.get(player_order[i]),GS.getGT().getArr_character()));
-                if(clienthandler.get(player_order[i]).getCanBeUsed()){
-                    GS.getGT().getArr_character()[clienthandler.get(player_order[i]).getChCardUsed()].effect(GS);
-                    played_cCard=GS.getGT().getArr_character()[clienthandler.get(player_order[i]).getChCardUsed()];
-                    clienthandler.get(player_order[i]).setCanBeUsed(false);
+            if (gameController.getGameMode() == GameMode.EXPERT) {
+                clienthandler.get(player_order[i]).sendMessageToClient(new UseCharacterCardRequest());
+                if (clienthandler.get(player_order[i]).getUseCharacterCard() == 1) {
+                    clienthandler.get(player_order[i]).sendMessageToClient(new ChooseCharacterCardRequest(P_L.get(player_order[i]), GS.getGT().getArr_character()));
+                    if (clienthandler.get(player_order[i]).getCanBeUsed()) {
+                        GS.getGT().getArr_character()[clienthandler.get(player_order[i]).getChCardUsed()].effect(GS);
+                        played_cCard = GS.getGT().getArr_character()[clienthandler.get(player_order[i]).getChCardUsed()];
+                        clienthandler.get(player_order[i]).setCanBeUsed(false);
+                    }
                 }
             }
 
