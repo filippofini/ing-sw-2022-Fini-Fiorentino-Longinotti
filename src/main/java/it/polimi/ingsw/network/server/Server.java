@@ -291,7 +291,7 @@ public class Server implements ServerInterface {
      */
     public void gameEnded(GameController gamecontroller, ResultsNotify resultsNotify) {
         gamecontroller.sendMessageToAll(resultsNotify);
-        gamecontroller.sendMessageToAll(new CloseConnectionRequest());
+
 
     }
 

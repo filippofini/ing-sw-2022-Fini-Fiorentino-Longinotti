@@ -52,7 +52,7 @@ public class AssistantCLI {
 
     public static void ShowStudent(Client client, Student[] students){
         int choice;
-        System.out.println("choose the number of a student on the monk:\n");
+        System.out.println("choose the number of a student for the character card:\n");
         for(int i=0;i<students.length;i++){
             System.out.println(students[i].getEnumColour()+":["+i+"]\n");
         }
@@ -65,7 +65,7 @@ public class AssistantCLI {
         client.sendMessageToServer(new ShowStudentsReply(choice));
     }
     public static void HeraldIsland(Client client, List<Island> islands) {
-        System.out.println("Choose the island where to calculate the influence\n");
+        System.out.println("Choose the island for the character card\n");
 
         for (int i=0;i< islands.size();i++){
             System.out.println("Island["+i+"]:\n");
