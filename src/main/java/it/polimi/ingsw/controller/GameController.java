@@ -40,6 +40,11 @@ public class GameController implements Serializable {
     GameTable GameTable;
     private boolean check;
 
+
+    /**
+     * Constructor of the class.
+     * @param gameMode The game mode.
+     */
     public GameController(GameMode gameMode){
         this.gameMode = gameMode;
         this.players = new LinkedList<>() ;
@@ -48,8 +53,8 @@ public class GameController implements Serializable {
     }
 
     /**
-     * Method to handle a client's disconnection.
-     * @param nickname the nickname the disconnected client.
+     * This method handles a client's disconnection.
+     * @param nickname The nickname of the disconnected client.
      */
     public synchronized void handleClientDisconnection(String nickname) {
         ClientHandler connection = getConnectionByNickname(nickname);
@@ -60,8 +65,8 @@ public class GameController implements Serializable {
 
 
     /**
-     * Method to force the end of a game.
-     * @param nickname the nickname of the disconnected client.
+     * This method is used force the end of the game.
+     * @param nickname The nickname of the disconnected client.
      */
     private void forceEndMultiplayerGame(String nickname){
         for (Player player : getPlayers_ID()) {
@@ -79,14 +84,25 @@ public class GameController implements Serializable {
 
     }
 
+    /**
+     * This method returns the list of players.
+     * @return The list of players.
+     */
     public List<Player> getPlayers_ID() {
         return players;
     }
 
 
+    /**
+     * This method is used to start a game.
+     */
     public void start(){
         startNewGame();
     }
+
+    /**
+     * This method starts a new game.
+     */
     private void startNewGame() {
         Server.SERVER_LOGGER.log(Level.INFO, "Creating a new " + gameMode.name().replace("_"," ") + ", players: " + clientHandlers.stream().map(ClientHandler::getNickname).collect(Collectors.toList()));
         players = addPlayer(clientHandlers);
@@ -108,8 +124,8 @@ public class GameController implements Serializable {
     }
 
     /**
-     * Method to add a connection to the client handlers' list
-     * @param connection ClientHandler of the connection to add
+     * This method adds a connection to the client handlers' list.
+     * @param connection ClientHandler of the connection to add.
      */
     public void addConnection(ClientHandler connection) {
         lockConnections.lock();
@@ -122,8 +138,9 @@ public class GameController implements Serializable {
     }
 
     /**
-     * Method to remove a connection from the client handlers' list. Used in case of disconnection of a client.
-     * @param connection ClientHandler the connection to remove
+     * This method removes a connection from the client handlers' list.
+     * Used in case of disconnection of a client.
+     * @param connection ClientHandler of the connection to remove.
      */
     public void removeConnection(ClientHandler connection){
         lockConnections.lock();
@@ -134,6 +151,11 @@ public class GameController implements Serializable {
         }
     }
 
+    /**
+     * This method adds a player to the list, given the list of client handler.
+     * @param clientHandlers The list of client handlers.
+     * @return The updated list of players.
+     */
     public List<Player> addPlayer(List<ClientHandler> clientHandlers) {
         TowerColour towerColour = null;
         for (int i=0; i<clientHandlers.size(); i++) {
@@ -173,6 +195,11 @@ public class GameController implements Serializable {
         return players;
     }
 
+    /**
+     * This method returns the array of string containing the nicknames.
+     * @param clientHandlers The list of client handlers.
+     * @return The array of string containing the nicknames.
+     */
     public String[] getArrayNickname(List<ClientHandler> clientHandlers) {
         names = new String[clientHandlers.size()];
         for (int i=0; i<clientHandlers.size(); i++) {
@@ -183,7 +210,11 @@ public class GameController implements Serializable {
     }
 
 
-
+    /**
+     * This method returns a client handler, given a nickname.
+     * @param nickname The nickname of the client handler wanted.
+     * @return The corresponding client handler.
+     */
     public ClientHandler getConnectionByNickname(String nickname){
         lockConnections.lock();
         try{
@@ -199,14 +230,17 @@ public class GameController implements Serializable {
     }
 
 
+    /**
+     * This method is used to start the end game. It gives the results to the players.
+     */
     public void endGame() {
         getServer().gameEnded(this,new ResultsNotify(getGameTable().getIslands(),players,getGameTable().getBoards()));
 
     }
 
     /**
-     * Method to send the same message to all the clients connected
-     * @param message to be sent
+     * This method is used to send the same message to all the clients connected.
+     * @param message The message to be sent.
      */
     public void sendMessageToAll(MessagesToClient message){
         lockConnections.lock();
@@ -218,6 +252,11 @@ public class GameController implements Serializable {
         }
     }
 
+    /**
+     * This method returns the game mode.
+     * @param gameMode The game mode.
+     * @return {@code True} if the game mode is expert, {@code False} if it's standard.
+     */
     public boolean getBooleanGameMode(GameMode gameMode) {
         if(gameMode==GameMode.STANDARD)
             return false;
@@ -226,25 +265,50 @@ public class GameController implements Serializable {
 
     }
 
+    /**
+     * This method sets the server.
+     * @param server The server.
+     */
     public void setServer(Server server) {
         this.server = server;
     }
 
+    /**
+     * This method returns the server.
+     * @return The server.
+     */
     public Server getServer() {
         return server;
     }
 
+    /**
+     * This method sets the game table.
+     * @param gameTable The game table.
+     */
     public void setGameTable(GameTable gameTable) {
         GameTable = gameTable;
     }
+
+    /**
+     * This method returns the game table.
+     * @return The game table.
+     */
     public GameTable getGameTable() {
         return GameTable;
     }
 
+    /**
+     * This method sets the check.
+     * @param check The check.
+     */
     public void setCheck(boolean check) {
         this.check = check;
     }
 
+    /**
+     * This method returns the check.
+     * @return {@code True} if check.
+     */
     public boolean getCheck() {
         return check;
     }
