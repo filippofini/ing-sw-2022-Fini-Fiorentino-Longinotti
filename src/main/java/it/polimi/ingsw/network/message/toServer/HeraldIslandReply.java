@@ -6,8 +6,8 @@ import it.polimi.ingsw.network.server.ServerInterface;
 public class HeraldIslandReply implements MessagesToServer{
     private final int heraldIsland;
 
-    public HeraldIslandReply(int IslandToMove){
-        this.heraldIsland=heraldIsland;
+    public HeraldIslandReply(int heraldIsland){
+        this.heraldIsland= heraldIsland;
     }
 
 
