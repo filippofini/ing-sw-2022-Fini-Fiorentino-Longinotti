@@ -15,7 +15,6 @@ public class ChooseAssistantCardReply implements MessagesToServer{
 
     @Override
     public void handleMessage(ServerInterface server, ClientHandlerInterface clientHandler) {
-        clientHandler.setGameMode(GameMode.STANDARD);
         System.out.println("\nMESSAGGIO\n");
         clientHandler.setAssistantCardChosen(AssistantCardChosen);
     }

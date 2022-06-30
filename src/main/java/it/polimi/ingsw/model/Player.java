@@ -19,6 +19,7 @@ public class Player implements Serializable {
     private int moves;
     private final Deck deck;
     private boolean active;
+    private boolean chosen=false;
 
 
     /**
@@ -146,5 +147,13 @@ public class Player implements Serializable {
      */
     public boolean isActive() {
         return active;
+    }
+
+    public void setChosen(boolean chosen) {
+        this.chosen = chosen;
+    }
+
+    public boolean isChosen() {
+        return chosen;
     }
 }

@@ -5,9 +5,7 @@ import it.polimi.ingsw.model.GameMode;
 import it.polimi.ingsw.model.GameTable;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.TowerColour;
-import it.polimi.ingsw.network.message.toClient.MessagesToClient;
-import it.polimi.ingsw.network.message.toClient.NotifyDisconnection;
-import it.polimi.ingsw.network.message.toClient.ResultsNotify;
+import it.polimi.ingsw.network.message.toClient.*;
 import it.polimi.ingsw.network.server.ClientHandler;
 import it.polimi.ingsw.network.server.Server;
 import java.io.Serializable;
@@ -94,7 +92,14 @@ public class GameController implements Serializable {
         players = addPlayer(clientHandlers);
         TurnController turnController = new TurnController(clientHandlers.size(),getArrayNickname(clientHandlers),wizards,getBooleanGameMode(gameMode),players,clientHandlers);
         turnController.setGameController(this);
+        /*for (int i = 0; i < clientHandlers.size(); i++) {
+            clientHandlers.get(0).setClientHandlerPhase(ClientHandlerPhase.READY_TO_START);
+            clientHandlers.get(0).setGameStarted(true);
+            turnController.addConnection(clientHandlers.get(0));
+            clientHandlers.remove(0);
+        }*/
         while(turnController.getendgame()==false) {
+
             turnController.planning_phase_general();
             turnController.action_phase();
 

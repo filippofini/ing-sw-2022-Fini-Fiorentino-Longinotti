@@ -49,7 +49,7 @@ public class BoardCLI {
             System.out.println("Dining Room[0] Island[1]");
             do {
                 choicePosition = InputParser.getInt();
-                if (choiceStudent < 2) {
+                if (choicePosition < 2) {
                     validChoice = false;
                 } else {
                     System.out.println("Number not valid,please ");

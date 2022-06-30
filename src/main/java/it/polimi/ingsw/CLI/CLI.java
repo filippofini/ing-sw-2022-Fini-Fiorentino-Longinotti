@@ -258,7 +258,7 @@ public class CLI implements View {
         System.out.println("Do you want to use a character card? no[0] or yes[1]\n");
         choice=InputParser.getInt();
 
-        while(choice!=0 || choice!=1){
+        while(choice<0 || choice>1){
             System.out.println("Number not allowed,please choose another number");
             choice=InputParser.getInt();
         }

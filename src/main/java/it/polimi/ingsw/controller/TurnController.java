@@ -7,6 +7,7 @@ import it.polimi.ingsw.network.message.toClient.*;
 import it.polimi.ingsw.network.message.toServer.MoveMnReply;
 import it.polimi.ingsw.network.server.ClientHandler;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -35,9 +36,9 @@ public class TurnController {
     public TurnController(int n_players, String[] names, int wizard[], boolean expert_mode, List<Player> Player_List,List<ClientHandler> clienthandler){
         endgame=false;
         this.n_players=n_players;
-        this.clienthandler=clienthandler;
         this.P_L=Player_List;
         player_order= new int[n_players];
+        this.clienthandler=clienthandler;
         for(int i=0; i<n_players;i++){
             player_order[i]=i;
         }
@@ -52,7 +53,6 @@ public class TurnController {
         gameController.setCheck(true);
         GS.getGT().replenish_clouds(this);
         for(int i=0;i<n_players;i++){
-            System.out.println("\nTIMES: "+i);
             planning_phase_personal(player_order[i]);
 
         }
@@ -69,7 +69,7 @@ public class TurnController {
 
 
        clienthandler.get(i).sendMessageToClient(new ChooseAssistantCardRequest(P_L.get(i),GS.getGT()));
-        GS.getGT().choose_assistant(P_L.get(i),clienthandler.get(i).getAssistantCardChosen());
+       GS.getGT().choose_assistant(P_L.get(i),clienthandler.get(i).getAssistantCardChosen());
     }
 
 
@@ -84,11 +84,13 @@ public class TurnController {
         int[] tempCloud;
 
         for(int i=0;i<n_players;i++){
+            System.out.println("ISLANDEND"+GS.getGT().getIslands().size()+"\n\n");
             if(endgame){
                 break;
             }
             GS.setCurr_player(player_order[i]);
-            stud_to_island=GS.getGT().getBoards()[player_order[i]].moveEntranceStudents(GS,clienthandler.get(i));
+
+            stud_to_island=GS.getGT().getBoards()[player_order[i]].moveEntranceStudents(GS,clienthandler.get(player_order[i]));
 
             //add all the student to the islands
             for(int j=0;j< stud_to_island.size();j++){
@@ -104,17 +106,19 @@ public class TurnController {
                     GS.getGT().getArr_character()[clienthandler.get(player_order[i]).getChCardUsed()].effect(GS);
                     clienthandler.get(player_order[i]).setCanBeUsed(false);
                 }
+                //If the played character card is the magic mailman, it increases the possible movement by 2
+                if (played_cCard.equals(new MagicMailman())){
+                    played_cCard.effect(GS);
+                }
 
             }
 
-            //If the played character card is the magic mailman, it increases the possible movement by 2
-            if (played_cCard.equals(new MagicMailman())){
-                played_cCard.effect(GS);
-            }
-
+            //TODO:howmanyleft
+            System.out.println("\n\nPrecilo\n\n"+GS.getGT().getHow_many_left()+"\n\n");
             for(int j=0;j<GS.getGT().getHow_many_left();j++){
               clienthandler.get(player_order[i]).sendMessageToClient(new DisplayIslandInfoRequest((GS.getGT().getIslands().get(j)),j));
             }
+            System.out.println("\n\nPostcilo\n\n");
             clienthandler.get(player_order[i]).sendMessageToClient(new MoveMnRequest(GS.getGT().getMother_nature_pos(),P_L.get(GS.getCurr_player())));
             GS.getGT().move_mother_nature(clienthandler.get(player_order[i]).getMnmovement());
             check_for_tower=GS.getGT().getIslands().get(GS.getGT().getMother_nature_pos()).calculate_influence(player_order[i],GS.getGT().getBoards());
@@ -160,15 +164,19 @@ public class TurnController {
                 break;
             }
             tempCloud=GS.getGT().choose_cloud(clienthandler.get(player_order[i])).getArr_students();
-            GS.getGT().getBoards()[player_order[i]].setArrEntranceStudents(tempCloud);
 
-            for(int n=0;n<3;n++){
+            GS.getGT().getBoards()[player_order[i]].setArrEntranceStudents(tempCloud);
+            System.out.println("ISLANDEND"+GS.getGT().getIslands().size()+"\n\n");
+
+            if(clienthandler.get(player_order[i]).getUseCharacterCard()==1){
                 if(played_cCard.equals(new Knight())){
                     for(int m=0;m<GS.getGT().getIslands().size();m++){
                         GS.getGT().getIslands().get(m).setExtra_influence(0);
                     }
                 }
             }
+
+
 
 
         }
@@ -180,19 +188,27 @@ public class TurnController {
      * The player with the lowest value of the played assistance card starts first.
      */
     public void Calculate_Player_order() {
-        int min=P_L.get(0).getChosen_card().getValue();
+        int min=-1;//P_L.get(0).getChosen_card().getValue();
         int player=0;
-        int count=0;
 
         for(int i=0;i<n_players;i++){
-            for(int j=0;j<n_players-count;j++){
-                if(P_L.get(j).getChosen_card().getValue()<min){
+            for(int j=0;j<n_players  ;j++){
+                if((P_L.get(j).getChosen_card().getValue()<min  || min==-1) && P_L.get(j).isChosen()==false){
                     min=P_L.get(j).getChosen_card().getValue();
+
                     player=P_L.get(j).getPlayer_ID();
+
                 }
             }
-            count++;
+
+            P_L.get(player).setChosen(true);
+
+            min=-1;
             player_order[i]=player;
+
+        }
+        for(int i=0;i<n_players;i++){
+            P_L.get(player).setChosen(false);
         }
     }
 
@@ -240,5 +256,14 @@ public class TurnController {
 
     public void setGameController(GameController gameController) {
         this.gameController = gameController;
+    }
+    /**
+     * Method to add a connection to the client handlers' list
+     * @param connection ClientHandler of the connection to add
+     */
+    public void addConnection(ClientHandler connection) {
+
+
+            this.clienthandler.add(connection);
     }
 }

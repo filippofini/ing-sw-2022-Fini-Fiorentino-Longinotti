@@ -84,8 +84,8 @@ public class GameTable implements Serializable {
             clouds.add(new Cloud(i+1));
         }
 
-        cloud_start();
-
+        //cloud_start();
+        reset_temp_clouds();
         discard_deck = new AssistanceCard[num_players];
         for (int i = 0; i < num_players; i++) {
             discard_deck[i] = AssistanceCard.STARTER;
@@ -351,6 +351,7 @@ public class GameTable implements Serializable {
                         count++;
                     }
                 }
+                count=0;
             }
         }
         else if(num_players==3){
@@ -394,6 +395,7 @@ public class GameTable implements Serializable {
     public Cloud choose_cloud(ClientHandler clientHandler){
         int choice;
         Cloud chosen_cloud;
+
         clientHandler.sendMessageToClient(new ChooseCloudRequest(tempclouds));
         chosen_cloud=tempclouds.get(clientHandler.getCloudChosen());
         tempclouds=del_temp_cloud(clientHandler.getCloudChosen());
@@ -596,7 +598,8 @@ public class GameTable implements Serializable {
      * @return The number of remaining islands.
      */
     public int getHow_many_left(){
-        return 12-island_counter;
+        //return 12-island_counter;
+        return island_counter;
     }
 
     /**

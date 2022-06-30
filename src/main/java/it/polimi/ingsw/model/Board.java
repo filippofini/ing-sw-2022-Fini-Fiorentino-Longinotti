@@ -95,11 +95,12 @@ public class Board implements Serializable {
 
         int studentsChosen=0;
         boolean validChoice = true;
-        List<Student> studentToIslands = new ArrayList<Student>();
+        List<Student> studentToIslands = new ArrayList<>();
 
-        clientHandler.sendMessageToClient(new StudentToMoveRequest(this));
+
 
         while(studentsChosen <3) {
+            clientHandler.sendMessageToClient(new StudentToMoveRequest(this));
             if (arrEntranceStudents[clientHandler.getStudToMove()].getIsChosen() == false) {
                 clientHandler.sendMessageToClient(new ChooseIslandOrBoardRequest(this,clientHandler.getStudToMove()));
 
@@ -141,7 +142,7 @@ public class Board implements Serializable {
                     arrEntranceStudents[clientHandler.getStudToMove()].Chosen();
                     studentsChosen++;
                 }
-                clientHandler.sendMessageToClient(new StudentToMoveRequest(this));
+
             }
             else if (arrEntranceStudents[clientHandler.getStudToMove()].getIsChosen() == true){
                 clientHandler.sendMessageToClient(new DisplayStudentChosenPreviouslyRequest(this,clientHandler.getStudToMove()));
@@ -301,17 +302,25 @@ public class Board implements Serializable {
      */
     public void setArrEntranceStudents(int[] Cloud_Students ){
         int pos=0;
-        while(pos<5){
+        while(pos<4){
+
+            System.out.println("pos:"+pos+"\n\n");
+
             if(Cloud_Students[pos]>0){
-                for(int i=0;i<5;i++){
+                for(int i=0;i<arrEntranceStudents.length;i++){
+
                     if(arrEntranceStudents[i].getIsChosen()){
                         arrEntranceStudents[i]=new Student(inverse_color(pos));
+                        System.out.println("STTUDPOSPRE"+Cloud_Students[pos]);
                         Cloud_Students[pos]--;
+                        System.out.println("STTUDPOSPOST"+Cloud_Students[pos]);
+                        pos=0;
+                        break;
                     }
 
                 }
-                pos=0;
-            }
+
+            }else{pos++;}
 
         }
 

@@ -21,7 +21,7 @@ public class MnCLI {
         System.out.println("Mother Nature position: Island["+Mn_pos+"]\n");
         System.out.println("Number of steps possible:"+Current_Player.getMoves()+"\n");
         int choice=InputParser.getInt();
-        while (choice<0 ||choice>=Current_Player.getMoves()){
+        while (choice<1 ||choice>Current_Player.getMoves()){
             System.out.println("It's not possible to do this number of steps, please choose a valid number:\n");
             choice=InputParser.getInt();
         }

@@ -44,7 +44,19 @@ public class IslandCLI {
      */
     public  static void MoveStudentToIslandRequest(Client client, List<Island> islands, Student stud_to_island){
 
-            System.out.println("Choose the island where to add the student:"+stud_to_island+"\n");
+            System.out.println("Choose the island where to add the student:"+stud_to_island.getEnumColour()+"\n");
+            for (int i=0;i< islands.size();i++){
+                System.out.println("Island["+i+"]:\n");
+                for (int k=0;k<5; k++){
+                    System.out.println(DiskColour.values()[k] +": "+islands.get(i).getArr_students()[k]+"\n");
+                }
+
+                System.out.println("Influence: "+islands.get(i).getInfluence_controller()+"\n");
+                System.out.println("number of towers: "+ islands.get(i).getTower()+"\n");
+                System.out.println("Owned by: player "+ islands.get(i).getPlayer_controller()+"\n");
+            }
+
+
             int choice=InputParser.getInt();
             while (choice<0 ||choice>=islands.size()){
                 System.out.println("This Island does not exit, please choose a valid number:\n");

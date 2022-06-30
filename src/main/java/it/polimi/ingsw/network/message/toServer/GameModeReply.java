@@ -10,7 +10,7 @@ import it.polimi.ingsw.network.server.ServerInterface;
  * Message with the chosen game mode by the client.
  */
 public class GameModeReply implements MessagesToServer{
-    private final GameMode gameMode;
+    private  GameMode gameMode;
 
     public GameModeReply(GameMode gameMode){
         this.gameMode = gameMode;

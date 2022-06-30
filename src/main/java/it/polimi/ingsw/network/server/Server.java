@@ -82,10 +82,6 @@ public class Server implements ServerInterface {
 
                 lobby.get(t).setNickname("player"+ t);
                 t++;
-
-
-
-
                 if(lobby.size()==1){
                     lobby.get(0).sendMessageToClient(new GameModeRequest());
                     lobby.get(0).sendMessageToClient(new NumberOfPlayersRequest());
@@ -94,12 +90,10 @@ public class Server implements ServerInterface {
 
                 if(lobby.size()>=1){
                      lobby.get(lobby.size()-1).sendMessageToClient(new WaitingInTheLobbyMessage());}
-                System.out.println(lobby.size());
 
 
                 if(lobby.size()==numOfPlayersForNextGame){
                     GameMode mode = lobby.get(0).getGameMode();
-                    System.out.println("\nOKOK\n");
                     newGameManager(mode);
                 }
 

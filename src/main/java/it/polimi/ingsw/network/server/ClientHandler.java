@@ -96,7 +96,7 @@ public class ClientHandler implements ClientHandlerInterface, Runnable {
             active = true;
             pinger.start();
 
-            clientHandlerPhase = ClientHandlerPhase.WAITING_GAME_MODE;
+            //clientHandlerPhase = ClientHandlerPhase.WAITING_GAME_MODE;
             //sendMessageToClient(new GameModeRequest());
 
             while(active){
@@ -105,9 +105,9 @@ public class ClientHandler implements ClientHandlerInterface, Runnable {
                     if(message != null && !(message == ConnectionMessage.PING)) {
                         stopTimer();
                         Server.SERVER_LOGGER.log(Level.INFO, "[" + (nickname != null ? nickname : socket.getInetAddress().getHostAddress()) + "]: " + message);
-                        if(active && !(gameStarted && gameController.getCheck())){
+                        //if(active && !(gameStarted && gameController.getCheck())){
                             ((MessagesToServer) message).handleMessage(server, this);
-                        }
+                        //}
                     }
 
                 } catch (ClassNotFoundException ignored) {
