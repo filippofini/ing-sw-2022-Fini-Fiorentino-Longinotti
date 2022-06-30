@@ -3,10 +3,7 @@ package it.polimi.ingsw.CLI;
 
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.network.client.Client;
-import it.polimi.ingsw.network.message.toServer.ChooseAssistantCardReply;
-import it.polimi.ingsw.network.message.toServer.MoveStudentReply;
-import it.polimi.ingsw.network.message.toServer.ShowStudentsReply;
-import it.polimi.ingsw.network.message.toServer.StudentToMoveReply;
+import it.polimi.ingsw.network.message.toServer.*;
 
 import java.util.List;
 
