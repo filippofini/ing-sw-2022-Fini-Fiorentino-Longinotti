@@ -331,7 +331,6 @@ public class GameTable implements Serializable {
             }
         }
         if(num_players==2 || num_players==4){
-
             for(int i=0;i<num_players && bag_not_empty;i++){
                 while(count<3 && bag_not_empty){
                     temprand=rand.nextInt(5);
@@ -381,11 +380,12 @@ public class GameTable implements Serializable {
                         }
                     }
                     if(bag_not_empty==true){
-                        clouds.get(i).getArr_students()[temprand]++;
+                        clouds.get(i).setArr_students(temprand);
                         bag[temprand]--;
                         count++;
                     }
                 }
+                count=0;
             }
         }
         if(!bag_not_empty){
