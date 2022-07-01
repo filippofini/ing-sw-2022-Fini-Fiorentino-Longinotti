@@ -9,7 +9,6 @@ import it.polimi.ingsw.network.message.toServer.MoveMnReply;
  */
 public class MnCLI {
 
-
     /**
      * This method requests the movement of mother nature.
      * @param client The client.

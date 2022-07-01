@@ -2,8 +2,6 @@ package it.polimi.ingsw.CLI;
 
 import it.polimi.ingsw.model.Cloud;
 import it.polimi.ingsw.model.DiskColour;
-import it.polimi.ingsw.model.GameTable;
-import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.network.message.toServer.ChooseCloudReply;
 

@@ -2,11 +2,8 @@ package it.polimi.ingsw.CLI;
 
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.network.client.Client;
-import it.polimi.ingsw.network.message.toClient.ChooseCharacterCardRequest;
-import it.polimi.ingsw.network.message.toServer.*;
-import it.polimi.ingsw.network.server.ClientHandler;
+import it.polimi.ingsw.network.message.toServer.*;;
 import it.polimi.ingsw.view.View;
-
 import java.io.IOException;
 import java.util.List;
 import java.util.Scanner;
@@ -16,7 +13,6 @@ import java.util.function.Predicate;
  * This class represents the CLI main.
  */
 public class CLI implements View {
-
     private Client client;
     private Thread inputObserverOutOfTurn;
 
@@ -32,7 +28,6 @@ public class CLI implements View {
         boolean error = true;
         boolean firstTry = true;
         Logo.print();
-        //MatchData.getInstance().setView(this);
         while (error) {
             client = StartGame.InitialConnection(this, firstTry);
             try {
@@ -44,7 +39,6 @@ public class CLI implements View {
         }
     }
 
-
     /**
      * This method display a message.
      * @param message The message.
@@ -52,7 +46,6 @@ public class CLI implements View {
     public void displayMessage(String message) {
         System.out.println(message);
     }
-
 
     /**
      * This method display a nickname request.
@@ -62,7 +55,6 @@ public class CLI implements View {
 
         StartGame.displayNicknameRequest(client,retry);
     }
-
 
     /**
      * This method returns the condition on an integer range.
@@ -78,7 +70,6 @@ public class CLI implements View {
      * This method displays the game mode requests.
      */
     public void displayGameModeRequest() {
-
         StartGame.displayGameModeRequest(client);
     }
 
@@ -190,7 +181,6 @@ public class CLI implements View {
      */
     public void displayChooseAssistantCardRequest( Player player,GameTable GT){
         AssistantCLI.chooseAssistantCard(client,player,GT);
-
     }
 
     /**
