@@ -48,6 +48,7 @@ public class ClientHandler implements ClientHandlerInterface, Runnable {
     private int monkStudent;
 
     private int heraldIsland;
+    private String nickname;
 
     /**
      * This method checks if the game has started.
@@ -59,7 +60,7 @@ public class ClientHandler implements ClientHandlerInterface, Runnable {
 
     private boolean gameStarted = false;
 
-    private String nickname = null;
+
     private GameMode gameMode;
 
     private ClientHandlerPhase clientHandlerPhase;
@@ -196,12 +197,12 @@ public class ClientHandler implements ClientHandlerInterface, Runnable {
         this.active = false;
         Server.SERVER_LOGGER.log(Level.SEVERE, "[" + (nickname != null ? nickname : socket.getInetAddress().getHostAddress())+ "]: " + "client disconnected" + (timeout ? " because the timeout has expired" : ""));
         //If the game is started, the controller will handle his disconnection
-        if (gameStarted){
+      //  if (gameStarted){
             gameController.handleClientDisconnection(nickname);
-        } else {
+        //} else {
             //If the game is not started yet, I simply remove the player from the list of waiting players
-            server.removeConnectionLobby(this);
-        }
+         //   server.removeConnectionLobby(this);
+      //  }//
         try {
             if (timeout)
                 outputStream.writeObject(new TimeoutExpiredMessage());
@@ -278,7 +279,6 @@ public class ClientHandler implements ClientHandlerInterface, Runnable {
     public synchronized void setNickname(String nickname){
         this.nickname = nickname;
         notify();
-        //server.handleNicknameChoice(this);
     }
 
     /**

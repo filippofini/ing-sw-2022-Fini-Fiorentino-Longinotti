@@ -25,7 +25,7 @@ public class GameModeReply implements MessagesToServer{
 
         clientHandler.setGameMode(gameMode);
 
-        clientHandler.setClientHandlerPhase(ClientHandlerPhase.WAITING_NICKNAME);
+      //  clientHandler.setClientHandlerPhase(ClientHandlerPhase.WAITING_NICKNAME);
     }
 
     @Override

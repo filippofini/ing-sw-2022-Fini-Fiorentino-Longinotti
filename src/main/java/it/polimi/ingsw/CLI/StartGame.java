@@ -6,8 +6,10 @@ import it.polimi.ingsw.network.message.toServer.GameModeReply;
 import it.polimi.ingsw.network.message.toServer.NameReply;
 import it.polimi.ingsw.network.message.toServer.NumberOfPlayersReply;
 import it.polimi.ingsw.network.message.toServer.WaitingInTheLobbyReply;
+import it.polimi.ingsw.network.server.ClientHandler;
 
 import java.io.IOException;
+import java.util.List;
 
 
 /**
@@ -66,24 +68,55 @@ public class StartGame {
      * @param alreadyTaken {@code True} if the nickname is already taken, {@code False} if not.
      */
     public static void displayNicknameRequest(Client client, boolean retry, boolean alreadyTaken) {
-        if (client.isValidName() && client.getName().isPresent()){
-            client.sendMessageToServer(new NameReply(client.getName().get()));
-            return;
-        }
-
+        boolean check=false;
+      //  if (client.isValidName() && client.getName().isPresent()){
+        //    client.sendMessageToServer(new NameReply(client.getName().get()));
+          //  return;
+        //}
         if (!retry)
             System.out.println("Insert your nickname");
-        else if (!alreadyTaken)
-            System.out.println("Your nickname was invalid, be sure to insert only valid characters (A-Z, a-z, 0-9)");
+     /*  else if (!alreadyTaken)
+            System.out.println("Your nickname was invalid, be sure to insert only valid characters (A-Z, a-z, 0-9)");*/
         else {
             System.out.println("Your nickname has already been taken, insert another one");
         }
         String selection = InputParser.getLine();
-        if (selection == null)
-            return;
-        client.setName(selection);
-        client.sendMessageToServer(new NameReply(selection));
-    }
+        while (!check) {
+        if (selection==null) {
+            System.out.println("Your nickname is invalid, please insert another one\n");
+            selection = InputParser.getLine();
+        }
+        else {
+            check=true;
+            client.setName(selection);
+            client.sendMessageToServer(new NameReply(selection));
+        }
+
+        }
+       /* while(!check) {
+            for (int i=0;i < clientHandlers.size();i++) {
+                    if((selection == clientHandlers.get(i).getNickname() && i!=clientHandlers.size()-1) || (selection == null)) {
+                            k=true;
+                    }
+                     if (k) {
+                            System.out.println("Your nickname is invalid, please insert another one\n");
+                            selection = InputParser.getLine();
+                            k=false;
+                    }
+                         else{
+                                check = true;
+                                client.setName(selection);
+                                client.sendMessageToServer(new NameReply(selection));
+                         }
+
+            }
+*/
+        }
+       // if (selection == null)
+         //   return;
+      //  client.setName(selection);
+       // client.sendMessageToServer(new NameReply(selection));
+
 
     /**
      * This method displays the game mode request.

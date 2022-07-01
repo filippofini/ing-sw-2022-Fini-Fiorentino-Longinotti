@@ -12,26 +12,27 @@ import java.util.regex.Pattern;
  */
 public class NameReply implements MessagesToServer{
 
-    private final String name;
-    private static final String NAME_REGEXP = "^([a-zA-Z0-9._\\-]{1,20})$";
-    private static final Pattern NAME_PATTERN = Pattern.compile(NAME_REGEXP);
+    private final String nickname;
 
-    public NameReply(String name){
-        this.name = name;
+    private static final String NAME_REGEXP = "^([a-zA-Z0-9._\\-]{1,20})$";
+    //private static final Pattern NAME_PATTERN = Pattern.compile(NAME_REGEXP);
+
+    public NameReply(String nickname){
+        this.nickname = nickname;
     }
 
-    public String getName() {
-        return name;
+    public String getNickname() {
+        return nickname;
     }
 
     @Override
     public void handleMessage(ServerInterface server, ClientHandlerInterface clientHandler) {
 
-        clientHandler.setNickname(name);
-    }
+        clientHandler.setNickname(nickname);
 
+    }
     @Override
     public String toString() {
-        return "Received name: " + name;
+        return "Received name: " + nickname;
     }
 }

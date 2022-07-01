@@ -87,7 +87,13 @@ public class Server implements ServerInterface {
                     lobby.get(0).sendMessageToClient(new GameModeRequest());
                     lobby.get(0).sendMessageToClient(new NumberOfPlayersRequest());
                 }
-                lobby.get(lobby.size()-1).sendMessageToClient(new NameRequest(false, false));
+
+                lobby.get(lobby.size()-1).sendMessageToClient(new NameRequest(false,false));
+                for (int i=0; i< lobby.size();i++) {
+                    System.out.println(lobby.get(lobby.size()-1).getNickname() +  "=?" + lobby.get(0).getNickname());
+                if ((lobby.get(lobby.size()-1).getNickname().equals(lobby.get(i).getNickname()))  && (i!= lobby.size()-1))
+                    lobby.get(lobby.size()-1).sendMessageToClient(new NameRequest(true,false));
+                }
 
                 if(lobby.size()>=1){
                      lobby.get(lobby.size()-1).sendMessageToClient(new WaitingInTheLobbyMessage());}

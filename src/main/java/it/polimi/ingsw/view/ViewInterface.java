@@ -2,6 +2,7 @@ package it.polimi.ingsw.view;
 
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.network.client.Client;
+import it.polimi.ingsw.network.server.ClientHandler;
 
 import java.util.List;
 
