@@ -81,7 +81,7 @@ public class AssistantCLI {
         }
         choice=InputParser.getInt();
 
-        while(choice<0 || choice>3){
+        while(choice<0 || choice>2){
             System.out.println("Number not valid,please choose a number from the list");
             choice=InputParser.getInt();
         }

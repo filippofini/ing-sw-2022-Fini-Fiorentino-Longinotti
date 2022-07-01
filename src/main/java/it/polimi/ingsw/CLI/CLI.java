@@ -57,11 +57,10 @@ public class CLI implements View {
     /**
      * This method display a nickname request.
      * @param retry {@code True} if it's not the first time that the nickname is asked.
-     * @param alreadyTaken {@code True} if someone else has already this nickname.
      */
-    public void displayNicknameRequest(boolean retry, boolean alreadyTaken) {
+    public void displayNicknameRequest(boolean retry) {
 
-        StartGame.displayNicknameRequest(client,retry,alreadyTaken);
+        StartGame.displayNicknameRequest(client,retry);
     }
 
 
@@ -214,7 +213,6 @@ public class CLI implements View {
      * This method close the connection.
      */
     public void closeConnection(){
-        //System.out.close();
         client.closeSocket();
     }
 
