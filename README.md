@@ -13,6 +13,15 @@
 
 - Basic rules
 - Complete rules
+- Character cards implemented:
+    - Monk
+    - Farmer
+    - Herald
+    - MagicMailman
+    - Herbs Grandma
+    - Centaur
+    - Knight
+    - Spoilt Princess
 - Socket
 - CLI
 
