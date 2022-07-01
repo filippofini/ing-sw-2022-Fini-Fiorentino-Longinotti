@@ -45,7 +45,6 @@ public class Island implements Serializable {
         proh_col=0;
         include_towers=true;
         extra_influence=0;
-        tower=1;
     }
 
     /**
