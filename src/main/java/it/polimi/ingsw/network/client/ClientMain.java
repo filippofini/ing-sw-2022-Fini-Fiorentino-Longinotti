@@ -2,14 +2,12 @@ package it.polimi.ingsw.network.client;
 
 import it.polimi.ingsw.CLI.CLI;
 
-
 /**
  * This class is used to start the game client-side.
  * If the starting command has the argument "-cli", it starts the command line interface;
  * if it has nothing, it starts the command line interface anyway.
  */
 public class ClientMain {
-
     private final static String CLI_STARTER = "-cli";
     private final static String HELP = "-help";
 
@@ -28,5 +26,4 @@ public class ClientMain {
             }
         }
     }
-
 }

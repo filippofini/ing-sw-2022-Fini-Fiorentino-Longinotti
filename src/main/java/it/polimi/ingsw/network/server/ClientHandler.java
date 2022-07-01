@@ -46,23 +46,10 @@ public class ClientHandler implements ClientHandlerInterface, Runnable {
     private boolean timeoutExpired;
     private boolean notEnoughCoin;
     private int monkStudent;
-
     private int heraldIsland;
     private String nickname;
-
-    /**
-     * This method checks if the game has started.
-     * @return {@code True} if the game has started, {@code False} if not.
-     */
-    public boolean isGameStarted() {
-        return gameStarted;
-    }
-
     private boolean gameStarted = false;
-
-
     private GameMode gameMode;
-
     private ClientHandlerPhase clientHandlerPhase;
 
 
@@ -103,11 +90,8 @@ public class ClientHandler implements ClientHandlerInterface, Runnable {
                     if(message != null && !(message == ConnectionMessage.PING)) {
                         stopTimer();
                         Server.SERVER_LOGGER.log(Level.INFO, "[" + (nickname != null ? nickname : socket.getInetAddress().getHostAddress()) + "]: " + message);
-                        //if(active && !(gameStarted && gameController.getCheck())){
                             ((MessagesToServer) message).handleMessage(server, this);
-                        //}
                     }
-
                 } catch (ClassNotFoundException ignored) {
                 } catch (SocketTimeoutException e){ //when the timer has expired
                     sendMessageToClient(new TimeoutExpiredMessage());
@@ -115,7 +99,6 @@ public class ClientHandler implements ClientHandlerInterface, Runnable {
                 } catch (IOException e){//when the client is no longer connected
                     handleSocketDisconnection(false);
                 }
-
             }
         }catch (IOException e){
             boolean timeout = e instanceof SocketTimeoutException;
@@ -180,9 +163,6 @@ public class ClientHandler implements ClientHandlerInterface, Runnable {
     private boolean checkMessage(Serializable message){
         return  (message != ConnectionMessage.PING && !(message instanceof TextMessage));
     }
-    public void endConnection(){
-        handleSocketDisconnection(false);
-    }
 
     /**
      * This method handles client's disconnection.
@@ -196,13 +176,9 @@ public class ClientHandler implements ClientHandlerInterface, Runnable {
         //The connection is not active anymore
         this.active = false;
         Server.SERVER_LOGGER.log(Level.SEVERE, "[" + (nickname != null ? nickname : socket.getInetAddress().getHostAddress())+ "]: " + "client disconnected" + (timeout ? " because the timeout has expired" : ""));
-        //If the game is started, the controller will handle his disconnection
-      //  if (gameStarted){
+
             gameController.handleClientDisconnection(nickname);
-        //} else {
-            //If the game is not started yet, I simply remove the player from the list of waiting players
-         //   server.removeConnectionLobby(this);
-      //  }//
+
         try {
             if (timeout)
                 outputStream.writeObject(new TimeoutExpiredMessage());
@@ -352,22 +328,6 @@ public class ClientHandler implements ClientHandlerInterface, Runnable {
      */
     public Server getServer(){
         return server;
-    }
-
-    /**
-     * This method checks if it's active.
-     * @return {@code True} if is active.
-     */
-    public boolean isActive(){
-        return active;
-    }
-
-    /**
-     * This method checks if the chosen nickname is valid.
-     * @return {@code True} if is valid.
-     */
-    public boolean isValidNickname() {
-        return validNickname;
     }
 
     /**

@@ -3,7 +3,6 @@ package it.polimi.ingsw.network.server;
 import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.enumerations.ClientHandlerPhase;
 import it.polimi.ingsw.model.GameMode;
-
 import java.io.Serializable;
 
 
@@ -107,8 +106,6 @@ public interface ClientHandlerInterface {
      * @param numberOfPlayersForNextGame The number of players for the next game.
      */
     void setNumberOfPlayersForNextGame(int numberOfPlayersForNextGame);
-
-    //Controller getController();
 
     /**
      * This method starts the timer.
