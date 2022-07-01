@@ -14,6 +14,7 @@ public abstract class CharacterCard implements Serializable {
      int cost;
      int uses = 0;
      int[] students;
+     String name;
 
 
      /**
@@ -31,6 +32,14 @@ public abstract class CharacterCard implements Serializable {
           this.uses++;
           setCost(cost+1);
      }
+
+     /**
+      * this method return the name of the card.
+      */
+     public String getName() {
+          return name;
+     }
+
      /**
       * This method sets the student to be moved from the card to the island.
       * @param chosen_student The student to be moved from the card to the island.

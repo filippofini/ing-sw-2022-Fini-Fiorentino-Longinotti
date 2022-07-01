@@ -207,7 +207,7 @@ public class CLI implements View {
      * This method close the connection.
      */
     public void closeConnection(){
-        System.out.close();
+        //System.out.close();
         client.closeSocket();
     }
 
@@ -226,7 +226,7 @@ public class CLI implements View {
      * @param wasConnected Boolean to check if the client was connected.
      */
     private void displayUnreachableServer(boolean wasConnected){
-        System.out.println((wasConnected ? "The server is not reachable anymore" : "The server is unreachable at the moment") + ". Try again later.");
+        System.out.println("The Game id Ended\n\n");
     }
 
     /**
@@ -234,7 +234,8 @@ public class CLI implements View {
      * @param name The name.
      */
     public void displayDisconnection(String name){
-        System.out.println(name+ "has quit the game, all players will be transferred to the lobby");
+        System.out.println(name+ " has quit the game, all players will be transferred to the lobby");
+        client.closeSocket();
     }
 
 

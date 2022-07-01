@@ -30,7 +30,7 @@ public class Herald extends CharacterCard {
      */
     @Override
     public void setIndex_to(int index_to) {
-        this.index_to = index_to-1;
+        this.index_to = index_to;
     }
 
     /**

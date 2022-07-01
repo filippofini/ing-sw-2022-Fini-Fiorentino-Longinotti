@@ -159,10 +159,8 @@ public class ClientHandler implements ClientHandlerInterface, Runnable {
             outputStream.flush();
             outputStream.reset();
             System.out.println();
-            System.out.println("PREWAIT\n\n");
             if (!message.equals(ConnectionMessage.PING)){
              wait();}
-            System.out.println("POSTWAIT\n\n");
             if (message instanceof MessagesToClient &&((MessagesToClient) message).hasTimer())
                 startTimer();
         } catch (IOException e) {
@@ -180,6 +178,9 @@ public class ClientHandler implements ClientHandlerInterface, Runnable {
      */
     private boolean checkMessage(Serializable message){
         return  (message != ConnectionMessage.PING && !(message instanceof TextMessage));
+    }
+    public void endConnection(){
+        handleSocketDisconnection(false);
     }
 
     /**

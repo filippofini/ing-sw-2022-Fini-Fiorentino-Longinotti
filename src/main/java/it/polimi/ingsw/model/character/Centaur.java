@@ -11,6 +11,7 @@ public class Centaur extends CharacterCard {
     private int cost=3;
     private int uses=0;
 
+
     /**
      * This method implements the effect of the centaur card.
      * When this card is played, the influence on the island where mother nature is, is calculated without counting the towers.

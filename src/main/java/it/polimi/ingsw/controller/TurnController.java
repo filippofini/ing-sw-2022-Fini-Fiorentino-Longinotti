@@ -149,6 +149,7 @@ public class TurnController {
                             GS.getGT().getArr_character()[clienthandler.get(player_order[i]).getChCardUsed()].setCurrent_player(player_order[i]);
                             GS.getGT().getArr_character()[clienthandler.get(player_order[i]).getChCardUsed()].effect(getGS());
                         }
+                        played_cCard=GS.getGT().getArr_character()[clienthandler.get(player_order[i]).getChCardUsed()];
                     }
                 }
             }

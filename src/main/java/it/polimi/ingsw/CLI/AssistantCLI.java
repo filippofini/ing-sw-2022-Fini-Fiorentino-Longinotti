@@ -62,7 +62,7 @@ public class AssistantCLI {
             System.out.println("Number not valid,please choose a number from the list");
             choice=InputParser.getInt();
         }
-        client.sendMessageToServer(new ShowStudentsReply(choice));
+        client.sendMessageToServer(new ShowStudentsReply(students[choice].getColour()));
     }
     public static void HeraldIsland(Client client, List<Island> islands) {
         System.out.println("Choose the island for the character card\n");

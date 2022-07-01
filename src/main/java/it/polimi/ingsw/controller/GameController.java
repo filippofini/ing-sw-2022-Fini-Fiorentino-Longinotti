@@ -8,6 +8,8 @@ import it.polimi.ingsw.model.TowerColour;
 import it.polimi.ingsw.network.message.toClient.*;
 import it.polimi.ingsw.network.server.ClientHandler;
 import it.polimi.ingsw.network.server.Server;
+
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
@@ -72,17 +74,11 @@ public class GameController implements Serializable {
     private void forceEndMultiplayerGame(String nickname){
         for (Player player : getPlayers_ID()) {
             //For each player that is still active I notify the end of the game and I reinsert him in the lobby room
-            if (player.isActive()) {
-                getConnectionByNickname(player.getNickname()).sendMessageToClient(new NotifyDisconnection(nickname));
-                getConnectionByNickname(player.getNickname()).setGameStarted(false);
-                getConnectionByNickname(player.getNickname()).setGameController(null);
-                getConnectionByNickname(player.getNickname()).setClientHandlerPhase(ClientHandlerPhase.WAITING_IN_THE_LOBBY);
-                server.addClientHandler(getConnectionByNickname(player.getNickname()));
-            } else {
-                server.removeNickname(player.getNickname());
-            }
-        }
+            getConnectionByNickname(player.getNickname()).sendMessageToClient(new NotifyDisconnection(nickname));
+            getConnectionByNickname(player.getNickname()).setGameStarted(false);
+            getConnectionByNickname(player.getNickname()).setGameController(null);
 
+        }
     }
 
     /**
@@ -97,14 +93,14 @@ public class GameController implements Serializable {
     /**
      * This method is used to start a game.
      */
-    public void start(){
+    public void start() throws IOException {
         startNewGame();
     }
 
     /**
      * This method starts a new game.
      */
-    private void startNewGame() {
+    private void startNewGame() throws IOException {
         Server.SERVER_LOGGER.log(Level.INFO, "Creating a new " + gameMode.name().replace("_"," ") + ", players: " + clientHandlers.stream().map(ClientHandler::getNickname).collect(Collectors.toList()));
         players = addPlayer(clientHandlers);
         TurnController turnController = new TurnController(clientHandlers.size(),getArrayNickname(clientHandlers),wizards,getBooleanGameMode(gameMode),players,clientHandlers);
@@ -230,7 +226,7 @@ public class GameController implements Serializable {
     /**
      * This method is used to start the end game. It gives the results to the players.
      */
-    public void endGame(TurnController turnController) {
+    public void endGame(TurnController turnController) throws IOException {
         getServer().gameEnded(this,new ResultsNotify(turnController.getGS().getGT().getIslands(),players,turnController.getGS().getGT().getBoards()));
 
     }

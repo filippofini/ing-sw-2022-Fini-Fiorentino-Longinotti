@@ -80,13 +80,13 @@ public class Server implements ServerInterface {
                 executor.submit(clientHandler);
                 addClientHandler(clientHandler);
 
-                lobby.get(t).setNickname("player"+ t);
-                t++;
+                //lobby.get(t).setNickname("player"+ t);
+                //t++;
                 if(lobby.size()==1){
                     lobby.get(0).sendMessageToClient(new GameModeRequest());
                     lobby.get(0).sendMessageToClient(new NumberOfPlayersRequest());
                 }
-                //lobby.get(lobby.size()-1).sendMessageToClient(new NameRequest(false, false));
+                lobby.get(lobby.size()-1).sendMessageToClient(new NameRequest(false, false));
 
                 if(lobby.size()>=1){
                      lobby.get(lobby.size()-1).sendMessageToClient(new WaitingInTheLobbyMessage());}
@@ -249,6 +249,8 @@ public class Server implements ServerInterface {
                 lobby.get(0).setClientHandlerPhase(ClientHandlerPhase.WAITING_NUMBER_OF_PLAYERS);
                 lobby.get(0).sendMessageToClient(new NumberOfPlayersRequest());
             }*/
+        } catch (IOException e) {
+            e.printStackTrace();
         } finally {
             lockLobby.unlock();
         }
@@ -289,10 +291,9 @@ public class Server implements ServerInterface {
      * @param gamecontroller The game controller.
      * @param resultsNotify The message used to notify the results of the game.
      */
-    public void gameEnded(GameController gamecontroller, ResultsNotify resultsNotify) {
+    public void gameEnded(GameController gamecontroller, ResultsNotify resultsNotify) throws IOException {
         gamecontroller.sendMessageToAll(resultsNotify);
-
-
+        serverSocket.close();
     }
 
 

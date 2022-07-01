@@ -91,6 +91,7 @@ public class EndGameCLI {
             }
 
             client.sendMessageToServer(new ResultNotifyReply());
+            client.closeSocket();
     }
 
 }
