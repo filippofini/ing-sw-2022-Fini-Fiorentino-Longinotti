@@ -100,6 +100,10 @@ public class Client implements ClientInterface {
         });
     }
 
+    /**
+     * This method starts the thread and creates the socket.
+     * @throws IOException
+     */
     public void start() throws IOException {
         socket = new Socket();
         this.incomingPackets = new LinkedBlockingQueue<>();
@@ -162,6 +166,10 @@ public class Client implements ClientInterface {
         }
     }
 
+    /**
+     * This method is used to send a message to the server.
+     * @param message A message.
+     */
     @Override
     public synchronized void sendMessageToServer(Serializable message){
         if (connected.get()){
@@ -232,10 +240,18 @@ public class Client implements ClientInterface {
         return port;
     }
 
+    /**
+     * This method sets the name.
+     * @param name The name.
+     */
     public void setName(String name) {
         this.name = Optional.of(name);
     }
 
+    /**
+     * This method sets the game mode.
+     * @param expert_mode The game mode.
+     */
     public void setGameMode(GameMode expert_mode) {
         this.expert_mode = Optional.of(expert_mode);
     }
@@ -244,10 +260,18 @@ public class Client implements ClientInterface {
         return valid_name;
     }
 
+    /**
+     * This returns the name.
+     * @return The name.
+     */
     public Optional<String> getName() {
         return name;
     }
 
+    /**
+     * This method returns the game mode.
+     * @return  The game mode.
+     */
     public Optional<GameMode> getGameMode() {
         return expert_mode;
     }

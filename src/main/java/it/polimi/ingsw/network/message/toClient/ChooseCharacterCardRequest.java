@@ -4,6 +4,9 @@ import it.polimi.ingsw.model.CharacterCard;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.view.ViewInterface;
 
+/**
+ * Message to choose a character card.
+ */
 public class ChooseCharacterCardRequest extends MessagesToClient{
     Player player;
     CharacterCard[] cc;

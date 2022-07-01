@@ -714,10 +714,18 @@ public class GameTable implements Serializable {
         return chosen;
     }
 
+    /**
+     * This method sets the list of players.
+     * @param pl The list of players.
+     */
     public void setPl(List<Player> pl) {
         this.pl = pl;
     }
 
+    /**
+     * This method returns the list of players.
+     * @return The list of players.
+     */
     public List<Player> getPl() {
         return pl;
     }
