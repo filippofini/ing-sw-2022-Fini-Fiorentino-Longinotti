@@ -94,7 +94,7 @@ public class StartGame {
             client.sendMessageToServer(new GameModeReply(client.getGameMode().get()));
             return;
         }
-        System.out.println("\nConnection established!");
+        System.out.println("\nConnection established!\n");
         System.out.println("Please choose the game mode, standard[s] or expert[e]:");
         GameMode gameMode = null;
         try {
@@ -144,7 +144,7 @@ public class StartGame {
      * This method displays the waiting message.
      */
     public static void displayWaitingMessage(Client client) {
-        System.out.println("making the island floating...");
+        System.out.println("\nmaking the island floating...\n");
         client.sendMessageToServer(new WaitingInTheLobbyReply());
     }
 }

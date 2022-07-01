@@ -19,7 +19,6 @@ public class ChooseAssistantCardRequest extends MessagesToClient {
 
     @Override
     public void handleMessage(ViewInterface view) {
-        System.out.println("\nMESSAGECLI\n");
         view.displayChooseAssistantCardRequest(player,GT);}
 
     @Override

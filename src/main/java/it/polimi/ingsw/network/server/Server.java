@@ -140,7 +140,6 @@ public class Server implements ServerInterface {
             */
 
         //if (!invalidNickname())
-            System.out.println("\nSTART\n");
             startNewGame(mode);
         lockLobby.unlock();
         }

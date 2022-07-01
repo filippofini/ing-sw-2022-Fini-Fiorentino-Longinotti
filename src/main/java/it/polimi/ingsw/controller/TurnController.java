@@ -95,7 +95,7 @@ public class TurnController {
                 break;
             }
             GS.setCurr_player(player_order[i]);
-            System.out.println("MOTHERNATURE"+GS.getGT().getMother_nature_pos()+"\n\n");
+           //TODO:FARE MESSAGGIO System.out.println("MOTHERNATURE"+GS.getGT().getMother_nature_pos()+"\n\n");
 
             if (gameController.getGameMode() == GameMode.EXPERT) {
                 clienthandler.get(player_order[i]).sendMessageToClient(new UseCharacterCardRequest());
