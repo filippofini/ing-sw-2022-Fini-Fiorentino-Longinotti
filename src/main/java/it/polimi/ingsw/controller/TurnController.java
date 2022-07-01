@@ -69,7 +69,7 @@ public class TurnController {
     public void planning_phase_personal(int i){
 
         if(P_L.get(i).getDeck().getCards().size()>0){
-       clienthandler.get(i).sendMessageToClient(new ChooseAssistantCardRequest(P_L.get(i),GS.getGT()));
+            clienthandler.get(i).sendMessageToClient(new ChooseAssistantCardRequest(P_L.get(i),GS.getGT()));
        GS.getGT().choose_assistant(P_L.get(i),clienthandler.get(i).getAssistantCardChosen());}
         else if(P_L.get(i).getDeck().getCards().size()==0){
             endgame=true;
@@ -95,7 +95,6 @@ public class TurnController {
                 break;
             }
             GS.setCurr_player(player_order[i]);
-           //TODO:FARE MESSAGGIO System.out.println("MOTHERNATURE"+GS.getGT().getMother_nature_pos()+"\n\n");
 
             if (gameController.getGameMode() == GameMode.EXPERT) {
                 clienthandler.get(player_order[i]).sendMessageToClient(new UseCharacterCardRequest());
@@ -226,6 +225,11 @@ public class TurnController {
                 if(played_cCard.getID_code()==8){
                     for(int m=0;m<GS.getGT().getIslands().size();m++){
                         GS.getGT().getIslands().get(m).setExtra_influence(0);
+                    }
+                }
+                if(played_cCard.getID_code()==6){
+                    for(int m=0;m<GS.getGT().getIslands().size();m++){
+                        GS.getGT().getIslands().get(m).setInclude_towers(true);
                     }
                 }
             }

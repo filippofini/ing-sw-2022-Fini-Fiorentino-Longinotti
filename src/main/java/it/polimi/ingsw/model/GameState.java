@@ -45,12 +45,14 @@ public class GameState {
             players[i] = p_l.get(i);
         }
 
-        System.out.println("\nGAMETABLE\n");
+
+
         GT = new GameTable(n_players, turn);
         if(n_players == 4){
             teams = new int[4];
             chat = true;
         }
+        GT.setPl(lPlayers);
     }
 
     /**

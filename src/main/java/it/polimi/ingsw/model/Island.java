@@ -76,47 +76,83 @@ public class Island implements Serializable {
                 if(current_player==player_controller){
                     temp_influence+=tower;
                 }
-            }
-
-            if (temp_influence > influence_controller) {
-                if(current_player!=player_controller){
-                    if(boards.length==4){
-                        if(current_player==1 || current_player==2){
-                            Boards[1].setN_towers(Boards[1].getN_towers()+tower);
+                if (temp_influence > influence_controller) {
+                    if(current_player!=player_controller){
+                        if(boards.length==4){
+                            if(current_player==1 || current_player==2){
+                                Boards[1].setN_towers(Boards[1].getN_towers()+tower);
+                                player_controller = current_player;
+                                tower = 1;
+                                influence_controller = temp_influence;
+                                same_player=false;
+                            }
+                            else if(current_player==3 || current_player==4){
+                                Boards[3].setN_towers(Boards[3].getN_towers()+tower);
+                                player_controller = current_player;
+                                tower = 1;
+                                influence_controller = temp_influence;
+                                same_player=false;
+                            }
+                        }
+                        else{
+                            if(player_controller!=-1){
+                                Boards[player_controller].setN_towers(Boards[player_controller].getN_towers()+tower);
+                            }
                             player_controller = current_player;
                             tower = 1;
-                            influence_controller = temp_influence;
+                            influence_controller = temp_influence+1+extra_influence;
                             same_player=false;
                         }
-                        else if(current_player==3 || current_player==4){
-                            Boards[3].setN_towers(Boards[3].getN_towers()+tower);
-                            player_controller = current_player;
-                            tower = 1;
-                            influence_controller = temp_influence;
-                            same_player=false;
-                        }
-                    }
-                    else{
-                        if(player_controller!=-1){
-                            Boards[player_controller].setN_towers(Boards[player_controller].getN_towers()+tower);
-                        }
-                        player_controller = current_player;
-                        tower = 1;
-                        influence_controller = temp_influence+1+extra_influence;
-                        same_player=false;
-                    }
 
-                }
-                else {
-                    influence_controller = temp_influence+extra_influence;
+                    }
+                    else {
+                        influence_controller = temp_influence+extra_influence;
+                    }
                 }
             }
+            else{
+                if (temp_influence > influence_controller-tower) {
+                    if(current_player!=player_controller){
+                        if(boards.length==4){
+                            if(current_player==1 || current_player==2){
+                                Boards[1].setN_towers(Boards[1].getN_towers()+tower);
+                                player_controller = current_player;
+                                tower = 1;
+                                influence_controller = temp_influence;
+                                same_player=false;
+                            }
+                            else if(current_player==3 || current_player==4){
+                                Boards[3].setN_towers(Boards[3].getN_towers()+tower);
+                                player_controller = current_player;
+                                tower = 1;
+                                influence_controller = temp_influence;
+                                same_player=false;
+                            }
+                        }
+                        else{
+                            if(player_controller!=-1){
+                                Boards[player_controller].setN_towers(Boards[player_controller].getN_towers()+tower);
+                            }
+                            player_controller = current_player;
+                            tower = 1;
+                            influence_controller = temp_influence+extra_influence;
+                            same_player=false;
+                        }
+
+                    }
+                    else {
+                        influence_controller = temp_influence+extra_influence;
+                    }
+                }
+
+            }
+
+
+
+
         }
         else{
             setProhibition_card(false);
-        }
-        if(!include_towers){
-            setInclude_towers(true);
         }
         if(prohibition_colour){
             setProhibition_colour(false);

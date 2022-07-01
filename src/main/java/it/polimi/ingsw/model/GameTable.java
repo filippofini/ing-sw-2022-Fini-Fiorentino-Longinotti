@@ -30,6 +30,7 @@ public class GameTable implements Serializable {
     private Turn turn;
     private AssistanceCard[] discard_deck;
     private int general_reservoir;
+    private List<Player> pl;
 
     /**
      * Constructor of the class.
@@ -713,4 +714,11 @@ public class GameTable implements Serializable {
         return chosen;
     }
 
+    public void setPl(List<Player> pl) {
+        this.pl = pl;
+    }
+
+    public List<Player> getPl() {
+        return pl;
+    }
 }
