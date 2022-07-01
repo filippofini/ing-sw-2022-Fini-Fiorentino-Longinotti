@@ -1,6 +1,5 @@
 package it.polimi.ingsw.model;
 
-import java.awt.*;
 import java.io.Serializable;
 
 /**
@@ -15,7 +14,7 @@ public enum DiskColour implements Serializable {
      * Constructor of the class
      * @param translateColour The number representing the colour of the disk.
      */
-    private DiskColour(int translateColour){
+    DiskColour(int translateColour){
         this.translateColour=translateColour;
     }
 
@@ -26,7 +25,6 @@ public enum DiskColour implements Serializable {
     public int getTranslateColour(){
         return translateColour;
     }
-
 
     /**
      * This method return a string containing the colour given the colour.

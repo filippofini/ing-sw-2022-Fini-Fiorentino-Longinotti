@@ -16,7 +16,6 @@ import java.util.*;
  */
 public class GameTable implements Serializable {
     private final int num_players;
-    private int player_ID;
     private int current_player;
     private int island_counter=12;
     private int island_index;
@@ -56,7 +55,7 @@ public class GameTable implements Serializable {
 
 
 
-        islands = new LinkedList<Island>();
+        islands = new LinkedList<>();
         for(int i=0;i<12;i++){
             islands.add(new Island( boards, i+1, TowerColour.STARTER));
         }
@@ -83,13 +82,12 @@ public class GameTable implements Serializable {
             }
         }
 
-        clouds = new ArrayList<Cloud>();
-        tempclouds=new ArrayList<Cloud>();
+        clouds = new ArrayList<>();
+        tempclouds=new ArrayList<>();
         for(int i=0;i<num_players;i++){
             clouds.add(new Cloud(i+1));
         }
 
-        //cloud_start();
         reset_temp_clouds();
         discard_deck = new AssistanceCard[num_players];
         for (int i = 0; i < num_players; i++) {
@@ -100,7 +98,6 @@ public class GameTable implements Serializable {
 
         draw_three_charCards();
     }
-
 
     /**
      * This method checks if an assistance card is playable.
@@ -192,7 +189,6 @@ public class GameTable implements Serializable {
 
         return indexes;
     }
-
 
     /**
      * This method merges the close islands. Before merging, It checks what merges can be done by calling the method check_merge.
@@ -296,30 +292,6 @@ public class GameTable implements Serializable {
         }
     }
 
-    //Puts the first students on the clouds
-    private void cloud_start(){
-        Random rand = new Random();
-        int temprand;
-        if(num_players==2 || num_players==4){
-            for(int i=0;i<num_players;i++){
-                for(int j=0;j<3;j++){
-                    temprand=rand.nextInt(5);
-                    clouds.get(i).getArr_students()[temprand]++;
-                    bag[temprand]--;
-                }
-            }
-        }
-        else if(num_players==3){
-            for(int i=0;i<num_players;i++){
-                for(int j=0;j<4;j++){
-                    temprand=rand.nextInt(5);
-                    clouds.get(i).getArr_students()[temprand]++;
-                    bag[temprand]--;
-                }
-            }
-        }
-    }
-
     /**
      * This method refills each cloud with students.
      * @param TC The turn controller.
@@ -335,7 +307,7 @@ public class GameTable implements Serializable {
                 clouds.get(i).getArr_students()[j]=0;
             }
         }
-        if(num_players==2 || num_players==4){
+        if(num_players==2){
             for(int i=0;i<num_players && bag_not_empty;i++){
                 while(count<3 && bag_not_empty){
                     temprand=rand.nextInt(5);
@@ -404,7 +376,6 @@ public class GameTable implements Serializable {
      * @param clientHandler The client handler.
      */
     public Cloud choose_cloud(ClientHandler clientHandler){
-        int choice;
         Cloud chosen_cloud;
 
         clientHandler.sendMessageToClient(new ChooseCloudRequest(tempclouds));
@@ -422,7 +393,6 @@ public class GameTable implements Serializable {
         int[] drawn = new int[3];
         int[] monk_drawn = new int[5];
         int[] princess_drawn = new int[5];
-        int[] jester_drawn = new int[5];
         int draw_stud;
         Random rand = new Random();
 
@@ -446,34 +416,16 @@ public class GameTable implements Serializable {
             princess_drawn[draw_stud]++;
         }
 
-
-        //NOT NECESSARY ANYMORE
-        /*
-        //Random drawn of 6 students to be placed on the jester card.
-        for (int i = 0; i < 6; i++) {
-            draw_stud = rand.nextInt(5);
-            while (bag[draw_stud] == 0) {
-                draw_stud = rand.nextInt(5);
-            }
-            bag[draw_stud]--;
-            jester_drawn[draw_stud]++;
-        }
-        */
-
         List<CharacterCard> char_deck;
-        char_deck = new ArrayList<CharacterCard>(Arrays.asList(
+        char_deck = new ArrayList<>(Arrays.asList(
                 new Monk(monk_drawn),
                 new Farmer(),
                 new Herald(),
                 new MagicMailman(),
                 new HerbsGrandma(),
                 new Centaur(),
-                //new Jester(jester_drawn),
                 new Knight(),
-                //new MushroomCollector(),
-                //new Minstrel(),
                 new SpoiltPrincess(princess_drawn)
-                //new Thief()
         ));
 
         drawn[0] = rand.nextInt(8);
@@ -512,22 +464,7 @@ public class GameTable implements Serializable {
                 bag[i] = bag[i]+princess_drawn[i];
             }
         }
-
-        /*
-        //Check if a card is the jester, if not puts the students back
-        check=false;
-        for (int i = 0; i < 3 && check==false; i++) {
-            if ( arr_character[i].getID_code()==7)
-                check = true;
-        }
-        if (check==false){
-            for (int i = 0; i < 5; i++) {
-                bag[i] = bag[i]+monk_drawn[i];
-            }
-        }
-        */
     }
-
 
     /**
      * This method sets mother nature position.
@@ -550,16 +487,6 @@ public class GameTable implements Serializable {
      */
     public int getMother_nature_pos() {
         return mother_nature_pos;
-    }
-
-    /**
-     * This method removes a cloud given his index.
-     * @param cloud_index The index of the cloud to be removed.
-     * @return The updated list of clouds.
-     */
-    public List<Cloud> del_cloud(int cloud_index) {
-        clouds.remove(cloud_index);
-        return clouds;
     }
 
     /**
@@ -597,28 +524,11 @@ public class GameTable implements Serializable {
     }
 
     /**
-     * This method sets the number of islands.
-     * @param island_counter The number of islands.
-     */
-    public void setIsland_counter(int island_counter) {
-        this.island_counter = island_counter;
-    }
-
-    /**
      * This method returns the number of remaining islands.
      * @return The number of remaining islands.
      */
-    public int getHow_many_left(){
-        //return 12-island_counter;
+    public int getHow_many_left(){;
         return island_counter;
-    }
-
-    /**
-     * This method returns the player ID.
-     * @return The player ID.
-     */
-    public int getPlayer_ID() {
-        return player_ID;
     }
 
     /**
@@ -643,14 +553,6 @@ public class GameTable implements Serializable {
      */
     public int getCurrent_player() {
         return current_player;
-    }
-
-    /**
-     * This method returns the island index.
-     * @return The island index.
-     */
-    public int getIsland_index() {
-        return island_index;
     }
 
     /**

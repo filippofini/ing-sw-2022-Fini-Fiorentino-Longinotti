@@ -16,7 +16,6 @@ public abstract class CharacterCard implements Serializable {
      int[] students;
      String name;
 
-
      /**
       * This method is the general method to represent the different effects of all the cards.
       * This method is overwritten by all the cards.
@@ -45,21 +44,25 @@ public abstract class CharacterCard implements Serializable {
       * @param chosen_student The student to be moved from the card to the island.
       */
      public void setChosen_student(int chosen_student){}
+
      /**
       * This method sets the index of the island into which the prohibition card will be moved to.
       * @param index_to The index of the island into which the prohibition card will be moved to.
       */
      public void setIndex_to(int index_to){}
+
      /**
       * This method sets the player that plays the card.
       * @param player The number representing the player that played the card.
       */
      public void setCurrent_player(int player){}
+
      /**
       * This method returns the array of students on the card.
       * @return The array of students on the card.
       */
      public int[] getStudents(){return students; }
+
      /**
       * This method returns the cost.
       * @return The cost.
