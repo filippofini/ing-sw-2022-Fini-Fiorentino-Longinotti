@@ -4,7 +4,6 @@ package it.polimi.ingsw.CLI;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.network.message.toServer.*;
-
 import java.util.List;
 
 /**

@@ -4,10 +4,8 @@ import it.polimi.ingsw.model.DiskColour;
 import it.polimi.ingsw.model.Island;
 import it.polimi.ingsw.model.Student;
 import it.polimi.ingsw.network.client.Client;
-import it.polimi.ingsw.network.message.toClient.DisplayIslandInfoRequest;
 import it.polimi.ingsw.network.message.toServer.DisplayIslandInfoReply;
 import it.polimi.ingsw.network.message.toServer.MoveStudentReply;
-
 import java.util.List;
 
 /**
@@ -17,7 +15,6 @@ public class IslandCLI {
 
     /**
      * This method displays the island info.
-     *
      * @param client
      * @param island   The island.
      * @param islandID The island ID.

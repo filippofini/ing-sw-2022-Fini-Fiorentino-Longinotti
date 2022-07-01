@@ -5,7 +5,6 @@ import it.polimi.ingsw.model.Island;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.network.message.toServer.ResultNotifyReply;
-
 import java.util.List;
 
 

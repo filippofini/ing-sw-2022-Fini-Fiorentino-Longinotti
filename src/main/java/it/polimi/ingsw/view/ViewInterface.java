@@ -1,17 +1,12 @@
 package it.polimi.ingsw.view;
 
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.network.client.Client;
-import it.polimi.ingsw.network.server.ClientHandler;
-
 import java.util.List;
-
 
 /**
  * This interface contains the methods to handle the request sent to/by the client.
  */
 public interface ViewInterface {
-
 
     /**
      * This method handle the closing of connections.
@@ -39,42 +34,21 @@ public interface ViewInterface {
      * This method asks the desired number of players for the game.
      */
     void displayNumberOfPlayersRequest();
+
     /**
      * This method asks the desired Student from the monk.
      */
     void showStudent(Student[] students);
+
     /**
      * This method asks the desired island where to calculate influence.
      */
     void heraldIsland(List<Island> islands);
 
-    /*
-     * This method sets the players names.
-     * @param player_name The name of the client receiving the message.
-     * @param other_names The names of the other players.
-     *
-    void setNicknames(String player_name, List<String> other_names);
-
-    /**
-     * This method notifies all the players that are ready to play.
-     * @param names The list of names.
-     *
-    void displayPlayersReadyToStartMessage(List<String> names);
-    */
     /**
      * This method notifies the waiting before starting the game.
      */
     void displayWaitingMessage();
-
-    /*
-     * This method informs a disconnection.
-     * @param name The name of the player.
-     *
-    void displayDisconnection(String name);
-    *
-
-    void displayTimeoutFinishedMessage();
-    */
 
     /**
      * This method displays a message.
@@ -89,22 +63,11 @@ public interface ViewInterface {
      */
     void motherNatureMovementRequest(int Mn_pos, Player Current_Player);
 
-    /*
-     * This method displays the request of the number of moves of mother nature.
-     *
-    void displayPositionToMoveRequest();
-    */
     /**
      * This method displays the request of the students to move.
      * @param board The board.
      */
     void displayStudentToMoveRequest(Board board);
-
-    /*
-     * This method displays the number of conquered islands.
-     *
-    void displayConqueredIslands(int[] conquered);
-    */
 
     /**
      * This method displays the request of the choice for students movement.
@@ -188,18 +151,6 @@ public interface ViewInterface {
      * @param cc The array of character cards.
      */
     void ChooseCharacterCard(Player player,CharacterCard[] cc);
-
-    /*
-     * This method informs that the game is started.
-     *
-    void displayStartGameNotify();
-    */
-
-    /*
-     * This method informs that the game is ended.
-     *
-    void displayEndGameNotify();
-    */
 
     /**
      * This method shows the results of the game.

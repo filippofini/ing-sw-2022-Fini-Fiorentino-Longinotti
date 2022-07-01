@@ -322,6 +322,10 @@ public class Server implements ServerInterface {
         groupOfNicknames.remove(nickname);
     }
 
+    /**
+     * This method returns the lobby.
+     * @return The lobby.
+     */
     public List<ClientHandler> getLobby() {
         return lobby;
     }

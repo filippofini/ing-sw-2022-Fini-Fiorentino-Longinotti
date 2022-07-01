@@ -8,10 +8,18 @@ public enum ConnectionMessage {
     CONNECTION_CLOSED("Connection closed");
     String message;
 
+    /**
+     * Constructor of the class.
+     * @param message A message.
+     */
     ConnectionMessage(String message){
         this.message = message;
     }
 
+    /**
+     * This method returns the message.
+     * @return The message.
+     */
     public String getMessage(){
         return message;
     }

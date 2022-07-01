@@ -538,55 +538,99 @@ public class ClientHandler implements ClientHandlerInterface, Runnable {
         notify();
     }
 
+    /**
+     * This method sets the waiting in the lobby.
+     * @param waitingInTheLobby The waiting in the lobby.
+     */
     public synchronized void setWaitingInTheLobby(boolean waitingInTheLobby) {
         this.waitingInTheLobby = waitingInTheLobby;
         notify();
     }
 
+    /**
+     * This method sets the display of the dining room.
+     * @param displayDiningRoom The display of the dining room.
+     */
     public synchronized void setDisplayDiningRoom(boolean displayDiningRoom) {
         this.displayDiningRoom = displayDiningRoom;
         notify();
     }
-    
+
+    /**
+     * This method sets the display of island info.
+     * @param displayIslandInfo The display of island info.
+     */
     public synchronized void setDisplayIslandInfo(boolean displayIslandInfo) {
         this.displayIslandInfo = displayIslandInfo;
         notify();
     }
 
+    /**
+     * This method sets the display of the previously chosen student.
+     * @param displayStudentChosenPreviously The previously chosen student.
+     */
     public synchronized void setDisplayStudentChosenPreviously(boolean displayStudentChosenPreviously) {
         this.displayStudentChosenPreviously = displayStudentChosenPreviously;
         notify();
     }
-    
+
+    /**
+     * This method notifies the results.
+     * @param resultNotify The results.
+     */
     public synchronized void setResultNotify(boolean resultNotify) {
         this.resultNotify = resultNotify;
         notify();
     }
 
+    /**
+     * This method sets if the massage has expired.
+     * @param timeoutExpired the expired message.
+     */
     public synchronized void setTimeoutExpired(boolean timeoutExpired) {
         this.timeoutExpired = timeoutExpired;
         notify();
     }
 
+    /**
+     * This method sets if there are not enough coins.
+     * @param notEnoughCoin The coins checker.
+     */
     public synchronized void setNotEnoughCoin(boolean notEnoughCoin) {
         this.notEnoughCoin = notEnoughCoin;
         notify();
     }
 
+    /**
+     * This method sets the student on the monk card.
+     * @param monkStudent The student on the monk card.
+     */
     public synchronized void setMonkStudent(int monkStudent) {
         this.monkStudent = monkStudent;
         notify();
     }
 
+    /**
+     * This method returns the student chosen from the monk card.
+     * @return The student chosen from the monk card.
+     */
     public int getMonkStudent() {
         return monkStudent;
     }
 
+    /**
+     * This method sets the island chosen after the herald character card.
+     * @param heraldIsland The island chosen after the herald character card.
+     */
     public synchronized void setHeraldIsland(int heraldIsland) {
         this.heraldIsland=heraldIsland;
         notify();
     }
 
+    /**
+     * This method returns the chosen island after the herald character card.
+     * @return The chosen island after the herald character card.
+     */
     public int getHeraldIsland() {
         return heraldIsland;
     }

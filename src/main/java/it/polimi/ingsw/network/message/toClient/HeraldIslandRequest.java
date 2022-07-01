@@ -6,6 +6,9 @@ import it.polimi.ingsw.view.ViewInterface;
 
 import java.util.List;
 
+/**
+ * Message to request to choose an island after the use of the herald character card.
+ */
 public class HeraldIslandRequest extends MessagesToClient{
 
     List<Island> islands;
