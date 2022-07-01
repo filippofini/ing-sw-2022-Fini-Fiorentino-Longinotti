@@ -1,7 +1,7 @@
 package it.polimi.ingsw.network.server;
 
 import it.polimi.ingsw.controller.GameController;
-import it.polimi.ingsw.enumerations.ClientHandlerPhase;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -15,7 +15,7 @@ import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
-import java.util.stream.Collectors;
+
 import it.polimi.ingsw.model.GameMode;
 import it.polimi.ingsw.network.message.toClient.*;
 
@@ -162,7 +162,6 @@ public class Server implements ServerInterface {
         lockLobby.lock();
         try {
             for (int i = 0; i < numOfPlayersForNextGame; i++) {
-                lobby.get(0).setClientHandlerPhase(ClientHandlerPhase.READY_TO_START);
                 lobby.get(0).setGameStarted(true);
                 gamecontroller.addConnection(lobby.get(0));
                 lobby.get(0).setGameController(gamecontroller);

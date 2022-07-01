@@ -1,7 +1,6 @@
 package it.polimi.ingsw.network.server;
 
 import it.polimi.ingsw.controller.GameController;
-import it.polimi.ingsw.enumerations.ClientHandlerPhase;
 import it.polimi.ingsw.model.GameMode;
 import java.io.Serializable;
 
@@ -33,12 +32,6 @@ public interface ClientHandlerInterface {
      * @return {@code True} if mother nature can be moved, {@code False} if not.
      */
     boolean checkMnMovThisTurn();
-
-    /**
-     * This method returns the client handler phase.
-     * @return The client handler phase.
-     */
-    ClientHandlerPhase getClientHandlerPhase();
 
     /**
      * This method sets the student to be moved.
@@ -81,12 +74,6 @@ public interface ClientHandlerInterface {
      * @param mnmovement The movement of mother nature.
      */
     void setMnmovement(int mnmovement);
-
-    /**
-     * This method sets the client handler phase.
-     * @param clientHandlerPhase The client handler phase.
-     */
-    void setClientHandlerPhase(ClientHandlerPhase clientHandlerPhase);
 
     /**
      * This method sets the game mode.

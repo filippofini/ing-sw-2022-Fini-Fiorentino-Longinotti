@@ -4,7 +4,6 @@ import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.network.message.ConnectionMessage;
 import it.polimi.ingsw.network.message.toClient.*;
 import it.polimi.ingsw.network.message.toServer.MessagesToServer;
-import it.polimi.ingsw.enumerations.ClientHandlerPhase;
 import it.polimi.ingsw.model.GameMode;
 import java.io.*;
 import java.net.Socket;
@@ -50,7 +49,6 @@ public class ClientHandler implements ClientHandlerInterface, Runnable {
     private String nickname;
     private boolean gameStarted = false;
     private GameMode gameMode;
-    private ClientHandlerPhase clientHandlerPhase;
 
 
     /**
@@ -229,15 +227,6 @@ public class ClientHandler implements ClientHandlerInterface, Runnable {
     }
 
     /**
-     * This method returns the client handler phase.
-     * @return The client handler phase.
-     */
-    @Override
-    public ClientHandlerPhase getClientHandlerPhase(){
-        return clientHandlerPhase;
-    }
-
-    /**
      * This method sets the position where to move the student.
      * @param pos The position where to move the student.
      */
@@ -265,15 +254,6 @@ public class ClientHandler implements ClientHandlerInterface, Runnable {
     public synchronized void setMnmovement(int mnmovement) {
         this.mnmovement = mnmovement;
         notify();
-    }
-
-    /**
-     * This method sets the client handler phase.
-     * @param clientHandlerPhase The client handler phase.
-     */
-    @Override
-    public void setClientHandlerPhase(ClientHandlerPhase clientHandlerPhase){
-        this.clientHandlerPhase = clientHandlerPhase;
     }
 
     /**
@@ -328,6 +308,15 @@ public class ClientHandler implements ClientHandlerInterface, Runnable {
      */
     public Server getServer(){
         return server;
+    }
+
+    /**
+     * This method sets a valid nickname.
+     * @param validNickname A valid nickname.
+     */
+    public synchronized void setValidNickname(boolean validNickname) {
+        this.validNickname = validNickname;
+        notify();
     }
 
     /**
