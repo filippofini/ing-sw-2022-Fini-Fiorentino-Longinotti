@@ -30,6 +30,7 @@ public class Player implements Serializable {
      */
     public Player(String nickname, int wizard, TowerColour tower_colour, int player_ID) {
         this.coin = 1;
+        coin=5;
         this.nickname = nickname;
         this.wizard = wizard;
         this.tower_colour = tower_colour.getTower_translate();

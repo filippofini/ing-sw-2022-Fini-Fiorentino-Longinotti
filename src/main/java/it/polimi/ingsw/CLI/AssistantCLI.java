@@ -26,7 +26,7 @@ public class AssistantCLI {
         }
         choice=InputParser.getInt();
 
-        while(choice<0 || choice>player.getDeck().count_elements() || !check_if_playable(player.getDeck().getCards().get(choice),GT)){
+        while(choice<0 || choice>=player.getDeck().count_elements() || !check_if_playable(player.getDeck().getCards().get(choice),GT)){
             System.out.println("Number not valid,please choose a number from the list");
             choice=InputParser.getInt();
         }
