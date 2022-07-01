@@ -15,12 +15,11 @@ public class Player implements Serializable {
     private final int wizard;
     private int coin;
     private final int player_ID;
-    private AssistanceCard chosen_card; //chosen card to play during the turn
+    private AssistanceCard chosen_card;
     private int moves;
     private final Deck deck;
     private boolean active;
     private boolean chosen=false;
-
 
     /**
      * Constructor of the class
@@ -36,7 +35,6 @@ public class Player implements Serializable {
         this.tower_colour = tower_colour.getTower_translate();
         this.player_ID = player_ID;
         deck = new Deck();
-        //this.active = active;    useless???
     }
 
     /**
@@ -138,15 +136,6 @@ public class Player implements Serializable {
         if (o == null || getClass() != o.getClass()) return false;
         Player player = (Player) o;
         return tower_colour == player.tower_colour && wizard == player.wizard && coin == player.coin && player_ID == player.player_ID && Objects.equals(nickname, player.nickname) & chosen_card == player.chosen_card  && Objects.equals(deck, player.deck);
-    }
-
-
-    /**
-     * This method returns if the player is active.
-     * @return {@code True} if the player is active, {@code False} if not.
-     */
-    public boolean isActive() {
-        return active;
     }
 
     public void setChosen(boolean chosen) {

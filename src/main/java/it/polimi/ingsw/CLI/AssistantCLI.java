@@ -4,7 +4,6 @@ package it.polimi.ingsw.CLI;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.network.message.toServer.*;
-
 import java.util.List;
 
 /**
@@ -26,7 +25,7 @@ public class AssistantCLI {
         }
         choice=InputParser.getInt();
 
-        while(choice<0 || choice>=player.getDeck().count_elements() || !check_if_playable(player.getDeck().getCards().get(choice),GT)){
+        while(choice<0 || choice>player.getDeck().count_elements() || !check_if_playable(player.getDeck().getCards().get(choice),GT)){
             System.out.println("Number not valid,please choose a number from the list");
             choice=InputParser.getInt();
         }
@@ -81,7 +80,7 @@ public class AssistantCLI {
         }
         choice=InputParser.getInt();
 
-        while(choice<0 || choice>2){
+        while(choice<0 || choice>3){
             System.out.println("Number not valid,please choose a number from the list");
             choice=InputParser.getInt();
         }

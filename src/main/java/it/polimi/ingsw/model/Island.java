@@ -34,7 +34,6 @@ public class Island implements Serializable {
      */
     public Island( Board[] boards, int island_ID, TowerColour tower_colour) {
         this.island_ID = island_ID;
-
         this.boards = boards;
         this.tower = tower_colour.getTower_translate();
         influence_controller = 0;
@@ -328,14 +327,6 @@ public class Island implements Serializable {
      */
     public void setProhibition_colour(boolean prohibition_colour) {
         this.prohibition_colour = prohibition_colour;
-    }
-
-    /**
-     * This method sets the prohibition on a colour.
-     * @param proh_col The number representing the colour to be prohibited.
-     */
-    public void setProh_col(int proh_col) {
-        this.proh_col = proh_col;
     }
 
     /**

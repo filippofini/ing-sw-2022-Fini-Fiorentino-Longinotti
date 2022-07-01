@@ -1,6 +1,5 @@
 package it.polimi.ingsw.model;
 
-import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -8,7 +7,6 @@ import java.io.Serializable;
  */
 public class Turn implements Serializable {
     private int current_player;
-    private int player_next_turn;
 
     /**
      * Constructor of the class. Sets the current player to 0.

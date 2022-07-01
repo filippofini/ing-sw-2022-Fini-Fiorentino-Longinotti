@@ -6,11 +6,7 @@ import it.polimi.ingsw.network.message.toServer.GameModeReply;
 import it.polimi.ingsw.network.message.toServer.NameReply;
 import it.polimi.ingsw.network.message.toServer.NumberOfPlayersReply;
 import it.polimi.ingsw.network.message.toServer.WaitingInTheLobbyReply;
-import it.polimi.ingsw.network.server.ClientHandler;
-
 import java.io.IOException;
-import java.util.List;
-
 
 /**
  * This class represents the start of the game.
@@ -18,7 +14,6 @@ import java.util.List;
 public class StartGame {
     private static final String DEFAULT_ADDRESS = "127.0.0.1";
     private static final int DEFAULT_PORT = 1250;
-
 
     /**
      * This method handles the starting connection.

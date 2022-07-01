@@ -1,17 +1,10 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.model.character.Knight;
-import it.polimi.ingsw.model.character.MagicMailman;
-import it.polimi.ingsw.model.character.Monk;
 import it.polimi.ingsw.network.message.toClient.*;
-import it.polimi.ingsw.network.message.toServer.HeraldIslandReply;
-import it.polimi.ingsw.network.message.toServer.MoveMnReply;
 import it.polimi.ingsw.network.server.ClientHandler;
-
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
+
 
 /**
  * This class represents the controller of the turn. It manages the planning phase and the action phase of each player.
@@ -52,7 +45,6 @@ public class TurnController {
      * and replenishing the clouds at the beginning of the round
      */
     public void planning_phase_general(){
-        gameController.setCheck(true);
         GS.getGT().replenish_clouds(this);
         for(int i=0;i<n_players;i++){
             planning_phase_personal(player_order[i]);
@@ -85,7 +77,6 @@ public class TurnController {
      */
     public void action_phase(){
         List<Student> stud_to_island;
-        int choice;
         boolean check_for_tower;
         int[] tempCloud;
         Student[] tempCCStud=new Student[4] ;
@@ -234,12 +225,7 @@ public class TurnController {
                     }
                 }
             }
-
-
-
-
         }
-
     }
 
     /**
@@ -247,7 +233,7 @@ public class TurnController {
      * The player with the lowest value of the played assistance card starts first.
      */
     public void Calculate_Player_order() {
-        int min=-1;//P_L.get(0).getChosen_card().getValue();
+        int min=-1;
         int player=0;
 
         for(int i=0;i<n_players;i++){
@@ -270,40 +256,12 @@ public class TurnController {
         }
     }
 
-    public int[] getPlayer_order() {
-        return player_order;
-    }
-
-    public void setPlayer_order(int[] player_order) {
-        this.player_order = player_order;
-    }
-
     /**
      * This method returns the game state.
      * @return The game state.
      */
     public GameState getGS() {
         return GS;
-    }
-
-    public void setGS(GameState GS) {
-        this.GS = GS;
-    }
-
-    public int getN_players() {
-        return n_players;
-    }
-
-    public void setN_players(int n_players) {
-        this.n_players = n_players;
-    }
-
-    public List<Player> getP_L() {
-        return P_L;
-    }
-
-    public void setP_L(List<Player> p_L) {
-        P_L = p_L;
     }
 
     /**
@@ -321,9 +279,6 @@ public class TurnController {
     public void setEndgame(boolean endgame) {
         this.endgame = endgame;
     }
-    public GameController getGameController() {
-        return gameController;
-    }
 
     /**
      * This method sets the game controller.
@@ -333,11 +288,4 @@ public class TurnController {
         this.gameController = gameController;
     }
 
-    /**
-     * Method to add a connection to the client handlers' list
-     * @param connection ClientHandler of the connection to add
-     */
-    public void addConnection(ClientHandler connection) {
-            this.clienthandler.add(connection);
-    }
 }
