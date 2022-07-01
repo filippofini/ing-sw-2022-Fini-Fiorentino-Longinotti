@@ -34,6 +34,7 @@ public class AssistantCLI {
         client.sendMessageToServer(new ChooseAssistantCardReply(choice));
         System.out.println("\nMother Nature start position: island["+GT.getMother_nature_pos()+"]\n");
     }
+
     /**
      * This method checks if an assistance card is playable.
      * That means it can't be on the discard deck of any other player.
@@ -50,6 +51,7 @@ public class AssistantCLI {
         }
         return playable_card;
     }
+
     /**
      * This method checks if  assistance card is the only card playable.
      * @param chosen The assistance card chosen to be played.
@@ -66,6 +68,11 @@ public class AssistantCLI {
         return check;
     }
 
+    /**
+     * This method shows the students on a character card.
+     * @param client The client.
+     * @param students The array of students on the card.
+     */
     public static void ShowStudent(Client client, Student[] students){
         int choice;
         System.out.println("choose the number of a student for the character card:\n");
@@ -80,6 +87,12 @@ public class AssistantCLI {
         }
         client.sendMessageToServer(new ShowStudentsReply(students[choice].getColour()));
     }
+
+    /**
+     * This method sets the island where to move a student picked from the herald character card.
+     * @param client The client.
+     * @param islands The list of islands.
+     */
     public static void HeraldIsland(Client client, List<Island> islands) {
         System.out.println("Choose the island for the character card\n");
 

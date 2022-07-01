@@ -65,6 +65,12 @@ public class CLI implements View {
     }
 
 
+    /**
+     * This method returns the condition on an integer range.
+     * @param min The min.
+     * @param max The max.
+     * @return The condition on an integer range.
+     */
     public static Predicate<Integer> conditionOnIntegerRange(int min, int max){
         return p -> p >= min && p <= max;
     }
@@ -301,10 +307,20 @@ public class CLI implements View {
             client.sendMessageToServer(new NotenoughCoinReply());
         }
     }
+
+    /**
+     * This method shows the students on a character card.
+     * @param students The students.
+     */
     public void showStudent(Student[] students){
         AssistantCLI.ShowStudent(client,students);
     }
 
+
+    /**
+     * This method shows the islands to choose.
+     * @param islands The islands to choose.
+     */
     public void heraldIsland(List<Island> islands) {
         AssistantCLI.HeraldIsland(client,islands);
     }

@@ -81,6 +81,7 @@ public class TurnController {
     /**
      * This method represents the action phase of the round. It moves the students to the islands, moves mother nature
      * and checks if island can be conquered and merged.
+     * It's also used to play character cards.
      */
     public void action_phase(){
         List<Student> stud_to_island;
@@ -277,6 +278,10 @@ public class TurnController {
         this.player_order = player_order;
     }
 
+    /**
+     * This method returns the game state.
+     * @return The game state.
+     */
     public GameState getGS() {
         return GS;
     }
@@ -300,10 +305,19 @@ public class TurnController {
     public void setP_L(List<Player> p_L) {
         P_L = p_L;
     }
+
+    /**
+     * This method returns the end game.
+     * @return The end game.
+     */
     public boolean getendgame(){
         return endgame;
     }
 
+    /**
+     * This method sets the end game.
+     * @param endgame The end game.
+     */
     public void setEndgame(boolean endgame) {
         this.endgame = endgame;
     }
@@ -311,16 +325,19 @@ public class TurnController {
         return gameController;
     }
 
+    /**
+     * This method sets the game controller.
+     * @param gameController The game controller.
+     */
     public void setGameController(GameController gameController) {
         this.gameController = gameController;
     }
+
     /**
      * Method to add a connection to the client handlers' list
      * @param connection ClientHandler of the connection to add
      */
     public void addConnection(ClientHandler connection) {
-
-
             this.clienthandler.add(connection);
     }
 }
