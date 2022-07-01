@@ -15,7 +15,6 @@ public class ServerMain {
     private static final String LogInfo = "log";
     private static boolean IsLog = false;
 
-
     public static void main(String[] args){
         boolean error = false;
         int port = DefaultPort;

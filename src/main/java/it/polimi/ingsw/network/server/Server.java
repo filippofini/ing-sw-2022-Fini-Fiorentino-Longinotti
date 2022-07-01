@@ -1,6 +1,5 @@
 package it.polimi.ingsw.network.server;
 
-
 import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.enumerations.ClientHandlerPhase;
 import java.io.IOException;
@@ -18,14 +17,12 @@ import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 import java.util.stream.Collectors;
 import it.polimi.ingsw.model.GameMode;
-import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.network.message.toClient.*;
 
 /**
  * Server class that starts a socket server.
  */
 public class Server implements ServerInterface {
-
     private int port;
     //Thread pool which contains a thread for each client connected to the server
     private final ExecutorService executor;
@@ -33,15 +30,9 @@ public class Server implements ServerInterface {
     private ServerSocket serverSocket;
     private int numOfPlayersForNextGame = -1;
     private List<ClientHandler> lobby;
-
-    private Set<String> groupOfNicknames;
     private ReentrantLock lockLobby = new ReentrantLock(true);
     public static final Logger SERVER_LOGGER = Logger.getLogger("Server logger");
     private boolean IsLog;
-    private List<Player> P_L;
-
-    private int t=0;
-
 
     /**
      * Constructor of the class.
@@ -81,8 +72,6 @@ public class Server implements ServerInterface {
                 wait(100);
                 addClientHandler(clientHandler);
 
-                //lobby.get(t).setNickname("player"+ t);
-                //t++;
                 if(lobby.size()==1){
                     lobby.get(0).sendMessageToClient(new GameModeRequest());
                     lobby.get(0).sendMessageToClient(new NumberOfPlayersRequest());
@@ -90,7 +79,6 @@ public class Server implements ServerInterface {
 
                 lobby.get(lobby.size()-1).sendMessageToClient(new NameRequest(false));
                 for (int i=0; i< lobby.size();i++) {
-                    System.out.println(lobby.get(lobby.size()-1).getNickname() +  "=?" + lobby.get(0).getNickname());
                 if ((lobby.get(lobby.size()-1).getNickname().equals(lobby.get(i).getNickname()))  && (i!= lobby.size()-1))
                     lobby.get(lobby.size()-1).sendMessageToClient(new NameRequest(true));
                 }
@@ -98,13 +86,10 @@ public class Server implements ServerInterface {
                 if(lobby.size()>=1){
                      lobby.get(lobby.size()-1).sendMessageToClient(new WaitingInTheLobbyMessage());}
 
-
                 if(lobby.size()==numOfPlayersForNextGame){
                     GameMode mode = lobby.get(0).getGameMode();
                     newGameManager(mode);
                 }
-
-
             }
         } catch (IOException e) {
             SERVER_LOGGER.log(Level.SEVERE, "An exception caused the server to stop working.");
@@ -140,40 +125,9 @@ public class Server implements ServerInterface {
     @Override
     public synchronized void newGameManager(GameMode mode) {
         lockLobby.lock();
-        /*
-        try {
-            if (numOfPlayersForNextGame == -1 && lobby.size() > 0 && lobby.get(0).getClientHandlerPhase() != ClientHandlerPhase.WAITING_NUMBER_OF_PLAYERS) {
-                lobby.get(0).setClientHandlerPhase(ClientHandlerPhase.WAITING_NUMBER_OF_PLAYERS);
-                lobby.get(0).sendMessageToClient(new NumberOfPlayersRequest());
-            } else
-            */
-
-        //if (!invalidNickname())
-            startNewGame(mode);
+        startNewGame(mode);
         lockLobby.unlock();
         }
-
-
-
-
-
-    /*
-     * This method is used to check if the nicknames are all different.
-     * @return {@code True} if all the nicknames are valid, {@code False} if not.
-     *
-    private boolean invalidNickname() {
-        lockLobby.lock();
-        try {
-            for (int i = 1; i < numOfPlayersForNextGame; i++) {
-                if (!lobby.get(i).isValidNickname())
-                    return true;
-            }
-        } finally {
-            lockLobby.unlock();
-        }
-        return false;
-    }*/
-
 
     /**
      * This method sets the number of players for the next game.
@@ -183,7 +137,6 @@ public class Server implements ServerInterface {
     @Override
     public void setNumberOfPlayersForNextGame(ClientHandlerInterface clientHandler, int numOfPlayersForNextGame) {
         this.numOfPlayersForNextGame = numOfPlayersForNextGame;
-
     }
 
     /**
@@ -194,29 +147,6 @@ public class Server implements ServerInterface {
         lockLobby.lock();
         lobby.add(clientHandler);
         lockLobby.unlock();
-    }
-
-
-    /**
-     * This method is used to handle the nickname choice (if the nickname is valid).
-     * @param connection The connection from the client handler.
-     */
-    public synchronized void handleNicknameChoice(ClientHandler connection) {
-
-        groupOfNicknames.add(connection.getNickname());
-        connection.setValidNickname(true);
-
-        lockLobby.lock();
-        try {
-            if (!lobby.contains(connection)) {
-                lobby.add(connection);
-            }
-            newGameManager(connection.getGameMode());
-            if (lobby.contains(connection) && connection.getClientHandlerPhase() == ClientHandlerPhase.WAITING_IN_THE_LOBBY)
-                connection.sendMessageToClient(new WaitingInTheLobbyMessage());
-        } finally {
-            lockLobby.unlock();
-        }
     }
 
     /**
@@ -231,8 +161,6 @@ public class Server implements ServerInterface {
         gamecontroller.setServer(this);
         lockLobby.lock();
         try {
-            List<String> playersInGame = lobby.stream().filter(x -> lobby.indexOf(x) < numOfPlayersForNextGame).map(x -> x.getNickname()).collect(Collectors.toList());
-
             for (int i = 0; i < numOfPlayersForNextGame; i++) {
                 lobby.get(0).setClientHandlerPhase(ClientHandlerPhase.READY_TO_START);
                 lobby.get(0).setGameStarted(true);
@@ -240,58 +168,15 @@ public class Server implements ServerInterface {
                 lobby.get(0).setGameController(gamecontroller);
                 lobby.remove(0);
             }
-            /*
-            for (String nickname : playersInGame) {
-                gamecontroller.getConnectionByNickname(nickname).sendMessageToClient(new SendPlayersNamesMessage(nickname, playersInGame.stream().filter(x -> !(x.equals(nickname))).collect(Collectors.toList())));
-            }
-
-             */
-
-
-
             assert gamecontroller != null;
             gamecontroller.start();
             numOfPlayersForNextGame = -1;
-            /*
-            if (lobby.size() > 0) {
-                lobby.get(0).setClientHandlerPhase(ClientHandlerPhase.WAITING_NUMBER_OF_PLAYERS);
-                lobby.get(0).sendMessageToClient(new NumberOfPlayersRequest());
-            }*/
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
             lockLobby.unlock();
         }
     }
-
-
-
-    /**
-     * This method is used to handle disconnection of clients that has not been added to a game.
-     * @param connection The connection from the client handler.
-     */
-    public void removeConnectionLobby(ClientHandler connection){
-        int position = -1;
-        try{
-            lockLobby.lock();
-            //If the client has already taken a valid nickname, I remove it from the list.
-            if (connection.getClientHandlerPhase() != ClientHandlerPhase.WAITING_NICKNAME && connection.getClientHandlerPhase() !=ClientHandlerPhase.WAITING_GAME_MODE)
-                groupOfNicknames.remove(connection.getNickname());
-            position = lobby.indexOf(connection);
-            if (position > -1) {
-                lobby.remove(connection);
-                groupOfNicknames.remove(connection.getNickname());
-                if (position == 0)
-                    numOfPlayersForNextGame = -1;
-                if(position < numOfPlayersForNextGame || numOfPlayersForNextGame == -1)
-                    newGameManager(connection.getGameMode());
-            }
-        }
-        finally {
-            lockLobby.unlock();
-        }
-    }
-
 
     /**
      * This method is used to manage the end of the game.
@@ -304,26 +189,12 @@ public class Server implements ServerInterface {
         serverSocket.close();
     }
 
-
     /**
      * This method removes the connection with the clients after the game ends.
      * @param connection The connection from the client handler.
      */
     public void removeConnectionGame(ClientHandler connection) {
-        //groupOfNicknames.remove(connection.getNickname());
         connection.getGameController().removeConnection(connection);
-    }
-
-    /**
-     * This method removes the nickname from the list.
-     * @param nickname The nickname to be removed.
-     */
-    public void removeNickname(String nickname) {
-        groupOfNicknames.remove(nickname);
-    }
-
-    public List<ClientHandler> getLobby() {
-        return lobby;
     }
 }
 

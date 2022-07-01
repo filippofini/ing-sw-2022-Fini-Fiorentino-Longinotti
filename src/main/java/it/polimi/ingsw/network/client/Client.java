@@ -5,7 +5,6 @@ import it.polimi.ingsw.network.message.ConnectionMessage;
 import it.polimi.ingsw.network.message.toClient.MessagesToClient;
 import it.polimi.ingsw.network.message.toClient.TimeoutExpiredMessage;
 import it.polimi.ingsw.view.View;
-
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -25,27 +24,18 @@ public class Client implements ClientInterface {
     private Optional<String> name;
     private Optional<GameMode> expert_mode ;
     private boolean valid_name = false ;
-
     public static final int HEARTBEAT = 5000; //A ping message is sent every 5 seconds
-
     private View view;
-
     private Socket socket;
     private final String IPaddress;
     private final int port;
-
     private ObjectInputStream inputStream;
     private ObjectOutputStream outputStream;
-
     private final Thread packetReceiver;
     private final Thread serverObserver;
-
     private BlockingQueue<Object> incomingPackets;
-
     private final AtomicBoolean connected = new AtomicBoolean(false);
-
     private final Thread pinger;
-
     private boolean connectionClosed = false;
 
     /**
@@ -220,28 +210,12 @@ public class Client implements ClientInterface {
         } catch (IOException e){}
     }
 
-    public boolean isConnected() {
-        return connected.get();
-    }
-
-    public String getIPaddress() {
-        return IPaddress;
-    }
-
-    public int getPort() {
-        return port;
-    }
-
     public void setName(String name) {
         this.name = Optional.of(name);
     }
 
     public void setGameMode(GameMode expert_mode) {
         this.expert_mode = Optional.of(expert_mode);
-    }
-
-    public boolean isValidName() {
-        return valid_name;
     }
 
     public Optional<String> getName() {

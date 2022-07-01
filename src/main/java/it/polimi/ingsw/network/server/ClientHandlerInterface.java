@@ -5,7 +5,6 @@ import it.polimi.ingsw.enumerations.ClientHandlerPhase;
 import it.polimi.ingsw.model.GameMode;
 import java.io.Serializable;
 
-
 /**
  * This interface contains the methods used by the client handler.
  */

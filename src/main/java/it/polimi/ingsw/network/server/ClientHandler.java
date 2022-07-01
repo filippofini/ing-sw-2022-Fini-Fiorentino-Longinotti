@@ -331,15 +331,6 @@ public class ClientHandler implements ClientHandlerInterface, Runnable {
     }
 
     /**
-     * This method sets a valid nickname.
-     * @param validNickname A valid nickname.
-     */
-    public synchronized void setValidNickname(boolean validNickname) {
-        this.validNickname = validNickname;
-        notify();
-    }
-
-    /**
      * This method sets the island where to move the student.
      * @param islandToMove The island where to move the student.
      */
