@@ -3,7 +3,6 @@ package it.polimi.ingsw.network.message.toClient;
 import it.polimi.ingsw.model.Island;
 import it.polimi.ingsw.model.Student;
 import it.polimi.ingsw.view.ViewInterface;
-
 import java.util.List;
 
 /**

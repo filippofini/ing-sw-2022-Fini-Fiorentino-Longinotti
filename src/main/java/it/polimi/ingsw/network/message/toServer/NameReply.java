@@ -11,9 +11,6 @@ public class NameReply implements MessagesToServer{
 
     private final String nickname;
 
-    private static final String NAME_REGEXP = "^([a-zA-Z0-9._\\-]{1,20})$";
-    //private static final Pattern NAME_PATTERN = Pattern.compile(NAME_REGEXP);
-
     public NameReply(String nickname){
         this.nickname = nickname;
     }

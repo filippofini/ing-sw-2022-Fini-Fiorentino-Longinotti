@@ -9,8 +9,8 @@ import it.polimi.ingsw.view.ViewInterface;
 public class ChooseIslandOrBoardRequest extends MessagesToClient{
     Board board;
     int choiceStudent;
-    public ChooseIslandOrBoardRequest(Board board, int choiceStudent) {
 
+    public ChooseIslandOrBoardRequest(Board board, int choiceStudent) {
         super(true);
         this.board=board;
         this.choiceStudent=choiceStudent;

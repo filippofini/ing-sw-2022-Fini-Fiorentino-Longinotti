@@ -1,8 +1,7 @@
 package it.polimi.ingsw.network.message.toServer;
 
-import it.polimi.ingsw.enumerations.ClientHandlerPhase;
+
 import it.polimi.ingsw.model.GameMode;
-import it.polimi.ingsw.network.message.toClient.NameRequest;
 import it.polimi.ingsw.network.server.ClientHandlerInterface;
 import it.polimi.ingsw.network.server.ServerInterface;
 
@@ -24,8 +23,6 @@ public class GameModeReply implements MessagesToServer{
     public synchronized void handleMessage(ServerInterface server, ClientHandlerInterface clientHandler){
 
         clientHandler.setGameMode(gameMode);
-
-      //  clientHandler.setClientHandlerPhase(ClientHandlerPhase.WAITING_NICKNAME);
     }
 
     @Override

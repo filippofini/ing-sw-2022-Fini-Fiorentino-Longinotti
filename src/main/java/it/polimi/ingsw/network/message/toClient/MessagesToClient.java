@@ -1,7 +1,6 @@
 package it.polimi.ingsw.network.message.toClient;
 
 import it.polimi.ingsw.view.ViewInterface;
-
 import java.io.Serializable;
 
 /**

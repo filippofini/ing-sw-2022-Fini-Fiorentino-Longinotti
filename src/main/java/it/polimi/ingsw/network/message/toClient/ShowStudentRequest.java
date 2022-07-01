@@ -23,6 +23,6 @@ public class ShowStudentRequest extends MessagesToClient{
 
     @Override
     public String toString(){
-        return "Asking index island";
+        return "Received ask";
     }
 }

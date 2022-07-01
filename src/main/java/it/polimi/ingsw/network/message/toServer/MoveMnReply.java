@@ -16,11 +16,7 @@ public class MoveMnReply implements MessagesToServer{
 
     @Override
     public void handleMessage(ServerInterface server, ClientHandlerInterface clientHandler) {
-        /*
-        if(!clientHandler.checkMnMovThisTurn()){
-            clientHandler.sendMessageToClient(new MnmovementRequest());
-        }*/
-        clientHandler.setClientHandlerPhase(ClientHandlerPhase.SET_UP_FINISHED);
+
         clientHandler.setMnmovement(Mnmovement);
     }
 

@@ -1,6 +1,5 @@
 package it.polimi.ingsw.network.message.toServer;
 
-import it.polimi.ingsw.model.GameMode;
 import it.polimi.ingsw.network.server.ClientHandlerInterface;
 import it.polimi.ingsw.network.server.ServerInterface;
 

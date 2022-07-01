@@ -22,6 +22,6 @@ public class ShowStudentsReply implements MessagesToServer{
 
     @Override
     public String toString() {
-        return "Index received";
+        return "Received reply";
     }
 }

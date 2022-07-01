@@ -23,6 +23,6 @@ public class HeraldIslandRequest extends MessagesToClient{
 
     @Override
     public String toString(){
-        return "Asking ";
+        return "Received ask ";
     }
 }

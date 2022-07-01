@@ -25,6 +25,6 @@ public class HeraldIslandReply implements MessagesToServer{
 
     @Override
     public String toString() {
-        return "Received Island to move";
+        return "Received reply";
     }
 }

@@ -1,7 +1,6 @@
 package it.polimi.ingsw.network.message.toClient;
 
 import it.polimi.ingsw.model.Cloud;
-import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.view.ViewInterface;
 
 import java.util.List;
@@ -14,7 +13,6 @@ public class ChooseCloudRequest extends MessagesToClient{
     public ChooseCloudRequest(List<Cloud> clouds) {
         super(true);
         this.clouds=clouds;
-
     }
 
     @Override
