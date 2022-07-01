@@ -322,7 +322,7 @@ public class Board implements Serializable {
             }else{pos++;}
 
         }
-        System.out.println("\n\n\nENDWHILE\n\n\n");
+        
 
     }
 
