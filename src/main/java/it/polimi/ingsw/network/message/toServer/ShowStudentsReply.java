@@ -3,6 +3,9 @@ package it.polimi.ingsw.network.message.toServer;
 import it.polimi.ingsw.network.server.ClientHandlerInterface;
 import it.polimi.ingsw.network.server.ServerInterface;
 
+/**
+ * Message to confirm that the previous message has been received.
+ */
 public class ShowStudentsReply implements MessagesToServer{
     private final int index;
 

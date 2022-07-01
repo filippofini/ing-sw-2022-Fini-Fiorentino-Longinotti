@@ -3,6 +3,9 @@ package it.polimi.ingsw.network.message.toClient;
 import it.polimi.ingsw.model.Student;
 import it.polimi.ingsw.view.ViewInterface;
 
+/**
+ * Message to request the show of the student.
+ */
 public class ShowStudentRequest extends MessagesToClient{
 
     Student[] students;

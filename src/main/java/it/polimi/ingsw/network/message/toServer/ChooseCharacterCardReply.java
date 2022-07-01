@@ -5,6 +5,9 @@ import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.network.server.ClientHandlerInterface;
 import it.polimi.ingsw.network.server.ServerInterface;
 
+/**
+ * Message for the chosen character card.
+ */
 public class ChooseCharacterCardReply implements MessagesToServer{
     private final int choice;
     public ChooseCharacterCardReply(int choice){

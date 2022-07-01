@@ -2,6 +2,9 @@ package it.polimi.ingsw.network.message.toClient;
 
 import it.polimi.ingsw.view.ViewInterface;
 
+/**
+ * Message to request a name from the new player.
+ */
 public class NameRequest extends MessagesToClient{
     private boolean is_retry;
 

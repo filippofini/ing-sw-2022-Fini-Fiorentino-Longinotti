@@ -284,7 +284,7 @@ public class CLI implements View {
         if(poor==false){
             choice= sc.nextInt();
 
-            while((choice<0 || choice>3) || player.getCoin()<cc[choice].getCost()){
+            while((choice<0 || choice>2) || player.getCoin()<cc[choice].getCost()){
                 System.out.println("Number not allowed,please choose another number\n");
                 choice= sc.nextInt();
             }

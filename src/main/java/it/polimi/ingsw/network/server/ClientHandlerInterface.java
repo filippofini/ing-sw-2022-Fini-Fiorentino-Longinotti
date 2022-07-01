@@ -201,26 +201,70 @@ public interface ClientHandlerInterface {
      * @return The game controller.
      */
     GameController getGameController();
+
+    /**
+     * This method returns the student chosen from the monk card.
+     * @return The student chosen from the monk card.
+     */
     int getMonkStudent();
 
+    /**
+     * This method sets the student on the monk card.
+     * @param monkStudent The student on the monk card.
+     */
     void setMonkStudent(int monkStudent);
 
+    /**
+     * This method sets the waiting in the lobby.
+     * @param waitingInTheLobby The waiting in the lobby.
+     */
     void setWaitingInTheLobby(boolean waitingInTheLobby);
 
-
+    /**
+     * This method sets the display of the dining room.
+     * @param displayDiningRoom The display of the dining room.
+     */
     void setDisplayDiningRoom(boolean displayDiningRoom);
 
+    /**
+     * This method sets the display of island info.
+     * @param displayIslandInfo The display of island info.
+     */
     void setDisplayIslandInfo(boolean displayIslandInfo);
 
+    /**
+     * This method sets the display of the previously chosen student.
+     * @param displayStudentChosenPreviously The previously chosen student.
+     */
     void setDisplayStudentChosenPreviously(boolean displayStudentChosenPreviously);
 
+    /**
+     * This method notifies the results.
+     * @param resultNotify The results.
+     */
     void setResultNotify(boolean resultNotify);
 
+    /**
+     * This method sets if the massage has expired.
+     * @param timeoutExpired the expired message.
+     */
     void setTimeoutExpired(boolean timeoutExpired);
 
+    /**
+     * This method sets if there are not enough coins.
+     * @param notEnoughCoin The coins checker.
+     */
     void setNotEnoughCoin(boolean notEnoughCoin);
 
+    /**
+     * This method sets the island chosen after the herald character card.
+     * @param heraldIsland The island chosen after the herald character card.
+     */
     void setHeraldIsland(int heraldIsland);
 
+    /**
+     * This method returns the chosen island after the herald character card.
+     * @return The chosen island after the herald character card.
+     */
     int getHeraldIsland();
 }
