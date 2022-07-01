@@ -27,9 +27,8 @@ public interface ViewInterface {
     /**
      * This method asks the name.
      * @param is_retry {@code True} if it's not the first time that the nickname is asked.
-     * @param taken {@code True} if someone else has already this nickname.
      */
-    void displayNicknameRequest(boolean is_retry, boolean taken);
+    void displayNicknameRequest(boolean is_retry);
 
     /**
      * This method displays the request of the game mode.

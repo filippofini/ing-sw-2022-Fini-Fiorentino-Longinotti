@@ -65,58 +65,27 @@ public class StartGame {
      * This method displays the nickname request.
      * @param client The client.
      * @param retry {@code False} if it's the first request of nickname, {@code True} if not.
-     * @param alreadyTaken {@code True} if the nickname is already taken, {@code False} if not.
      */
-    public static void displayNicknameRequest(Client client, boolean retry, boolean alreadyTaken) {
-        boolean check=false;
-      //  if (client.isValidName() && client.getName().isPresent()){
-        //    client.sendMessageToServer(new NameReply(client.getName().get()));
-          //  return;
-        //}
+    public static void displayNicknameRequest(Client client, boolean retry) {
+        boolean check = false;
         if (!retry)
             System.out.println("Insert your nickname");
-     /*  else if (!alreadyTaken)
-            System.out.println("Your nickname was invalid, be sure to insert only valid characters (A-Z, a-z, 0-9)");*/
         else {
             System.out.println("Your nickname has already been taken, insert another one");
         }
         String selection = InputParser.getLine();
         while (!check) {
-        if (selection==null) {
-            System.out.println("Your nickname is invalid, please insert another one\n");
-            selection = InputParser.getLine();
-        }
-        else {
-            check=true;
-            client.setName(selection);
-            client.sendMessageToServer(new NameReply(selection));
-        }
-
-        }
-       /* while(!check) {
-            for (int i=0;i < clientHandlers.size();i++) {
-                    if((selection == clientHandlers.get(i).getNickname() && i!=clientHandlers.size()-1) || (selection == null)) {
-                            k=true;
-                    }
-                     if (k) {
-                            System.out.println("Your nickname is invalid, please insert another one\n");
-                            selection = InputParser.getLine();
-                            k=false;
-                    }
-                         else{
-                                check = true;
-                                client.setName(selection);
-                                client.sendMessageToServer(new NameReply(selection));
-                         }
-
+            if (selection == null) {
+                System.out.println("Your nickname is invalid, please insert another one\n");
+                selection = InputParser.getLine();
+            } else {
+                check = true;
+                client.setName(selection);
+                client.sendMessageToServer(new NameReply(selection));
             }
-*/
-        }
-       // if (selection == null)
-         //   return;
-      //  client.setName(selection);
-       // client.sendMessageToServer(new NameReply(selection));
 
+        }
+    }
 
     /**
      * This method displays the game mode request.

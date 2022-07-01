@@ -6,13 +6,20 @@
 
 # Eriantys
 
-## Rules
- * [Eriantys rules](https://www.craniocreations.it/wp-content/uploads/2021/11/Eriantys_ITA_bassa.pdf)
 
 ## Functionalities
 
 - Basic rules
 - Complete rules
+- Character cards implemented:
+    - Monk
+    - Farmer
+    - Herald
+    - MagicMailman
+    - Herbs Grandma
+    - Centaur
+    - Knight
+    - Spoilt Princess
 - Socket
 - CLI
 
@@ -33,3 +40,7 @@
     ```
     - The Server's IP and port to connect to can be specified during the execution.
     - This command starts the command line interface.
+
+## Rules
+ * [Eriantys rules](https://www.craniocreations.it/wp-content/uploads/2021/11/Eriantys_ITA_bassa.pdf)
+
