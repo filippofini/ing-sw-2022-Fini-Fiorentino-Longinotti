@@ -14,14 +14,12 @@ public class GameState {
     private Player[] players;
     private GameTable GT;
     private Turn turn;
-    private int[] teams;
-    private boolean chat;
     private boolean expert_mode;
     private int curr_player;
 
     private String[] names;
     private int[] wizard;
-    private List<Player> lPlayers = new ArrayList<>();
+    private List<Player> lPlayers;
 
     /**
      * Constructor of the class.
@@ -48,10 +46,6 @@ public class GameState {
 
 
         GT = new GameTable(n_players, turn);
-        if(n_players == 4){
-            teams = new int[4];
-            chat = true;
-        }
         GT.setPl(lPlayers);
     }
 

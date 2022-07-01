@@ -63,18 +63,6 @@ public class Board implements Serializable {
             n_towers = 6;
 
         }
-        /*
-        else if(numOfPlayers == 4){
-            arrEntranceStudents = new Student[7];
-            maxEntranceStudents=7;
-            n_towers = 0;
-            if((playerID == 1 || playerID == 3))
-            n_towers = 8;
-        }
-
-         */
-
-
     }
 
     /**
@@ -104,8 +92,6 @@ public class Board implements Serializable {
         int studentsChosen=0;
         boolean noOneProf = true;
         List<Student> studentToIslands = new ArrayList<>();
-
-
 
         while(studentsChosen <(GS.getGT().getNum_players()+1)) {
             clientHandler.sendMessageToClient(new StudentToMoveRequest(this));
@@ -259,6 +245,7 @@ public class Board implements Serializable {
     public void setArrProfessors(boolean[] arrProfessors) {
         this.arrProfessors = arrProfessors;
     }
+
     /**
      * This method sets the professor at arrProfessors[index] value.
      * @param index The Index of the professor.
@@ -267,6 +254,7 @@ public class Board implements Serializable {
     public void setprofessor(int index,boolean state){
         getArrProfessors()[index]=state;
     }
+
     /**
      * This method sets the towers on the board.
      * @param tower The number of towers on the board.
