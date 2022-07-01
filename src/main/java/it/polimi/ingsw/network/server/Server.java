@@ -58,7 +58,7 @@ public class Server implements ServerInterface {
     /**
      * This method is used to start the server.
      */
-    public void startServer() {
+    public synchronized void startServer() {
         if (IsLog)
             InLogger();
         try {
@@ -78,6 +78,7 @@ public class Server implements ServerInterface {
                 SERVER_LOGGER.log(Level.INFO, "Received connection from address: [" + clientSocket.getInetAddress().getHostAddress() + "]");
                 ClientHandler clientHandler = new ClientHandler(clientSocket, this);
                 executor.submit(clientHandler);
+                wait(100);
                 addClientHandler(clientHandler);
 
                 //lobby.get(t).setNickname("player"+ t);
@@ -101,6 +102,8 @@ public class Server implements ServerInterface {
             }
         } catch (IOException e) {
             SERVER_LOGGER.log(Level.SEVERE, "An exception caused the server to stop working.");
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
         }
     }
 

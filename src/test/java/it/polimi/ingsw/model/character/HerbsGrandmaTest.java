@@ -56,7 +56,7 @@ class HerbsGrandmaTest {
         grandma.setIndex_to(2);
         grandma.effect(game_state);
 
-        assertEquals(true, game_state.getGT().getIslands().get(1).isProhibition_card());
+        assertEquals(true, game_state.getGT().getIslands().get(2).isProhibition_card());
     }
 
     @Test
