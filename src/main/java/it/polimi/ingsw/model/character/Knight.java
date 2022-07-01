@@ -23,7 +23,6 @@ public class Knight extends CharacterCard {
             game_state.getGT().getIslands().get(i).setExtra_influence(2);
         }
         this.setUses();
-
     }
 
     /**
