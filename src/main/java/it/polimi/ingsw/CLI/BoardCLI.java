@@ -63,9 +63,8 @@ public class BoardCLI {
 
     /**
      * This method displays the dining room.
-     *
-     * @param client
-     * @param board         The board.
+     * @param client The client.
+     * @param board The board.
      * @param choiceStudent The students.
      */
     public static void displayDiningRoomColourFull(Client client, Board board, int choiceStudent) {
@@ -75,9 +74,8 @@ public class BoardCLI {
 
     /**
      * This method displays the students chosen previously.
-     *
-     * @param client
-     * @param board         The board.
+     * @param client The client.
+     * @param board The board.
      * @param choiceStudent The students.
      */
     public static void displayStudentChosenPreviously(Client client, Board board, int choiceStudent) {

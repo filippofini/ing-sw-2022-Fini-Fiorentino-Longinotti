@@ -306,10 +306,18 @@ public class GameController implements Serializable {
         return check;
     }
 
+    /**
+     * This method returns the end game.
+     * @return The end game.
+     */
     public GameMode getGameMode() {
         return gameMode;
     }
 
+    /**
+     * This method returns the turn controller.
+     * @param turnController The turn controller.
+     */
     public void setturnController(TurnController turnController){
         this.turnController=turnController;
     }
