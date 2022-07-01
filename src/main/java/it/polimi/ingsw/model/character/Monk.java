@@ -45,6 +45,7 @@ public class Monk extends CharacterCard {
     public String getName() {
         return name;
     }
+
     /**
      * This method sets the student to be moved from the card to the island.
      * @param chosen_student The student to be moved from the card to the island.

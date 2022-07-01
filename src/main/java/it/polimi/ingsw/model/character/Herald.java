@@ -24,6 +24,7 @@ public class Herald extends CharacterCard {
         game_state.getGT().getIslands().get(index_to).calculate_influence(0, game_state.getGT().getBoards());
         setUses();
     }
+
     /**
      * this method return the name of the card.
      */

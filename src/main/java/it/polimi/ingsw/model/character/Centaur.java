@@ -25,6 +25,7 @@ public class Centaur extends CharacterCard {
         }
         setUses();
     }
+
     /**
      * this method return the name of the card.
      */
