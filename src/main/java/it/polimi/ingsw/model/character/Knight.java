@@ -10,6 +10,7 @@ public class Knight extends CharacterCard {
     private final int ID_code=8;
     private int cost=2;
     private int uses=0;
+    private String name = "KNIGHT";
 
     /**
      * This method implements the effect of the knight card.
@@ -23,6 +24,14 @@ public class Knight extends CharacterCard {
         }
         this.setUses();
 
+    }
+
+    /**
+     * this method return the name of the card.
+     */
+    @Override
+    public String getName() {
+        return name;
     }
 
     /**

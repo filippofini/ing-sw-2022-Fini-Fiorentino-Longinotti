@@ -14,7 +14,7 @@ public class SpoiltPrincess extends CharacterCard {
     private int current_player;
     private int chosen_student;
 
-
+    private String name = "SPOILT PRINCESS";
     /**
      * Constructor of the class.
      * @param princess_drawn The initial array containing 4 students.
@@ -38,6 +38,14 @@ public class SpoiltPrincess extends CharacterCard {
         setUses();
     }
 
+
+    /**
+     * this method return the name of the card.
+     */
+    @Override
+    public String getName() {
+        return name;
+    }
     /**
      * This method sets the student to be moved from the card to the island.
      * @param chosen_student The student to be moved from the card to the island.

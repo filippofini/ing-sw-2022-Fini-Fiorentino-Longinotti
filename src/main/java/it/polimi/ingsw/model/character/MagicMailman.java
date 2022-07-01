@@ -10,6 +10,7 @@ public class MagicMailman extends CharacterCard {
     private final int ID_code=4;
     private int cost=1;
     private int uses=0;
+    private String name="MAGIC MAILMAN";
 
     /**
      * This method implements the effect of the magic mailman card.
@@ -20,6 +21,14 @@ public class MagicMailman extends CharacterCard {
     public void effect(GameState game_state){
        game_state.getPlayers()[game_state.getGT().getCurrent_player()].setMoves(game_state.getPlayers()[game_state.getGT().getCurrent_player()].getChosen_card().getMother_nature_movement()+2);
         this.setUses();
+    }
+
+    /**
+     * this method return the name of the card.
+     */
+    @Override
+    public String getName() {
+        return name;
     }
 
     /**

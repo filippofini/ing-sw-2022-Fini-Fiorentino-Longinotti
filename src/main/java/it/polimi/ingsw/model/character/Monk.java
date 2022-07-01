@@ -13,6 +13,7 @@ public class Monk extends CharacterCard {
     private int[] students;
     private int index_to;
     private int chosen_student;
+    private String name= "MONK";
 
     /**
      * Constructor of the class.
@@ -37,6 +38,13 @@ public class Monk extends CharacterCard {
         setUses();
     }
 
+    /**
+     * this method return the name of the card.
+     */
+    @Override
+    public String getName() {
+        return name;
+    }
     /**
      * This method sets the student to be moved from the card to the island.
      * @param chosen_student The student to be moved from the card to the island.
