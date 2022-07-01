@@ -1,14 +1,11 @@
 package it.polimi.ingsw.controller;
 
-import it.polimi.ingsw.enumerations.ClientHandlerPhase;
 import it.polimi.ingsw.model.GameMode;
-import it.polimi.ingsw.model.GameTable;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.TowerColour;
 import it.polimi.ingsw.network.message.toClient.*;
 import it.polimi.ingsw.network.server.ClientHandler;
 import it.polimi.ingsw.network.server.Server;
-
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.LinkedList;
@@ -24,25 +21,14 @@ public class GameController implements Serializable {
 
     private static final long serialVersionUID = 4405183481677036856L;
     private GameMode gameMode;
-    private int i=0;
-    private int j =0;
     private List<Player> players;
     private String[] names;
     private List<ClientHandler> clientHandlers;
-    private int player_ID=0;
     public static final String SERVER_NICKNAME = "server";
     private Server server;
     private ReentrantLock lockConnections = new ReentrantLock(true);
-
-   // private String[] wizards = new String[] {"Nature Wizard","Sand Wizard","Air Wizard","Ice Wizard"};
-
     private int[] wizards = {0,1,2,3};
-    private int wizard = 0;
-
-    GameTable GameTable;
-    private boolean check;
     private TurnController turnController;
-
 
     /**
      * Constructor of the class.
@@ -52,7 +38,6 @@ public class GameController implements Serializable {
         this.gameMode = gameMode;
         this.players = new LinkedList<>() ;
         this.clientHandlers = new LinkedList<>();
-        check = false;
     }
 
     /**
@@ -63,9 +48,7 @@ public class GameController implements Serializable {
         ClientHandler connection = getConnectionByNickname(nickname);
         forceEndMultiplayerGame(nickname);
         server.removeConnectionGame(connection);
-
     }
-
 
     /**
      * This method is used force the end of the game.
@@ -73,7 +56,7 @@ public class GameController implements Serializable {
      */
     private void forceEndMultiplayerGame(String nickname){
         for (Player player : getPlayers_ID()) {
-            //For each player that is still active I notify the end of the game and I reinsert him in the lobby room
+            //For each player that is still active I notify the end of the game
             getConnectionByNickname(player.getNickname()).sendMessageToClient(new NotifyDisconnection(nickname));
             getConnectionByNickname(player.getNickname()).setGameStarted(false);
             getConnectionByNickname(player.getNickname()).setGameController(null);
@@ -88,7 +71,6 @@ public class GameController implements Serializable {
     public List<Player> getPlayers_ID() {
         return players;
     }
-
 
     /**
      * This method is used to start a game.
@@ -108,10 +90,8 @@ public class GameController implements Serializable {
         setturnController(turnController);
 
         while(turnController.getendgame()==false) {
-
             turnController.planning_phase_general();
             turnController.action_phase();
-
         }
         endGame(turnController);
     }
@@ -153,15 +133,7 @@ public class GameController implements Serializable {
         TowerColour towerColour = null;
         for (int i=0; i<clientHandlers.size(); i++) {
             String nickname = clientHandlers.get(i).getNickname();
-            if(clientHandlers.size() == 4) {
-                if(i == 0 || i ==2) {
-                    towerColour = TowerColour.BLACK;
-                }
-                if(i == 1 || i == 3) {
-                    towerColour = TowerColour.WHITE;
-                }
-            }
-            else if(clientHandlers.size()==3) {
+            if(clientHandlers.size()==3) {
                 if(i == 0)
                     towerColour =TowerColour.BLACK;
                 if (i==1)
@@ -181,7 +153,6 @@ public class GameController implements Serializable {
                 int wiz = i;
                 int ID = i;
 
-
             Player p = new Player(nickname,wiz,towerColour,ID);
             players.add(p);
         }
@@ -198,10 +169,8 @@ public class GameController implements Serializable {
         for (int i=0; i<clientHandlers.size(); i++) {
                 names[i] = clientHandlers.get(i).getNickname();
         }
-
         return names;
     }
-
 
     /**
      * This method returns a client handler, given a nickname.
@@ -222,13 +191,11 @@ public class GameController implements Serializable {
         return null;
     }
 
-
     /**
      * This method is used to start the end game. It gives the results to the players.
      */
     public void endGame(TurnController turnController) throws IOException {
         getServer().gameEnded(this,new ResultsNotify(turnController.getGS().getGT().getIslands(),players,turnController.getGS().getGT().getBoards()));
-
     }
 
     /**
@@ -255,7 +222,6 @@ public class GameController implements Serializable {
             return false;
         else
             return true;
-
     }
 
     /**
@@ -275,38 +241,6 @@ public class GameController implements Serializable {
     }
 
     /**
-     * This method sets the game table.
-     * @param gameTable The game table.
-     */
-    public void setGameTable(GameTable gameTable) {
-        GameTable = gameTable;
-    }
-
-    /**
-     * This method returns the game table.
-     * @return The game table.
-     */
-    public GameTable getGameTable() {
-        return GameTable;
-    }
-
-    /**
-     * This method sets the check.
-     * @param check The check.
-     */
-    public void setCheck(boolean check) {
-        this.check = check;
-    }
-
-    /**
-     * This method returns the check.
-     * @return {@code True} if check.
-     */
-    public boolean getCheck() {
-        return check;
-    }
-
-    /**
      * This method returns the end game.
      * @return The end game.
      */
@@ -322,11 +256,4 @@ public class GameController implements Serializable {
         this.turnController=turnController;
     }
 
-    public TurnController getTurnController() {
-        return turnController;
-    }
-
-    public List<ClientHandler> getClientHandlers() {
-        return clientHandlers;
-    }
 }
