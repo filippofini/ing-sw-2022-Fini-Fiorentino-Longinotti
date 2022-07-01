@@ -19,8 +19,10 @@ public class Centaur extends CharacterCard {
      */
     @Override
     public void effect(GameState GS){
-        GS.getGT().getIslands().get(GS.getGT().getMother_nature_pos()).setInclude_towers(false);
 
+        for(int i=0;i< GS.getGT().getIslands().size();i++){
+            GS.getGT().getIslands().get(GS.getGT().getMother_nature_pos()).setInclude_towers(false);
+        }
         setUses();
     }
     /**

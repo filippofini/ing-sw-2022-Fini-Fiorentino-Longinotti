@@ -32,6 +32,7 @@ public class AssistantCLI {
         }
 
         client.sendMessageToServer(new ChooseAssistantCardReply(choice));
+        System.out.println("\nMother Nature start position: island["+GT.getMother_nature_pos()+"]\n");
     }
     /**
      * This method checks if an assistance card is playable.
@@ -43,11 +44,26 @@ public class AssistantCLI {
     public static boolean check_if_playable(AssistanceCard chosen, GameTable GT){
         boolean playable_card = true;
         for (int i = 0; i < GT.getNum_players() && playable_card; i++) {
-            if(GT.getDiscard_deck()[i].equals(chosen)){
+            if(GT.getDiscard_deck()[i].equals(chosen) && !check_only_this_card(GT.getPl().get(GT.getCurrent_player()).getDeck(),chosen)){
                 playable_card = false;
             }
         }
         return playable_card;
+    }
+    /**
+     * This method checks if  assistance card is the only card playable.
+     * @param chosen The assistance card chosen to be played.
+     * @param deck The deck of the player
+     * @return {@code False} if card isn't the only card playable
+     */
+    public static boolean check_only_this_card(Deck deck,AssistanceCard chosen){
+        boolean check = true;
+        for (int i = 0; i<deck.getCards().size() && check; i++) {
+            if(!deck.getCards().get(i).equals(chosen)){
+                check = false;
+            }
+        }
+        return check;
     }
 
     public static void ShowStudent(Client client, Student[] students){

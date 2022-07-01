@@ -39,18 +39,23 @@ public class Board implements Serializable {
         this.tower = tower.getTower_translate();
         arrPositionStudents = new int[5];
         arrProfessors = new boolean[5];
+
+        for(int i=0;i<5;i++){
+            arrPositionStudents[i]=0;
+        }
         for(int i=0; i<5;i++){
             for(int j=0; j<3;j++){
                 trackCoins[i][j]=false;
             }
         }
+
         farmer_state=false;
 
         if(numOfPlayers == 2 ){
             arrEntranceStudents = new Student[7];
             maxEntranceStudents=7;
             n_towers = 8;
-            n_towers = 1;
+
         }
         else if(numOfPlayers == 3){
             arrEntranceStudents = new Student[9];
@@ -68,6 +73,7 @@ public class Board implements Serializable {
         }
 
          */
+
 
     }
 
@@ -109,6 +115,7 @@ public class Board implements Serializable {
                 if(clientHandler.getPos() == 0){
                     if(arrPositionStudents[arrEntranceStudents[clientHandler.getStudToMove()].getColour()]<10){
                         arrPositionStudents[arrEntranceStudents[clientHandler.getStudToMove()].getColour()]++;
+                        coinsEarned();
                         arrEntranceStudents[clientHandler.getStudToMove()].Chosen();
                         studentsChosen++;
                         if(farmer_state){
