@@ -208,7 +208,6 @@ public class CLI implements View {
      * This method close the connection.
      */
     public void closeConnection(){
-        //System.out.close();
         client.closeSocket();
     }
 
