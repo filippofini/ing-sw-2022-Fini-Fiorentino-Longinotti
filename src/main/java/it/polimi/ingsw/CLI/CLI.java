@@ -226,7 +226,7 @@ public class CLI implements View {
      * @param wasConnected Boolean to check if the client was connected.
      */
     private void displayUnreachableServer(boolean wasConnected){
-        System.out.println("The Game id Ended\n\n");
+        System.out.println("Game id Ended\n\n");
     }
 
     /**
@@ -234,7 +234,7 @@ public class CLI implements View {
      * @param name The name.
      */
     public void displayDisconnection(String name){
-        System.out.println(name+ " has quit the game, all players will be transferred to the lobby");
+        System.out.println(name+ " has quit the game.\n");
         client.closeSocket();
     }
 
@@ -280,6 +280,7 @@ public class CLI implements View {
         for(int i=0;i<3;i++){
             System.out.println( "["+i+"]\n");
             System.out.println( "   ID: "+cc[i].getID_code()+"\n");
+            System.out.println( "   Name: "+cc[i].getName()+"\n");
             System.out.println( "   Cost: "+cc[i].getCost()+"\n");
             if(player.getCoin()>=cc[i].getCost()){
                 poor=false;

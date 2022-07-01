@@ -11,6 +11,7 @@ public class Herald extends CharacterCard {
     private int cost=3;
     private int uses=0;
     private int index_to;
+    private String name="HERALD";
 
     /**
      * This method implements the effect of the herald card.
@@ -22,6 +23,13 @@ public class Herald extends CharacterCard {
     public void effect(GameState game_state){
         game_state.getGT().getIslands().get(index_to).calculate_influence(0, game_state.getGT().getBoards());
         setUses();
+    }
+    /**
+     * this method return the name of the card.
+     */
+    @Override
+    public String getName() {
+        return name;
     }
 
     /**

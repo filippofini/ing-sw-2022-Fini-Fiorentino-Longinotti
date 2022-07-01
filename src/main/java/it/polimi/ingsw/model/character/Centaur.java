@@ -10,7 +10,7 @@ public class Centaur extends CharacterCard {
     private final int ID_code=6;
     private int cost=3;
     private int uses=0;
-
+    private String name="CENTAUR";
 
     /**
      * This method implements the effect of the centaur card.
@@ -22,6 +22,13 @@ public class Centaur extends CharacterCard {
         GS.getGT().getIslands().get(GS.getGT().getMother_nature_pos()).setInclude_towers(false);
 
         setUses();
+    }
+    /**
+     * this method return the name of the card.
+     */
+    @Override
+    public String getName() {
+        return name;
     }
 
     /**

@@ -13,6 +13,7 @@ public class HerbsGrandma extends CharacterCard {
     private int uses=0;
     private int prohibition_cards = 4;
     private int index_to=0;
+    private String name="HERBS GRANDMA";
 
     /**
      * This method implements the effect of the herbs grandma card.
@@ -40,6 +41,13 @@ public class HerbsGrandma extends CharacterCard {
     @Override
     public void setIndex_to(int index_to) {
         this.index_to = index_to;
+    }
+    /**
+     * this method return the name of the card.
+     */
+    @Override
+    public String getName() {
+        return name;
     }
 
     /**

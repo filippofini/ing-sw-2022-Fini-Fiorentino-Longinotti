@@ -12,7 +12,7 @@ public class Farmer extends CharacterCard {
     private final int ID_code=2;
     private int cost=2;
     private int uses=0;
-
+    private String name="FARMER";
 
     /**
      * This method implements the effect of the farmer card.
@@ -25,6 +25,13 @@ public class Farmer extends CharacterCard {
 
         game_state.getGT().getBoards()[game_state.getCurr_player()].setFarmer_state(true);
         setUses();
+    }
+    /**
+     * this method return the name of the card.
+     */
+    @Override
+    public String getName() {
+        return name;
     }
 
     /**

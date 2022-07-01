@@ -26,13 +26,7 @@ public class NameReply implements MessagesToServer{
 
     @Override
     public void handleMessage(ServerInterface server, ClientHandlerInterface clientHandler) {
-        if (name == null || clientHandler.getClientHandlerPhase() != ClientHandlerPhase.WAITING_NICKNAME){
-            return;
-        } else if (!NAME_PATTERN.matcher(name).matches()) {
-            clientHandler.sendMessageToClient(new NameRequest(true, false));
-            return;
-        }
-        clientHandler.setClientHandlerPhase(ClientHandlerPhase.WAITING_IN_THE_LOBBY);
+
         clientHandler.setNickname(name);
     }
 
