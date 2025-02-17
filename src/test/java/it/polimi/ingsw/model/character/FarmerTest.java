@@ -51,7 +51,7 @@ class FarmerTest {
         
         farmer.effect(game_state);
 
-        assertEquals(game_state.getGT().getBoards()[game_state.getCurr_player()].isFarmer_state(), true);
+        assertEquals(game_state.getGT().getBoards()[game_state.getCurrPlayer()].isFarmer_state(), true);
 
     }
 

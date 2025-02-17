@@ -1,25 +1,22 @@
 package it.polimi.ingsw.model;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  * This class represent the game state.
  * It creates the game table and the class player.
  * It also includes the flags for expert mode, the teams if the game is 4 players and the name of the players.
- * The class has the current turn.
  */
 public class GameState {
     private int n_players;
     private Player[] players;
     private GameTable GT;
-    private Turn turn;
     private boolean expert_mode;
-    private int curr_player;
+    private int currPlayer;
 
     private String[] names;
     private int[] wizard;
-    private List<Player> lPlayers;
+    private List<Player> playerList;
 
     /**
      * Constructor of the class.
@@ -34,9 +31,8 @@ public class GameState {
         this.names = names;
         this.wizard = wizard;
         this.expert_mode = expert_mode;
-        this.curr_player=curr_player;
-        this.lPlayers = p_l;
-        turn = new Turn();
+        this.currPlayer = curr_player;
+        this.playerList = p_l;
 
         players = new Player[n_players];
         for(int i=0; i<n_players;i++){
@@ -45,8 +41,7 @@ public class GameState {
 
 
 
-        GT = new GameTable(n_players, turn);
-        GT.setPl(lPlayers);
+        GT = new GameTable(n_players);
     }
 
     /**
@@ -69,16 +64,16 @@ public class GameState {
      * This method returns the list of players.
      * @return The list of players.
      */
-    public List<Player> getlPlayers() {
-        return lPlayers;
+    public List<Player> getPlayersList() {
+        return playerList;
     }
 
     /**
      * This method sets the current player.
      * @param player The current player.
      */
-    public void setCurr_player(int player){
-        curr_player=player;
+    public void setCurrPlayer(int player){
+        currPlayer = player;
     }
 
 
@@ -86,7 +81,7 @@ public class GameState {
      * This method returns the current player.
      * @return The current player.
      */
-    public int getCurr_player() {
-        return curr_player;
+    public int getCurrPlayer() {
+        return currPlayer;
     }
 }

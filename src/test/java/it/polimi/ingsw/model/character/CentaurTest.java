@@ -54,9 +54,9 @@ class CentaurTest {
     public void testEffect(){
 
         centaur.effect(game_state);
-        game_state.getGT().getIslands().get(game_state.getGT().getMother_nature_pos()).calculate_influence(1, game_state.getGT().getBoards());
+        game_state.getGT().getIslands().get(game_state.getGT().getMotherNaturePos()).calculate_influence(1, game_state.getGT().getBoards());
 
-        assertEquals(0, game_state.getGT().getIslands().get(game_state.getGT().getMother_nature_pos()).getInfluence_controller());
+        assertEquals(0, game_state.getGT().getIslands().get(game_state.getGT().getMotherNaturePos()).getInfluence_controller());
     }
 
 

@@ -3,8 +3,6 @@ package it.polimi.ingsw.model.character;
 import it.polimi.ingsw.model.CharacterCard;
 import it.polimi.ingsw.model.GameState;
 
-import java.io.Serializable;
-
 /**
  * This class represents the farmer character card.
  */
@@ -23,7 +21,7 @@ public class Farmer extends CharacterCard {
     @Override
     public void effect(GameState game_state){
 
-        game_state.getGT().getBoards()[game_state.getCurr_player()].setFarmer_state(true);
+        game_state.getGT().getBoards()[game_state.getCurrPlayer()].setFarmer_state(true);
         setUses();
     }
 

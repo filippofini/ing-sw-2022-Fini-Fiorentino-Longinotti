@@ -51,10 +51,10 @@ class KnightTest {
     public void testEffect(){
         knight.effect(game_state);
         game_state.getGT().getBoards()[0].setArrProfessors(new boolean[]{true,true,true,true,true});
-        game_state.getGT().getIslands().get(game_state.getGT().getMother_nature_pos()).calculate_influence(1, game_state.getGT().getBoards());
+        game_state.getGT().getIslands().get(game_state.getGT().getMotherNaturePos()).calculate_influence(1, game_state.getGT().getBoards());
 
 
-        assertEquals(0, game_state.getGT().getIslands().get(game_state.getGT().getMother_nature_pos()+1).getInfluence_controller());
+        assertEquals(0, game_state.getGT().getIslands().get(game_state.getGT().getMotherNaturePos()+1).getInfluence_controller());
     }
 
 

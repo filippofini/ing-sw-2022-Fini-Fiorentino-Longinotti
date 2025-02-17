@@ -36,7 +36,7 @@ class GameStateTest {
     public void testGetPlayers() {
         players[0]= new Player("FF",1, TowerColour.STARTER,1);
         players[1]= new Player("HH",2, TowerColour.GREY,2);
-        assertEquals(lPlayers, game_state.getlPlayers());
+        assertEquals(lPlayers, game_state.getPlayersList());
     }
 
     @Test

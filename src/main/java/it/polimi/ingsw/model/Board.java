@@ -8,6 +8,7 @@ import it.polimi.ingsw.network.server.ClientHandler;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -18,14 +19,14 @@ import java.util.List;
  * The towers in the board are 8 if the game has 2 or 4 players, 7 if the game has 3 players.
  */
 public class Board implements Serializable {
-    private final int board_player;
+    private final int n_players;
     private int n_towers;
     private int[] arrPositionStudents;
     private Student[] arrEntranceStudents;
     private boolean[] arrProfessors;
     private int tower;
     private int maxEntranceStudents;
-    private boolean[][] trackCoins = new boolean[5][3];
+    private boolean[][] trackCoins;
     private boolean farmer_state;
 
     /**
@@ -35,33 +36,28 @@ public class Board implements Serializable {
      * @param tower The tower colour assigned to the player and to the board.
      */
     public Board(int numOfPlayers, int playerID, TowerColour tower){
-        this.board_player = playerID;
         this.tower = tower.getTower_translate();
         arrPositionStudents = new int[5];
         arrProfessors = new boolean[5];
+        trackCoins = new boolean[5][3];
 
-        for(int i=0;i<5;i++){
-            arrPositionStudents[i]=0;
-        }
-        for(int i=0; i<5;i++){
-            for(int j=0; j<3;j++){
-                trackCoins[i][j]=false;
-            }
+        Arrays.fill(arrPositionStudents, 0);
+        for(boolean[] row : trackCoins){
+            Arrays.fill(row, false);
         }
 
         farmer_state=false;
 
-        if(numOfPlayers == 2 ){
+        n_players = numOfPlayers;
+
+        if(n_players == 2 ){
             arrEntranceStudents = new Student[7];
-            maxEntranceStudents=7;
+            maxEntranceStudents = 7;
             n_towers = 8;
-
-        }
-        else if(numOfPlayers == 3){
+        } else if(n_players == 3){
             arrEntranceStudents = new Student[9];
-            maxEntranceStudents=9;
+            maxEntranceStudents = 9;
             n_towers = 6;
-
         }
     }
 
@@ -70,7 +66,7 @@ public class Board implements Serializable {
      * @param profColour The colour of the professor to be added.
      */
     public void add_prof(DiskColour profColour){
-        arrProfessors[profColour.getTranslateColour()]=true;
+        arrProfessors[profColour.getTranslateColour()] = true;
     }
 
     /**
@@ -89,31 +85,37 @@ public class Board implements Serializable {
      */
     public List<Student> moveEntranceStudents(GameState GS, ClientHandler clientHandler){
 
-        int studentsChosen=0;
+        int studentsChosen = 0;
         boolean noOneProf = true;
         List<Student> studentToIslands = new ArrayList<>();
 
-        while(studentsChosen <(GS.getGT().getNum_players()+1)) {
+        while(studentsChosen < (n_players + 1)) {
+
             clientHandler.sendMessageToClient(new StudentToMoveRequest(this));
-            if (arrEntranceStudents[clientHandler.getStudToMove()].getIsChosen() == false) {
+
+            if (!arrEntranceStudents[clientHandler.getStudToMove()].getIsChosen()) {
+
                 clientHandler.sendMessageToClient(new ChooseIslandOrBoardRequest(this,clientHandler.getStudToMove()));
 
                 if(clientHandler.getPos() == 0){
-                    if(arrPositionStudents[arrEntranceStudents[clientHandler.getStudToMove()].getColour()]<10){
+                    if(arrPositionStudents[arrEntranceStudents[clientHandler.getStudToMove()].getColour()] < 10){
+
                         arrPositionStudents[arrEntranceStudents[clientHandler.getStudToMove()].getColour()]++;
                         coinsEarned();
                         arrEntranceStudents[clientHandler.getStudToMove()].Chosen();
                         studentsChosen++;
+
                         if(farmer_state){
-                            for(int j=0;j<5;j++){
-                                for(int k=0;k<GS.getGT().getNum_players();k++){
+                            for(int j = 0; j < 5; j++){
+                                for(int k = 0; k < n_players; k++){
                                     if(GS.getGT().getBoards()[k].getArrProfessors()[j]){
-                                        noOneProf=false;
+                                        noOneProf = false;
                                     }
                                 }
-                                for(int i=0;i<GS.getGT().getNum_players();i++){
-                                    if((GS.getGT().getBoards()[GS.getCurr_player()].getArrPositionStudents()[j]>=GS.getGT().getBoards()[i].getArrPositionStudents()[j] && GS.getCurr_player()!=i) || (noOneProf==true && GS.getGT().getBoards()[GS.getCurr_player()].getArrPositionStudents()[j]>=GS.getGT().getBoards()[i].getArrPositionStudents()[j])){
-                                        GS.getGT().getBoards()[GS.getCurr_player()].setprofessor(j,true);
+                                for(int i = 0; i < n_players; i++){
+                                    if((GS.getGT().getBoards()[GS.getCurrPlayer()].getArrPositionStudents()[j] >= GS.getGT().getBoards()[i].getArrPositionStudents()[j] &&
+                                            GS.getCurrPlayer()!=i) || (noOneProf && GS.getGT().getBoards()[GS.getCurrPlayer()].getArrPositionStudents()[j]>=GS.getGT().getBoards()[i].getArrPositionStudents()[j])){
+                                        GS.getGT().getBoards()[GS.getCurrPlayer()].setprofessor(j,true);
                                         GS.getGT().getBoards()[i].setprofessor(j,false);
                                     }
                                 }
@@ -123,14 +125,14 @@ public class Board implements Serializable {
                         }
                         else{
                             for(int j=0;j<5;j++){
-                                for(int k=0;k<GS.getGT().getNum_players();k++){
+                                for(int k=0;k<n_players;k++){
                                     if(GS.getGT().getBoards()[k].getArrProfessors()[j]){
                                         noOneProf=false;
                                     }
                                 }
-                                for(int i=0;i<GS.getGT().getNum_players();i++){
-                                    if((GS.getGT().getBoards()[GS.getCurr_player()].getArrPositionStudents()[j]>GS.getGT().getBoards()[i].getArrPositionStudents()[j] && GS.getCurr_player()!=i && GS.getGT().getBoards()[i].getArrProfessors()[j])|| (noOneProf==true && GS.getGT().getBoards()[GS.getCurr_player()].getArrPositionStudents()[j]>GS.getGT().getBoards()[i].getArrPositionStudents()[j])){
-                                        GS.getGT().getBoards()[GS.getCurr_player()].setprofessor(j,true);
+                                for(int i = 0; i<GS.getGT().getNumPlayers(); i++){
+                                    if((GS.getGT().getBoards()[GS.getCurrPlayer()].getArrPositionStudents()[j]>GS.getGT().getBoards()[i].getArrPositionStudents()[j] && GS.getCurrPlayer()!=i && GS.getGT().getBoards()[i].getArrProfessors()[j])|| (noOneProf==true && GS.getGT().getBoards()[GS.getCurrPlayer()].getArrPositionStudents()[j]>GS.getGT().getBoards()[i].getArrPositionStudents()[j])){
+                                        GS.getGT().getBoards()[GS.getCurrPlayer()].setprofessor(j,true);
                                         GS.getGT().getBoards()[i].setprofessor(j,false);
 
                                     }
@@ -313,7 +315,7 @@ public class Board implements Serializable {
             if(Cloud_Students[pos]>0){
                 for(int i=0;i<arrEntranceStudents.length;i++){
                     if(arrEntranceStudents[i].getIsChosen()){
-                        arrEntranceStudents[i]=new Student(inverse_color(pos));
+                        arrEntranceStudents[i]=new Student(inverseColor(pos));
                         Cloud_Students[pos]--;
                         pos=0;
                         break;
@@ -330,7 +332,7 @@ public class Board implements Serializable {
      * This method convert a position in the respective color
      * @param color The index of the array that represent a color
      */
-    public DiskColour inverse_color(int color){
+    public DiskColour inverseColor(int color){
         if(color==0){
             return DiskColour.YELLOW;
         }

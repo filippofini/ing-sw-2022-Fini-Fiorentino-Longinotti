@@ -19,7 +19,7 @@ public class MagicMailman extends CharacterCard {
      */
     @Override
     public void effect(GameState game_state){
-       game_state.getPlayers()[game_state.getGT().getCurrent_player()].setMoves(game_state.getPlayers()[game_state.getGT().getCurrent_player()].getChosen_card().getMother_nature_movement()+2);
+       game_state.getPlayers()[game_state.getCurrPlayer()].setMoves(game_state.getPlayers()[game_state.getCurrPlayer()].getChosen_card().getMother_nature_movement()+2);
         this.setUses();
     }
 
