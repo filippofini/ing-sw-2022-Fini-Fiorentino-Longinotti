@@ -11,15 +11,14 @@ import java.util.Objects;
  */
 public class Player implements Serializable {
     private final String nickname;
-    private final int tower_colour;
+    private final int towerColor;
     private final int wizard;
     private int coin;
     private final int player_ID;
-    private AssistanceCard chosen_card;
+    private AssistanceCard chosenCard;
     private int moves;
     private final Deck deck;
-    private boolean active;
-    private boolean chosen=false;
+    private boolean chosen;
 
     /**
      * Constructor of the class
@@ -32,9 +31,10 @@ public class Player implements Serializable {
         this.coin = 1;
         this.nickname = nickname;
         this.wizard = wizard;
-        this.tower_colour = tower_colour.getTower_translate();
+        this.towerColor = tower_colour.getTower_translate();
         this.player_ID = player_ID;
         deck = new Deck();
+        chosen = false;
     }
 
     /**
@@ -57,8 +57,8 @@ public class Player implements Serializable {
      * This method returns the tower colour.
      * @return The tower colour.
      */
-    public int getTower_colour() {
-        return tower_colour;
+    public int getTowerColor() {
+        return towerColor;
     }
 
     /**
@@ -89,16 +89,16 @@ public class Player implements Serializable {
      * This method returns the chosen assistance card to be played.
      * @return The chosen assistance card to be played.
      */
-    public AssistanceCard getChosen_card() {
-        return chosen_card;
+    public AssistanceCard getChosenCard() {
+        return chosenCard;
     }
 
     /**
      * This method sets the chosen assistance card to be played.
-     * @param chosen_card The chosen assistance card to be played.
+     * @param chosenCard The chosen assistance card to be played.
      */
-    public void setChosen_card(AssistanceCard chosen_card) {
-        this.chosen_card = chosen_card;
+    public void setChosenCard(AssistanceCard chosenCard) {
+        this.chosenCard = chosenCard;
     }
 
     /**
@@ -135,7 +135,7 @@ public class Player implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Player player = (Player) o;
-        return tower_colour == player.tower_colour && wizard == player.wizard && coin == player.coin && player_ID == player.player_ID && Objects.equals(nickname, player.nickname) & chosen_card == player.chosen_card  && Objects.equals(deck, player.deck);
+        return towerColor == player.towerColor && wizard == player.wizard && coin == player.coin && player_ID == player.player_ID && Objects.equals(nickname, player.nickname) & chosenCard == player.chosenCard && Objects.equals(deck, player.deck);
     }
 
     public void setChosen(boolean chosen) {

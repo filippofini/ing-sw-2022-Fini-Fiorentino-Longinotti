@@ -13,18 +13,18 @@ import java.io.Serializable;
  */
 public class Island implements Serializable {
 
-    private Board[] boards;
-    private boolean mother_nature;
+    private final Board[] boards;
+    private boolean motherNatureHere;
     private int tower;
-    private int influence_controller;
-    private int player_controller;
-    private int island_ID;
-    private int[] arr_students;
+    private int influenceController;
+    private int playerController;
+    private final int island_ID;
+    private int[] arrStudents;
     private boolean prohibition_card;
-    private boolean include_towers;
-    private boolean prohibition_colour;
-    private int proh_col;
-    private int extra_influence;
+    private boolean includeTowers;
+    private boolean ColorProhibitionActive;
+    private int colorProhibitionIndex;
+    private int extraInfluence;
 
     /**
      * Constructor of the class.
@@ -36,128 +36,101 @@ public class Island implements Serializable {
         this.island_ID = island_ID;
         this.boards = boards;
         this.tower = tower_colour.getTower_translate();
-        influence_controller = 0;
-        arr_students = new int[5];
-        mother_nature = false;
-        player_controller=-1;
+        influenceController = 0;
+        arrStudents = new int[5];
+        motherNatureHere = false;
+        playerController = -1;
         prohibition_card = false;
-        prohibition_colour=false;
-        proh_col=0;
-        include_towers=true;
-        extra_influence=0;
+        ColorProhibitionActive = false;
+        colorProhibitionIndex = 0;
+        includeTowers = true;
+        extraInfluence = 0;
     }
 
     /**
      * This method calculate the influence of the player on the island.
      * The player with the highest influence becomes the controller and can place a tower if mother nature is on that island.
-     * @param current_player The current player of the turn.
+     * @param currentPlayer The current player of the turn.
      * @param Boards The array of the boards of the players.
      * @return {@code False} if the control of the island is changed, {@code True} otherwise.
      */
-    public boolean calculate_influence(int current_player,Board[] Boards) {
-        boolean same_player=true;
-        int temp_influence = 0;
-        if(!prohibition_card){
-            for (int i = 0; i<5;i++) {
-                if (boards[current_player].getArrProfessors()[i]) {
-                    if(prohibition_colour){
-                        if(i!=proh_col){
-                            temp_influence+= arr_students[i];
-                        }
-                    }
-                    else{
-                        temp_influence+= arr_students[i];
-                    }
-                }
+    public boolean calculateInfluence(int currentPlayer, Board[] Boards) {
+        // If a prohibition card is on the island, remove it and return immediately.
+        if (prohibition_card) {
+            setProhibitionCard(false);
+            if (ColorProhibitionActive) {
+                setProhibitionColour(false);
             }
-
-            if(include_towers){
-                if(current_player==player_controller){
-                    temp_influence+=tower;
-                }
-                if (temp_influence > influence_controller) {
-                    if(current_player!=player_controller){
-                        if(boards.length==4){
-                            if(current_player==1 || current_player==2){
-                                Boards[1].setN_towers(Boards[1].getN_towers()+tower);
-                                player_controller = current_player;
-                                tower = 1;
-                                influence_controller = temp_influence;
-                                same_player=false;
-                            }
-                            else if(current_player==3 || current_player==4){
-                                Boards[3].setN_towers(Boards[3].getN_towers()+tower);
-                                player_controller = current_player;
-                                tower = 1;
-                                influence_controller = temp_influence;
-                                same_player=false;
-                            }
-                        }
-                        else{
-                            if(player_controller!=-1){
-                                Boards[player_controller].setN_towers(Boards[player_controller].getN_towers()+tower);
-                            }
-                            player_controller = current_player;
-                            tower = 1;
-                            influence_controller = temp_influence+1+extra_influence;
-                            same_player=false;
-                        }
-
-                    }
-                    else {
-                        influence_controller = temp_influence+extra_influence;
-                    }
-                }
-            }
-            else{
-                if (temp_influence > influence_controller-tower) {
-                    if(current_player!=player_controller){
-                        if(boards.length==4){
-                            if(current_player==1 || current_player==2){
-                                Boards[1].setN_towers(Boards[1].getN_towers()+tower);
-                                player_controller = current_player;
-                                tower = 1;
-                                influence_controller = temp_influence;
-                                same_player=false;
-                            }
-                            else if(current_player==3 || current_player==4){
-                                Boards[3].setN_towers(Boards[3].getN_towers()+tower);
-                                player_controller = current_player;
-                                tower = 1;
-                                influence_controller = temp_influence;
-                                same_player=false;
-                            }
-                        }
-                        else{
-                            if(player_controller!=-1){
-                                Boards[player_controller].setN_towers(Boards[player_controller].getN_towers()+tower);
-                            }
-                            player_controller = current_player;
-                            tower = 1;
-                            influence_controller = temp_influence+extra_influence;
-                            same_player=false;
-                        }
-
-                    }
-                    else {
-                        influence_controller = temp_influence+extra_influence;
-                    }
-                }
-
-            }
-
-
-
-
-        }
-        else{
-            setProhibition_card(false);
-        }
-        if(prohibition_colour){
-            setProhibition_colour(false);
+            return true; // Island control does NOT change because no influence is calculated.
         }
 
-        return same_player;
+        // 1) Compute base influence (count students of the colors the current player has professors for).
+        int newInfluence = 0;
+        for (int i = 0; i < 5; i++) {
+            if (boards[currentPlayer].getArrProfessors()[i]) {
+                // If there is a color prohibition, skip that color.
+                if (!ColorProhibitionActive || i != colorProhibitionIndex) {
+                    newInfluence += arrStudents[i];
+                }
+            }
+        }
+
+        // 2) If towers should be included and the current player is already the controller, add them.
+        if (includeTowers && currentPlayer == playerController) {
+            newInfluence += tower;
+        }
+
+        // 3) Determine the “threshold” above which control changes.
+        //    • If towers are included, we compare with influence_controller (full current influence).
+        //    • If towers are not included, we subtract tower from influence_controller
+        //      because the existing tower on this island was previously counted.
+        int threshold = includeTowers ? influenceController : (influenceController - tower);
+
+        boolean samePlayer = true;  // true if control does NOT change
+        // 4) If the new influence beats the threshold, see if we need to change the island's control.
+        if (newInfluence > threshold) {
+            // If a different player outscored the current controller:
+            if (currentPlayer != playerController) {
+                // 4-Player logic: place the tower on the correct board (team board) instead of the old controller.
+                if (Boards.length == 4) {
+                    if (currentPlayer == 1 || currentPlayer == 2) {
+                        Boards[1].setNumTowers(Boards[1].getNumTowers() + tower);
+                    } else {
+                        Boards[3].setNumTowers(Boards[3].getNumTowers() + tower);
+                    }
+                    // Update control to the new player
+                    playerController = currentPlayer;
+                    tower = 1;
+                    // In the original code for 4-players, influence_controller is set to the immediate new influence
+                    // (plus extra_influence only if towers were NOT included).
+                    influenceController = newInfluence + (includeTowers ? 0 : extraInfluence);
+                } else {
+                    // 2-Player (or 3-Player) logic: return the tower to the old controller (if any), then assign control.
+                    if (playerController != -1) {
+                        Boards[playerController].setNumTowers(
+                                Boards[playerController].getNumTowers() + tower
+                        );
+                    }
+                    playerController = currentPlayer;
+                    tower = 1;
+                    // In the original code, if towers are included, we add +1 as well as extra_influence.
+                    // Otherwise, just extra_influence.
+                    influenceController = newInfluence + extraInfluence + (includeTowers ? 1 : 0);
+                }
+                samePlayer = false; // Control changes hands
+            } else {
+                // Same player retains control; just update influence.
+                influenceController = newInfluence + extraInfluence;
+            }
+        }
+
+        // 5) If a color prohibition was in effect, clear it after calculation.
+        if (ColorProhibitionActive) {
+            setProhibitionColour(false);
+        }
+
+        // Return false if control changed; true otherwise (same player).
+        return samePlayer;
     }
 
 
@@ -165,8 +138,8 @@ public class Island implements Serializable {
      * This method can be used to add students to the island.
      * @param transfer The list of students to be added to the island.
      */
-    public void add_students(Student transfer) {
-            arr_students[transfer.getColour()]++;
+    public void addStudents(Student transfer) {
+            arrStudents[transfer.getColor()]++;
     }
 
 
@@ -174,13 +147,13 @@ public class Island implements Serializable {
      * This method returns the player that controls the island.
      * @return The player that controls the island.
      */
-    public int check_controller() { return player_controller;}
+    public int checkController() { return playerController;}
 
     /**
      * This method can be used to add a tower to the island.
      * @param current_player The current player of the turn.
      */
-    public void add_tower(int current_player) {
+    public void addTower(int current_player) {
         this.tower = boards[current_player].getTower();
     }
 
@@ -196,8 +169,8 @@ public class Island implements Serializable {
      * This method checks if mother nature is on the island.
      * @return {@code True} if mother nature is on the island, {@code False} if not.
      */
-    public boolean isMother_nature() {
-        return mother_nature;
+    public boolean isMotherNatureHere() {
+        return motherNatureHere;
     }
 
     /**
@@ -211,16 +184,16 @@ public class Island implements Serializable {
      * This method returns the influence of the player that controls the island.
      * @return The influence of the player that controls the island.
      */
-    public int getInfluence_controller() {
-        return influence_controller;
+    public int getInfluenceController() {
+        return influenceController;
     }
 
     /**
      * This method returns the int that represent the player that controls the island.
      * @return The int that represent the player that controls the island.
      */
-    public int getPlayer_controller() {
-        return player_controller;
+    public int getPlayerController() {
+        return playerController;
     }
 
     /**
@@ -235,16 +208,16 @@ public class Island implements Serializable {
      * This method returns the students on the island
      * @return The array of students on the island
      */
-    public int[] getArr_students() {
-        return arr_students;
+    public int[] getArrStudents() {
+        return arrStudents;
     }
 
     /**
      * This method sets mother nature on the island, {@code True} if is on the island, {@code False} if not on the island.
      * @param mother_nature {@code True} if is on the island, {@code False} if not on the island.
      */
-    public void setMother_nature(boolean mother_nature) {
-        this.mother_nature = mother_nature;
+    public void setMotherNature(boolean mother_nature) {
+        this.motherNatureHere = mother_nature;
     }
 
     /**
@@ -257,26 +230,26 @@ public class Island implements Serializable {
 
     /**
      * This method sets the highest influence on the island.
-     * @param influence_controller The number representing the highest influence on the island.
+     * @param influenceController The number representing the highest influence on the island.
      */
-    public void setInfluence_controller(int influence_controller) {
-        this.influence_controller = influence_controller;
+    public void setInfluenceController(int influenceController) {
+        this.influenceController = influenceController;
     }
 
     /**
      * This method sets the player that has the highest influence.
      * @param player_controller The player ID that has the highest influence.
      */
-    public void setPlayer_controller(int player_controller) {
-        this.player_controller = player_controller;
+    public void setPlayerController(int player_controller) {
+        this.playerController = player_controller;
     }
 
     /**
      * This method sets the students on the island.
      * @param arr_students The array students to be set on the island.
      */
-    public void setArr_students(int[] arr_students) {
-        this.arr_students = arr_students;
+    public void setArrStudents(int[] arr_students) {
+        this.arrStudents = arr_students;
     }
 
     /**
@@ -285,14 +258,14 @@ public class Island implements Serializable {
      * @param index The index to increment in array of students.
      */
     public void incrementPos(int index){
-        this.arr_students[index]++;
+        this.arrStudents[index]++;
     }
 
     /**
      * This method checks if a prohibition card has been put on the island.
      * @return {@code True} if a prohibition card has been put on the island, {@code False} if not.
      */
-    public boolean isProhibition_card() {
+    public boolean isProhibitionCard() {
         return prohibition_card;
     }
 
@@ -300,7 +273,7 @@ public class Island implements Serializable {
      * This method sets a prohibition card on the island.
      * @param prohibition_card {@code True} if wanted to put a prohibition card on the island, {@code False} if not.
      */
-    public void setProhibition_card(boolean prohibition_card) {
+    public void setProhibitionCard(boolean prohibition_card) {
         this.prohibition_card = prohibition_card;
     }
 
@@ -309,31 +282,31 @@ public class Island implements Serializable {
      * @param index The index to know which student will be added.
      */
     public void setOneStudent(int index){
-        arr_students[index]++;
+        arrStudents[index]++;
     }
 
     /**
      * This method sets the include_towers variable
      * @param include_towers indicate if the towers must be counted in the influence
      */
-    public void setInclude_towers(boolean include_towers) {
-        this.include_towers = include_towers;
+    public void setIncludeTowers(boolean include_towers) {
+        this.includeTowers = include_towers;
     }
 
     /**
      * This method sets the prohibition.
-     * @param prohibition_colour {@code True} if the brohibition is enabled, {@code False} if not.
+     * @param prohibition_colour {@code True} if the prohibition is enabled, {@code False} if not.
      */
-    public void setProhibition_colour(boolean prohibition_colour) {
-        this.prohibition_colour = prohibition_colour;
+    public void setProhibitionColour(boolean prohibition_colour) {
+        this.ColorProhibitionActive = prohibition_colour;
     }
 
     /**
      * This method sets the extra influence activated by a character card.
      * @param extra_influence The extra influence to be added to the calculus of the influence.
      */
-    public void setExtra_influence(int extra_influence) {
-        this.extra_influence = extra_influence;
+    public void setExtraInfluence(int extra_influence) {
+        this.extraInfluence = extra_influence;
     }
 }
 

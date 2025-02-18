@@ -8,6 +8,8 @@ import it.polimi.ingsw.network.server.ClientHandler;
 import java.io.Serializable;
 import java.util.*;
 
+//TODO: Move the clientHandler requests in turn controller
+
 /**
  * This class represent the game table. Here the list of islands, the list of clouds and the array of boards is created.
  * The class includes methods to move mother nature in the islands and the merge of island if possible.
@@ -39,7 +41,7 @@ public class GameTable implements Serializable {
 
         boards = new Board[numPlayers];
         for (int i = 0; i < numPlayers; i++) {
-            boards[i] = new Board(numPlayers, i, TowerColour.values()[i]);
+            boards[i] = new Board(numPlayers, TowerColour.values()[i]);
         }
 
         islands = new LinkedList<>();
@@ -123,13 +125,13 @@ public class GameTable implements Serializable {
      * @param player          The current player that is going to choose the assistance card.
      * @param assistantChosen The chosen assistant.
      */
-    public void choose_assistant(Player player, int assistantChosen) {
+    public void chooseAssistant(Player player, int assistantChosen) {
         AssistanceCard choice;
         choice = player.getDeck().getCards().get(assistantChosen);
-        player.setMoves(choice.getMother_nature_movement());
+        player.setMoves(choice.getMotherNatureMovement());
         discardDeck[player.getPlayer_ID()] = choice;
-        player.setChosen_card(choice);
-        player.getDeck().remove_used_card(choice);
+        player.setChosenCard(choice);
+        player.getDeck().removeUsedCard(choice);
     }
 
     /**
@@ -140,12 +142,12 @@ public class GameTable implements Serializable {
      * @param islandIndex The index of the island to check
      * @return An array of two integers: [previousIslandIndex, nextIslandIndex]
      */
-    private int[] check_merge(int islandIndex) {
+    private int[] checkMerge(int islandIndex) {
         int[] mergeable = {-1, -1};
 
         // Guard out-of-range and neutral case
         if (islandIndex < 0 || islandIndex >= islandsCounter) return mergeable;
-        int currentController = islands.get(islandIndex).getPlayer_controller();
+        int currentController = islands.get(islandIndex).getPlayerController();
         if (currentController == -1) return mergeable;
 
         // Use modulo arithmetic to simulate a circular arrangement
@@ -153,11 +155,11 @@ public class GameTable implements Serializable {
         int nextIndex = (islandIndex + 1) % islandsCounter;
 
         // Check if the same player controls the previous island
-        if (islands.get(prevIndex).getPlayer_controller() == currentController) {
+        if (islands.get(prevIndex).getPlayerController() == currentController) {
             mergeable[0] = prevIndex;
         }
         // Check if the same player controls the next island
-        if (islands.get(nextIndex).getPlayer_controller() == currentController) {
+        if (islands.get(nextIndex).getPlayerController() == currentController) {
             mergeable[1] = nextIndex;
         }
 
@@ -174,12 +176,12 @@ public class GameTable implements Serializable {
         if (srcIndex < 0) return;  // nothing to merge
 
         // Merge students
-        int[] destStudents = islands.get(destIndex).getArr_students();
-        int[] srcStudents = islands.get(srcIndex).getArr_students();
+        int[] destStudents = islands.get(destIndex).getArrStudents();
+        int[] srcStudents = islands.get(srcIndex).getArrStudents();
         for (int i = 0; i < destStudents.length; i++) {
             destStudents[i] += srcStudents[i];
         }
-        islands.get(destIndex).setArr_students(destStudents);
+        islands.get(destIndex).setArrStudents(destStudents);
 
         // Merge towers
         int mergedTowers = islands.get(destIndex).getTower()
@@ -198,7 +200,7 @@ public class GameTable implements Serializable {
      */
     public void merge(int islandIndex, int current_player, Board[] Boards) {
         // Which islands should we merge?
-        int[] toMergeIndexes = check_merge(islandIndex);
+        int[] toMergeIndexes = checkMerge(islandIndex);
 
         // Merge island at toMergeIndexes[0] into islandIndex
         mergeIslandInto(islandIndex, toMergeIndexes[0]);
@@ -206,7 +208,7 @@ public class GameTable implements Serializable {
         mergeIslandInto(islandIndex, toMergeIndexes[1]);
 
         // Recalculate influence
-        islands.get(islandIndex).calculate_influence(current_player, Boards);
+        islands.get(islandIndex).calculateInfluence(current_player, Boards);
 
         // Remove merged islands in a way that preserves correct indexing:
         boolean removedOne = false;
@@ -237,11 +239,11 @@ public class GameTable implements Serializable {
      * @param moves Number of moves the player decides, not the max possible moves.
      */
     public void moveMotherNature(int moves) {
-        islands.get(motherNaturePos).setMother_nature(false);
+        islands.get(motherNaturePos).setMotherNature(false);
 
         // Compute the new position using modulo for wrap-around behavior
         motherNaturePos = (motherNaturePos + moves) % islandsCounter;
-        islands.get(motherNaturePos).setMother_nature(true);
+        islands.get(motherNaturePos).setMotherNature(true);
     }
 
 
@@ -249,7 +251,7 @@ public class GameTable implements Serializable {
     private void setMotherNatureStart() {
         Random rand = new Random();
         this.motherNaturePos = rand.nextInt(12);
-        islands.get(this.motherNaturePos).setMother_nature(true);
+        islands.get(this.motherNaturePos).setMotherNature(true);
     }
 
     //Puts the first students on the islands
@@ -407,7 +409,7 @@ public class GameTable implements Serializable {
      */
     private boolean containsCharacter(int id) {
         for (CharacterCard character : characterCards) {
-            if (character.getID_code() == id) {
+            if (character.getIDCode() == id) {
                 return true;
             }
         }

@@ -7,10 +7,11 @@ import it.polimi.ingsw.model.GameState;
  * This class represents the knight character card.
  */
 public class Knight extends CharacterCard {
-    private final int ID_code=8;
-    private int cost=2;
-    private int uses=0;
-    private String name = "KNIGHT";
+
+    private final int ID_code = 8;
+    private int cost = 2;
+    private int uses = 0;
+    private final String name = "KNIGHT";
 
     /**
      * This method implements the effect of the knight card.
@@ -18,9 +19,9 @@ public class Knight extends CharacterCard {
      * @param game_state The game state.
      */
     @Override
-    public void effect(GameState game_state){
-        for(int i=0;i< game_state.getGT().getIslands().size();i++){
-            game_state.getGT().getIslands().get(i).setExtra_influence(2);
+    public void effect(GameState game_state) {
+        for (int i = 0; i < game_state.getGameTable().getIslands().size(); i++) {
+            game_state.getGameTable().getIslands().get(i).setExtraInfluence(2);
         }
         this.setUses();
     }
@@ -39,7 +40,7 @@ public class Knight extends CharacterCard {
      */
     public void setUses() {
         this.uses++;
-        setCost(cost+1);
+        setCost(cost + 1);
     }
 
     /**
@@ -70,8 +71,7 @@ public class Knight extends CharacterCard {
      * This method returns the ID code of the card.
      * @return The ID code of the card.
      */
-    public int getID_code() {
+    public int getIDCode() {
         return ID_code;
     }
-
 }

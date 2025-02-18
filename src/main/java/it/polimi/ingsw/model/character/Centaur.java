@@ -7,10 +7,11 @@ import it.polimi.ingsw.model.GameState;
  * This class represents the centaur character card.
  */
 public class Centaur extends CharacterCard {
-    private final int ID_code=6;
-    private int cost=3;
-    private int uses=0;
-    private String name="CENTAUR";
+
+    private final int ID_code = 6;
+    private int cost = 3;
+    private int uses = 0;
+    private final String name = "CENTAUR";
 
     /**
      * This method implements the effect of the centaur card.
@@ -18,10 +19,12 @@ public class Centaur extends CharacterCard {
      * @param GS The game state.
      */
     @Override
-    public void effect(GameState GS){
-
-        for(int i=0;i< GS.getGT().getIslands().size();i++){
-            GS.getGT().getIslands().get(GS.getGT().getMotherNaturePos()).setInclude_towers(false);
+    public void effect(GameState GS) {
+        for (int i = 0; i < GS.getGameTable().getIslands().size(); i++) {
+            GS.getGameTable()
+                    .getIslands()
+                    .get(GS.getGameTable().getMotherNaturePos())
+                    .setIncludeTowers(false);
         }
         setUses();
     }
@@ -40,7 +43,7 @@ public class Centaur extends CharacterCard {
      */
     public void setUses() {
         this.uses++;
-        setCost(cost+1);
+        setCost(cost + 1);
     }
 
     /**
@@ -71,7 +74,7 @@ public class Centaur extends CharacterCard {
      * This method returns the ID code of the card.
      * @return The ID code of the card.
      */
-    public int getID_code() {
+    public int getIDCode() {
         return ID_code;
     }
 }

@@ -8,16 +8,16 @@ import java.io.Serializable;
  */
 public class Student implements Serializable {
     //When extracted from the bag the position of the array in the bag becomes the colour of the student
-    private DiskColour colour;
+    private final DiskColour color;
     //To know in entrance if the student is chosen or not
     private boolean isChosen;
 
     /**
      * Constructor of the class.
-     * @param colour The colour of the student.
+     * @param color The colour of the student.
      */
-    public Student(DiskColour colour){
-        this.colour =colour;
+    public Student(DiskColour color){
+        this.color = color;
         isChosen=false;
     }
 
@@ -25,8 +25,8 @@ public class Student implements Serializable {
      * This method returns the colour of the student.
      * @return The int representing the colour of the student. See more at: {@link DiskColour}.
      */
-    public int getColour(){
-        return colour.getTranslateColour();
+    public int getColor(){
+        return color.getTranslateColour();
     }
 
     /**
@@ -40,7 +40,7 @@ public class Student implements Serializable {
     /**
      * This method sets to {@code True} the parameter chosen.
      */
-    public void Chosen(){
+    public void chosen(){
         isChosen = true;
     }
 
@@ -49,6 +49,6 @@ public class Student implements Serializable {
      * @return The colour of the student.
      */
     public DiskColour getEnumColour(){
-        return colour;
+        return color;
     }
 }

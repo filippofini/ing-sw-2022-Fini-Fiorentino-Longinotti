@@ -29,7 +29,7 @@ public class EndGameCLI {
 
                 for(int j=0;j<islands.size();j++){
 
-                        if(islands.get(j).getPlayer_controller()==i){
+                        if(islands.get(j).getPlayerController()==i){
                             temptowers+=islands.get(j).getTower();
 
                         }
@@ -72,7 +72,7 @@ public class EndGameCLI {
             }
             for(int i=0;i<players.size();i++){
                 for(int j=0;j<islands.size();j++){
-                    if(islands.get(j).getPlayer_controller()==i){
+                    if(islands.get(j).getPlayerController()==i){
                         temptowers+=islands.get(j).getTower();
                     }
 

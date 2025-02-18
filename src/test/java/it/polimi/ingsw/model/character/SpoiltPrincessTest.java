@@ -22,7 +22,7 @@ class SpoiltPrincessTest {
         return lPlayers;
     }
     SpoiltPrincess spoilt_princess = new SpoiltPrincess(new int[]{0,0,1,0,3});
-    GameState game_state = new GameState(2, new String[]{"FF", "HH"},new int[]{1,2},false,1, addLPlayers(lPlayers));
+    GameState game_state = new GameState(2, new String[]{"FF", "HH"},new int[]{1,2},1, addLPlayers(lPlayers));
 
     @Test
     public void testSetUses1(){
@@ -40,7 +40,7 @@ class SpoiltPrincessTest {
 
     @Test
     public void testID(){
-        assertEquals(11,spoilt_princess.getID_code());
+        assertEquals(11,spoilt_princess.getIDCode());
     }
 
     @Test
@@ -51,8 +51,8 @@ class SpoiltPrincessTest {
     @Test
     public void testEffect(){
         int sum=0;
-        spoilt_princess.setChosen_student(2);
-        spoilt_princess.setCurrent_player(1);
+        spoilt_princess.setChosenStudent(2);
+        spoilt_princess.setCurrentPlayer(1);
         spoilt_princess.effect(game_state);
         int[] arr_stud = spoilt_princess.getStudents();
 

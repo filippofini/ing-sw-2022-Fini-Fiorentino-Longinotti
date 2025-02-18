@@ -20,7 +20,7 @@ class FarmerTest {
     }
 
     Farmer farmer = new Farmer();
-    GameState game_state = new GameState(2, new String[]{"FF", "HH"},new int[]{1,2},false, 1, addLPlayers(lPlayers));
+    GameState game_state = new GameState(2, new String[]{"FF", "HH"},new int[]{1,2}, 1, addLPlayers(lPlayers));
 
     @Test
     public void testSetUses1(){
@@ -38,7 +38,7 @@ class FarmerTest {
 
     @Test
     public void testID(){
-        assertEquals(2, farmer.getID_code());
+        assertEquals(2, farmer.getIDCode());
     }
 
     @Test
@@ -51,7 +51,7 @@ class FarmerTest {
         
         farmer.effect(game_state);
 
-        assertEquals(game_state.getGT().getBoards()[game_state.getCurrPlayer()].isFarmer_state(), true);
+        assertEquals(game_state.getGameTable().getBoards()[game_state.getCurrPlayer()].isFarmerState(), true);
 
     }
 

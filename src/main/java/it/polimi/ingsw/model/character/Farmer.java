@@ -7,10 +7,11 @@ import it.polimi.ingsw.model.GameState;
  * This class represents the farmer character card.
  */
 public class Farmer extends CharacterCard {
-    private final int ID_code=2;
-    private int cost=2;
-    private int uses=0;
-    private String name="FARMER";
+
+    private final int ID_code = 2;
+    private int cost = 2;
+    private int uses = 0;
+    private final String name = "FARMER";
 
     /**
      * This method implements the effect of the farmer card.
@@ -19,9 +20,10 @@ public class Farmer extends CharacterCard {
      * @param game_state The game state.
      */
     @Override
-    public void effect(GameState game_state){
-
-        game_state.getGT().getBoards()[game_state.getCurrPlayer()].setFarmer_state(true);
+    public void effect(GameState game_state) {
+        game_state
+                .getGameTable()
+                .getBoards()[game_state.getCurrPlayer()].setFarmerState(true);
         setUses();
     }
 
@@ -39,7 +41,7 @@ public class Farmer extends CharacterCard {
      */
     public void setUses() {
         this.uses++;
-        setCost(cost+1);
+        setCost(cost + 1);
     }
 
     /**
@@ -70,7 +72,7 @@ public class Farmer extends CharacterCard {
      * This method returns the ID code of the card.
      * @return The ID code of the card.
      */
-    public int getID_code() {
+    public int getIDCode() {
         return ID_code;
     }
 }

@@ -7,20 +7,20 @@ import it.polimi.ingsw.model.GameState;
  * This class represents the spoilt princess character card.
  */
 public class SpoiltPrincess extends CharacterCard {
-    private final int ID_code=11;
-    private int cost=2;
-    private int uses=0;
+
+    private final int ID_code = 11;
+    private int cost = 2;
+    private int uses = 0;
     private int[] students;
     private int current_player;
     private int chosen_student;
-
-    private String name = "SPOILT PRINCESS";
+    private final String name = "SPOILT PRINCESS";
 
     /**
      * Constructor of the class.
      * @param princess_drawn The initial array containing 4 students.
      */
-    public SpoiltPrincess(int[] princess_drawn){
+    public SpoiltPrincess(int[] princess_drawn) {
         this.students = princess_drawn;
     }
 
@@ -32,10 +32,12 @@ public class SpoiltPrincess extends CharacterCard {
      * @param game_state The game state.
      */
     @Override
-    public void effect(GameState game_state){
-        game_state.getGT().getBoards()[current_player].setOneStudent(chosen_student);
+    public void effect(GameState game_state) {
+        game_state
+                .getGameTable()
+                .getBoards()[current_player].setOneStudent(chosen_student);
         students[chosen_student]--;
-        students[game_state.getGT().drawOne()]++;
+        students[game_state.getGameTable().drawOne()]++;
         setUses();
     }
 
@@ -51,7 +53,7 @@ public class SpoiltPrincess extends CharacterCard {
      * This method sets the student to be moved from the card to the island.
      * @param chosen_student The student to be moved from the card to the island.
      */
-    public void setChosen_student(int chosen_student) {
+    public void setChosenStudent(int chosen_student) {
         this.chosen_student = chosen_student;
     }
 
@@ -60,7 +62,7 @@ public class SpoiltPrincess extends CharacterCard {
      * @param player The number representing the player that played the card.
      */
     @Override
-    public void setCurrent_player(int player) {
+    public void setCurrentPlayer(int player) {
         this.current_player = player;
     }
 
@@ -70,7 +72,7 @@ public class SpoiltPrincess extends CharacterCard {
      */
     public void setUses() {
         this.uses++;
-        setCost(cost+1);
+        setCost(cost + 1);
     }
 
     /**
@@ -101,7 +103,7 @@ public class SpoiltPrincess extends CharacterCard {
      * This method returns the ID code of the card.
      * @return The ID code of the card.
      */
-    public int getID_code() {
+    public int getIDCode() {
         return ID_code;
     }
 

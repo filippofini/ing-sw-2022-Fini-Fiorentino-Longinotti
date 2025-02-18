@@ -29,7 +29,7 @@ public abstract class CharacterCard implements Serializable {
       */
      public void setUses() {
           this.uses++;
-          setCost(cost+1);
+          setCost(cost + 1);
      }
 
      /**
@@ -43,19 +43,19 @@ public abstract class CharacterCard implements Serializable {
       * This method sets the student to be moved from the card to the island.
       * @param chosen_student The student to be moved from the card to the island.
       */
-     public void setChosen_student(int chosen_student){}
+     public void setChosenStudent(int chosen_student){}
 
      /**
       * This method sets the index of the island into which the prohibition card will be moved to.
       * @param index_to The index of the island into which the prohibition card will be moved to.
       */
-     public void setIndex_to(int index_to){}
+     public void setIndexTo(int index_to){}
 
      /**
       * This method sets the player that plays the card.
       * @param player The number representing the player that played the card.
       */
-     public void setCurrent_player(int player){}
+     public void setCurrentPlayer(int player){}
 
      /**
       * This method returns the array of students on the card.
@@ -91,7 +91,7 @@ public abstract class CharacterCard implements Serializable {
       * This method return the ID code of the card.
       * @return The ID code of the card.
       */
-     public int getID_code() {
+     public int getIDCode() {
           return ID_code;
      }
 }

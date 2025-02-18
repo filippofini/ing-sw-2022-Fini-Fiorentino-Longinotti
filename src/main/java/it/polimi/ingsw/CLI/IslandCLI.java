@@ -23,12 +23,12 @@ public class IslandCLI {
 
         System.out.println("Island["+islandID+"]:\n");
         for (int k=0;k<5; k++){
-            System.out.println(DiskColour.values()[k] +": "+island.getArr_students()[k]+"\n");
+            System.out.println(DiskColour.values()[k] +": "+island.getArrStudents()[k]+"\n");
         }
 
-        System.out.println("Influence: "+island.getInfluence_controller()+"\n");
+        System.out.println("Influence: "+island.getInfluenceController()+"\n");
         System.out.println("number of towers: "+island.getTower()+"\n");
-        System.out.println("Owned by: player "+island.getPlayer_controller()+"\n\n");
+        System.out.println("Owned by: player "+island.getPlayerController()+"\n\n");
 
         client.sendMessageToServer(new DisplayIslandInfoReply());
     }
@@ -45,12 +45,12 @@ public class IslandCLI {
             for (int i=0;i< islands.size();i++){
                 System.out.println("Island["+i+"]:\n");
                 for (int k=0;k<5; k++){
-                    System.out.println(DiskColour.values()[k] +": "+islands.get(i).getArr_students()[k]+"\n");
+                    System.out.println(DiskColour.values()[k] +": "+islands.get(i).getArrStudents()[k]+"\n");
                 }
 
-                System.out.println("Influence: "+islands.get(i).getInfluence_controller()+"\n");
+                System.out.println("Influence: "+islands.get(i).getInfluenceController()+"\n");
                 System.out.println("number of towers: "+ islands.get(i).getTower()+"\n");
-                System.out.println("Owned by: player "+ islands.get(i).getPlayer_controller()+"\n\n");
+                System.out.println("Owned by: player "+ islands.get(i).getPlayerController()+"\n\n");
             }
 
 

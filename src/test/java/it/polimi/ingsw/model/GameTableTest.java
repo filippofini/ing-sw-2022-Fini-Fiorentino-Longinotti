@@ -51,7 +51,7 @@ class GameTableTest {
         GameTable game_table = new GameTable(2);
         LinkedList<Island> islands = game_table.getIslands();
 
-        assertTrue(islands.get(game_table.getMotherNaturePos()).isMother_nature());
+        assertTrue(islands.get(game_table.getMotherNaturePos()).isMotherNatureHere());
 
     }
 
@@ -64,7 +64,7 @@ class GameTableTest {
         if (get + 1 == 0) {
             get = get + 2;
         }
-        assertFalse(islands.get(get).isMother_nature());
+        assertFalse(islands.get(get).isMotherNatureHere());
 
     }
 
@@ -103,10 +103,10 @@ class GameTableTest {
         //Game with three players
         GameTable game_table = new GameTable(3);
         LinkedList<Island> islands = game_table.getIslands();
-        islands.get(1).setPlayer_controller(2);
-        islands.get(8).setPlayer_controller(1);
-        islands.get(2).setPlayer_controller(1);
-        islands.get(3).setPlayer_controller(1);
+        islands.get(1).setPlayerController(2);
+        islands.get(8).setPlayerController(1);
+        islands.get(2).setPlayerController(1);
+        islands.get(3).setPlayerController(1);
 
         game_table.merge(2, 1, board);
         assertEquals(11, islands.size());
@@ -117,9 +117,9 @@ class GameTableTest {
         //Game with three players
         GameTable game_table = new GameTable(3);
         LinkedList<Island> islands = game_table.getIslands();
-        islands.get(2).setPlayer_controller(1);
-        islands.get(3).setPlayer_controller(1);
-        islands.get(1).setPlayer_controller(1);
+        islands.get(2).setPlayerController(1);
+        islands.get(3).setPlayerController(1);
+        islands.get(1).setPlayerController(1);
 
         game_table.merge(2, 1, board);
         assertEquals(10, islands.size());
@@ -131,9 +131,9 @@ class GameTableTest {
         GameTable game_table = new GameTable(2);
         //Merge to first of the list
         LinkedList<Island> islands = game_table.getIslands();
-        islands.get(0).setPlayer_controller(1);
-        islands.get(1).setPlayer_controller(1);
-        islands.get(11).setPlayer_controller(1);
+        islands.get(0).setPlayerController(1);
+        islands.get(1).setPlayerController(1);
+        islands.get(11).setPlayerController(1);
 
         game_table.merge(0, 1, board);
         assertEquals(10, islands.size());
@@ -145,9 +145,9 @@ class GameTableTest {
         GameTable game_table = new GameTable(3);
         //Merge to last of the list
         LinkedList<Island> islands = game_table.getIslands();
-        islands.get(11).setPlayer_controller(1);
-        islands.get(0).setPlayer_controller(1);
-        islands.get(10).setPlayer_controller(1);
+        islands.get(11).setPlayerController(1);
+        islands.get(0).setPlayerController(1);
+        islands.get(10).setPlayerController(1);
 
         game_table.merge(11, 1, board);
         assertEquals(10, islands.size());
@@ -159,13 +159,13 @@ class GameTableTest {
         GameTable game_table = new GameTable(3);
         //Merge twice
         LinkedList<Island> islands = game_table.getIslands();
-        islands.get(11).setPlayer_controller(1);
-        islands.get(0).setPlayer_controller(1);
-        islands.get(10).setPlayer_controller(1);
+        islands.get(11).setPlayerController(1);
+        islands.get(0).setPlayerController(1);
+        islands.get(10).setPlayerController(1);
         game_table.merge(11, 1, board);
 
-        islands.get(7).setPlayer_controller(3);
-        islands.get(8).setPlayer_controller(3);
+        islands.get(7).setPlayerController(3);
+        islands.get(8).setPlayerController(3);
         game_table.merge(7, 1, board);
 
         assertEquals(9, islands.size());
@@ -177,18 +177,18 @@ class GameTableTest {
         GameTable game_table = new GameTable(3);
         //Merge three times
         LinkedList<Island> islands = game_table.getIslands();
-        islands.get(11).setPlayer_controller(1);
-        islands.get(0).setPlayer_controller(1);
-        islands.get(10).setPlayer_controller(1);
+        islands.get(11).setPlayerController(1);
+        islands.get(0).setPlayerController(1);
+        islands.get(10).setPlayerController(1);
         game_table.merge(11, 1, board);
 
-        islands.get(7).setPlayer_controller(3);
-        islands.get(8).setPlayer_controller(3);
+        islands.get(7).setPlayerController(3);
+        islands.get(8).setPlayerController(3);
         game_table.merge(7, 1, board);
 
-        islands.get(2).setPlayer_controller(2);
-        islands.get(1).setPlayer_controller(2);
-        islands.get(3).setPlayer_controller(2);
+        islands.get(2).setPlayerController(2);
+        islands.get(1).setPlayerController(2);
+        islands.get(3).setPlayerController(2);
         game_table.merge(2, 1, board);
 
         assertEquals(7, islands.size());
@@ -200,8 +200,8 @@ class GameTableTest {
         GameTable game_table = new GameTable(2);
         //No merge
         LinkedList<Island> islands = game_table.getIslands();
-        islands.get(3).setPlayer_controller(2);
-        islands.get(4).setPlayer_controller(1);
+        islands.get(3).setPlayerController(2);
+        islands.get(4).setPlayerController(1);
         game_table.merge(3, 1, board);
 
         assertEquals(12, islands.size());

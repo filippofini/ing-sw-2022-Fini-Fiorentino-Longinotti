@@ -7,21 +7,21 @@ import java.io.Serializable;
  * There is one professor for each colour. See more at: {@link DiskColour}.
  */
 public class Professor implements Serializable {
-    private final DiskColour colour_prof;
+    private final DiskColour colorProf;
 
     /**
      * Constructor of the class.
-     * @param colour_prof The colour of the professor.
+     * @param colorProf The colour of the professor.
      */
-    public Professor(DiskColour colour_prof) {
-        this.colour_prof = colour_prof;
+    public Professor(DiskColour colorProf) {
+        this.colorProf = colorProf;
     }
 
     /**
      * This method returns the colour of the professor.
      * @return The int representing the colour of the professor. See more at: {@link DiskColour}.
      */
-    public int getColour_prof() {
-        return colour_prof.getTranslateColour();
+    public int getColorProf() {
+        return colorProf.getTranslateColour();
     }
 }

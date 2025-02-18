@@ -9,9 +9,9 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 class BoardTest {
     //Game with two players
-    Board board = new Board(2, 1, TowerColour.STARTER);
+    Board board = new Board(2, TowerColour.STARTER);
     //Game with three players
-    Board board3 = new Board(3,1, TowerColour.STARTER);
+    Board board3 = new Board(3, TowerColour.STARTER);
 
 
     private Student[] array = new Student[7];
@@ -20,7 +20,7 @@ class BoardTest {
     void testAdd_profTrue() {
         boolean[] arrProfessors = board.getArrProfessors();
         DiskColour color = DiskColour.RED;
-        board.add_prof(color);
+        board.addProf(color);
         assertTrue(arrProfessors[DiskColour.RED.getTranslateColour()]);
     }
 
@@ -29,7 +29,7 @@ class BoardTest {
         int[] arrPositionStudents = board.getArrPositionStudents();
         DiskColour color = DiskColour.RED;
         arrPositionStudents[DiskColour.RED.getTranslateColour()] = 2;
-        board.add_student(color);
+        board.addStudent(color);
         assertEquals(3, arrPositionStudents[DiskColour.RED.getTranslateColour()]);
     }
 
@@ -53,8 +53,8 @@ class BoardTest {
 
     @Test
     void testN_towers() {
-        board.setN_towers(6);
-        assertEquals(6,board.getN_towers());
+        board.setNumTowers(6);
+        assertEquals(6,board.getNumTowers());
     }
 
     @Test

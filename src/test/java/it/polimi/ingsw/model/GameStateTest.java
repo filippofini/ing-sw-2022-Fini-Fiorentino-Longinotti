@@ -20,16 +20,16 @@ class GameStateTest {
         return lPlayers;
     }
 
-    GameState game_state = new GameState(2, new String[]{"FF","HH"}, new int[]{1,2}, false, 1, addLPlayers(lPlayers));
-    GameState game_state2 = new GameState(4,new String[]{"FF","HH","GG","LL"}, new int[]{1,2,3,4}, false, 1, addLPlayers(lPlayers));
+    GameState game_state = new GameState(2, new String[]{"FF","HH"}, new int[]{1,2},1, addLPlayers(lPlayers));
+    GameState game_state2 = new GameState(4,new String[]{"FF","HH","GG","LL"}, new int[]{1,2,3,4}, 1, addLPlayers(lPlayers));
 
     private Player[] players = new Player[2];
 
     @Test
     public void testGetGT(){
-        GameState Gs = new GameState(2, new String[]{"FF","HH"}, new int[]{1,2}, true, 1, addLPlayers(lPlayers));
+        GameState Gs = new GameState(2, new String[]{"FF","HH"}, new int[]{1,2},1, addLPlayers(lPlayers));
 
-        assertNotEquals(game_state.getGT(), Gs.getGT());
+        assertNotEquals(game_state.getGameTable(), Gs.getGameTable());
     }
 
     @Test
@@ -41,9 +41,9 @@ class GameStateTest {
 
     @Test
     void testValue(){
-       game_state.getPlayers()[1].setChosen_card(AssistanceCard.ELEPHANT);
+       game_state.getPlayers()[1].setChosenCard(AssistanceCard.ELEPHANT);
 
-       assertNotEquals(30, game_state.getPlayers()[1].getChosen_card().getValue());
+       assertNotEquals(30, game_state.getPlayers()[1].getChosenCard().getValue());
     }
 }
 

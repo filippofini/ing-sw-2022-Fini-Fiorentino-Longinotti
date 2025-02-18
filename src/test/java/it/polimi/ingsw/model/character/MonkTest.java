@@ -22,7 +22,7 @@ class MonkTest {
         return lPlayers;
     }
     Monk monk = new Monk(new int[]{1,0,0,2,1});
-    GameState game_state = new GameState(2, new String[]{"FF", "HH"},new int[]{1,2},false,1, addLPlayers(lPlayers));
+    GameState game_state = new GameState(2, new String[]{"FF", "HH"},new int[]{1,2},1, addLPlayers(lPlayers));
 
     @Test
     public void testSetUses1(){
@@ -40,7 +40,7 @@ class MonkTest {
 
     @Test
     public void testID(){
-        assertEquals(1,monk.getID_code());
+        assertEquals(1,monk.getIDCode());
     }
 
     @Test
@@ -51,8 +51,8 @@ class MonkTest {
     @Test
     public void testEffect(){
         int sum=0;
-        monk.setIndex_to(5);
-        monk.setChosen_student(3);
+        monk.setIndexTo(5);
+        monk.setChosenStudent(3);
         monk.effect(game_state);
         int[] arr_stud = monk.getStudents();
 

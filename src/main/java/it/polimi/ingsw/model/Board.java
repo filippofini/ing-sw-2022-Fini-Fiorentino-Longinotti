@@ -19,23 +19,22 @@ import java.util.List;
  * The towers in the board are 8 if the game has 2 or 4 players, 7 if the game has 3 players.
  */
 public class Board implements Serializable {
-    private final int n_players;
-    private int n_towers;
+    private final int numPlayers;
+    private int numTowers;
     private int[] arrPositionStudents;
     private Student[] arrEntranceStudents;
     private boolean[] arrProfessors;
     private int tower;
     private int maxEntranceStudents;
     private boolean[][] trackCoins;
-    private boolean farmer_state;
+    private boolean farmerState;
 
     /**
      * Constructor of the class.
      * @param numOfPlayers The number of players in the game.
-     * @param playerID The player ID assigned to the board. It's an indirect reference to the player.
      * @param tower The tower colour assigned to the player and to the board.
      */
-    public Board(int numOfPlayers, int playerID, TowerColour tower){
+    public Board(int numOfPlayers, TowerColour tower){
         this.tower = tower.getTower_translate();
         arrPositionStudents = new int[5];
         arrProfessors = new boolean[5];
@@ -46,18 +45,18 @@ public class Board implements Serializable {
             Arrays.fill(row, false);
         }
 
-        farmer_state=false;
+        farmerState = false;
 
-        n_players = numOfPlayers;
+        numPlayers = numOfPlayers;
 
-        if(n_players == 2 ){
+        if(numPlayers == 2 ){
             arrEntranceStudents = new Student[7];
             maxEntranceStudents = 7;
-            n_towers = 8;
-        } else if(n_players == 3){
+            numTowers = 8;
+        } else if(numPlayers == 3){
             arrEntranceStudents = new Student[9];
             maxEntranceStudents = 9;
-            n_towers = 6;
+            numTowers = 6;
         }
     }
 
@@ -65,7 +64,7 @@ public class Board implements Serializable {
      * This method adds a professor to the board.
      * @param profColour The colour of the professor to be added.
      */
-    public void add_prof(DiskColour profColour){
+    public void addProf(DiskColour profColour){
         arrProfessors[profColour.getTranslateColour()] = true;
     }
 
@@ -73,7 +72,7 @@ public class Board implements Serializable {
      * This method adds a student to the board.
      * @param studentColour The colour of the student to be added.
      */
-    public void add_student(DiskColour studentColour){
+    public void addStudent(DiskColour studentColour){
         arrPositionStudents[studentColour.getTranslateColour()]++;
     }
 
@@ -83,109 +82,157 @@ public class Board implements Serializable {
      * @param clientHandler The client handler.
      * @return The list of students sent to an island.
      */
-    public List<Student> moveEntranceStudents(GameState GS, ClientHandler clientHandler){
-
+    public List<Student> moveEntranceStudents(GameState GS, ClientHandler clientHandler) {
+        List<Student> studentsToIslands = new ArrayList<>();
         int studentsChosen = 0;
-        boolean noOneProf = true;
-        List<Student> studentToIslands = new ArrayList<>();
 
-        while(studentsChosen < (n_players + 1)) {
-
+        // We repeat the "choose and place student" flow until we've placed (numPlayers + 1) students.
+        while (studentsChosen < (numPlayers + 1)) {
             clientHandler.sendMessageToClient(new StudentToMoveRequest(this));
 
-            if (!arrEntranceStudents[clientHandler.getStudToMove()].getIsChosen()) {
+            int chosenIndex = clientHandler.getStudToMove();
+            Student chosenStudent = arrEntranceStudents[chosenIndex];
 
-                clientHandler.sendMessageToClient(new ChooseIslandOrBoardRequest(this,clientHandler.getStudToMove()));
+            // If the student hasn’t already been moved
+            if (!chosenStudent.getIsChosen()) {
+                clientHandler.sendMessageToClient(new ChooseIslandOrBoardRequest(this, chosenIndex));
+                int placementChoice = clientHandler.getPos();
 
-                if(clientHandler.getPos() == 0){
-                    if(arrPositionStudents[arrEntranceStudents[clientHandler.getStudToMove()].getColour()] < 10){
+                switch (placementChoice) {
+                    case 0: // Place student in dining
+                        if (canPlaceStudentInDining(chosenStudent.getColor())) {
+                            placeStudentInDining(chosenStudent);
+                            studentsChosen++;
+                            updateProfessors(GS);
+                        } else {
+                            // Dining color is full
+                            clientHandler.sendMessageToClient(
+                                    new DisplayDiningRoomColourFullRequest(this, chosenIndex)
+                            );
+                        }
+                        break;
 
-                        arrPositionStudents[arrEntranceStudents[clientHandler.getStudToMove()].getColour()]++;
-                        coinsEarned();
-                        arrEntranceStudents[clientHandler.getStudToMove()].Chosen();
+                    case 1: // Send student to island
+                        studentsToIslands.add(new Student(chosenStudent.getEnumColour()));
+                        chosenStudent.chosen();
                         studentsChosen++;
+                        break;
 
-                        if(farmer_state){
-                            for(int j = 0; j < 5; j++){
-                                for(int k = 0; k < n_players; k++){
-                                    if(GS.getGT().getBoards()[k].getArrProfessors()[j]){
-                                        noOneProf = false;
-                                    }
-                                }
-                                for(int i = 0; i < n_players; i++){
-                                    if((GS.getGT().getBoards()[GS.getCurrPlayer()].getArrPositionStudents()[j] >= GS.getGT().getBoards()[i].getArrPositionStudents()[j] &&
-                                            GS.getCurrPlayer()!=i) || (noOneProf && GS.getGT().getBoards()[GS.getCurrPlayer()].getArrPositionStudents()[j]>=GS.getGT().getBoards()[i].getArrPositionStudents()[j])){
-                                        GS.getGT().getBoards()[GS.getCurrPlayer()].setprofessor(j,true);
-                                        GS.getGT().getBoards()[i].setprofessor(j,false);
-                                    }
-                                }
-                                noOneProf=true;
-
-                            }
-                        }
-                        else{
-                            for(int j=0;j<5;j++){
-                                for(int k=0;k<n_players;k++){
-                                    if(GS.getGT().getBoards()[k].getArrProfessors()[j]){
-                                        noOneProf=false;
-                                    }
-                                }
-                                for(int i = 0; i<GS.getGT().getNumPlayers(); i++){
-                                    if((GS.getGT().getBoards()[GS.getCurrPlayer()].getArrPositionStudents()[j]>GS.getGT().getBoards()[i].getArrPositionStudents()[j] && GS.getCurrPlayer()!=i && GS.getGT().getBoards()[i].getArrProfessors()[j])|| (noOneProf==true && GS.getGT().getBoards()[GS.getCurrPlayer()].getArrPositionStudents()[j]>GS.getGT().getBoards()[i].getArrPositionStudents()[j])){
-                                        GS.getGT().getBoards()[GS.getCurrPlayer()].setprofessor(j,true);
-                                        GS.getGT().getBoards()[i].setprofessor(j,false);
-
-                                    }
-                                }
-                                noOneProf=true;
-
-                            }
-                        }
-                    }
-                    else{
-                        clientHandler.sendMessageToClient(new DisplayDiningRoomColourFullRequest(this,clientHandler.getStudToMove()));
-                    }
+                    default:
+                        // You may show some error handling/logging here if needed.
+                        break;
                 }
-                else if(clientHandler.getPos() == 1){
-                    studentToIslands.add(new Student(arrEntranceStudents[clientHandler.getStudToMove()].getEnumColour()));
-                    arrEntranceStudents[clientHandler.getStudToMove()].Chosen();
-                    studentsChosen++;
-                }
-
-            }
-            else if (arrEntranceStudents[clientHandler.getStudToMove()].getIsChosen() == true){
-                clientHandler.sendMessageToClient(new DisplayStudentChosenPreviouslyRequest(this,clientHandler.getStudToMove()));
+            } else {
+                // The chosen student had already been moved in a previous iteration
+                clientHandler.sendMessageToClient(
+                        new DisplayStudentChosenPreviouslyRequest(this, chosenIndex)
+                );
             }
         }
-        if(farmer_state){
-            farmer_state=false;
+
+        // If the "farmer" effect was active, disable it after these placements
+        if (farmerState) {
+            farmerState = false;
         }
-        return studentToIslands;
+
+        return studentsToIslands;
+    }
+
+    /**
+     * Checks if the student’s color can still be placed in the dining area.
+     * For example, there's a limit of 10 students of the same color in dining.
+     */
+    private boolean canPlaceStudentInDining(int colorIndex) {
+        return arrPositionStudents[colorIndex] < 10;
+    }
+
+    /**
+     * Increments the board’s count of students for the chosen color, marks the
+     * student as “Chosen,” and triggers coin earning.
+     */
+    private void placeStudentInDining(Student chosenStudent) {
+        arrPositionStudents[chosenStudent.getColor()]++;
+        coinsEarned();
+        chosenStudent.chosen();
+    }
+
+    /**
+     * After a student is placed in dining, we update the professor ownership
+     * depending on whether the Farmer card is active or not.
+     */
+    private void updateProfessors(GameState GS) {
+        Board[] boards = GS.getGameTable().getBoards();
+        int currentPlayer = GS.getCurrPlayer();
+
+        for (int colorIndex = 0; colorIndex < arrProfessors.length; colorIndex++) {
+            // Check if any board already owns the professor of this color
+            boolean isProfessorOwnedBySomeone = false;
+            for (Board b : boards) {
+                if (b.getArrProfessors()[colorIndex]) {
+                    isProfessorOwnedBySomeone = true;
+                    break;
+                }
+            }
+
+            // Attempt to assign (or reassign) the professor to the current player
+            assignProfessorIfEligible(GS, colorIndex, isProfessorOwnedBySomeone, currentPlayer);
+        }
+
+        // If the Farmer effect was active, it only applies for this single update
+        // (already turned off at the end of moveEntranceStudents).
+    }
+
+    /**
+     * Assigns the professor of a particular color to the current player if they
+     * meet the conditions. Uses Farmer-state logic to decide the comparison rule.
+     */
+    private void assignProfessorIfEligible(
+            GameState GS,
+            int colorIndex,
+            boolean isProfessorOwnedBySomeone,
+            int currentPlayer
+    ) {
+        Board[] boards = GS.getGameTable().getBoards();
+        int currentColorCount = boards[currentPlayer].getArrPositionStudents()[colorIndex];
+
+        for (int i = 0; i < boards.length; i++) {
+            if (i == currentPlayer) {
+                continue;
+            }
+
+            int otherColorCount = boards[i].getArrPositionStudents()[colorIndex];
+            boolean otherHasProfessor = boards[i].getArrProfessors()[colorIndex];
+
+            if (farmerState) {
+                // Farmer effect: >= to steal or gain if no one has it
+                if ((currentColorCount >= otherColorCount && otherHasProfessor)
+                        || (!isProfessorOwnedBySomeone && currentColorCount >= otherColorCount)) {
+                    boards[currentPlayer].setProfessor(colorIndex, true);
+                    boards[i].setProfessor(colorIndex, false);
+                }
+            } else {
+                // Normal effect: > to steal or gain if no one has it
+                if ((currentColorCount > otherColorCount && otherHasProfessor)
+                        || (!isProfessorOwnedBySomeone && currentColorCount > otherColorCount)) {
+                    boards[currentPlayer].setProfessor(colorIndex, true);
+                    boards[i].setProfessor(colorIndex, false);
+                }
+            }
+        }
     }
 
     /**
      * This method checks if coins can be earned.
      * @return The coins earned this turn, to sum with current coins each turn.
      */
-    public int coinsEarned(){
-        int coins=0;
-        for(int i=0; i<5;i++){
-            if(arrPositionStudents[i]/3==1){
-                if(trackCoins[i][0]==false){
+    public int coinsEarned() {
+        int coins = 0;
+        for (int i = 0; i < 5; i++) {
+            // j goes from 0 to 2, corresponding to thresholds of 1, 2, and 3 respectively
+            for (int j = 0; j < 3; j++) {
+                if (arrPositionStudents[i] / 3 == (j + 1) && !trackCoins[i][j]) {
                     coins++;
-                    trackCoins[i][0]=true;
-                }
-            }
-            if(arrPositionStudents[i]/3==2){
-                if(trackCoins[i][1]==false){
-                    coins++;
-                    trackCoins[i][1]=true;
-                }
-            }
-            if(arrPositionStudents[i]/3==3){
-                if(trackCoins[i][2]==false){
-                    coins++;
-                    trackCoins[i][2]=true;
+                    trackCoins[i][j] = true;
                 }
             }
         }
@@ -212,21 +259,21 @@ public class Board implements Serializable {
      * This method returns the number of towers remaining on the board.
      * @return The number of towers remaining on the board.
      */
-    public int getN_towers() {
-        return n_towers;
+    public int getNumTowers() {
+        return numTowers;
     }
 
     /**
      * This method sets the number of towers on the board.
      * @param n_towers The number of towers on the board.
      */
-    public void setN_towers(int n_towers) {
-        this.n_towers = n_towers;
+    public void setNumTowers(int n_towers) {
+        this.numTowers = n_towers;
     }
 
     /**
      * This method sets the array of students on the board
-     * @param arrPositionStudents
+     * @param arrPositionStudents The array of students on the board.
      */
     public void setArrPositionStudents(int[] arrPositionStudents) {
         this.arrPositionStudents = arrPositionStudents;
@@ -253,7 +300,7 @@ public class Board implements Serializable {
      * @param index The Index of the professor.
      * @param state If the professor is on the board or not.
      */
-    public void setprofessor(int index,boolean state){
+    public void setProfessor(int index, boolean state){
         getArrProfessors()[index]=state;
     }
 
@@ -352,10 +399,10 @@ public class Board implements Serializable {
 
     /**
      * This method is used to check if the farmer character card is used, and its effect it's active.
-     * @param farmer_state {@code True} if the effect is active, {@code False} if not.
+     * @param farmerState {@code True} if the effect is active, {@code False} if not.
      */
-    public void setFarmer_state(boolean farmer_state) {
-        this.farmer_state = farmer_state;
+    public void setFarmerState(boolean farmerState) {
+        this.farmerState = farmerState;
     }
 
     /**
@@ -371,8 +418,8 @@ public class Board implements Serializable {
      * This method returns if the farmer character card has been played.
      * @return {@code True} if the farmer character card has been played.
      */
-    public boolean isFarmer_state() {
-        return farmer_state;
+    public boolean isFarmerState() {
+        return farmerState;
     }
 }
 

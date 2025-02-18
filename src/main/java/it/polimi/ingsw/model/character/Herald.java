@@ -7,11 +7,12 @@ import it.polimi.ingsw.model.GameState;
  * This class represents the herald character card.
  */
 public class Herald extends CharacterCard {
-    private final int ID_code=3;
-    private int cost=3;
-    private int uses=0;
+
+    private final int ID_code = 3;
+    private int cost = 3;
+    private int uses = 0;
     private int index_to;
-    private String name="HERALD";
+    private final String name = "HERALD";
 
     /**
      * This method implements the effect of the herald card.
@@ -20,8 +21,12 @@ public class Herald extends CharacterCard {
      * @param game_state The game state.
      */
     @Override
-    public void effect(GameState game_state){
-        game_state.getGT().getIslands().get(index_to).calculate_influence(0, game_state.getGT().getBoards());
+    public void effect(GameState game_state) {
+        game_state
+                .getGameTable()
+                .getIslands()
+                .get(index_to)
+                .calculateInfluence(0, game_state.getGameTable().getBoards());
         setUses();
     }
 
@@ -38,7 +43,7 @@ public class Herald extends CharacterCard {
      * @param index_to The index of the island into which the prohibition card will be moved to.
      */
     @Override
-    public void setIndex_to(int index_to) {
+    public void setIndexTo(int index_to) {
         this.index_to = index_to;
     }
 
@@ -48,7 +53,7 @@ public class Herald extends CharacterCard {
      */
     public void setUses() {
         this.uses++;
-        setCost(cost+1);
+        setCost(cost + 1);
     }
 
     /**
@@ -79,7 +84,7 @@ public class Herald extends CharacterCard {
      * This method returns the ID code of the card.
      * @return The ID code of the card.
      */
-    public int getID_code() {
+    public int getIDCode() {
         return ID_code;
     }
 }

@@ -26,8 +26,8 @@ class DeckTest {
     @Test
     void testRemove_used_card() {
         Deck deck = new Deck();
-        deck.remove_used_card(AssistanceCard.CAT);
-        assertEquals(9,deck.count_elements());
+        deck.removeUsedCard(AssistanceCard.CAT);
+        assertEquals(9,deck.countElements());
     }
 
     @Test

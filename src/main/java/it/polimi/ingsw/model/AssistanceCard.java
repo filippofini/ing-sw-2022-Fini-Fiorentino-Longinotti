@@ -30,7 +30,7 @@ public enum AssistanceCard implements Serializable {
      * This method returns the max movement of mother nature.
      * @return The max movement of mother nature.
      */
-    public int getMother_nature_movement() {
+    public int getMotherNatureMovement() {
         return mother_nature_movement;
     }
 

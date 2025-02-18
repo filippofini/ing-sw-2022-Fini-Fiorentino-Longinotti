@@ -31,7 +31,7 @@ class PlayerTest {
 
     @Test
     public void testGetTower_Colour() {
-        assertEquals(1,player.getTower_colour());
+        assertEquals(1,player.getTowerColor());
     }
 
     @Test

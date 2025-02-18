@@ -7,19 +7,20 @@ import it.polimi.ingsw.model.GameState;
  * This class represents the monk character card.
  */
 public class Monk extends CharacterCard {
-    private final int ID_code=1;
-    private int cost=1;
-    private int uses=0;
+
+    private final int ID_code = 1;
+    private int cost = 1;
+    private int uses = 0;
     private int[] students;
     private int index_to;
     private int chosen_student;
-    private String name= "MONK";
+    private final String name = "MONK";
 
     /**
      * Constructor of the class.
      * @param monk_drawn The initial array containing 4 students.
      */
-    public Monk(int[] monk_drawn){
+    public Monk(int[] monk_drawn) {
         this.students = monk_drawn;
     }
 
@@ -31,10 +32,14 @@ public class Monk extends CharacterCard {
      * @param game_state The game state.
      */
     @Override
-    public void effect(GameState game_state){
-        game_state.getGT().getIslands().get(index_to).setOneStudent(chosen_student);
+    public void effect(GameState game_state) {
+        game_state
+                .getGameTable()
+                .getIslands()
+                .get(index_to)
+                .setOneStudent(chosen_student);
         students[chosen_student]--;
-        students[game_state.getGT().drawOne()]++;
+        students[game_state.getGameTable().drawOne()]++;
         setUses();
     }
 
@@ -51,7 +56,7 @@ public class Monk extends CharacterCard {
      * @param chosen_student The student to be moved from the card to the island.
      */
     @Override
-    public void setChosen_student(int chosen_student) {
+    public void setChosenStudent(int chosen_student) {
         this.chosen_student = chosen_student;
     }
 
@@ -59,7 +64,7 @@ public class Monk extends CharacterCard {
      * This method sets the index of the island into which the prohibition card will be moved to.
      * @param index_to The index of the island into which the prohibition card will be moved to.
      */
-    public void setIndex_to(int index_to) {
+    public void setIndexTo(int index_to) {
         this.index_to = index_to;
     }
 
@@ -69,7 +74,7 @@ public class Monk extends CharacterCard {
      */
     public void setUses() {
         this.uses++;
-        setCost(cost+1);
+        setCost(cost + 1);
     }
 
     /**
@@ -100,7 +105,7 @@ public class Monk extends CharacterCard {
      * This method returns the ID code of the card.
      * @return The ID code of the card.
      */
-    public int getID_code() {
+    public int getIDCode() {
         return ID_code;
     }
 

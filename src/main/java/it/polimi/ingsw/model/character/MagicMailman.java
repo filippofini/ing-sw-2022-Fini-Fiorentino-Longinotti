@@ -7,10 +7,11 @@ import it.polimi.ingsw.model.GameState;
  * This class represents the magic mailman character card.
  */
 public class MagicMailman extends CharacterCard {
-    private final int ID_code=4;
-    private int cost=1;
-    private int uses=0;
-    private String name="MAGIC MAILMAN";
+
+    private final int ID_code = 4;
+    private int cost = 1;
+    private int uses = 0;
+    private final String name = "MAGIC MAILMAN";
 
     /**
      * This method implements the effect of the magic mailman card.
@@ -18,8 +19,13 @@ public class MagicMailman extends CharacterCard {
      * @param game_state The game state.
      */
     @Override
-    public void effect(GameState game_state){
-       game_state.getPlayers()[game_state.getCurrPlayer()].setMoves(game_state.getPlayers()[game_state.getCurrPlayer()].getChosen_card().getMother_nature_movement()+2);
+    public void effect(GameState game_state) {
+        game_state
+                .getPlayers()[game_state.getCurrPlayer()].setMoves(
+                game_state
+                        .getPlayers()[game_state.getCurrPlayer()].getChosenCard()
+                        .getMotherNatureMovement() + 2
+                );
         this.setUses();
     }
 
@@ -37,7 +43,7 @@ public class MagicMailman extends CharacterCard {
      */
     public void setUses() {
         this.uses++;
-        setCost(cost+1);
+        setCost(cost + 1);
     }
 
     /**
@@ -68,7 +74,7 @@ public class MagicMailman extends CharacterCard {
      * This method returns the ID code of the card.
      * @return The ID code of the card.
      */
-    public int getID_code() {
+    public int getIDCode() {
         return ID_code;
     }
 }

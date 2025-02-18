@@ -20,12 +20,12 @@ class MagicMailmanTest {
 
     List<Player> lPlayers = new ArrayList<>();
     private List<Player> addLPlayers(List lPlayers){
-        lPlayers.add(new Player("ff",1, TowerColour.GREY,1));
-        lPlayers.add(new Player("gg",2,TowerColour.GREY,2));
+        lPlayers.add(new Player("ff",1, TowerColour.GREY,0));
+        lPlayers.add(new Player("gg",2,TowerColour.GREY,1));
         return lPlayers;
     }
     MagicMailman magic_mailman = new MagicMailman();
-    GameState game_state = new GameState(2, new String[]{"FF", "HH"}, new int[]{1,2},false,1, addLPlayers(lPlayers));
+    GameState game_state = new GameState(2, new String[]{"FF", "HH"}, new int[]{1,2},0, addLPlayers(lPlayers));
 
     @Test
     public void testSetUses1(){
@@ -45,7 +45,7 @@ class MagicMailmanTest {
 
     @Test
     public void testID(){
-        assertEquals(4, magic_mailman.getID_code());
+        assertEquals(4, magic_mailman.getIDCode());
     }
 
     @Test
@@ -54,15 +54,12 @@ class MagicMailmanTest {
     }
 
 
-    //TODO: solve this test
-    /*
     @Test
     public void testEffect(){
-        game_state.getPlayers()[0].setChosen_card(AssistanceCard.CAT);
+        game_state.getPlayers()[0].setChosenCard(AssistanceCard.CAT);
         magic_mailman.effect(game_state);
 
         assertEquals(6, game_state.getPlayers()[0].getMoves());
     }
-    */
 
 }

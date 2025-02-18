@@ -22,7 +22,7 @@ class HeraldTest {
         return lPlayers;
     }
     Herald herald = new Herald();
-    GameState game_state = new GameState(2, new String[]{"FF", "HH"},new int[]{1,2},false, 1, addLPlayers(lPlayers));
+    GameState game_state = new GameState(2, new String[]{"FF", "HH"},new int[]{1,2},1, addLPlayers(lPlayers));
 
     @Test
     public void testSetUses1(){
@@ -40,7 +40,7 @@ class HeraldTest {
 
     @Test
     public void testID(){
-        assertEquals(3,herald.getID_code());
+        assertEquals(3,herald.getIDCode());
     }
 
     @Test
@@ -51,10 +51,10 @@ class HeraldTest {
 
     @Test
     public void testEffect(){
-        herald.setIndex_to(5);
+        herald.setIndexTo(5);
         herald.effect(game_state);
 
-        assertEquals(false, game_state.getGT().getIslands().get(4).isMother_nature());
+        assertEquals(false, game_state.getGameTable().getIslands().get(4).isMotherNatureHere());
     }
 
 }

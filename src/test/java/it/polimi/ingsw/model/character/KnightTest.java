@@ -20,7 +20,7 @@ class KnightTest {
     }
     
     Knight knight = new Knight();
-    GameState game_state = new GameState(2, new String[]{"FF", "HH"},new int[]{1,2},true, 1, addLPlayers(lPlayers));
+    GameState game_state = new GameState(2, new String[]{"FF", "HH"},new int[]{1,2}, 1, addLPlayers(lPlayers));
 
     @Test
     public void testSetUses1(){
@@ -38,7 +38,7 @@ class KnightTest {
 
     @Test
     public void testID(){
-        assertEquals(8,knight.getID_code());
+        assertEquals(8,knight.getIDCode());
     }
 
     @Test
@@ -50,11 +50,11 @@ class KnightTest {
     @Test
     public void testEffect(){
         knight.effect(game_state);
-        game_state.getGT().getBoards()[0].setArrProfessors(new boolean[]{true,true,true,true,true});
-        game_state.getGT().getIslands().get(game_state.getGT().getMotherNaturePos()).calculate_influence(1, game_state.getGT().getBoards());
+        game_state.getGameTable().getBoards()[0].setArrProfessors(new boolean[]{true,true,true,true,true});
+        game_state.getGameTable().getIslands().get(game_state.getGameTable().getMotherNaturePos()).calculateInfluence(1, game_state.getGameTable().getBoards());
 
 
-        assertEquals(0, game_state.getGT().getIslands().get(game_state.getGT().getMotherNaturePos()+1).getInfluence_controller());
+        assertEquals(0, game_state.getGameTable().getIslands().get(game_state.getGameTable().getMotherNaturePos()+1).getInfluenceController());
     }
 
 

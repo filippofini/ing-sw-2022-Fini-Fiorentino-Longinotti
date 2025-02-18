@@ -90,7 +90,7 @@ public class GameController implements Serializable {
         setturnController(turnController);
 
         while(turnController.getendgame()==false) {
-            turnController.planning_phase_general();
+            turnController.planningPhaseGeneral();
             turnController.action_phase();
         }
         endGame(turnController);
@@ -195,7 +195,7 @@ public class GameController implements Serializable {
      * This method is used to start the end game. It gives the results to the players.
      */
     public void endGame(TurnController turnController) throws IOException {
-        getServer().gameEnded(this,new ResultsNotify(turnController.getGS().getGT().getIslands(),players,turnController.getGS().getGT().getBoards()));
+        getServer().gameEnded(this,new ResultsNotify(turnController.getGS().getGameTable().getIslands(),players,turnController.getGS().getGameTable().getBoards()));
     }
 
     /**

@@ -8,12 +8,13 @@ import it.polimi.ingsw.model.GameState;
  * This card starts with 4 prohibition cards that can be put on the island.
  */
 public class HerbsGrandma extends CharacterCard {
-    private final int ID_code=5;
-    private int cost=1;
-    private int uses=0;
+
+    private final int ID_code = 5;
+    private int cost = 1;
+    private int uses = 0;
     private int prohibition_cards = 4;
-    private int index_to=0;
-    private String name="HERBS GRANDMA";
+    private int index_to = 0;
+    private final String name = "HERBS GRANDMA";
 
     /**
      * This method implements the effect of the herbs grandma card.
@@ -23,13 +24,14 @@ public class HerbsGrandma extends CharacterCard {
      * @param game_state The game state.
      */
     @Override
-    public void effect(GameState game_state){
-        if (prohibition_cards==0) {
-            return;
-        }
-        else {
+    public void effect(GameState game_state) {
+        if (prohibition_cards != 0) {
             prohibition_cards--;
-            game_state.getGT().getIslands().get(index_to).setProhibition_card(true);
+            game_state
+                    .getGameTable()
+                    .getIslands()
+                    .get(index_to)
+                    .setProhibitionCard(true);
             this.setUses();
         }
     }
@@ -39,7 +41,7 @@ public class HerbsGrandma extends CharacterCard {
      * @param index_to The index of the island into which the prohibition card will be moved to.
      */
     @Override
-    public void setIndex_to(int index_to) {
+    public void setIndexTo(int index_to) {
         this.index_to = index_to;
     }
 
@@ -55,7 +57,7 @@ public class HerbsGrandma extends CharacterCard {
      * This method returns the prohibition card to the character card by increasing its attribute by 1.
      */
     public void setProhibition_cards() {
-        if (prohibition_cards<4) this.prohibition_cards++;
+        if (prohibition_cards < 4) this.prohibition_cards++;
         else return;
     }
 
@@ -65,7 +67,7 @@ public class HerbsGrandma extends CharacterCard {
      */
     public void setUses() {
         this.uses++;
-        setCost(cost+1);
+        setCost(cost + 1);
     }
 
     /**
@@ -96,7 +98,7 @@ public class HerbsGrandma extends CharacterCard {
      * This method returns the ID code of the card.
      * @return The ID code of the card.
      */
-    public int getID_code() {
+    public int getIDCode() {
         return ID_code;
     }
 }

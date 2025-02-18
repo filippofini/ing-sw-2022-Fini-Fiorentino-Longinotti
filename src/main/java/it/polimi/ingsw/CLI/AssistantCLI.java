@@ -21,12 +21,12 @@ public class AssistantCLI {
         int choice;
         Deck deck = player.getDeck();
         System.out.println("choose the number of a assistant:\n");
-        for(int i = 0; i < deck.count_elements(); i++){
+        for(int i = 0; i < deck.countElements(); i++){
             System.out.println(deck.getCards().get(i)+"["+i+"]\n");
         }
 
         choice = InputParser.getInt();
-        while(choice < 0 || choice >= deck.count_elements() || !GT.checkIfPlayable(deck.getCards().get(choice), deck)){
+        while(choice < 0 || choice >= deck.countElements() || !GT.checkIfPlayable(deck.getCards().get(choice), deck)){
             System.out.println("Number not valid, please choose a number from the list");
             choice = InputParser.getInt();
         }
@@ -52,7 +52,7 @@ public class AssistantCLI {
             System.out.println("Number not valid,please choose a number from the list");
             choice=InputParser.getInt();
         }
-        client.sendMessageToServer(new ShowStudentsReply(students[choice].getColour()));
+        client.sendMessageToServer(new ShowStudentsReply(students[choice].getColor()));
     }
 
     /**
@@ -66,7 +66,7 @@ public class AssistantCLI {
         for (int i=0;i< islands.size();i++){
             System.out.println("Island["+i+"]:\n");
             for (int k=0;k<5; k++){
-                System.out.println(DiskColour.values()[k] +": "+islands.get(i).getArr_students()[k]+"\n");
+                System.out.println(DiskColour.values()[k] +": "+islands.get(i).getArrStudents()[k]+"\n");
             }
         }
 

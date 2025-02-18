@@ -11,7 +11,7 @@ import java.util.Objects;
  * The cards are represented in a list.
  */
 public class Deck implements Serializable {
-    private List<AssistanceCard> cards;
+    private final List<AssistanceCard> cards;
 
     /**
      * Constructor of the class that creates a list of 10 assistance cards.
@@ -34,7 +34,7 @@ public class Deck implements Serializable {
      * This method removes the used assistance card from the list.
      * @param chosen_remove The assistance card chosen to be played and removed.
      */
-    public void remove_used_card(AssistanceCard chosen_remove){
+    public void removeUsedCard(AssistanceCard chosen_remove){
         cards.remove(chosen_remove);
     }
 
@@ -42,7 +42,7 @@ public class Deck implements Serializable {
      * This method returns the number of assistance card left on the deck.
      * @return The number of assistance card left on the deck.
      */
-    public int count_elements(){
+    public int countElements(){
         return cards.size();
     }
 

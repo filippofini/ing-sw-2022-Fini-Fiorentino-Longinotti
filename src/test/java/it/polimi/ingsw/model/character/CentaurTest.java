@@ -24,7 +24,7 @@ class CentaurTest {
     }
 
     Centaur centaur = new Centaur();
-    GameState game_state = new GameState(2, new String[]{"FF", "HH"},new int[]{1,2},false, 1, addLPlayers(lPlayers));
+    GameState game_state = new GameState(2, new String[]{"FF", "HH"},new int[]{1,2},1, addLPlayers(lPlayers));
 
     @Test
     public void testSetUses1(){
@@ -42,7 +42,7 @@ class CentaurTest {
 
     @Test
     public void testID(){
-        assertEquals(6, centaur.getID_code());
+        assertEquals(6, centaur.getIDCode());
     }
 
     @Test
@@ -54,9 +54,9 @@ class CentaurTest {
     public void testEffect(){
 
         centaur.effect(game_state);
-        game_state.getGT().getIslands().get(game_state.getGT().getMotherNaturePos()).calculate_influence(1, game_state.getGT().getBoards());
+        game_state.getGameTable().getIslands().get(game_state.getGameTable().getMotherNaturePos()).calculateInfluence(1, game_state.getGameTable().getBoards());
 
-        assertEquals(0, game_state.getGT().getIslands().get(game_state.getGT().getMotherNaturePos()).getInfluence_controller());
+        assertEquals(0, game_state.getGameTable().getIslands().get(game_state.getGameTable().getMotherNaturePos()).getInfluenceController());
     }
 
 

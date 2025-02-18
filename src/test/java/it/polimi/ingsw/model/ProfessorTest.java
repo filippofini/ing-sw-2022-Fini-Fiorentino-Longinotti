@@ -9,6 +9,6 @@ class ProfessorTest {
     @Test
     void getColour_prof() {
         Professor prof = new Professor(DiskColour.RED);
-        assertEquals(1,prof.getColour_prof());
+        assertEquals(1,prof.getColorProf());
     }
 }

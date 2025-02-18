@@ -5,19 +5,18 @@ import it.polimi.ingsw.network.message.toClient.*;
 import it.polimi.ingsw.network.server.ClientHandler;
 import java.util.List;
 
-//TODO: modify the current player in game state when changing turn
 
 /**
  * This class represents the controller of the turn. It manages the planning phase and the action phase of each player.
  * It controls and calculates the player order for the next round.
  */
 public class TurnController {
-    private int[] player_order;
-    private GameState GS;
-    private int n_players;
-    List<Player> P_L;
+    private final int[] playerOrder;
+    private final GameState GS;
+    private final int numPlayers;
+    List<Player> playersList;
     CharacterCard played_cCard;
-    List<ClientHandler> clienthandler;
+    List<ClientHandler> clientHandlerList;
     private boolean endgame;
     private GameController gameController;
 
@@ -31,24 +30,24 @@ public class TurnController {
      */
     public TurnController(int n_players, String[] names, int wizard[], boolean expert_mode, List<Player> Player_List,List<ClientHandler> clienthandler){
         endgame=false;
-        this.n_players=n_players;
-        this.P_L=Player_List;
-        player_order= new int[n_players];
-        this.clienthandler=clienthandler;
+        this.numPlayers =n_players;
+        this.playersList =Player_List;
+        playerOrder = new int[n_players];
+        this.clientHandlerList =clienthandler;
         for(int i=0; i<n_players;i++){
-            player_order[i]=i+1;
+            playerOrder[i]=i;
         }
-        GS = new GameState(n_players, names, wizard, expert_mode,0, P_L);
+        GS = new GameState(n_players, names, wizard,0, playersList);
     }
 
     /**
      * This method defines the planning phase by calculating the order of player
      * and replenishing the clouds at the beginning of the round
      */
-    public void planning_phase_general(){
-        GS.getGT().replenishClouds(this);
-        for(int i=0;i<n_players;i++){
-            planning_phase_personal(player_order[i]);
+    public void planningPhaseGeneral(){
+        GS.getGameTable().replenishClouds(this);
+        for(int i = 0; i< numPlayers; i++){
+            planning_phase_personal(playerOrder[i]);
         }
         Calculate_Player_order();
     }
@@ -61,10 +60,10 @@ public class TurnController {
      */
     public void planning_phase_personal(int i){
 
-        if(P_L.get(i).getDeck().getCards().size()>0){
-            clienthandler.get(i).sendMessageToClient(new ChooseAssistantCardRequest(P_L.get(i),GS.getGT()));
-       GS.getGT().choose_assistant(P_L.get(i),clienthandler.get(i).getAssistantCardChosen());}
-        else if(P_L.get(i).getDeck().getCards().size()==0){
+        if(playersList.get(i).getDeck().getCards().size()>0){
+            clientHandlerList.get(i).sendMessageToClient(new ChooseAssistantCardRequest(playersList.get(i),GS.getGameTable()));
+       GS.getGameTable().chooseAssistant(playersList.get(i), clientHandlerList.get(i).getAssistantCardChosen());}
+        else if(playersList.get(i).getDeck().getCards().size()==0){
             endgame=true;
         }
 
@@ -82,114 +81,114 @@ public class TurnController {
         int[] tempCloud;
         Student[] tempCCStud=new Student[4] ;
 
-        for(int i=0;i<n_players;i++){
+        for(int i = 0; i< numPlayers; i++){
 
             if(endgame){
                 break;
             }
-            GS.setCurrPlayer(player_order[i]);
+            GS.setCurrPlayer(playerOrder[i]);
 
             if (gameController.getGameMode() == GameMode.EXPERT) {
-                clienthandler.get(player_order[i]).sendMessageToClient(new UseCharacterCardRequest());
-                if (clienthandler.get(player_order[i]).getUseCharacterCard() == 1) {
-                    clienthandler.get(player_order[i]).sendMessageToClient(new ChooseCharacterCardRequest(P_L.get(player_order[i]), GS.getGT().getCharacterCards()));
-                    if (clienthandler.get(player_order[i]).getCanBeUsed()) {
-                        if(GS.getGT().getCharacterCards()[clienthandler.get(player_order[i]).getChCardUsed()].getID_code()==1){
+                clientHandlerList.get(playerOrder[i]).sendMessageToClient(new UseCharacterCardRequest());
+                if (clientHandlerList.get(playerOrder[i]).getUseCharacterCard() == 1) {
+                    clientHandlerList.get(playerOrder[i]).sendMessageToClient(new ChooseCharacterCardRequest(playersList.get(playerOrder[i]), GS.getGameTable().getCharacterCards()));
+                    if (clientHandlerList.get(playerOrder[i]).getCanBeUsed()) {
+                        if(GS.getGameTable().getCharacterCards()[clientHandlerList.get(playerOrder[i]).getChCardUsed()].getIDCode()==1){
                             for(int l=0;l<4;l++){
-                                tempCCStud[l]=new Student(GS.getGT().getBoards()[i].inverseColor(GS.getGT().getCharacterCards()[clienthandler.get(player_order[i]).getChCardUsed()].getStudents()[l]));
+                                tempCCStud[l]=new Student(GS.getGameTable().getBoards()[i].inverseColor(GS.getGameTable().getCharacterCards()[clientHandlerList.get(playerOrder[i]).getChCardUsed()].getStudents()[l]));
                             }
-                            clienthandler.get(player_order[i]).sendMessageToClient(new ShowStudentRequest(tempCCStud));
-                            GS.getGT().getCharacterCards()[clienthandler.get(player_order[i]).getChCardUsed()].setChosen_student(clienthandler.get(player_order[i]).getMonkStudent());
-                            clienthandler.get(player_order[i]).sendMessageToClient(new HeraldIslandRequest(GS.getGT().getIslands()));
-                            GS.getGT().getCharacterCards()[clienthandler.get(player_order[i]).getChCardUsed()].setIndex_to(clienthandler.get(player_order[i]).getHeraldIsland());
-                            GS.getGT().getCharacterCards()[clienthandler.get(player_order[i]).getChCardUsed()].effect(getGS());
+                            clientHandlerList.get(playerOrder[i]).sendMessageToClient(new ShowStudentRequest(tempCCStud));
+                            GS.getGameTable().getCharacterCards()[clientHandlerList.get(playerOrder[i]).getChCardUsed()].setChosenStudent(clientHandlerList.get(playerOrder[i]).getMonkStudent());
+                            clientHandlerList.get(playerOrder[i]).sendMessageToClient(new HeraldIslandRequest(GS.getGameTable().getIslands()));
+                            GS.getGameTable().getCharacterCards()[clientHandlerList.get(playerOrder[i]).getChCardUsed()].setIndexTo(clientHandlerList.get(playerOrder[i]).getHeraldIsland());
+                            GS.getGameTable().getCharacterCards()[clientHandlerList.get(playerOrder[i]).getChCardUsed()].effect(getGS());
                         }
-                        else if(GS.getGT().getCharacterCards()[clienthandler.get(player_order[i]).getChCardUsed()].getID_code()==2){
+                        else if(GS.getGameTable().getCharacterCards()[clientHandlerList.get(playerOrder[i]).getChCardUsed()].getIDCode()==2){
 
-                            GS.getGT().getCharacterCards()[clienthandler.get(player_order[i]).getChCardUsed()].effect(getGS());
+                            GS.getGameTable().getCharacterCards()[clientHandlerList.get(playerOrder[i]).getChCardUsed()].effect(getGS());
                         }
-                        else if(GS.getGT().getCharacterCards()[clienthandler.get(player_order[i]).getChCardUsed()].getID_code()==3){
+                        else if(GS.getGameTable().getCharacterCards()[clientHandlerList.get(playerOrder[i]).getChCardUsed()].getIDCode()==3){
 
-                            clienthandler.get(player_order[i]).sendMessageToClient(new HeraldIslandRequest(GS.getGT().getIslands()));
-                            GS.getGT().getCharacterCards()[clienthandler.get(player_order[i]).getChCardUsed()].setIndex_to(clienthandler.get(player_order[i]).getHeraldIsland());
-                            GS.getGT().getCharacterCards()[clienthandler.get(player_order[i]).getChCardUsed()].effect(getGS());
+                            clientHandlerList.get(playerOrder[i]).sendMessageToClient(new HeraldIslandRequest(GS.getGameTable().getIslands()));
+                            GS.getGameTable().getCharacterCards()[clientHandlerList.get(playerOrder[i]).getChCardUsed()].setIndexTo(clientHandlerList.get(playerOrder[i]).getHeraldIsland());
+                            GS.getGameTable().getCharacterCards()[clientHandlerList.get(playerOrder[i]).getChCardUsed()].effect(getGS());
                         }
-                        else if(GS.getGT().getCharacterCards()[clienthandler.get(player_order[i]).getChCardUsed()].getID_code()==4){
+                        else if(GS.getGameTable().getCharacterCards()[clientHandlerList.get(playerOrder[i]).getChCardUsed()].getIDCode()==4){
 
-                            GS.getGT().getCharacterCards()[clienthandler.get(player_order[i]).getChCardUsed()].effect(getGS());
+                            GS.getGameTable().getCharacterCards()[clientHandlerList.get(playerOrder[i]).getChCardUsed()].effect(getGS());
                         }
-                        else if(GS.getGT().getCharacterCards()[clienthandler.get(player_order[i]).getChCardUsed()].getID_code()==5){
+                        else if(GS.getGameTable().getCharacterCards()[clientHandlerList.get(playerOrder[i]).getChCardUsed()].getIDCode()==5){
 
-                            clienthandler.get(player_order[i]).sendMessageToClient(new HeraldIslandRequest(GS.getGT().getIslands()));
-                            GS.getGT().getCharacterCards()[clienthandler.get(player_order[i]).getChCardUsed()].setIndex_to(clienthandler.get(player_order[i]).getHeraldIsland());
-                            GS.getGT().getCharacterCards()[clienthandler.get(player_order[i]).getChCardUsed()].effect(getGS());
+                            clientHandlerList.get(playerOrder[i]).sendMessageToClient(new HeraldIslandRequest(GS.getGameTable().getIslands()));
+                            GS.getGameTable().getCharacterCards()[clientHandlerList.get(playerOrder[i]).getChCardUsed()].setIndexTo(clientHandlerList.get(playerOrder[i]).getHeraldIsland());
+                            GS.getGameTable().getCharacterCards()[clientHandlerList.get(playerOrder[i]).getChCardUsed()].effect(getGS());
                         }
-                        else if(GS.getGT().getCharacterCards()[clienthandler.get(player_order[i]).getChCardUsed()].getID_code()==6){
+                        else if(GS.getGameTable().getCharacterCards()[clientHandlerList.get(playerOrder[i]).getChCardUsed()].getIDCode()==6){
 
-                            GS.getGT().getCharacterCards()[clienthandler.get(player_order[i]).getChCardUsed()].effect(getGS());
+                            GS.getGameTable().getCharacterCards()[clientHandlerList.get(playerOrder[i]).getChCardUsed()].effect(getGS());
                         }
-                        else if(GS.getGT().getCharacterCards()[clienthandler.get(player_order[i]).getChCardUsed()].getID_code()==8){
+                        else if(GS.getGameTable().getCharacterCards()[clientHandlerList.get(playerOrder[i]).getChCardUsed()].getIDCode()==8){
 
-                            GS.getGT().getCharacterCards()[clienthandler.get(player_order[i]).getChCardUsed()].effect(getGS());
+                            GS.getGameTable().getCharacterCards()[clientHandlerList.get(playerOrder[i]).getChCardUsed()].effect(getGS());
                         }
-                        else if(GS.getGT().getCharacterCards()[clienthandler.get(player_order[i]).getChCardUsed()].getID_code()==11){
+                        else if(GS.getGameTable().getCharacterCards()[clientHandlerList.get(playerOrder[i]).getChCardUsed()].getIDCode()==11){
                             for(int l=0;l<4;l++){
-                                tempCCStud[l]=new Student(GS.getGT().getBoards()[i].inverseColor(GS.getGT().getCharacterCards()[clienthandler.get(player_order[i]).getChCardUsed()].getStudents()[l]));
+                                tempCCStud[l]=new Student(GS.getGameTable().getBoards()[i].inverseColor(GS.getGameTable().getCharacterCards()[clientHandlerList.get(playerOrder[i]).getChCardUsed()].getStudents()[l]));
                             }
-                            clienthandler.get(player_order[i]).sendMessageToClient(new ShowStudentRequest(tempCCStud));
-                            GS.getGT().getCharacterCards()[clienthandler.get(player_order[i]).getChCardUsed()].setChosen_student(clienthandler.get(player_order[i]).getMonkStudent());
-                            GS.getGT().getCharacterCards()[clienthandler.get(player_order[i]).getChCardUsed()].setCurrent_player(player_order[i]);
-                            GS.getGT().getCharacterCards()[clienthandler.get(player_order[i]).getChCardUsed()].effect(getGS());
+                            clientHandlerList.get(playerOrder[i]).sendMessageToClient(new ShowStudentRequest(tempCCStud));
+                            GS.getGameTable().getCharacterCards()[clientHandlerList.get(playerOrder[i]).getChCardUsed()].setChosenStudent(clientHandlerList.get(playerOrder[i]).getMonkStudent());
+                            GS.getGameTable().getCharacterCards()[clientHandlerList.get(playerOrder[i]).getChCardUsed()].setCurrentPlayer(playerOrder[i]);
+                            GS.getGameTable().getCharacterCards()[clientHandlerList.get(playerOrder[i]).getChCardUsed()].effect(getGS());
                         }
-                        played_cCard=GS.getGT().getCharacterCards()[clienthandler.get(player_order[i]).getChCardUsed()];
+                        played_cCard=GS.getGameTable().getCharacterCards()[clientHandlerList.get(playerOrder[i]).getChCardUsed()];
                     }
                 }
             }
 
-            stud_to_island=GS.getGT().getBoards()[player_order[i]].moveEntranceStudents(GS,clienthandler.get(player_order[i]));
+            stud_to_island=GS.getGameTable().getBoards()[playerOrder[i]].moveEntranceStudents(GS, clientHandlerList.get(playerOrder[i]));
 
 
             //add all the student to the islands
             for(int j=0;j< stud_to_island.size();j++){
 
-                clienthandler.get(player_order[i]).sendMessageToClient(new ChooseIslandRequest( GS.getGT().getIslands(),stud_to_island.get(j)));
-                GS.getGT().getIslands().get(clienthandler.get(player_order[i]).getIslandToMove()).add_students(stud_to_island.get(j));
+                clientHandlerList.get(playerOrder[i]).sendMessageToClient(new ChooseIslandRequest( GS.getGameTable().getIslands(),stud_to_island.get(j)));
+                GS.getGameTable().getIslands().get(clientHandlerList.get(playerOrder[i]).getIslandToMove()).addStudents(stud_to_island.get(j));
             }
 
 
 
 
-            for(int j = 0; j<GS.getGT().getHowManyLeft(); j++){
-              clienthandler.get(player_order[i]).sendMessageToClient(new DisplayIslandInfoRequest((GS.getGT().getIslands().get(j)),j));
+            for(int j = 0; j<GS.getGameTable().getHowManyLeft(); j++){
+              clientHandlerList.get(playerOrder[i]).sendMessageToClient(new DisplayIslandInfoRequest((GS.getGameTable().getIslands().get(j)),j));
             }
 
-            clienthandler.get(player_order[i]).sendMessageToClient(new MoveMnRequest(GS.getGT().getMotherNaturePos(),P_L.get(GS.getCurrPlayer())));
-            GS.getGT().moveMotherNature(clienthandler.get(player_order[i]).getMnmovement());
+            clientHandlerList.get(playerOrder[i]).sendMessageToClient(new MoveMnRequest(GS.getGameTable().getMotherNaturePos(), playersList.get(GS.getCurrPlayer())));
+            GS.getGameTable().moveMotherNature(clientHandlerList.get(playerOrder[i]).getMnmovement());
 
 
-            check_for_tower=GS.getGT().getIslands().get(GS.getGT().getMotherNaturePos()).calculate_influence(player_order[i],GS.getGT().getBoards());
+            check_for_tower=GS.getGameTable().getIslands().get(GS.getGameTable().getMotherNaturePos()).calculateInfluence(playerOrder[i],GS.getGameTable().getBoards());
 
             //if(!check_for_tower) means that you have gained the control of the island
             if(!check_for_tower){
-                if(n_players==4){
-                    if((player_order[i]==1 || player_order[i]==2) && GS.getGT().getBoards()[1].getN_towers()>0 ){
-                        GS.getGT().getBoards()[1].setN_towers(GS.getGT().getBoards()[1].getN_towers()-1);
-                        if(GS.getGT().getBoards()[1].getN_towers()==0){
+                if(numPlayers ==4){
+                    if((playerOrder[i]==1 || playerOrder[i]==2) && GS.getGameTable().getBoards()[1].getNumTowers()>0 ){
+                        GS.getGameTable().getBoards()[1].setNumTowers(GS.getGameTable().getBoards()[1].getNumTowers()-1);
+                        if(GS.getGameTable().getBoards()[1].getNumTowers()==0){
                             endgame=true;
                         }
                     }
 
-                    else if((player_order[i]==3 || player_order[i]==4) && GS.getGT().getBoards()[3].getN_towers()>0){
-                        GS.getGT().getBoards()[3].setN_towers(GS.getGT().getBoards()[3].getN_towers()-1);
-                        if(GS.getGT().getBoards()[3].getN_towers()==0){
+                    else if((playerOrder[i]==3 || playerOrder[i]==4) && GS.getGameTable().getBoards()[3].getNumTowers()>0){
+                        GS.getGameTable().getBoards()[3].setNumTowers(GS.getGameTable().getBoards()[3].getNumTowers()-1);
+                        if(GS.getGameTable().getBoards()[3].getNumTowers()==0){
                             endgame=true;
                         }
                     }
                 }
                 else{
-                    if(GS.getGT().getBoards()[i].getN_towers()>0){
-                    GS.getGT().getBoards()[player_order[i]].setN_towers(GS.getGT().getBoards()[player_order[i]].getN_towers()-1);
-                        if(GS.getGT().getBoards()[i].getN_towers()==0){
+                    if(GS.getGameTable().getBoards()[i].getNumTowers()>0){
+                    GS.getGameTable().getBoards()[playerOrder[i]].setNumTowers(GS.getGameTable().getBoards()[playerOrder[i]].getNumTowers()-1);
+                        if(GS.getGameTable().getBoards()[i].getNumTowers()==0){
                             endgame=true;
                         }
                     }
@@ -202,27 +201,27 @@ public class TurnController {
             }
 
 
-            GS.getGT().merge(GS.getGT().getMotherNaturePos(),player_order[i],GS.getGT().getBoards());
+            GS.getGameTable().merge(GS.getGameTable().getMotherNaturePos(), playerOrder[i],GS.getGameTable().getBoards());
 
-            if(GS.getGT().getIslands().size()==3){
+            if(GS.getGameTable().getIslands().size()==3){
                 endgame=true;
             }
             if(endgame){
                 break;
             }
-            tempCloud=GS.getGT().chooseCloud(clienthandler.get(player_order[i])).getArrStudents();
+            tempCloud=GS.getGameTable().chooseCloud(clientHandlerList.get(playerOrder[i])).getArrStudents();
 
-            GS.getGT().getBoards()[player_order[i]].setArrEntranceStudents(tempCloud);
+            GS.getGameTable().getBoards()[playerOrder[i]].setArrEntranceStudents(tempCloud);
 
-            if(clienthandler.get(player_order[i]).getUseCharacterCard()==1 && played_cCard!=null){
-                if(played_cCard.getID_code()==8){
-                    for(int m=0;m<GS.getGT().getIslands().size();m++){
-                        GS.getGT().getIslands().get(m).setExtra_influence(0);
+            if(clientHandlerList.get(playerOrder[i]).getUseCharacterCard()==1 && played_cCard!=null){
+                if(played_cCard.getIDCode()==8){
+                    for(int m = 0; m<GS.getGameTable().getIslands().size(); m++){
+                        GS.getGameTable().getIslands().get(m).setExtraInfluence(0);
                     }
                 }
-                if(played_cCard.getID_code()==6){
-                    for(int m=0;m<GS.getGT().getIslands().size();m++){
-                        GS.getGT().getIslands().get(m).setInclude_towers(true);
+                if(played_cCard.getIDCode()==6){
+                    for(int m = 0; m<GS.getGameTable().getIslands().size(); m++){
+                        GS.getGameTable().getIslands().get(m).setIncludeTowers(true);
                     }
                 }
             }
@@ -237,23 +236,23 @@ public class TurnController {
         int min=-1;
         int player=0;
 
-        for(int i=0;i<n_players;i++){
-            for(int j=0;j<n_players  ;j++){
-                if((P_L.get(j).getChosen_card().getValue()<min  || min==-1) && P_L.get(j).isChosen()==false){
-                    min=P_L.get(j).getChosen_card().getValue();
-                    player=P_L.get(j).getPlayer_ID();
+        for(int i = 0; i< numPlayers; i++){
+            for(int j = 0; j< numPlayers; j++){
+                if((playersList.get(j).getChosenCard().getValue()<min  || min==-1) && playersList.get(j).isChosen()==false){
+                    min= playersList.get(j).getChosenCard().getValue();
+                    player= playersList.get(j).getPlayer_ID();
 
                 }
             }
 
-            P_L.get(player).setChosen(true);
+            playersList.get(player).setChosen(true);
 
             min=-1;
-            player_order[i]=player;
+            playerOrder[i]=player;
 
         }
-        for(int i=0;i<n_players;i++){
-            P_L.get(i).setChosen(false);
+        for(int i = 0; i< numPlayers; i++){
+            playersList.get(i).setChosen(false);
         }
     }
 

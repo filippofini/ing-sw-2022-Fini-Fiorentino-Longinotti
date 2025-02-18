@@ -274,7 +274,7 @@ public class CLI implements View {
         System.out.println("choose a character card character card from the one below: \n");
         for(int i=0;i<3;i++){
             System.out.println( "["+i+"]\n");
-            System.out.println( "   ID: "+cc[i].getID_code()+"\n");
+            System.out.println( "   ID: "+cc[i].getIDCode()+"\n");
             System.out.println( "   Name: "+cc[i].getName()+"\n");
             System.out.println( "   Cost: "+cc[i].getCost()+"\n");
             if(player.getCoin()>=cc[i].getCost()){

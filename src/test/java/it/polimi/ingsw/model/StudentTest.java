@@ -13,13 +13,13 @@ class StudentTest {
     public void testStudentsColor1(){
         Student student = new Student(DiskColour.YELLOW);
 
-        assertEquals(0, student.getColour());
+        assertEquals(0, student.getColor());
     }
 
     @Test
     public void testStudentsTrue(){
         Student student = new Student(DiskColour.RED);
-        student.Chosen();
+        student.chosen();
 
         assertTrue(student.getIsChosen());
     }

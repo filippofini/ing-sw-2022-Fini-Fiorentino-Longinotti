@@ -24,7 +24,7 @@ class HerbsGrandmaTest {
         return lPlayers;
     }
     HerbsGrandma grandma = new HerbsGrandma();
-    GameState game_state = new GameState(2, new String[]{"FF", "HH"},new int[]{1,2},false,1, addLPlayers(lPlayers));
+    GameState game_state = new GameState(2, new String[]{"FF", "HH"},new int[]{1,2},1, addLPlayers(lPlayers));
 
     @Test
     public void testSetUses1(){
@@ -42,7 +42,7 @@ class HerbsGrandmaTest {
 
     @Test
     public void testID(){
-        assertEquals(5, grandma.getID_code());
+        assertEquals(5, grandma.getIDCode());
     }
 
     @Test
@@ -53,19 +53,19 @@ class HerbsGrandmaTest {
 
     @Test
     public void testEffect1(){
-        grandma.setIndex_to(2);
+        grandma.setIndexTo(2);
         grandma.effect(game_state);
 
-        assertEquals(true, game_state.getGT().getIslands().get(2).isProhibition_card());
+        assertEquals(true, game_state.getGameTable().getIslands().get(2).isProhibitionCard());
     }
 
     @Test
     public void testEffect2(){
-        grandma.setIndex_to(4);
+        grandma.setIndexTo(4);
         grandma.effect(game_state);
         grandma.setProhibition_cards();
 
-        assertNotEquals(true, game_state.getGT().getIslands().get(1).isProhibition_card());
+        assertNotEquals(true, game_state.getGameTable().getIslands().get(1).isProhibitionCard());
     }
 
 
