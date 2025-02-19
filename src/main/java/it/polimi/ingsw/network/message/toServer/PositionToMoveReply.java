@@ -16,7 +16,7 @@ public class PositionToMoveReply implements MessagesToServer{
     }
 
     public void handleMessage(ServerInterface server, ClientHandlerInterface clientHandler) {
-        clientHandler.setposToMove(pos);
+        clientHandler.setPosToMove(pos);
     }
 
     @Override

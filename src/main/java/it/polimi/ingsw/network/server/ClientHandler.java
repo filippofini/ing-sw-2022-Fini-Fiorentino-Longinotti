@@ -26,15 +26,15 @@ public class ClientHandler implements ClientHandlerInterface, Runnable {
     private final Thread pinger;
     private boolean active = false;
     private boolean validNickname;
-    private int mnmovement;
+    private int motherNatureMovement;
     private int pos;
     private int islandToMove;
     private int studToMove;
     private int positionChosen;
-    private int colour;
+    private int color;
     private  int assistantCardChosen;
     private  int cloudChosen;
-    private int useChCard=0;
+    private int useCharacterCard;
     private int ChCardUsed;
     private boolean canBeUsed;
     private boolean waitingInTheLobby;
@@ -231,7 +231,7 @@ public class ClientHandler implements ClientHandlerInterface, Runnable {
      * @param pos The position where to move the student.
      */
     @Override
-    public synchronized void setposToMove(int pos) {
+    public synchronized void setPosToMove(int pos) {
         this.pos = pos;
         notify();
     }
@@ -248,11 +248,11 @@ public class ClientHandler implements ClientHandlerInterface, Runnable {
 
     /**
      * This method sets the movement of mother nature.
-     * @param mnmovement The movement of mother nature.
+     * @param motherNatureMovement The movement of mother nature.
      */
     @Override
-    public synchronized void setMnmovement(int mnmovement) {
-        this.mnmovement = mnmovement;
+    public synchronized void setMotherNatureMovement(int motherNatureMovement) {
+        this.motherNatureMovement = motherNatureMovement;
         notify();
     }
 
@@ -334,8 +334,8 @@ public class ClientHandler implements ClientHandlerInterface, Runnable {
      * @param studToMove The student to be moved.
      */
     @Override
-    public synchronized void setstudToMove(int studToMove) {
-        this.studToMove=studToMove;
+    public synchronized void setStudToMove(int studToMove) {
+        this.studToMove = studToMove;
         notify();
     }
 
@@ -344,18 +344,18 @@ public class ClientHandler implements ClientHandlerInterface, Runnable {
      * @param positionChosen The position.
      */
     @Override
-    public synchronized void setpos(int positionChosen) {
-        this.positionChosen=positionChosen;
+    public synchronized void setPos(int positionChosen) {
+        this.positionChosen = positionChosen;
         notify();
     }
 
     /**
-     * This method sets the colour.
-     * @param colour The colour.
+     * This method sets the color.
+     * @param color The color.
      */
     @Override
-    public synchronized void setcolour(int colour) {
-        this.colour=colour;
+    public synchronized void setColor(int color) {
+        this.color = color;
         notify();
     }
 
@@ -391,8 +391,8 @@ public class ClientHandler implements ClientHandlerInterface, Runnable {
      * This method returns the movement of mother nature.
      * @return The movement of mother nature.
      */
-    public int getMnmovement() {
-        return mnmovement;
+    public int getMotherNatureMovement() {
+        return motherNatureMovement;
     }
 
     /**
@@ -432,16 +432,17 @@ public class ClientHandler implements ClientHandlerInterface, Runnable {
      * @param useChCard The parameter used to see if the player wants to play a card.
      */
     public synchronized void setUseCharacterCard(int useChCard) {
-        this.useChCard = useChCard;
+        this.useCharacterCard = useChCard;
         notify();
     }
 
     /**
      * This method returns value that is used to see if the player wants to play a card.
+     *
      * @return A value that is used to see if the player wants to play a card.
      */
-    public int getUseCharacterCard() {
-        return useChCard;
+    public boolean isCharacterCardUsed() {
+        return useCharacterCard == 1;
     }
 
     /**
@@ -462,10 +463,10 @@ public class ClientHandler implements ClientHandlerInterface, Runnable {
     }
 
     /**
-     * This method checks if it can be used.
+     * This method checks if character card can be used.
      * @return {@code True} if it can be used, {@code False} if it can't.
      */
-    public boolean getCanBeUsed() {
+    public boolean isCharacterCardUsable() {
         return canBeUsed;
     }
 

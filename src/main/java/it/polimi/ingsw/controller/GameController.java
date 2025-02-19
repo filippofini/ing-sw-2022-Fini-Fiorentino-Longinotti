@@ -12,31 +12,27 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.logging.Level;
-import java.util.stream.Collectors;
 
 /**
  * This class is used to manage game phases.
  */
 public class GameController implements Serializable {
 
-    private static final long serialVersionUID = 4405183481677036856L;
-    private GameMode gameMode;
+    private final GameMode gameMode;
     private List<Player> players;
     private String[] names;
-    private List<ClientHandler> clientHandlers;
-    public static final String SERVER_NICKNAME = "server";
+    private final List<ClientHandler> clientHandlers;
     private Server server;
     private ReentrantLock lockConnections = new ReentrantLock(true);
-    private int[] wizards = {0,1,2,3};
-    private TurnController turnController;
+    private final int[] wizards = { 0, 1, 2, 3 };
 
     /**
      * Constructor of the class.
      * @param gameMode The game mode.
      */
-    public GameController(GameMode gameMode){
+    public GameController(GameMode gameMode) {
         this.gameMode = gameMode;
-        this.players = new LinkedList<>() ;
+        this.players = new LinkedList<>();
         this.clientHandlers = new LinkedList<>();
     }
 
@@ -54,13 +50,16 @@ public class GameController implements Serializable {
      * This method is used force the end of the game.
      * @param nickname The nickname of the disconnected client.
      */
-    private void forceEndMultiplayerGame(String nickname){
-        for (Player player : getPlayers_ID()) {
+    private void forceEndMultiplayerGame(String nickname) {
+        for (Player player : players) {
             //For each player that is still active I notify the end of the game
-            getConnectionByNickname(player.getNickname()).sendMessageToClient(new NotifyDisconnection(nickname));
+            getConnectionByNickname(player.getNickname()).sendMessageToClient(
+                    new NotifyDisconnection(nickname)
+            );
             getConnectionByNickname(player.getNickname()).setGameStarted(false);
-            getConnectionByNickname(player.getNickname()).setGameController(null);
-
+            getConnectionByNickname(player.getNickname()).setGameController(
+                    null
+            );
         }
     }
 
@@ -68,7 +67,7 @@ public class GameController implements Serializable {
      * This method returns the list of players.
      * @return The list of players.
      */
-    public List<Player> getPlayers_ID() {
+    public List<Player> getPlayers() {
         return players;
     }
 
@@ -83,15 +82,26 @@ public class GameController implements Serializable {
      * This method starts a new game.
      */
     private void startNewGame() throws IOException {
-        Server.SERVER_LOGGER.log(Level.INFO, "Creating a new " + gameMode.name().replace("_"," ") + ", players: " + clientHandlers.stream().map(ClientHandler::getNickname).collect(Collectors.toList()));
+        Server.SERVER_LOGGER.log(
+                Level.INFO,
+                "Creating a new " +
+                        gameMode.name().replace("_", " ") +
+                        ", players: " +
+                        clientHandlers.stream().map(ClientHandler::getNickname).toList()
+        );
         players = addPlayer(clientHandlers);
-        TurnController turnController = new TurnController(clientHandlers.size(),getArrayNickname(clientHandlers),wizards,getBooleanGameMode(gameMode),players,clientHandlers);
-        turnController.setGameController(this);
-        setturnController(turnController);
+        TurnController turnController = new TurnController(
+                clientHandlers.size(),
+                getArrayNickname(clientHandlers),
+                wizards,
+                isExpertMode(gameMode),
+                players,
+                clientHandlers
+        );
 
-        while(turnController.getendgame()==false) {
+        while (!turnController.getEndgame()) {
             turnController.planningPhaseGeneral();
-            turnController.action_phase();
+            turnController.actionPhase();
         }
         endGame(turnController);
     }
@@ -104,8 +114,7 @@ public class GameController implements Serializable {
         lockConnections.lock();
         try {
             this.clientHandlers.add(connection);
-        }
-        finally {
+        } finally {
             lockConnections.unlock();
         }
     }
@@ -115,7 +124,7 @@ public class GameController implements Serializable {
      * Used in case of disconnection of a client.
      * @param connection ClientHandler of the connection to remove.
      */
-    public void removeConnection(ClientHandler connection){
+    public void removeConnection(ClientHandler connection) {
         lockConnections.lock();
         try {
             this.clientHandlers.remove(connection);
@@ -130,33 +139,27 @@ public class GameController implements Serializable {
      * @return The updated list of players.
      */
     public List<Player> addPlayer(List<ClientHandler> clientHandlers) {
-        TowerColour towerColour = null;
-        for (int i=0; i<clientHandlers.size(); i++) {
-            String nickname = clientHandlers.get(i).getNickname();
-            if(clientHandlers.size()==3) {
-                if(i == 0)
-                    towerColour =TowerColour.BLACK;
-                if (i==1)
-                    towerColour = TowerColour.WHITE;
-                if (i==2)
-                    towerColour = TowerColour.GREY;
-            }
-                else if(clientHandlers.size()==2)
-            {
-                if (i==0)
-                    towerColour = TowerColour.BLACK;
-                
-                if (i==1)
-                    towerColour = TowerColour.WHITE;
-                
-            }
-                int wiz = i;
-                int ID = i;
+        // Define the valid tower colours based on the number of players
+        TowerColour[] towerColours;
+        int numPlayers = clientHandlers.size();
 
-            Player p = new Player(nickname,wiz,towerColour,ID);
-            players.add(p);
+        towerColours = switch (numPlayers) {
+            case 2 -> new TowerColour[]{TowerColour.BLACK, TowerColour.WHITE};
+            case 3 -> new TowerColour[]{TowerColour.BLACK, TowerColour.WHITE, TowerColour.GREY};
+            default -> throw new IllegalArgumentException("Unsupported number of players: " + numPlayers);
+        };
+
+        // Create the players list from the client handlers and the tower colours
+        List<Player> updatedPlayers = new LinkedList<>();
+        for (int i = 0; i < numPlayers; i++) {
+            String nickname = clientHandlers.get(i).getNickname();
+            // Create a new player with the given nickname, index, tower colour, and id (using index again)
+            Player p = new Player(nickname, i, towerColours[i], i);
+            updatedPlayers.add(p);
         }
-        return players;
+
+        this.players = updatedPlayers;
+        return updatedPlayers;
     }
 
     /**
@@ -166,8 +169,8 @@ public class GameController implements Serializable {
      */
     public String[] getArrayNickname(List<ClientHandler> clientHandlers) {
         names = new String[clientHandlers.size()];
-        for (int i=0; i<clientHandlers.size(); i++) {
-                names[i] = clientHandlers.get(i).getNickname();
+        for (int i = 0; i < clientHandlers.size(); i++) {
+            names[i] = clientHandlers.get(i).getNickname();
         }
         return names;
     }
@@ -177,11 +180,11 @@ public class GameController implements Serializable {
      * @param nickname The nickname of the client handler wanted.
      * @return The corresponding client handler.
      */
-    public ClientHandler getConnectionByNickname(String nickname){
+    public ClientHandler getConnectionByNickname(String nickname) {
         lockConnections.lock();
-        try{
-            for (ClientHandler clientHandler : clientHandlers){
-                if (clientHandler.getNickname().equals(nickname)){
+        try {
+            for (ClientHandler clientHandler : clientHandlers) {
+                if (clientHandler.getNickname().equals(nickname)) {
                     return clientHandler;
                 }
             }
@@ -195,18 +198,27 @@ public class GameController implements Serializable {
      * This method is used to start the end game. It gives the results to the players.
      */
     public void endGame(TurnController turnController) throws IOException {
-        getServer().gameEnded(this,new ResultsNotify(turnController.getGS().getGameTable().getIslands(),players,turnController.getGS().getGameTable().getBoards()));
+        getServer()
+                .gameEnded(
+                        this,
+                        new ResultsNotify(
+                                turnController.getGameState().getGameTable().getIslands(),
+                                players,
+                                turnController.getGameState().getGameTable().getBoards()
+                        )
+                );
     }
 
     /**
      * This method is used to send the same message to all the clients connected.
      * @param message The message to be sent.
      */
-    public void sendMessageToAll(MessagesToClient message){
+    public void sendMessageToAll(MessagesToClient message) {
         lockConnections.lock();
-        try{
-            for (ClientHandler clientHandler : clientHandlers)
-                clientHandler.sendMessageToClient(message);
+        try {
+            for (ClientHandler clientHandler : clientHandlers) clientHandler.sendMessageToClient(
+                    message
+            );
         } finally {
             lockConnections.unlock();
         }
@@ -217,11 +229,8 @@ public class GameController implements Serializable {
      * @param gameMode The game mode.
      * @return {@code True} if the game mode is expert, {@code False} if it's standard.
      */
-    public boolean getBooleanGameMode(GameMode gameMode) {
-        if(gameMode==GameMode.STANDARD)
-            return false;
-        else
-            return true;
+    public boolean isExpertMode(GameMode gameMode) {
+        return gameMode != GameMode.STANDARD;
     }
 
     /**
@@ -239,21 +248,4 @@ public class GameController implements Serializable {
     public Server getServer() {
         return server;
     }
-
-    /**
-     * This method returns the end game.
-     * @return The end game.
-     */
-    public GameMode getGameMode() {
-        return gameMode;
-    }
-
-    /**
-     * This method returns the turn controller.
-     * @param turnController The turn controller.
-     */
-    public void setturnController(TurnController turnController){
-        this.turnController=turnController;
-    }
-
 }

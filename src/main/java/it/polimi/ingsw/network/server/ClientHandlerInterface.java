@@ -37,7 +37,7 @@ public interface ClientHandlerInterface {
      * This method sets the student to be moved.
      * @param stud The student to be moved.
      */
-    void setstudToMove(int stud);
+    void setStudToMove(int stud);
 
     /**
      * This method sets the island where to move the student.
@@ -49,19 +49,19 @@ public interface ClientHandlerInterface {
      * This method sets the position where to move the student.
      * @param pos The position where to move the student.
      */
-    void setposToMove(int pos);
+    void setPosToMove(int pos);
 
     /**
      * This method sets the position.
      * @param pos The position.
      */
-    void setpos(int pos);
+    void setPos(int pos);
 
     /**
      * This method sets the colour.
      * @param colour The colour.
      */
-    void setcolour(int colour);
+    void setColor(int colour);
 
     /**
      * This method sets the nickname.
@@ -73,7 +73,7 @@ public interface ClientHandlerInterface {
      * This method sets the movement of mother nature.
      * @param mnmovement The movement of mother nature.
      */
-    void setMnmovement(int mnmovement);
+    void setMotherNatureMovement(int mnmovement);
 
     /**
      * This method sets the game mode.
@@ -120,7 +120,7 @@ public interface ClientHandlerInterface {
      * This method returns the movement of mother nature.
      * @return The movement of mother nature.
      */
-    int getMnmovement();
+    int getMotherNatureMovement();
 
     /**
      * This method returns the chosen assistant card to be played.
@@ -154,9 +154,10 @@ public interface ClientHandlerInterface {
 
     /**
      * This method returns value that is used to see if the player wants to play a card.
+     *
      * @return A value that is used to see if the player wants to play a card.
      */
-    int getUseCharacterCard();
+    boolean isCharacterCardUsed();
 
     /**
      * This method sets the card chosen to be played by the player.
@@ -174,7 +175,7 @@ public interface ClientHandlerInterface {
      * This method checks if it can be used.
      * @return {@code True} if it can be used, {@code False} if it can't.
      */
-    boolean getCanBeUsed();
+    boolean isCharacterCardUsable();
 
     /**
      * This method sets if the character card can be used.

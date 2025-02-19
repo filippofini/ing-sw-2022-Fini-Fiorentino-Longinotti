@@ -17,12 +17,12 @@ class HeraldTest {
 
     List<Player> lPlayers = new ArrayList<>();
     private List<Player> addLPlayers(List lPlayers){
-        lPlayers.add(new Player("ff",1, TowerColour.GREY,1));
-        lPlayers.add(new Player("gg",2,TowerColour.GREY,2));
+        lPlayers.add(new Player("ff",0, TowerColour.GREY,1));
+        lPlayers.add(new Player("gg",1,TowerColour.GREY,2));
         return lPlayers;
     }
     Herald herald = new Herald();
-    GameState game_state = new GameState(2, new String[]{"FF", "HH"},new int[]{1,2},1, addLPlayers(lPlayers));
+    GameState game_state = new GameState(2, new String[]{"FF", "HH"}, new int[]{0,1},0, addLPlayers(lPlayers));
 
     @Test
     public void testSetUses1(){

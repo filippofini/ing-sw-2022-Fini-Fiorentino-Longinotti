@@ -17,7 +17,7 @@ public class PositionReply implements MessagesToServer{
 
     public void handleMessage(ServerInterface server, ClientHandlerInterface clientHandler) {
 
-        clientHandler.setpos(pos);
+        clientHandler.setPos(pos);
     }
 
     @Override

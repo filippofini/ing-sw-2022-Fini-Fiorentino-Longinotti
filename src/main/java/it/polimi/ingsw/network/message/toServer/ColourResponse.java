@@ -13,7 +13,7 @@ public class ColourResponse implements MessagesToServer {
 
     public void handleMessage(ServerInterface server, ClientHandlerInterface clientHandler) {
 
-        clientHandler.setcolour(colour);
+        clientHandler.setColor(colour);
     }
 
     @Override

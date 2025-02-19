@@ -1,7 +1,8 @@
 package it.polimi.ingsw.network.server;
 
 import it.polimi.ingsw.controller.GameController;
-
+import it.polimi.ingsw.model.GameMode;
+import it.polimi.ingsw.network.message.toClient.*;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -16,92 +17,110 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
-import it.polimi.ingsw.model.GameMode;
-import it.polimi.ingsw.network.message.toClient.*;
-
 /**
  * Server class that starts a socket server.
  */
 public class Server implements ServerInterface {
-    private int port;
+
+    private final int port;
     //Thread pool which contains a thread for each client connected to the server
     private final ExecutorService executor;
     //Server socket, used to accept connections from new client, it is constructed only when the server start working
     private ServerSocket serverSocket;
     private int numOfPlayersForNextGame = -1;
-    private List<ClientHandler> lobby;
-    private ReentrantLock lockLobby = new ReentrantLock(true);
-    public static final Logger SERVER_LOGGER = Logger.getLogger("Server logger");
-    private boolean IsLog;
+    private final List<ClientHandler> lobby;
+    private final ReentrantLock lockLobby = new ReentrantLock(true);
+    public static final Logger SERVER_LOGGER = Logger.getLogger(
+            "Server logger"
+    );
+    private boolean loggingEnabled;
+    private volatile boolean running = false;
 
     /**
      * Constructor of the class.
-     * @param port The server port.
-     * @param IsLog Boolean to check the log.
+     *
+     * @param port           The server port.
+     * @param loggingEnabled Boolean to check the log.
      */
-    public Server(int port, boolean IsLog) {
+    public Server(int port, boolean loggingEnabled) {
         this.port = port;
         this.executor = Executors.newCachedThreadPool();
         this.lobby = new LinkedList<>();
-        this.IsLog = IsLog;
+        this.loggingEnabled = loggingEnabled;
     }
 
     /**
      * This method is used to start the server.
      */
     public synchronized void startServer() {
-        if (IsLog)
-            InLogger();
+        if (running) {
+            SERVER_LOGGER.warning("Server is already running!");
+            return;
+        }
+        running = true;
+
+        if (loggingEnabled) {
+            initLogger();
+        }
+
         try {
             serverSocket = new ServerSocket(port);
+            SERVER_LOGGER.log(Level.INFO, "Server open on port " + port);
+
         } catch (IOException e) {
-            SERVER_LOGGER.log(Level.SEVERE, "Impossible open the server on port " + port);
+            SERVER_LOGGER.log(Level.SEVERE, "Could not open server on port " + port, e);
+            running = false;
             return;
         }
 
-        SERVER_LOGGER.log(Level.INFO, "Server open on port " + port);
-
         try {
             //server accepts connections from clients
-            while (true) {
-
+            while (running) {
                 Socket clientSocket = serverSocket.accept();
-                SERVER_LOGGER.log(Level.INFO, "Received connection from address: [" + clientSocket.getInetAddress().getHostAddress() + "]");
+                SERVER_LOGGER.log(Level.INFO,
+                        "Received connection from address: ["
+                                + clientSocket.getInetAddress().getHostAddress() + "]");
                 ClientHandler clientHandler = new ClientHandler(clientSocket, this);
                 executor.submit(clientHandler);
                 wait(100);
                 addClientHandler(clientHandler);
 
-                if(lobby.size()==1){
+                if (lobby.size() == 1) {
                     lobby.get(0).sendMessageToClient(new GameModeRequest());
                     lobby.get(0).sendMessageToClient(new NumberOfPlayersRequest());
                 }
 
-                lobby.get(lobby.size()-1).sendMessageToClient(new NameRequest(false));
-                for (int i=0; i< lobby.size();i++) {
-                if ((lobby.get(lobby.size()-1).getNickname().equals(lobby.get(i).getNickname()))  && (i!= lobby.size()-1))
-                    lobby.get(lobby.size()-1).sendMessageToClient(new NameRequest(true));
+                lobby.get(lobby.size() - 1).sendMessageToClient(new NameRequest(false));
+                for (int i = 0; i < lobby.size(); i++) {
+                    if ((lobby.get(lobby.size() - 1).getNickname().equals(lobby.get(i).getNickname())) && (i != lobby.size() - 1))
+                        lobby.get(lobby.size() - 1).sendMessageToClient(new NameRequest(true));
                 }
 
-                if(lobby.size()>=1){
-                     lobby.get(lobby.size()-1).sendMessageToClient(new WaitingInTheLobbyMessage());}
+                if (!lobby.isEmpty()) {
+                    lobby.get(lobby.size() - 1).sendMessageToClient(new WaitingInTheLobbyMessage());
+                }
 
-                if(lobby.size()==numOfPlayersForNextGame){
+                if (lobby.size() == numOfPlayersForNextGame) {
                     GameMode mode = lobby.get(0).getGameMode();
                     newGameManager(mode);
                 }
             }
         } catch (IOException e) {
-            SERVER_LOGGER.log(Level.SEVERE, "An exception caused the server to stop working.");
+            if (running) {
+                SERVER_LOGGER.log(Level.SEVERE, "Server socket exception: ", e);
+                running = false;
+            } else {
+                SERVER_LOGGER.log(Level.INFO, "Server has been stopped.");
+            }
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
     }
 
     /**
-     * This method is used to initialise the logger file.
+     * Initialize the logger file if loggingEnabled is true.
      */
-    private void InLogger() {
+    private void initLogger() {
         Date date = GregorianCalendar.getInstance().getTime();
         DateFormat dateFormat = new SimpleDateFormat("dd-MM_HH.mm.ss");
         try {
@@ -109,7 +128,7 @@ public class Server implements ServerInterface {
             fh.setFormatter(new SimpleFormatter());
             SERVER_LOGGER.addHandler(fh);
         } catch (IOException e) {
-            SERVER_LOGGER.severe(e.getMessage());
+            SERVER_LOGGER.severe("Could not initialize FileHandler for logging: " + e.getMessage());
         }
     }
 
@@ -127,7 +146,7 @@ public class Server implements ServerInterface {
         lockLobby.lock();
         startNewGame(mode);
         lockLobby.unlock();
-        }
+    }
 
     /**
      * This method sets the number of players for the next game.
@@ -154,8 +173,7 @@ public class Server implements ServerInterface {
      * @param mode The game mode.
      */
     private void startNewGame(GameMode mode) {
-        if (lobby.size() < numOfPlayersForNextGame)
-            return;
+        if (lobby.size() < numOfPlayersForNextGame) return;
 
         GameController gamecontroller = new GameController((mode));
         gamecontroller.setServer(this);
@@ -167,11 +185,10 @@ public class Server implements ServerInterface {
                 lobby.get(0).setGameController(gamecontroller);
                 lobby.remove(0);
             }
-            assert gamecontroller != null;
             gamecontroller.start();
             numOfPlayersForNextGame = -1;
         } catch (IOException e) {
-            e.printStackTrace();
+            SERVER_LOGGER.log(Level.SEVERE, "Error starting game controller: ", e);
         } finally {
             lockLobby.unlock();
         }
@@ -196,4 +213,3 @@ public class Server implements ServerInterface {
         connection.getGameController().removeConnection(connection);
     }
 }
-

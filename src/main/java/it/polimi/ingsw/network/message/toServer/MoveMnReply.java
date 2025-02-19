@@ -16,7 +16,7 @@ public class MoveMnReply implements MessagesToServer{
     @Override
     public void handleMessage(ServerInterface server, ClientHandlerInterface clientHandler) {
 
-        clientHandler.setMnmovement(Mnmovement);
+        clientHandler.setMotherNatureMovement(Mnmovement);
     }
 
     @Override

@@ -54,7 +54,7 @@ class KnightTest {
         game_state.getGameTable().getIslands().get(game_state.getGameTable().getMotherNaturePos()).calculateInfluence(1, game_state.getGameTable().getBoards());
 
 
-        assertEquals(0, game_state.getGameTable().getIslands().get(game_state.getGameTable().getMotherNaturePos()+1).getInfluenceController());
+        assertEquals(0, game_state.getGameTable().getIslands().get((game_state.getGameTable().getMotherNaturePos()+1) %  game_state.getGameTable().getIslands().size()).getInfluenceController());
     }
 
 

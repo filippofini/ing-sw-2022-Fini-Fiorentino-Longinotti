@@ -8,8 +8,6 @@ import it.polimi.ingsw.network.server.ClientHandler;
 import java.io.Serializable;
 import java.util.*;
 
-//TODO: Move the clientHandler requests in turn controller
-
 /**
  * This class represent the game table. Here the list of islands, the list of clouds and the array of boards is created.
  * The class includes methods to move mother nature in the islands and the merge of island if possible.
@@ -19,8 +17,8 @@ public class GameTable implements Serializable {
     private final int numPlayers;
     private int islandsCounter;
     private final Board[] boards;
-    private LinkedList<Island> islands;
-    private List<Cloud> clouds;
+    private final LinkedList<Island> islands;
+    private final List<Cloud> clouds;
     private List<Cloud> tempClouds;
     private int motherNaturePos;
     private int[] bag;
@@ -343,7 +341,6 @@ public class GameTable implements Serializable {
      * Randomly draws three character cards and assigns students to special cards.
      */
     private void drawThreeCharCards() {
-        Random rand = new Random();
 
         // Draw students for Monk and Spoilt Princess
         int[] monkDrawn = drawStudents(4);
@@ -488,7 +485,6 @@ public class GameTable implements Serializable {
      * @return The number of remaining islands.
      */
     public int getHowManyLeft() {
-        ;
         return islandsCounter;
     }
 

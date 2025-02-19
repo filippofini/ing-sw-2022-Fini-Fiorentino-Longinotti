@@ -12,7 +12,7 @@ public class StudentToMoveReply implements MessagesToServer{
     public StudentToMoveReply(int num_stud){this.num_stud=num_stud;}
 
     public void handleMessage(ServerInterface server, ClientHandlerInterface clientHandler) {
-        clientHandler.setstudToMove(num_stud);
+        clientHandler.setStudToMove(num_stud);
     }
 
     @Override

@@ -2,7 +2,7 @@ package it.polimi.ingsw.CLI;
 
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.network.client.Client;
-import it.polimi.ingsw.network.message.toServer.*;;
+import it.polimi.ingsw.network.message.toServer.*;
 import it.polimi.ingsw.view.View;
 import java.io.IOException;
 import java.util.List;
