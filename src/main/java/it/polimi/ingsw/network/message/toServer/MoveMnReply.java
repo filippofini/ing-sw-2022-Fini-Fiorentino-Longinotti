@@ -6,16 +6,19 @@ import it.polimi.ingsw.network.server.ServerInterface;
 /**
  * Message for the mother nature movement.
  */
-public class MoveMnReply implements MessagesToServer{
+public class MoveMnReply implements MessagesToServer {
+
     private final int Mnmovement;
 
-    public MoveMnReply(int Mnmovement){
+    public MoveMnReply(int Mnmovement) {
         this.Mnmovement = Mnmovement;
     }
 
     @Override
-    public void handleMessage(ServerInterface server, ClientHandlerInterface clientHandler) {
-
+    public void handleMessage(
+        ServerInterface server,
+        ClientHandlerInterface clientHandler
+    ) {
         clientHandler.setMotherNatureMovement(Mnmovement);
     }
 
@@ -23,5 +26,4 @@ public class MoveMnReply implements MessagesToServer{
     public String toString() {
         return "Received Movement: " + Mnmovement;
     }
-
 }

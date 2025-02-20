@@ -1,12 +1,11 @@
 package it.polimi.ingsw.network.message.toClient;
 
-
 import it.polimi.ingsw.view.ViewInterface;
 
 /**
  * Message to ask the game mode.
  */
-public class GameModeRequest extends MessagesToClient{
+public class GameModeRequest extends MessagesToClient {
 
     public GameModeRequest() {
         super(true);
@@ -18,7 +17,7 @@ public class GameModeRequest extends MessagesToClient{
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return "Asking the game mode";
     }
 }

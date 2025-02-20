@@ -5,10 +5,11 @@ import it.polimi.ingsw.view.ViewInterface;
 /**
  * A text message.
  */
-public class TextMessage extends MessagesToClient{
-    private String message;
+public class TextMessage extends MessagesToClient {
 
-    public TextMessage(String message){
+    private final String message;
+
+    public TextMessage(String message) {
         super(false);
         this.message = message;
     }
@@ -19,7 +20,7 @@ public class TextMessage extends MessagesToClient{
     }
 
     @Override
-    public String toString(){
-        return "message: " + message ;
+    public String toString() {
+        return "message: " + message;
     }
 }

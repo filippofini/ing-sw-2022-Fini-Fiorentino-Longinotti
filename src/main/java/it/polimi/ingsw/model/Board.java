@@ -87,14 +87,14 @@ public class Board implements Serializable {
         int studentsChosen = 0;
 
         // We repeat the "choose and place student" flow until we've placed (numPlayers + 1) students.
-        while (studentsChosen < (numPlayers + 1)) {
+        while (studentsChosen < (numPlayers + 1) && clientHandler.isConnected()) {
             clientHandler.sendMessageToClient(new StudentToMoveRequest(this));
 
             int chosenIndex = clientHandler.getStudToMove();
             Student chosenStudent = arrEntranceStudents[chosenIndex];
 
             // If the student hasn’t already been moved
-            if (!chosenStudent.getIsChosen()) {
+            if (!chosenStudent.isChosen()) {
                 clientHandler.sendMessageToClient(new ChooseIslandOrBoardRequest(this, chosenIndex));
                 int placementChoice = clientHandler.getPos();
 
@@ -361,7 +361,7 @@ public class Board implements Serializable {
         while(pos<5){
             if(Cloud_Students[pos]>0){
                 for(int i=0;i<arrEntranceStudents.length;i++){
-                    if(arrEntranceStudents[i].getIsChosen()){
+                    if(arrEntranceStudents[i].isChosen()){
                         arrEntranceStudents[i]=new Student(inverseColor(pos));
                         Cloud_Students[pos]--;
                         pos=0;

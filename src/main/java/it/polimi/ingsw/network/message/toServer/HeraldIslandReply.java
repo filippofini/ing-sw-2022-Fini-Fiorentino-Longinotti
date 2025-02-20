@@ -6,20 +6,19 @@ import it.polimi.ingsw.network.server.ServerInterface;
 /**
  * Message for the chosen island after the use of the herald card.
  */
-public class HeraldIslandReply implements MessagesToServer{
+public class HeraldIslandReply implements MessagesToServer {
+
     private final int heraldIsland;
 
-    public HeraldIslandReply(int heraldIsland){
-        this.heraldIsland= heraldIsland;
-    }
-
-
-    public int getHeraldIsland() {
-        return heraldIsland;
+    public HeraldIslandReply(int heraldIsland) {
+        this.heraldIsland = heraldIsland;
     }
 
     @Override
-    public void handleMessage(ServerInterface server, ClientHandlerInterface clientHandler){
+    public void handleMessage(
+        ServerInterface server,
+        ClientHandlerInterface clientHandler
+    ) {
         clientHandler.setHeraldIsland(heraldIsland);
     }
 

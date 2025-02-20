@@ -6,11 +6,13 @@ import it.polimi.ingsw.view.ViewInterface;
 /**
  * Message to ask the student to be moved.
  */
-public class StudentToMoveRequest extends MessagesToClient{
+public class StudentToMoveRequest extends MessagesToClient {
+
     Board board;
-    public StudentToMoveRequest(Board board){
+
+    public StudentToMoveRequest(Board board) {
         super(true);
-        this.board=board;
+        this.board = board;
     }
 
     @Override
@@ -19,7 +21,7 @@ public class StudentToMoveRequest extends MessagesToClient{
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return "Asking which student to move";
     }
 }

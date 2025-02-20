@@ -8,16 +8,17 @@ import it.polimi.ingsw.CLI.CLI;
  * if it has nothing, it starts the command line interface anyway.
  */
 public class ClientMain {
-    private final static String CLI_STARTER = "-cli";
-    private final static String HELP = "-help";
+
+    private static final String CLI_STARTER = "-cli";
+    private static final String HELP = "-help";
 
     public static void main(String[] args) {
-        if (args.length==0){
+        if (args.length == 0) {
             CLI.main(args);
-        } else if (args.length>1) {
+        } else if (args.length > 1) {
             System.out.println("Too many arguments, insert " + HELP + " to see all the options.");
         } else {
-            if (CLI_STARTER.equals(args[0])){
+            if (CLI_STARTER.equals(args[0])) {
                 CLI.main(args);
             } else if (HELP.equals(args[0])) {
                 System.out.println("Insert " + CLI_STARTER + " to start the game in command line interface mode, otherwise insert nothing.");

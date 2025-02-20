@@ -21,7 +21,7 @@ class StudentTest {
         Student student = new Student(DiskColour.RED);
         student.chosen();
 
-        assertTrue(student.getIsChosen());
+        assertTrue(student.isChosen());
     }
 
     @Test

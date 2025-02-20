@@ -44,7 +44,7 @@ public class BoardCLI {
         int choicePosition;
 
 
-        if (board.getArrEntranceStudents()[choiceStudent].getIsChosen() == false) {
+        if (!board.getArrEntranceStudents()[choiceStudent].isChosen()) {
             System.out.println("where do you want to move the student?:\n");
             System.out.println("Dining Room[0] Island[1]");
             do {

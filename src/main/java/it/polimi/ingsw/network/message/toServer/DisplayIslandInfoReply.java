@@ -6,16 +6,18 @@ import it.polimi.ingsw.network.server.ServerInterface;
 /**
  * Message to display the info of the islands.
  */
-public class DisplayIslandInfoReply implements MessagesToServer{
+public class DisplayIslandInfoReply implements MessagesToServer {
 
     @Override
-    public void handleMessage(ServerInterface server, ClientHandlerInterface clientHandler) {
+    public void handleMessage(
+        ServerInterface server,
+        ClientHandlerInterface clientHandler
+    ) {
         clientHandler.setDisplayIslandInfo(true);
-
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return "Received reply";
     }
 }

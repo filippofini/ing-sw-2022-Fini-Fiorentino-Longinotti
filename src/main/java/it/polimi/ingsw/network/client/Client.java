@@ -5,6 +5,7 @@ import it.polimi.ingsw.network.message.ConnectionMessage;
 import it.polimi.ingsw.network.message.toClient.MessagesToClient;
 import it.polimi.ingsw.network.message.toClient.TimeoutExpiredMessage;
 import it.polimi.ingsw.view.View;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -17,212 +18,270 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
- * This class manages the connection of the client with the server.
+ * Manages the client-side connection to the server. It handles starting the connection,
+ * receiving and processing server messages, and properly closing the connection.
  */
 public class Client implements ClientInterface {
 
-    private Optional<String> name;
-    private Optional<GameMode> expert_mode ;
-    private boolean valid_name = false ;
-    public static final int HEARTBEAT = 5000; //A ping message is sent every 5 seconds
-    private View view;
+    public static final int HEARTBEAT = 5000; // A ping message is sent every 5 seconds
+
+    private final String serverIP;
+    private final int serverPort;
+
+    private Optional<String> playerName;
+    private Optional<GameMode> gameMode;
+
+    private final AtomicBoolean isConnected;
+    private boolean connectionClosed;
+
     private Socket socket;
-    private final String IPaddress;
-    private final int port;
     private ObjectInputStream inputStream;
     private ObjectOutputStream outputStream;
-    private final Thread packetReceiver;
-    private final Thread serverObserver;
-    private BlockingQueue<Object> incomingPackets;
-    private final AtomicBoolean connected = new AtomicBoolean(false);
-    private final Thread pinger;
-    private boolean connectionClosed = false;
+
+    private Thread packetReceiverThread;
+    private Thread serverMessageReaderThread;
+    private Thread pingerThread;
+
+    private BlockingQueue<Object> incomingMessagesQueue;
+    private final View view;
 
     /**
-     * Constructor of the class.
-     * It builds the threads and the object to start the game.
-     * @param IPaddress The IP of the server.
-     * @param port The port of the server.
-     * @param view the instance of a {@link it.polimi.ingsw.CLI}.
+     * Primary constructor that initializes required fields and sets up threads
+     * to manage server communication.
+     *
+     * @param serverIP  the IP of the server
+     * @param serverPort the port of the server
+     * @param view       the view responsible for handling user interaction
      */
-    public Client(String IPaddress, int port, View view){
-        this.name = Optional.empty();
-        this.expert_mode = Optional.empty();
-        this.IPaddress = IPaddress;
-        this.port = port;
-        this.view = view;
-        this.packetReceiver = new Thread(this::manageIncomingPackets);
-        this.serverObserver = new Thread(this::waitMessages);
+    public Client(String serverIP, int serverPort, View view) {
+        this(serverIP, serverPort, view, Optional.empty(), Optional.empty());
+    }
 
-        this.pinger = new Thread(() -> {
-            while (connected.get()){
+    /**
+     * Overloaded constructor allowing the client to initialize its name and game mode.
+     *
+     * @param serverIP   the IP of the server
+     * @param serverPort the port of the server
+     * @param view       the view responsible for handling user interaction
+     * @param gameMode   optional game mode (e.g., expert mode)
+     * @param playerName optional player name
+     */
+    public Client(String serverIP,
+                  int serverPort,
+                  View view,
+                  Optional<GameMode> gameMode,
+                  Optional<String> playerName) {
+
+        this.serverIP = serverIP;
+        this.serverPort = serverPort;
+        this.view = view;
+
+        this.playerName = playerName;
+        this.gameMode = gameMode;
+
+        this.isConnected = new AtomicBoolean(false);
+        this.connectionClosed = false;
+
+        initializeThreads();
+    }
+
+    /**
+     * Initializes the worker threads used by the client.
+     */
+    private void initializeThreads() {
+        this.packetReceiverThread = new Thread(this::manageIncomingPackets, "PacketReceiverThread");
+        this.serverMessageReaderThread = new Thread(this::waitForServerMessages, "ServerMessageReaderThread");
+
+        this.pingerThread = new Thread(() -> {
+            while (isConnected.get()) {
                 try {
                     Thread.sleep(HEARTBEAT);
                     sendMessageToServer(ConnectionMessage.PING);
-                } catch (InterruptedException e){
+                } catch (InterruptedException e) {
                     closeSocket();
                     break;
                 }
             }
-        });
+        }, "PingerThread");
     }
 
-    public Client(String IPaddress, int port, View view, Optional<GameMode> expert_mode, Optional<String> name){
-        this.expert_mode = expert_mode;
-        this.name = name;
-        this.valid_name = name.isPresent();
-        this.IPaddress = IPaddress;
-        this.port = port;
-        this.view = view;
-        this.packetReceiver = new Thread(this::manageIncomingPackets);
-        this.serverObserver = new Thread(this::waitMessages);
-
-        this.pinger = new Thread(() -> {
-            while (connected.get()){
-                try {
-                    Thread.sleep(HEARTBEAT);
-                    sendMessageToServer(ConnectionMessage.PING);
-                } catch (InterruptedException e){
-                    closeSocket();
-                    break;
-                }
-            }
-        });
-    }
-
+    /**
+     * Connects to the server, sets up input/output streams, and starts the packet receiver
+     * and server message reader threads.
+     *
+     * @throws IOException if a connection cannot be established
+     */
     public void start() throws IOException {
         socket = new Socket();
-        this.incomingPackets = new LinkedBlockingQueue<>();
+        incomingMessagesQueue = new LinkedBlockingQueue<>();
 
-        socket.connect(new InetSocketAddress(IPaddress, port));
+        socket.connect(new InetSocketAddress(serverIP, serverPort));
         outputStream = new ObjectOutputStream(socket.getOutputStream());
         inputStream = new ObjectInputStream(socket.getInputStream());
-        connected.set(true);
-        if(!packetReceiver.isAlive()){
-            packetReceiver.start();
+
+        isConnected.set(true);
+
+        if (!packetReceiverThread.isAlive()) {
+            packetReceiverThread.start();
         }
-        serverObserver.start();
+        serverMessageReaderThread.start();
+        pingerThread.start();
     }
 
-
     /**
-     * Manage the messages stored in the queue by Client.waitMessages()
+     * Continuously takes messages from the incoming message queue and processes them.
      */
-    public void manageIncomingPackets(){
-        while (connected.get()){
-            Object message;
+    private void manageIncomingPackets() {
+        while (isConnected.get()) {
             try {
-                message = incomingPackets.take();
-            } catch (InterruptedException e){
+                Object message = incomingMessagesQueue.take();
+                ((MessagesToClient) message).handleMessage(view);
+            } catch (InterruptedException e) {
                 closeSocket();
                 return;
             }
-
-            ((MessagesToClient) message).handleMessage(view);
         }
     }
-
 
     /**
-     * This method receives messages from the server and add them to a queue of messages.
-     * It is also used to manage disconnection and ping messages.
+     * Waits for messages from the server on the input stream. Handles special cases:
+     * - Server requests to close the connection
+     * - Timeout messages
+     * - Ping messages
      */
-    public void waitMessages(){
+    private void waitForServerMessages() {
         try {
-            while (connected.get()){
-                Object message = null;
-                message = inputStream.readObject();
-
-                if(message==ConnectionMessage.CONNECTION_CLOSED) {
+            while (isConnected.get()) {
+                Object message = inputStream.readObject();
+                if (message == ConnectionMessage.CONNECTION_CLOSED) {
                     closeSocket();
-                }
-                if (message instanceof TimeoutExpiredMessage){
-                    connected.set(false);
-                    pinger.interrupt();
-                    packetReceiver.interrupt();
-                    ((TimeoutExpiredMessage) message).handleMessage(view);
+                } else if (message instanceof TimeoutExpiredMessage) {
+                    handleTimeoutMessage((TimeoutExpiredMessage) message);
                     return;
-                } else if (message!=null && !(message == ConnectionMessage.PING)) {
-                    incomingPackets.add(message);
+                } else if (message != null && message != ConnectionMessage.PING) {
+                    incomingMessagesQueue.add(message);
                 }
             }
-        }catch (IOException | ClassNotFoundException e){
-            pinger.interrupt();
-            packetReceiver.interrupt();
+        } catch (IOException | ClassNotFoundException e) {
+            pingerThread.interrupt();
+            packetReceiverThread.interrupt();
         }
     }
 
+    /**
+     * Sends a serializable object to the server through the output stream.
+     *
+     * @param message the message to send
+     */
     @Override
-    public synchronized void sendMessageToServer(Serializable message){
-        if (connected.get()){
+    public synchronized void sendMessageToServer(Serializable message) {
+        if (isConnected.get()) {
             try {
                 outputStream.writeObject(message);
                 outputStream.flush();
-
-            }catch (IOException e){
+            } catch (IOException e) {
                 closeSocket();
             }
         }
     }
 
     /**
-     * This method closes the socket.
+     * Closes the client socket and interrupts all active threads.
+     * No further messages will be sent or received.
      */
-    public void closeSocket(){
-
-        if (connectionClosed)
+    public void closeSocket() {
+        if (connectionClosed) {
             return;
+        }
         connectionClosed = true;
-        boolean was_connected= connected.getAndSet(false);
-        if (!was_connected)
+
+        boolean wasConnected = isConnected.getAndSet(false);
+        if (!wasConnected) {
             return;
-        if (packetReceiver.isAlive())
-            packetReceiver.interrupt();
-        if (serverObserver.isAlive())
-            serverObserver.interrupt();
-        view.handleCloseConnection(was_connected);
-        try {
-            inputStream.close();
-        } catch (IOException e){}
-        try {
-            outputStream.close();
-        } catch (IOException e){}
-        try {
-            socket.close();
-        } catch (IOException e){}
+        }
+
+        interruptAllThreads();
+        view.handleCloseConnection(wasConnected);
+        closeAllResources();
     }
 
     /**
-     * This method closes all the running threads.
+     * Closes threads and resources typically when the application is exiting
+     * or connection is terminated.
      */
-    public void closeThreads(){
-        packetReceiver.interrupt();
-        pinger.interrupt();
-        serverObserver.interrupt();
-        try {
-            inputStream.close();
-        } catch (IOException e){}
-        try {
-            outputStream.close();
-        } catch (IOException e){}
-        try {
-            socket.close();
-        } catch (IOException e){}
+    public void closeThreads() {
+        interruptAllThreads();
+        closeAllResources();
     }
+
+    /**
+     * Interrupts all running threads.
+     */
+    private void interruptAllThreads() {
+        if (packetReceiverThread.isAlive()) {
+            packetReceiverThread.interrupt();
+        }
+        if (serverMessageReaderThread.isAlive()) {
+            serverMessageReaderThread.interrupt();
+        }
+        if (pingerThread.isAlive()) {
+            pingerThread.interrupt();
+        }
+    }
+
+    /**
+     * Closes the input/output streams and the socket.
+     */
+    private void closeAllResources() {
+        try {
+            if (inputStream != null) {
+                inputStream.close();
+            }
+        } catch (IOException ignored) {
+        }
+
+        try {
+            if (outputStream != null) {
+                outputStream.close();
+            }
+        } catch (IOException ignored) {
+        }
+
+        try {
+            if (socket != null) {
+                socket.close();
+            }
+        } catch (IOException ignored) {
+        }
+    }
+
+    /**
+     * Handles the scenario when a TimeoutExpiredMessage is received from the server.
+     *
+     * @param message the TimeoutExpiredMessage
+     */
+    private void handleTimeoutMessage(TimeoutExpiredMessage message) {
+        isConnected.set(false);
+        pingerThread.interrupt();
+        packetReceiverThread.interrupt();
+        message.handleMessage(view);
+    }
+
+    // ------------------ Setters / Getters ------------------
 
     public void setName(String name) {
-        this.name = Optional.of(name);
+        this.playerName = Optional.of(name);
     }
 
-    public void setGameMode(GameMode expert_mode) {
-        this.expert_mode = Optional.of(expert_mode);
+    public void setGameMode(GameMode mode) {
+        this.gameMode = Optional.of(mode);
     }
 
     public Optional<String> getName() {
-        return name;
+        return playerName;
     }
 
     public Optional<GameMode> getGameMode() {
-        return expert_mode;
+        return gameMode;
     }
 }

@@ -28,12 +28,6 @@ public interface ClientHandlerInterface {
     String getNickname();
 
     /**
-     * This method checks if mother nature can be moved.
-     * @return {@code True} if mother nature can be moved, {@code False} if not.
-     */
-    boolean checkMnMovThisTurn();
-
-    /**
      * This method sets the student to be moved.
      * @param stud The student to be moved.
      */
@@ -254,4 +248,10 @@ public interface ClientHandlerInterface {
      * @return The chosen island after the herald character card.
      */
     int getHeraldIsland();
+
+    /**
+     * This method returns if the client is active.
+     * @return True if client is active, False otherwise.
+     */
+    boolean isConnected();
 }

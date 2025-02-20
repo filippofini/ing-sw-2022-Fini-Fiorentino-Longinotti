@@ -5,7 +5,7 @@ import it.polimi.ingsw.view.ViewInterface;
 /**
  * Message to notify the disconnection of a player.
  */
-public class NotifyDisconnection extends MessagesToClient{
+public class NotifyDisconnection extends MessagesToClient {
 
     String name;
 
@@ -19,7 +19,7 @@ public class NotifyDisconnection extends MessagesToClient{
         view.displayDisconnection(name);
     }
 
-    public String toString(){
+    public String toString() {
         return "Notifying the disconnection of " + name;
     }
 }

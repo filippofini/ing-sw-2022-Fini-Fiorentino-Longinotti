@@ -7,15 +7,16 @@ import java.io.Serializable;
  * General features of a message from the server to the client.
  */
 public abstract class MessagesToClient implements Serializable {
-    private boolean timer;
 
-    public MessagesToClient(boolean timer){
+    private final boolean timer;
+
+    public MessagesToClient(boolean timer) {
         this.timer = timer;
     }
 
     public abstract void handleMessage(ViewInterface view);
 
-    public boolean hasTimer(){
+    public boolean hasTimer() {
         return timer;
     }
 }

@@ -18,7 +18,7 @@ public class Student implements Serializable {
      */
     public Student(DiskColour color){
         this.color = color;
-        isChosen=false;
+        isChosen = false;
     }
 
     /**
@@ -33,7 +33,7 @@ public class Student implements Serializable {
      * This method checks if a student is chosen.
      * @return {@code True} if the student is chosen, {@code False} if not.
      */
-    public boolean getIsChosen(){
+    public boolean isChosen(){
         return isChosen;
     }
 

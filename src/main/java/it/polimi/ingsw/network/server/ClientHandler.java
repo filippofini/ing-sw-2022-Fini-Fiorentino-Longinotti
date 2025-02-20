@@ -1,10 +1,10 @@
 package it.polimi.ingsw.network.server;
 
 import it.polimi.ingsw.controller.GameController;
+import it.polimi.ingsw.model.GameMode;
 import it.polimi.ingsw.network.message.ConnectionMessage;
 import it.polimi.ingsw.network.message.toClient.*;
 import it.polimi.ingsw.network.message.toServer.MessagesToServer;
-import it.polimi.ingsw.model.GameMode;
 import java.io.*;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
@@ -15,41 +15,30 @@ import java.util.logging.Level;
  * Each client has a corresponding client handler.
  */
 public class ClientHandler implements ClientHandlerInterface, Runnable {
+
     public static final int HEARTBEAT = 5000;
     public static final int TIMEOUT_FOR_RESPONSE = 240000;
     private final Socket socket;
     private ObjectOutputStream outputStream;
     private ObjectInputStream inputStream;
-    private Server server;
+    private final Server server;
     private Thread timer;
     private GameController gameController;
     private final Thread pinger;
     private boolean active = false;
-    private boolean validNickname;
     private int motherNatureMovement;
     private int pos;
     private int islandToMove;
     private int studToMove;
-    private int positionChosen;
-    private int color;
-    private  int assistantCardChosen;
-    private  int cloudChosen;
+    private int assistantCardChosen;
+    private int cloudChosen;
     private int useCharacterCard;
     private int ChCardUsed;
     private boolean canBeUsed;
-    private boolean waitingInTheLobby;
-    private boolean displayDiningRoom;
-    private boolean displayIslandInfo;
-    private boolean displayStudentChosenPreviously;
-    private boolean resultNotify;
-    private boolean timeoutExpired;
-    private boolean notEnoughCoin;
     private int monkStudent;
     private int heraldIsland;
     private String nickname;
-    private boolean gameStarted = false;
     private GameMode gameMode;
-
 
     /**
      * Constructor of the class.
@@ -57,16 +46,15 @@ public class ClientHandler implements ClientHandlerInterface, Runnable {
      * @param socket The socket of the client.
      * @param server Server used for the connection.
      */
-    public ClientHandler(Socket socket, Server server){
+    public ClientHandler(Socket socket, Server server) {
         this.socket = socket;
         this.server = server;
-        this.validNickname = false;
         this.pinger = new Thread(() -> {
-            while (active){
-                try{
+            while (active) {
+                try {
                     Thread.sleep(HEARTBEAT);
                     sendMessageToClient(ConnectionMessage.PING);
-                }catch (InterruptedException e){
+                } catch (InterruptedException e) {
                     break;
                 }
             }
@@ -76,29 +64,43 @@ public class ClientHandler implements ClientHandlerInterface, Runnable {
     /**
      * This method is used to start receiving messages in the client handler.
      */
-    public void run(){
+    public void run() {
         try {
             outputStream = new ObjectOutputStream(socket.getOutputStream());
             inputStream = new ObjectInputStream(socket.getInputStream());
             active = true;
             pinger.start();
-            while(active){
+            while (active) {
                 try {
                     Object message = inputStream.readObject();
-                    if(message != null && !(message == ConnectionMessage.PING)) {
+                    if (message != null && !(message == ConnectionMessage.PING)) {
                         stopTimer();
-                        Server.SERVER_LOGGER.log(Level.INFO, "[" + (nickname != null ? nickname : socket.getInetAddress().getHostAddress()) + "]: " + message);
-                            ((MessagesToServer) message).handleMessage(server, this);
+                        Server.SERVER_LOGGER.log(
+                                Level.INFO,
+                                "[" +
+                                        (nickname != null
+                                                ? nickname
+                                                : socket
+                                                .getInetAddress()
+                                                .getHostAddress()) +
+                                        "]: " +
+                                        message
+                        );
+                        ((MessagesToServer) message).handleMessage(
+                                server,
+                                this
+                        );
                     }
-                } catch (ClassNotFoundException ignored) {
-                } catch (SocketTimeoutException e){ //when the timer has expired
+                } catch (ClassNotFoundException ignored) {} catch (
+                        SocketTimeoutException e
+                ) { //when the timer has expired
                     sendMessageToClient(new TimeoutExpiredMessage());
                     handleSocketDisconnection(true);
-                } catch (IOException e){//when the client is no longer connected
+                } catch (IOException e) { //when the client is no longer connected
                     handleSocketDisconnection(false);
                 }
             }
-        }catch (IOException e){
+        } catch (IOException e) {
             boolean timeout = e instanceof SocketTimeoutException;
             handleSocketDisconnection(timeout);
         }
@@ -108,12 +110,12 @@ public class ClientHandler implements ClientHandlerInterface, Runnable {
      * This method is used to start timer.
      */
     @Override
-    public void startTimer(){
+    public void startTimer() {
         timer = new Thread(() -> {
-            try{
+            try {
                 Thread.sleep(TIMEOUT_FOR_RESPONSE);
                 handleSocketDisconnection(true);
-            } catch (InterruptedException e){ }
+            } catch (InterruptedException ignored) {}
         });
         timer.start();
     }
@@ -121,10 +123,10 @@ public class ClientHandler implements ClientHandlerInterface, Runnable {
     /**
      * This method is used to stop the timer.
      */
-    public void stopTimer(){
-        if (timer != null && timer.isAlive()){
+    public void stopTimer() {
+        if (timer != null && timer.isAlive()) {
             timer.interrupt();
-            }
+        }
     }
 
     /**
@@ -134,19 +136,28 @@ public class ClientHandler implements ClientHandlerInterface, Runnable {
     @Override
     public synchronized void sendMessageToClient(Serializable message) {
         try {
-            if (checkMessage(message))
-                Server.SERVER_LOGGER.log(Level.INFO, "[" + (nickname != null ? nickname : socket.getInetAddress().getHostAddress()) + "]: " + message.toString());
+            if (checkMessage(message)) Server.SERVER_LOGGER.log(
+                    Level.INFO,
+                    "[" +
+                            (nickname != null
+                                    ? nickname
+                                    : socket.getInetAddress().getHostAddress()) +
+                            "]: " +
+                            message.toString()
+            );
 
             outputStream.writeObject(message);
             outputStream.flush();
             outputStream.reset();
             System.out.println();
-            if (!message.equals(ConnectionMessage.PING)){
-             wait();}
-            if (message instanceof MessagesToClient &&((MessagesToClient) message).hasTimer())
-                startTimer();
+            if (!message.equals(ConnectionMessage.PING)) {
+                wait();
+            }
+            if (
+                    message instanceof MessagesToClient &&
+                            ((MessagesToClient) message).hasTimer()
+            ) startTimer();
         } catch (IOException e) {
-
             handleSocketDisconnection(e instanceof SocketTimeoutException);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
@@ -158,8 +169,11 @@ public class ClientHandler implements ClientHandlerInterface, Runnable {
      * @param message The message to check.
      * @return {@code True} if the message must be printed.
      */
-    private boolean checkMessage(Serializable message){
-        return  (message != ConnectionMessage.PING && !(message instanceof TextMessage));
+    private boolean checkMessage(Serializable message) {
+        return (
+                message != ConnectionMessage.PING &&
+                        !(message instanceof TextMessage)
+        );
     }
 
     /**
@@ -167,36 +181,39 @@ public class ClientHandler implements ClientHandlerInterface, Runnable {
      * @param timeout {@code True} if the timeout has been reached, {@code False} if not.
      */
     //If the timer is expired or the ping message cannot be sent due to disconnection of the client (it throws IO Exception) I tell the client that he has been disconnected
-    private void handleSocketDisconnection(boolean timeout){
+    private void handleSocketDisconnection(boolean timeout) {
         stopTimer();
-        if (!active)
-            return;
+        if (!active) return;
         //The connection is not active anymore
         this.active = false;
-        Server.SERVER_LOGGER.log(Level.SEVERE, "[" + (nickname != null ? nickname : socket.getInetAddress().getHostAddress())+ "]: " + "client disconnected" + (timeout ? " because the timeout has expired" : ""));
+        Server.SERVER_LOGGER.log(
+                Level.SEVERE,
+                "[" +
+                        (nickname != null
+                                ? nickname
+                                : socket.getInetAddress().getHostAddress()) +
+                        "]: " +
+                        "client disconnected" +
+                        (timeout ? " because the timeout has expired" : "")
+        );
 
-            gameController.handleClientDisconnection(nickname);
+        gameController.handleClientDisconnection(nickname);
 
         try {
-            if (timeout)
-                outputStream.writeObject(new TimeoutExpiredMessage());
-            else
-                outputStream.writeObject(ConnectionMessage.CONNECTION_CLOSED);
+            if (timeout) outputStream.writeObject(new TimeoutExpiredMessage());
+            else outputStream.writeObject(ConnectionMessage.CONNECTION_CLOSED);
             outputStream.flush();
             outputStream.reset();
-        } catch (IOException e) { }
+        } catch (IOException ignored) {}
         try {
             inputStream.close();
-        } catch (IOException e) {
-        }
+        } catch (IOException ignored) {}
         try {
             outputStream.close();
-        } catch (IOException e) {
-        }
+        } catch (IOException ignored) {}
         try {
             socket.close();
-        } catch (IOException e) {
-        }
+        } catch (IOException ignored) {}
     }
 
     /**
@@ -213,17 +230,8 @@ public class ClientHandler implements ClientHandlerInterface, Runnable {
      * @return The nickname.
      */
     @Override
-    public String getNickname(){
+    public String getNickname() {
         return nickname;
-    }
-
-    /**
-     * This method checks if mother nature can be moved.
-     * @return {@code True} if mother nature can be moved, {@code False} if not.
-     */
-    @Override
-    public boolean checkMnMovThisTurn() {
-        return false;
     }
 
     /**
@@ -241,7 +249,7 @@ public class ClientHandler implements ClientHandlerInterface, Runnable {
      * @param nickname The nickname.
      */
     @Override
-    public synchronized void setNickname(String nickname){
+    public synchronized void setNickname(String nickname) {
         this.nickname = nickname;
         notify();
     }
@@ -261,7 +269,7 @@ public class ClientHandler implements ClientHandlerInterface, Runnable {
      * @param gameMode The game mode.
      */
     @Override
-    public synchronized void setGameMode(GameMode gameMode){
+    public synchronized void setGameMode(GameMode gameMode) {
         this.gameMode = gameMode;
         notify();
     }
@@ -271,8 +279,7 @@ public class ClientHandler implements ClientHandlerInterface, Runnable {
      * @param gameStarted {@code true} to start the game.
      */
     @Override
-    public synchronized void setGameStarted(boolean gameStarted){
-        this.gameStarted = gameStarted;
+    public synchronized void setGameStarted(boolean gameStarted) {
         notify();
     }
 
@@ -280,7 +287,9 @@ public class ClientHandler implements ClientHandlerInterface, Runnable {
      * This method sets the number of players for the next game.
      * @param numberOfPlayersForNextGame The number of players for the next game.
      */
-    public synchronized void setNumberOfPlayersForNextGame(int numberOfPlayersForNextGame){
+    public synchronized void setNumberOfPlayersForNextGame(
+            int numberOfPlayersForNextGame
+    ) {
         server.setNumberOfPlayersForNextGame(this, numberOfPlayersForNextGame);
         notify();
     }
@@ -289,7 +298,7 @@ public class ClientHandler implements ClientHandlerInterface, Runnable {
      * This method sets the game controller.
      * @param gameController The game controller.
      */
-    public synchronized void setGameController(GameController gameController){
+    public synchronized void setGameController(GameController gameController) {
         this.gameController = gameController;
         notify();
     }
@@ -306,17 +315,8 @@ public class ClientHandler implements ClientHandlerInterface, Runnable {
      * This method returns the server.
      * @return The server.
      */
-    public Server getServer(){
+    public Server getServer() {
         return server;
-    }
-
-    /**
-     * This method sets a valid nickname.
-     * @param validNickname A valid nickname.
-     */
-    public synchronized void setValidNickname(boolean validNickname) {
-        this.validNickname = validNickname;
-        notify();
     }
 
     /**
@@ -345,7 +345,6 @@ public class ClientHandler implements ClientHandlerInterface, Runnable {
      */
     @Override
     public synchronized void setPos(int positionChosen) {
-        this.positionChosen = positionChosen;
         notify();
     }
 
@@ -355,7 +354,6 @@ public class ClientHandler implements ClientHandlerInterface, Runnable {
      */
     @Override
     public synchronized void setColor(int color) {
-        this.color = color;
         notify();
     }
 
@@ -484,7 +482,6 @@ public class ClientHandler implements ClientHandlerInterface, Runnable {
      * @param waitingInTheLobby The waiting in the lobby.
      */
     public synchronized void setWaitingInTheLobby(boolean waitingInTheLobby) {
-        this.waitingInTheLobby = waitingInTheLobby;
         notify();
     }
 
@@ -493,7 +490,6 @@ public class ClientHandler implements ClientHandlerInterface, Runnable {
      * @param displayDiningRoom The display of the dining room.
      */
     public synchronized void setDisplayDiningRoom(boolean displayDiningRoom) {
-        this.displayDiningRoom = displayDiningRoom;
         notify();
     }
 
@@ -502,7 +498,6 @@ public class ClientHandler implements ClientHandlerInterface, Runnable {
      * @param displayIslandInfo The display of island info.
      */
     public synchronized void setDisplayIslandInfo(boolean displayIslandInfo) {
-        this.displayIslandInfo = displayIslandInfo;
         notify();
     }
 
@@ -510,8 +505,9 @@ public class ClientHandler implements ClientHandlerInterface, Runnable {
      * This method sets the display of the previously chosen student.
      * @param displayStudentChosenPreviously The previously chosen student.
      */
-    public synchronized void setDisplayStudentChosenPreviously(boolean displayStudentChosenPreviously) {
-        this.displayStudentChosenPreviously = displayStudentChosenPreviously;
+    public synchronized void setDisplayStudentChosenPreviously(
+            boolean displayStudentChosenPreviously
+    ) {
         notify();
     }
 
@@ -520,7 +516,6 @@ public class ClientHandler implements ClientHandlerInterface, Runnable {
      * @param resultNotify The results.
      */
     public synchronized void setResultNotify(boolean resultNotify) {
-        this.resultNotify = resultNotify;
         notify();
     }
 
@@ -529,7 +524,6 @@ public class ClientHandler implements ClientHandlerInterface, Runnable {
      * @param timeoutExpired the expired message.
      */
     public synchronized void setTimeoutExpired(boolean timeoutExpired) {
-        this.timeoutExpired = timeoutExpired;
         notify();
     }
 
@@ -538,7 +532,6 @@ public class ClientHandler implements ClientHandlerInterface, Runnable {
      * @param notEnoughCoin The coins checker.
      */
     public synchronized void setNotEnoughCoin(boolean notEnoughCoin) {
-        this.notEnoughCoin = notEnoughCoin;
         notify();
     }
 
@@ -564,7 +557,7 @@ public class ClientHandler implements ClientHandlerInterface, Runnable {
      * @param heraldIsland The island chosen after the herald character card.
      */
     public synchronized void setHeraldIsland(int heraldIsland) {
-        this.heraldIsland=heraldIsland;
+        this.heraldIsland = heraldIsland;
         notify();
     }
 
@@ -575,5 +568,12 @@ public class ClientHandler implements ClientHandlerInterface, Runnable {
     public int getHeraldIsland() {
         return heraldIsland;
     }
-}
 
+    /**
+     * This method returns if the client is active.
+     * @return True if client is active, False otherwise.
+     */
+    public boolean isConnected() {
+        return active;
+    }
+}

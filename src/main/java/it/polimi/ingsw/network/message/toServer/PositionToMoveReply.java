@@ -6,16 +6,18 @@ import it.polimi.ingsw.network.server.ServerInterface;
 /**
  * Message for the position to move.
  */
-public class PositionToMoveReply implements MessagesToServer{
+public class PositionToMoveReply implements MessagesToServer {
+
     private final int pos;
 
-    public PositionToMoveReply(int pos){this.pos=pos;}
-
-    public int getPos() {
-        return pos;
+    public PositionToMoveReply(int pos) {
+        this.pos = pos;
     }
 
-    public void handleMessage(ServerInterface server, ClientHandlerInterface clientHandler) {
+    public void handleMessage(
+        ServerInterface server,
+        ClientHandlerInterface clientHandler
+    ) {
         clientHandler.setPosToMove(pos);
     }
 
@@ -23,5 +25,4 @@ public class PositionToMoveReply implements MessagesToServer{
     public String toString() {
         return "Position Received";
     }
-
 }

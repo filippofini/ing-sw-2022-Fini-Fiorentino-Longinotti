@@ -6,13 +6,13 @@ import it.polimi.ingsw.view.ViewInterface;
 /**
  * Message to request the show of the student.
  */
-public class ShowStudentRequest extends MessagesToClient{
+public class ShowStudentRequest extends MessagesToClient {
 
     Student[] students;
 
-    public ShowStudentRequest(Student[] students){
+    public ShowStudentRequest(Student[] students) {
         super(true);
-        this.students=students;
+        this.students = students;
     }
 
     @Override
@@ -20,9 +20,8 @@ public class ShowStudentRequest extends MessagesToClient{
         view.showStudent(students);
     }
 
-
     @Override
-    public String toString(){
+    public String toString() {
         return "Received ask";
     }
 }

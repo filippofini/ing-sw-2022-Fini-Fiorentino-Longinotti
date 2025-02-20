@@ -5,21 +5,22 @@ import it.polimi.ingsw.view.ViewInterface;
 /**
  * Message to request a name from the new player.
  */
-public class NameRequest extends MessagesToClient{
-    private boolean is_retry;
+public class NameRequest extends MessagesToClient {
 
-    public NameRequest(boolean is_retry){
+    private final boolean isRetry;
+
+    public NameRequest(boolean is_retry) {
         super(true);
-        this.is_retry = is_retry;
+        this.isRetry = is_retry;
     }
 
     @Override
     public void handleMessage(ViewInterface view) {
-        view.displayNicknameRequest(is_retry);
+        view.displayNicknameRequest(isRetry);
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return "asking nickname";
     }
 }

@@ -5,7 +5,7 @@ import it.polimi.ingsw.view.ViewInterface;
 /**
  * Message to notify that the player is waiting to start the game.
  */
-public class WaitingInTheLobbyMessage extends MessagesToClient{
+public class WaitingInTheLobbyMessage extends MessagesToClient {
 
     public WaitingInTheLobbyMessage() {
         super(false);
@@ -17,7 +17,7 @@ public class WaitingInTheLobbyMessage extends MessagesToClient{
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return "Sending waiting in the lobby message";
     }
 }

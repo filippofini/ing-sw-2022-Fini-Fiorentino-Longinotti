@@ -6,7 +6,7 @@ package it.polimi.ingsw.network.message;
 public enum ConnectionMessage {
     PING("Ping"),
     CONNECTION_CLOSED("Connection closed");
-    String message;
+    final String message;
 
     /**
      * Constructor of the class.

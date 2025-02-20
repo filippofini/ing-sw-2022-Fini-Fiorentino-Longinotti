@@ -5,7 +5,7 @@ import it.polimi.ingsw.view.ViewInterface;
 /**
  * Message to ask the number of players.
  */
-public class NumberOfPlayersRequest extends MessagesToClient{
+public class NumberOfPlayersRequest extends MessagesToClient {
 
     public NumberOfPlayersRequest() {
         super(true);
@@ -17,7 +17,7 @@ public class NumberOfPlayersRequest extends MessagesToClient{
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return "Asking the desired number of players";
     }
 }
