@@ -60,6 +60,7 @@ class IslandTest {
         int[] Arr_stud = {7,2,4,5,4};
         int tower = 2;
         Island island1 = new Island(boards1,1, TowerColour.STARTER);
+        island1.setNames(new String[]{"A","B","C","D","E"});
         boards1[1] = new Board(3, TowerColour.STARTER);
 
 
@@ -80,6 +81,7 @@ class IslandTest {
         int[] Arr_stud = {7,2,4,5,4};
         int tower = 2;
         Island island1 = new Island(boards1,1, TowerColour.STARTER);
+        island1.setNames(new String[]{"A","B","C","D","E"});
         boards1[3] = new Board(4, TowerColour.STARTER);
 
         boards1[3].setArrProfessors(Arr_prof);
@@ -99,6 +101,7 @@ class IslandTest {
         int[] Arr_stud = {7,2,4,5,4};
         int tower = 2;
         Island island2 = new Island(boards2,2, TowerColour.STARTER);
+        island2.setNames(new String[]{"A","B","C","D","E"});
         boards2[1] = new Board(3, TowerColour.STARTER);
         boards2[2] = new Board(3, TowerColour.STARTER);
 

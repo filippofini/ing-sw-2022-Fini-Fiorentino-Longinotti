@@ -13,18 +13,19 @@ import java.util.function.Predicate;
  * This class represents the CLI main.
  */
 public class CLI implements View {
+
     private Client client;
     private Thread inputObserverOutOfTurn;
 
     public static void main(String[] args) {
-        CLI cli= new CLI();
+        CLI cli = new CLI();
         cli.setUpGame();
     }
 
     /**
      * This method sets up a game.
      */
-    private void setUpGame(){
+    private void setUpGame() {
         boolean error = true;
         boolean firstTry = true;
         Logo.print();
@@ -52,8 +53,7 @@ public class CLI implements View {
      * @param retry {@code True} if it's not the first time that the nickname is asked.
      */
     public void displayNicknameRequest(boolean retry) {
-
-        StartGame.displayNicknameRequest(client,retry);
+        StartGame.displayNicknameRequest(client, retry);
     }
 
     /**
@@ -62,7 +62,7 @@ public class CLI implements View {
      * @param max The max.
      * @return The condition on an integer range.
      */
-    public static Predicate<Integer> conditionOnIntegerRange(int min, int max){
+    public static Predicate<Integer> conditionOnIntegerRange(int min, int max) {
         return p -> p >= min && p <= max;
     }
 
@@ -76,16 +76,15 @@ public class CLI implements View {
     /**
      * This method displays the number of players requests.
      */
-    public void displayNumberOfPlayersRequest(){
+    public void displayNumberOfPlayersRequest() {
         StartGame.NumberOfPlayersRequest(client);
     }
 
     /**
      * This method displays the waiting message.
      */
-    public void displayWaitingMessage(){
+    public void displayWaitingMessage() {
         StartGame.displayWaitingMessage(client);
-
     }
 
     /**
@@ -93,8 +92,8 @@ public class CLI implements View {
      * @param Mn_pos The position of mother nature.
      * @param Current_Player The current player.
      */
-    public void motherNatureMovementRequest(int Mn_pos, Player Current_Player){
-        MnCLI.motherNatureMovementRequest(client,Mn_pos,Current_Player);
+    public void motherNatureMovementRequest(int Mn_pos, Player Current_Player) {
+        MnCLI.motherNatureMovementRequest(client, Mn_pos, Current_Player);
     }
 
     /**
@@ -102,8 +101,8 @@ public class CLI implements View {
      * @param island The island.
      * @param islandID The ID of the island.
      */
-    public void displayIslandInfo(Island island, int islandID){
-        IslandCLI.displayIslandInfo(client,island,islandID);
+    public void displayIslandInfo(Island island, int islandID) {
+        IslandCLI.displayIslandInfo(client, island, islandID);
     }
 
     /**
@@ -111,14 +110,17 @@ public class CLI implements View {
      * @param islands The list of islands.
      * @param stud_to_island The student to the island.
      */
-    public void MoveStudentToIslandRequest(List<Island> islands, Student stud_to_island){
-        IslandCLI.MoveStudentToIslandRequest(client,islands,stud_to_island);
+    public void MoveStudentToIslandRequest(
+        List<Island> islands,
+        Student stud_to_island
+    ) {
+        IslandCLI.MoveStudentToIslandRequest(client, islands, stud_to_island);
     }
 
     /**
      * This method displays the colour requests.
      */
-    public void displayColourRequest(){
+    public void displayColourRequest() {
         ColourCLI.chooseColourRequest(client);
     }
 
@@ -126,8 +128,8 @@ public class CLI implements View {
      * This method displays the students to move requests.
      * @param board The board.
      */
-    public void displayStudentToMoveRequest(Board board){
-        BoardCLI.studentToMoveRequest(client,board);
+    public void displayStudentToMoveRequest(Board board) {
+        BoardCLI.studentToMoveRequest(client, board);
     }
 
     /**
@@ -135,8 +137,8 @@ public class CLI implements View {
      * @param board The board.
      * @param choiceStudent The student.
      */
-    public void displayWhereToMoveStudents(Board board, int choiceStudent){
-        BoardCLI.positionToMoveRequest(client,board,choiceStudent);
+    public void displayWhereToMoveStudents(Board board, int choiceStudent) {
+        BoardCLI.positionToMoveRequest(client, board, choiceStudent);
     }
 
     /**
@@ -144,8 +146,8 @@ public class CLI implements View {
      * @param board The board.
      * @param choiceStudent The student.
      */
-    public void displayDiningRoomColourFull( Board board,int choiceStudent){
-        BoardCLI.displayDiningRoomColourFull(client,board,choiceStudent);
+    public void displayDiningRoomColourFull(Board board, int choiceStudent) {
+        BoardCLI.displayDiningRoomColourFull(client, board, choiceStudent);
     }
 
     /**
@@ -153,22 +155,22 @@ public class CLI implements View {
      * @param board The board.
      * @param choiceStudent The student.
      */
-    public void displayStudentChosenPreviously( Board board,int choiceStudent){
-        BoardCLI.displayStudentChosenPreviously(client,board,choiceStudent);
+    public void displayStudentChosenPreviously(Board board, int choiceStudent) {
+        BoardCLI.displayStudentChosenPreviously(client, board, choiceStudent);
     }
 
     /**
      * This method displays the entrance of students.
      * @param board The board.
      */
-    public void displayEntranceStudents(Board board){
+    public void displayEntranceStudents(Board board) {
         BoardCLI.displayEntranceStudents(board);
     }
 
     /**
      * This method notifies that the time to send a response is over.
      */
-    public void displayTimeoutCloseConnection(){
+    public void displayTimeoutCloseConnection() {
         System.out.println("Timeout expired, you will be now disconnected");
         closeConnection();
         client.sendMessageToServer(new TimeoutExpiredReply());
@@ -179,30 +181,30 @@ public class CLI implements View {
      * @param player The player.
      * @param GT The game table.
      */
-    public void displayChooseAssistantCardRequest( Player player,GameTable GT){
-        AssistantCLI.chooseAssistantCard(client,player,GT);
+    public void displayChooseAssistantCardRequest(Player player, GameTable GT) {
+        AssistantCLI.chooseAssistantCard(client, player, GT);
     }
 
     /**
      * This method request a position.
      * @param upperLimit The max moves available.
      */
-    public void choosePositionRequest(int upperLimit){
-        PositionCLI.choosePositionRequest(client,upperLimit);
+    public void choosePositionRequest(int upperLimit) {
+        PositionCLI.choosePositionRequest(client, upperLimit);
     }
 
     /**
      * This method displays the request of the choice for a cloud.
      * @param clouds The list of clouds.
      */
-    public void displayChooseCloudRequest( List<Cloud> clouds){
-        CloudCLI.chooseCloud(client,clouds);
+    public void displayChooseCloudRequest(List<Cloud> clouds) {
+        CloudCLI.chooseCloud(client, clouds);
     }
 
     /**
      * This method close the connection.
      */
-    public void closeConnection(){
+    public void closeConnection() {
         client.closeSocket();
     }
 
@@ -212,15 +214,16 @@ public class CLI implements View {
      */
     public void handleCloseConnection(boolean wasConnected) {
         displayUnreachableServer(wasConnected);
-        if (inputObserverOutOfTurn != null && inputObserverOutOfTurn.isAlive())
-            inputObserverOutOfTurn.interrupt();
+        if (
+            inputObserverOutOfTurn != null && inputObserverOutOfTurn.isAlive()
+        ) inputObserverOutOfTurn.interrupt();
     }
 
     /**
      * This method displays the message that the server is unreachable.
      * @param wasConnected Boolean to check if the client was connected.
      */
-    private void displayUnreachableServer(boolean wasConnected){
+    private void displayUnreachableServer(boolean wasConnected) {
         System.out.println("Game id Ended\n\n");
     }
 
@@ -228,13 +231,12 @@ public class CLI implements View {
      * This method display a player disconnection message.
      * @param name The name.
      */
-    public void displayDisconnection(String name){
-        System.out.println(name+ " has quit the game.\n");
+    public void displayDisconnection(String name) {
+        System.out.println(name + " has quit the game.\n");
         client.closeSocket();
     }
 
-
-//called when the condition for the endgame are met,calculate and send the result to each player
+    //called when the condition for the endgame are met,calculate and send the result to each player
 
     /**
      * This method shows the results of the game.
@@ -242,21 +244,25 @@ public class CLI implements View {
      * @param players The list of players.
      * @param boards The array of boards.
      */
-    public void displayResults( List<Island> islands, List<Player> players,Board[] boards) {
-        EndGameCLI.displayResults(client,islands,players,boards);
+    public void displayResults(List<Island> islands, List<Player> players, Board[] boards) {
+        EndGameCLI.displayResults(client, islands, players, boards);
     }
 
     /**
      * This method ask if the player wants to use a character card.
      */
-    public void UseCharacterCard(){
+    public void UseCharacterCard() {
         int choice;
-        System.out.println("Do you want to use a character card? no[0] or yes[1]\n");
-        choice=InputParser.getInt();
+        System.out.println(
+            "Do you want to use a character card? no[0] or yes[1]\n"
+        );
+        choice = InputParser.getInt();
 
-        while(choice<0 || choice>1){
-            System.out.println("Number not allowed,please choose another number");
-            choice=InputParser.getInt();
+        while (choice < 0 || choice > 1) {
+            System.out.println(
+                "Number not allowed,please choose another number"
+            );
+            choice = InputParser.getInt();
         }
 
         client.sendMessageToServer(new UseCharacterCardReply(choice));
@@ -267,30 +273,36 @@ public class CLI implements View {
      * @param player The player.
      * @param cc The array of character cards.
      */
-    public void ChooseCharacterCard(Player player,CharacterCard[] cc){
+    public void ChooseCharacterCard(Player player, CharacterCard[] cc) {
         int choice;
-        Scanner sc=new Scanner(System.in);
-        boolean poor=true;
-        System.out.println("choose a character card character card from the one below: \n");
-        for(int i=0;i<3;i++){
-            System.out.println( "["+i+"]\n");
-            System.out.println( "   ID: "+cc[i].getIDCode()+"\n");
-            System.out.println( "   Name: "+cc[i].getName()+"\n");
-            System.out.println( "   Cost: "+cc[i].getCost()+"\n");
-            if(player.getCoin()>=cc[i].getCost()){
-                poor=false;
+        Scanner sc = new Scanner(System.in);
+        boolean poor = true;
+        System.out.println(
+            "choose a character card character card from the one below: \n"
+        );
+        for (int i = 0; i < 3; i++) {
+            System.out.println("[" + i + "]\n");
+            System.out.println("   ID: " + cc[i].getIDCode() + "\n");
+            System.out.println("   Name: " + cc[i].getName() + "\n");
+            System.out.println("   Cost: " + cc[i].getCost() + "\n");
+            if (player.getCoin() >= cc[i].getCost()) {
+                poor = false;
             }
         }
-        if(poor==false){
-            choice= sc.nextInt();
+        if (!poor) {
+            choice = sc.nextInt();
 
-            while((choice<0 || choice>2) || player.getCoin()<cc[choice].getCost()){
-                System.out.println("Number not allowed,please choose another number\n");
-                choice= sc.nextInt();
+            while (
+                (choice < 0 || choice > 2) ||
+                player.getCoin() < cc[choice].getCost()
+            ) {
+                System.out.println(
+                    "Number not allowed,please choose another number\n"
+                );
+                choice = sc.nextInt();
             }
             client.sendMessageToServer(new ChooseCharacterCardReply(choice));
-        }
-        else{
+        } else {
             System.out.println("It seem you have not enough coin..\n");
             client.sendMessageToServer(new NotenoughCoinReply());
         }
@@ -300,16 +312,15 @@ public class CLI implements View {
      * This method shows the students on a character card.
      * @param students The students.
      */
-    public void showStudent(Student[] students){
-        AssistantCLI.ShowStudent(client,students);
+    public void showStudent(Student[] students) {
+        AssistantCLI.ShowStudent(client, students);
     }
-
 
     /**
      * This method shows the islands to choose.
      * @param islands The islands to choose.
      */
     public void heraldIsland(List<Island> islands) {
-        AssistantCLI.HeraldIsland(client,islands);
+        AssistantCLI.HeraldIsland(client, islands);
     }
 }

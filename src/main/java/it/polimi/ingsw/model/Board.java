@@ -35,7 +35,7 @@ public class Board implements Serializable {
      * @param tower The tower colour assigned to the player and to the board.
      */
     public Board(int numOfPlayers, TowerColour tower){
-        this.tower = tower.getTower_translate();
+        this.tower = tower.getTowerTranslate();
         arrPositionStudents = new int[5];
         arrProfessors = new boolean[5];
         trackCoins = new boolean[5][3];

@@ -7,7 +7,6 @@ import java.util.List;
  * This interface contains the methods to handle the request sent to/by the client.
  */
 public interface ViewInterface {
-
     /**
      * This method handle the closing of connections.
      * @param was_connected Boolean to check if there was a connection.
@@ -81,7 +80,10 @@ public interface ViewInterface {
      * @param islands The list of islands.
      * @param stud_to_island The student to the island.
      */
-    void MoveStudentToIslandRequest(List<Island> islands, Student stud_to_island);
+    void MoveStudentToIslandRequest(
+        List<Island> islands,
+        Student stud_to_island
+    );
 
     /**
      * This method displays the request of the choice for the assistant card.
@@ -108,14 +110,14 @@ public interface ViewInterface {
      * @param board The board.
      * @param choiceStudent The student.
      */
-    void displayDiningRoomColourFull( Board board,int choiceStudent);
+    void displayDiningRoomColourFull(Board board, int choiceStudent);
 
     /**
      * This method displays the student chosen previously message.
      * @param board The board.
      * @param choiceStudent The student.
      */
-    void displayStudentChosenPreviously( Board board,int choiceStudent);
+    void displayStudentChosenPreviously(Board board, int choiceStudent);
 
     /**
      * This method displays the entrance students.
@@ -150,7 +152,7 @@ public interface ViewInterface {
      * @param player The player.
      * @param cc The array of character cards.
      */
-    void ChooseCharacterCard(Player player,CharacterCard[] cc);
+    void ChooseCharacterCard(Player player, CharacterCard[] cc);
 
     /**
      * This method shows the results of the game.
@@ -158,11 +160,14 @@ public interface ViewInterface {
      * @param players The list of players.
      * @param boards The array of boards.
      */
-    void displayResults( List<Island> islands, List<Player> players,Board[] boards);
+    void displayResults(
+        List<Island> islands,
+        List<Player> players,
+        Board[] boards
+    );
 
     /**
      * This method displays the request of the colour of disk's student prompt to use two character cards.
      */
     void displayColourRequest();
-
 }

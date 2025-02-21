@@ -14,6 +14,8 @@ public class Herald extends CharacterCard {
     private int index_to;
     private final String name = "HERALD";
 
+
+    //TODO: fix the effect
     /**
      * This method implements the effect of the herald card.
      * The player chooses an island and calculates the influence of it even if mother nature is not there.

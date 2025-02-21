@@ -18,6 +18,7 @@ public class Island implements Serializable {
     private int tower;
     private int influenceController;
     private int playerController;
+    private String controllerName;
     private final int island_ID;
     private int[] arrStudents;
     private boolean prohibition_card;
@@ -25,21 +26,23 @@ public class Island implements Serializable {
     private boolean ColorProhibitionActive;
     private int colorProhibitionIndex;
     private int extraInfluence;
+    private String[] names;
 
     /**
      * Constructor of the class.
      * @param boards Reference to the boards of the players.
      * @param island_ID the starting ID of the island, it's not very useful.
-     * @param tower_colour Puts tower starter to the island, that means no tower (see: {@link TowerColour}).
+     * @param towerColor Puts tower starter to the island, that means no tower (see: {@link TowerColour}).
      */
-    public Island( Board[] boards, int island_ID, TowerColour tower_colour) {
+    public Island( Board[] boards, int island_ID, TowerColour towerColor) {
         this.island_ID = island_ID;
         this.boards = boards;
-        this.tower = tower_colour.getTower_translate();
+        this.tower = towerColor.getTowerTranslate();
         influenceController = 0;
         arrStudents = new int[5];
         motherNatureHere = false;
         playerController = -1;
+        controllerName = "None";
         prohibition_card = false;
         ColorProhibitionActive = false;
         colorProhibitionIndex = 0;
@@ -100,6 +103,7 @@ public class Island implements Serializable {
                     }
                     // Update control to the new player
                     playerController = currentPlayer;
+                    translateIDName();
                     tower = 1;
                     // In the original code for 4-players, influence_controller is set to the immediate new influence
                     // (plus extra_influence only if towers were NOT included).
@@ -112,6 +116,7 @@ public class Island implements Serializable {
                         );
                     }
                     playerController = currentPlayer;
+                    translateIDName();
                     tower = 1;
                     // In the original code, if towers are included, we add +1 as well as extra_influence.
                     // Otherwise, just extra_influence.
@@ -307,6 +312,40 @@ public class Island implements Serializable {
      */
     public void setExtraInfluence(int extra_influence) {
         this.extraInfluence = extra_influence;
+    }
+
+    /**
+     * This method returns the name of the player that controls the island.
+     * @return The name of the player that controls the island.
+     */
+    public String getControllerName() {
+        return controllerName;
+    }
+
+    /**
+     * This method sets the name of the player that controls the island.
+     * @param controllerName The name of the player that controls the island.
+     */
+    public void setControllerName(String controllerName) {
+        this.controllerName = controllerName;
+    }
+
+    /**
+     * This method sets the name of the player that controls the island.
+     */
+    private void translateIDName() {
+        if (playerController == -1)
+            controllerName = "None";
+        else
+            controllerName = names[playerController];
+    }
+
+    /**
+     * This method sets the array of names.
+     * @param names The array of names.
+     */
+    public void setNames(String[] names) {
+        this.names = names;
     }
 }
 

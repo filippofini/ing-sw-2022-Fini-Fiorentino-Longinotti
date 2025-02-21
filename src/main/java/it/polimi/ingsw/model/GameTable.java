@@ -498,15 +498,6 @@ public class GameTable implements Serializable {
     }
 
     /**
-     * This method returns the number of players in the game.
-     *
-     * @return The number of players in teh game.
-     */
-    public int getNumPlayers() {
-        return numPlayers;
-    }
-
-    /**
      * This method returns the bag.
      *
      * @return The bag.

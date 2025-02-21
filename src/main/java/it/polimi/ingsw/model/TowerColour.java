@@ -1,6 +1,5 @@
 package it.polimi.ingsw.model;
 
-import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -22,5 +21,5 @@ public enum TowerColour implements Serializable {
      * This method returns the number representing the colour of the tower.
      * @return The number representing the colour of the tower.
      */
-    public int getTower_translate(){ return tower_translate; }
+    public int getTowerTranslate(){ return tower_translate; }
 }

@@ -8,12 +8,11 @@ import java.util.List;
  * It also includes the flags for expert mode, the teams if the game is 4 players and the name of the players.
  */
 public class GameState {
-    private Player[] players;
+    private final Player[] players;
     private final GameTable gameTable;
     private int currPlayer;
-    private String[] names;
     private int[] wizards;
-    private List<Player> playerList;
+    private final List<Player> playerList;
 
     /**
      * Constructor of the class.
@@ -23,7 +22,6 @@ public class GameState {
      * @param currPlayer The current player.
      */
     public GameState(int playersNum, String[] names, int[] wizards, int currPlayer, List<Player> playerList){
-        this.names = names;
         this.wizards = wizards;
         this.currPlayer = currPlayer;
         this.playerList = playerList;
@@ -34,6 +32,9 @@ public class GameState {
         }
 
         gameTable = new GameTable(playersNum);
+        for (int i = 0; i < gameTable.getIslands().size(); i++) {
+            gameTable.getIslands().get(i).setNames(names);
+        }
     }
 
     /**

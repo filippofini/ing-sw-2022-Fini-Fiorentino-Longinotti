@@ -31,7 +31,7 @@ public class Player implements Serializable {
         this.coin = 1;
         this.nickname = nickname;
         this.wizard = wizard;
-        this.towerColor = tower_colour.getTower_translate();
+        this.towerColor = tower_colour.getTowerTranslate();
         this.player_ID = player_ID;
         deck = new Deck();
         chosen = false;
