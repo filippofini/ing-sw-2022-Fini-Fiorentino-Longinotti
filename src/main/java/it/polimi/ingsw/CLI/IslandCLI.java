@@ -1,6 +1,6 @@
 package it.polimi.ingsw.CLI;
 
-import it.polimi.ingsw.model.DiskColour;
+import it.polimi.ingsw.model.DiskColor;
 import it.polimi.ingsw.model.Island;
 import it.polimi.ingsw.model.Student;
 import it.polimi.ingsw.network.client.Client;
@@ -16,7 +16,7 @@ public class IslandCLI {
     private static final String BLUE = "\u001B[34m";
     private static final String PINK = "\u001B[35m";
 
-    private static String getColor(DiskColour color) {
+    private static String getColor(DiskColor color) {
         return switch (color) {
             case RED -> RED;
             case GREEN -> GREEN;
@@ -26,31 +26,27 @@ public class IslandCLI {
         };
     }
 
-    private static void printIslandAsciiArt(Island island, int islandID) {
+    public static void printIslandAsciiArt(Island island, int islandID) {
         System.out.println("\n");
-        System.out.println("        ~~~~~~~~~~~~~~~~        ");
-        System.out.println("      ~~~~~~~~~~~~~~~~~~~      ");
-        System.out.println("    ~~~~~~~~~~  ~~~~~~~~~~    ");
-        System.out.println("   ~~~~~~~~      ~~~~~~~~   ");
-        System.out.println("  ~~~~~~~        ~~~~~~~  ");
-        System.out.printf("    ||        ID:%-2d        ||  \n", islandID);
-        System.out.println("    ||                    ||  ");
-        System.out.println("    ||      STUDENTS      ||  ");
-
-        for (DiskColour color : DiskColour.values()) {
-            System.out.printf("    ||  %s%-7s%s : %-3d  ||\n", getColor(color), color, RESET, island.getArrStudents()[color.ordinal()]);
-        }
-
-        System.out.println("    ||                    ||  ");
-        System.out.println("    ||--------------------||  ");
-        System.out.printf("    || Influence  : %s  ||\n", island.getInfluenceController());
-        System.out.printf("    || Towers    : %d  ||\n", island.getTower());
-        System.out.printf("    || Player   : %s  ||\n", island.getControllerName());
-        System.out.println("  ~~~~~~~        ~~~~~~~  ");
-        System.out.println("   ~~~~~~~~      ~~~~~~~~   ");
-        System.out.println("    ~~~~~~~~~~  ~~~~~~~~~~    ");
-        System.out.println("      ~~~~~~~~~~~~~~~~~~~      ");
-        System.out.println("        ~~~~~~~~~~~~~~~~        ");
+        System.out.println("              .-~~~~~~~~~-._       _.-~~~~~~~~~-.");
+        System.out.println("          __.'                ~.   .~              `.__");
+        System.out.printf("        .'    Island ID: %-2d      \\ / Controller:      `.\n",
+                islandID);
+        System.out.printf("       /                         |       %-15s \\\n", island.getControllerName());
+        System.out.printf("      |   %s%-5s%s:%-2d %s%-5s%s:%-2d      |                      |\n",
+                RED, "RED", RESET, island.getArrStudents()[0],
+                GREEN, "GRN", RESET, island.getArrStudents()[1]);
+        System.out.printf("      |   %s%-5s%s:%-2d %s%-5s%s:%-2d      |     Towers: %-2d      |\n",
+                BLUE, "BLU", RESET, island.getArrStudents()[3],
+                PINK, "PNK", RESET, island.getArrStudents()[4],
+                island.getTower());
+        System.out.printf("      |   %s%-5s%s:%-2d              |    Influence: %-2s  |\n",
+                YELLOW, "YEL", RESET, island.getArrStudents()[2],
+                island.getInfluenceController());
+        System.out.println("       \\                        |                   /");
+        System.out.println("        `.                     |                 .'");
+        System.out.println("          `-._               / \\              _.-'");
+        System.out.println("              `-...........-'   `-...........-'");
     }
 
     public static void displayIslandInfo(Client client, Island island, int islandID) {
@@ -67,7 +63,7 @@ public class IslandCLI {
             printIslandAsciiArt(islands.get(i), i);
         }
 
-        System.out.print("Select island (0-" + (islands.size() - 1) + "): ");
+        System.out.print("\nSelect island (0-" + (islands.size() - 1) + "): ");
         int choice = InputParser.getInt();
 
         while (choice < 0 || choice >= islands.size()) {

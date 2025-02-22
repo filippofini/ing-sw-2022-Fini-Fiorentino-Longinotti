@@ -1,7 +1,7 @@
 package it.polimi.ingsw.CLI;
 
 import it.polimi.ingsw.model.Cloud;
-import it.polimi.ingsw.model.DiskColour;
+import it.polimi.ingsw.model.DiskColor;
 import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.network.message.toServer.ChooseCloudReply;
 
@@ -36,11 +36,11 @@ public class CloudCLI {
 
         for (int i = 0; i < clouds.size(); i++) {
             // Retrieve the student counts for each color
-            int redCount    = clouds.get(i).getArrStudents()[DiskColour.RED.ordinal()];
-            int greenCount  = clouds.get(i).getArrStudents()[DiskColour.GREEN.ordinal()];
-            int blueCount   = clouds.get(i).getArrStudents()[DiskColour.BLUE.ordinal()];
-            int yellowCount = clouds.get(i).getArrStudents()[DiskColour.YELLOW.ordinal()];
-            int pinkCount   = clouds.get(i).getArrStudents()[DiskColour.PINK.ordinal()];
+            int redCount    = clouds.get(i).getArrStudents()[DiskColor.RED.ordinal()];
+            int greenCount  = clouds.get(i).getArrStudents()[DiskColor.GREEN.ordinal()];
+            int blueCount   = clouds.get(i).getArrStudents()[DiskColor.BLUE.ordinal()];
+            int yellowCount = clouds.get(i).getArrStudents()[DiskColor.YELLOW.ordinal()];
+            int pinkCount   = clouds.get(i).getArrStudents()[DiskColor.PINK.ordinal()];
 
             // Print an ASCII-art cloud that literally "encloses" the color-coded counts
             System.out.println("          .--~~~~~~~--.            ");

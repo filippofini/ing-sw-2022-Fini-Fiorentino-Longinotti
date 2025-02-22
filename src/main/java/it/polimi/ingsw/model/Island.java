@@ -6,7 +6,7 @@ import java.io.Serializable;
 /**
  * This class represent the islands.
  * Each island has an array of int used to keep track of the students and their type.
- * Pos. 0 represent the yellow... More info at {@link DiskColour}.
+ * Pos. 0 represent the yellow... More info at {@link DiskColor}.
  * One island has mother nature set at the beginning of the game and then moved with a method on {@link GameTable}.
  * mother nature is represented by a boolean: {@code True} if is on the island, {@code False} if not on the island.
  * Each island can have at max 1 tower (more than 1 if merged). The tower can be placed by the player that control the island.
@@ -335,9 +335,9 @@ public class Island implements Serializable {
      */
     private void translateIDName() {
         if (playerController == -1)
-            controllerName = "None";
+            setControllerName("None");
         else
-            controllerName = names[playerController];
+            setControllerName(names[playerController]);
     }
 
     /**

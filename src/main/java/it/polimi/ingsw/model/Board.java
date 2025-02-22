@@ -13,7 +13,7 @@ import java.util.List;
 
 /**
  * This class represents the board.
- * Each student has his personal board containing an array of int representing the students (see more at: {@link DiskColour}.
+ * Each student has his personal board containing an array of int representing the students (see more at: {@link DiskColor}.
  * The class includes the methods to move the students into and out of the board.
  * Each board has towers with different colours (see more at: {@link TowerColour}).
  * The towers in the board are 8 if the game has 2 or 4 players, 7 if the game has 3 players.
@@ -64,7 +64,7 @@ public class Board implements Serializable {
      * This method adds a professor to the board.
      * @param profColour The colour of the professor to be added.
      */
-    public void addProf(DiskColour profColour){
+    public void addProf(DiskColor profColour){
         arrProfessors[profColour.getTranslateColour()] = true;
     }
 
@@ -72,7 +72,7 @@ public class Board implements Serializable {
      * This method adds a student to the board.
      * @param studentColour The colour of the student to be added.
      */
-    public void addStudent(DiskColour studentColour){
+    public void addStudent(DiskColor studentColour){
         arrPositionStudents[studentColour.getTranslateColour()]++;
     }
 
@@ -379,21 +379,21 @@ public class Board implements Serializable {
      * This method convert a position in the respective color
      * @param color The index of the array that represent a color
      */
-    public DiskColour inverseColor(int color){
+    public DiskColor inverseColor(int color){
         if(color==0){
-            return DiskColour.YELLOW;
+            return DiskColor.YELLOW;
         }
         else if(color==1){
-            return DiskColour.RED;
+            return DiskColor.RED;
         }
         else if(color==2){
-            return DiskColour.PINK;
+            return DiskColor.PINK;
         }
         else if(color==3){
-            return DiskColour.BLUE;
+            return DiskColor.BLUE;
         }
         else{
-            return DiskColour.GREEN;
+            return DiskColor.GREEN;
         }
     }
 

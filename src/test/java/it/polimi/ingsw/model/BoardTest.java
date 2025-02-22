@@ -19,18 +19,18 @@ class BoardTest {
     @Test
     void testAdd_profTrue() {
         boolean[] arrProfessors = board.getArrProfessors();
-        DiskColour color = DiskColour.RED;
+        DiskColor color = DiskColor.RED;
         board.addProf(color);
-        assertTrue(arrProfessors[DiskColour.RED.getTranslateColour()]);
+        assertTrue(arrProfessors[DiskColor.RED.getTranslateColour()]);
     }
 
     @Test
     void testAdd_studentTrue() {
         int[] arrPositionStudents = board.getArrPositionStudents();
-        DiskColour color = DiskColour.RED;
-        arrPositionStudents[DiskColour.RED.getTranslateColour()] = 2;
+        DiskColor color = DiskColor.RED;
+        arrPositionStudents[DiskColor.RED.getTranslateColour()] = 2;
         board.addStudent(color);
-        assertEquals(3, arrPositionStudents[DiskColour.RED.getTranslateColour()]);
+        assertEquals(3, arrPositionStudents[DiskColor.RED.getTranslateColour()]);
     }
 
     @Test
@@ -67,10 +67,10 @@ class BoardTest {
 
     @Test
     void testArrEntranceStudents() {
-        array[0] = new Student(DiskColour.RED);
-        array[1] = new Student(DiskColour.BLUE);
+        array[0] = new Student(DiskColor.RED);
+        array[1] = new Student(DiskColor.BLUE);
         for (int i = 0; i < 7; i++) {
-            array[0] = new Student(DiskColour.RED);
+            array[0] = new Student(DiskColor.RED);
         }
         for (int i = 0; i < 7; i++) {
             board.setArrEntranceStudents(array[i],i);

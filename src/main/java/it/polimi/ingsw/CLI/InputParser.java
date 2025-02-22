@@ -10,29 +10,24 @@ import java.util.function.Predicate;
  */
 public class InputParser {
 
-    private static final BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
+    private static final BufferedReader input = new BufferedReader(
+            new InputStreamReader(System.in)
+    );
 
     /**
      * This method gets an input line.
      * @return A string.
      */
-    public static String getLine(){
-        String line;
-
-        do {
-            try {
-                while(InputParser.input.ready())
-                    InputParser.input.readLine();
-                while (!InputParser.input.ready()) {
-                    Thread.sleep(100);
-                }
-                line = InputParser.input.readLine();
-            } catch (InterruptedException | IOException e) {
-                Thread.currentThread().interrupt();
-                return null;
+    public static String getLine() {
+        try {
+            while (input.ready()) {
+                input.readLine(); // Clear any buffered input
             }
-        } while ("".equals(line));
-        return line;
+            return input.readLine();
+        } catch (IOException e) {
+            System.err.println("Error reading input: " + e.getMessage());
+            return null;
+        }
     }
 
     /**
@@ -41,14 +36,15 @@ public class InputParser {
      * @param condition A condition.
      * @return A string.
      */
-    public static String getString(String errorMessage, Predicate<String> condition){
+    public static String getString(String errorMessage, Predicate<String> condition) {
         String line;
-        do{
+        do {
             line = getLine();
-            if (condition.test(line))
+            if (line != null && condition.test(line)) {
                 return line;
-            else
+            } else {
                 System.out.println(errorMessage);
+            }
         } while (true);
     }
 
@@ -56,32 +52,18 @@ public class InputParser {
      * This method gets an integer.
      * @return An integer.
      */
-    public static Integer getInt(){
-        String string;
-        Integer i = null;
-        boolean done = false;
-        try {
-            do {
-
-                while(input.ready())
-                    input.readLine();
-                while (!input.ready()) {
-                    Thread.sleep(200);
-                }
-                string = input.readLine();
-                try {
-                    i = Integer.parseInt(string);
-                    done=true;
-                } catch (NumberFormatException e) {
-                    System.out.println("Error, please insert a number");
-                }
-            }while(!done);
-
-        }catch (InterruptedException | IOException e){
-            Thread.currentThread().interrupt();
-            return null;
+    public static Integer getInt() {
+        while (true) {
+            String line = getLine();
+            if (line == null) {
+                return -1;
+            }
+            try {
+                return Integer.parseInt(line);
+            } catch (NumberFormatException e) {
+                System.out.println("Error, please insert a number");
+            }
         }
-        return i;
     }
 
     /**
@@ -90,38 +72,17 @@ public class InputParser {
      * @param condition A condition.
      * @return An integer.
      */
-    public static Integer getInt(String errorMessage, Predicate<Integer> condition){
-        String string;
-        Integer i = null;
-        boolean done = false;
-
-        try {
-
-            while(input.ready())
-                input.readLine();
-            while (!input.ready()) {
-                Thread.sleep(100);
+    public static Integer getInt(String errorMessage, Predicate<Integer> condition) {
+        while (true) {
+            Integer i = getInt();
+            if (i == null) {
+                return -1;
             }
-
-            do {
-                string = input.readLine();
-                try {
-                    i = Integer.parseInt(string);
-                    if (condition.test(i)) {
-                        done = true;
-                    }else{
-                        System.out.println(errorMessage);
-                    }
-                } catch (NumberFormatException e) {
-                    System.out.println("Error, please insert a number");
-                }
-            }while(!done);
-
-        }catch (InterruptedException | IOException e){
-            Thread.currentThread().interrupt();
-            return null;
+            if (condition.test(i)) {
+                return i;
+            } else {
+                System.out.println(errorMessage);
+            }
         }
-        return i;
     }
-
 }

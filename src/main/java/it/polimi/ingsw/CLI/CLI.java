@@ -17,6 +17,19 @@ public class CLI implements View {
     private Client client;
     private Thread inputObserverOutOfTurn;
 
+    // ANSI escape codes for colors and formatting
+    private static final String RESET = "\u001B[0m";
+    private static final String BLACK = "\u001B[30m";
+    private static final String RED = "\u001B[31m";
+    private static final String GREEN = "\u001B[32m";
+    private static final String YELLOW = "\u001B[33m";
+    private static final String BLUE = "\u001B[34m";
+    private static final String PURPLE = "\u001B[35m";
+    private static final String CYAN = "\u001B[36m";
+    private static final String WHITE = "\u001B[37m";
+    private static final String BOLD = "\u001B[1m";
+    private static final String UNDERLINE = "\u001B[4m";
+
     public static void main(String[] args) {
         CLI cli = new CLI();
         cli.setUpGame();
@@ -45,7 +58,7 @@ public class CLI implements View {
      * @param message The message.
      */
     public void displayMessage(String message) {
-        System.out.println(message);
+        System.out.println(GREEN + message + RESET);
     }
 
     /**
@@ -93,7 +106,11 @@ public class CLI implements View {
      * @param Current_Player The current player.
      */
     public void motherNatureMovementRequest(int Mn_pos, Player Current_Player) {
-        MnCLI.motherNatureMovementRequest(client, Mn_pos, Current_Player);
+        MotherNatureCLI.motherNatureMovementRequest(
+                client,
+                Mn_pos,
+                Current_Player
+        );
     }
 
     /**
@@ -111,8 +128,8 @@ public class CLI implements View {
      * @param stud_to_island The student to the island.
      */
     public void MoveStudentToIslandRequest(
-        List<Island> islands,
-        Student stud_to_island
+            List<Island> islands,
+            Student stud_to_island
     ) {
         IslandCLI.MoveStudentToIslandRequest(client, islands, stud_to_island);
     }
@@ -156,7 +173,7 @@ public class CLI implements View {
      * @param choiceStudent The student.
      */
     public void displayStudentChosenPreviously(Board board, int choiceStudent) {
-        BoardCLI.displayStudentChosenPreviously(client, board, choiceStudent);
+        BoardCLI.displayStudentChosenPreviously(client);
     }
 
     /**
@@ -171,7 +188,7 @@ public class CLI implements View {
      * This method notifies that the time to send a response is over.
      */
     public void displayTimeoutCloseConnection() {
-        System.out.println("Timeout expired, you will be now disconnected");
+        System.out.println(RED + "Timeout expired, you will be now disconnected" + RESET);
         closeConnection();
         client.sendMessageToServer(new TimeoutExpiredReply());
     }
@@ -213,18 +230,17 @@ public class CLI implements View {
      * @param wasConnected Boolean to check if there was a connection.
      */
     public void handleCloseConnection(boolean wasConnected) {
-        displayUnreachableServer(wasConnected);
+        displayUnreachableServer();
         if (
-            inputObserverOutOfTurn != null && inputObserverOutOfTurn.isAlive()
+                inputObserverOutOfTurn != null && inputObserverOutOfTurn.isAlive()
         ) inputObserverOutOfTurn.interrupt();
     }
 
     /**
      * This method displays the message that the server is unreachable.
-     * @param wasConnected Boolean to check if the client was connected.
      */
-    private void displayUnreachableServer(boolean wasConnected) {
-        System.out.println("Game id Ended\n\n");
+    private void displayUnreachableServer() {
+        System.out.println(RED + "Game has ended\n\n" + RESET);
     }
 
     /**
@@ -232,7 +248,7 @@ public class CLI implements View {
      * @param name The name.
      */
     public void displayDisconnection(String name) {
-        System.out.println(name + " has quit the game.\n");
+        System.out.println(RED + name + " has quit the game.\n" + RESET);
         client.closeSocket();
     }
 
@@ -244,7 +260,11 @@ public class CLI implements View {
      * @param players The list of players.
      * @param boards The array of boards.
      */
-    public void displayResults(List<Island> islands, List<Player> players, Board[] boards) {
+    public void displayResults(
+            List<Island> islands,
+            List<Player> players,
+            Board[] boards
+    ) {
         EndGameCLI.displayResults(client, islands, players, boards);
     }
 
@@ -254,13 +274,13 @@ public class CLI implements View {
     public void UseCharacterCard() {
         int choice;
         System.out.println(
-            "Do you want to use a character card? no[0] or yes[1]\n"
+                CYAN + "Do you want to use a character card? no[0] or yes[1]\n" + RESET
         );
         choice = InputParser.getInt();
 
         while (choice < 0 || choice > 1) {
             System.out.println(
-                "Number not allowed,please choose another number"
+                    RED + "Number not allowed, please choose another number" + RESET
             );
             choice = InputParser.getInt();
         }
@@ -278,32 +298,34 @@ public class CLI implements View {
         Scanner sc = new Scanner(System.in);
         boolean poor = true;
         System.out.println(
-            "choose a character card character card from the one below: \n"
+                CYAN + "Choose a character card from the ones below: \n" + RESET
         );
         for (int i = 0; i < 3; i++) {
-            System.out.println("[" + i + "]\n");
-            System.out.println("   ID: " + cc[i].getIDCode() + "\n");
-            System.out.println("   Name: " + cc[i].getName() + "\n");
-            System.out.println("   Cost: " + cc[i].getCost() + "\n");
+            System.out.println(BOLD + "Character Card [" + i + "]" + RESET);
+            System.out.println(BLUE + "   ID: " + RESET + cc[i].getIDCode());
+            System.out.println(BLUE + "   Name: " + RESET + cc[i].getName());
+            System.out.println(BLUE + "   Cost: " + RESET + cc[i].getCost());
+            System.out.println("--------------------------------------------------");
             if (player.getCoin() >= cc[i].getCost()) {
                 poor = false;
             }
         }
+        System.out.println(BLUE + "   Player Coins: " + RESET + player.getCoin());
         if (!poor) {
+            System.out.print(CYAN + "\nEnter the number of the character card you want to choose: " + RESET);
             choice = sc.nextInt();
 
-            while (
-                (choice < 0 || choice > 2) ||
-                player.getCoin() < cc[choice].getCost()
-            ) {
+            while ((choice < 0 || choice > 2) || player.getCoin() < cc[choice].getCost()) {
                 System.out.println(
-                    "Number not allowed,please choose another number\n"
+                        RED + "Number not allowed, please choose another number\n" + RESET
                 );
                 choice = sc.nextInt();
             }
             client.sendMessageToServer(new ChooseCharacterCardReply(choice));
         } else {
-            System.out.println("It seem you have not enough coin..\n");
+            System.out.println(
+                    RED + "\nIt seems you have not enough coins..\n" + RESET
+            );
             client.sendMessageToServer(new NotenoughCoinReply());
         }
     }
@@ -313,7 +335,7 @@ public class CLI implements View {
      * @param students The students.
      */
     public void showStudent(Student[] students) {
-        AssistantCLI.ShowStudent(client, students);
+        AssistantCLI.showStudent(client, students);
     }
 
     /**
@@ -321,6 +343,6 @@ public class CLI implements View {
      * @param islands The islands to choose.
      */
     public void heraldIsland(List<Island> islands) {
-        AssistantCLI.HeraldIsland(client, islands);
+        AssistantCLI.heraldIsland(client, islands);
     }
 }

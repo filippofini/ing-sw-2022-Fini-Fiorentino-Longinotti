@@ -8,7 +8,7 @@ class ProfessorTest {
 
     @Test
     void getColour_prof() {
-        Professor prof = new Professor(DiskColour.RED);
+        Professor prof = new Professor(DiskColor.RED);
         assertEquals(1,prof.getColorProf());
     }
 }

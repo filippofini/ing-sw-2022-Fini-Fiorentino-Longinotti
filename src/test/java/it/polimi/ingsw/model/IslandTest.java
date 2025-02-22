@@ -135,7 +135,7 @@ class IslandTest {
 
     @Test
     void testAddStudents() {
-        transfer = new Student(DiskColour.RED);
+        transfer = new Student(DiskColor.RED);
         Island island = new Island(boards1,1, TowerColour.STARTER);
         int[] start = {1,1,1,1,1};
         island.setArrStudents(start);

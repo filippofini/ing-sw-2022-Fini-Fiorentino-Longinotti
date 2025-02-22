@@ -7,7 +7,6 @@ import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.network.message.toServer.ResultNotifyReply;
 import java.util.List;
 
-
 /**
  * This class represents the CLI for the endgame.
  */
@@ -20,78 +19,76 @@ public class EndGameCLI {
      * @param players The list of players.
      * @param boards The array of boards.
      */
-    public static void displayResults(Client client, List<Island> islands, List<Player> players, Board[] boards){
-            int winnerID=-1;
-            int winnertowers=0;
-            int temptowers=0;
-            int tempprof=0;
-            for(int i=0;i<players.size();i++){
+    public static void displayResults(Client client, List<Island> islands, List<Player> players, Board[] boards) {
+        if (players == null || islands == null || boards == null || client == null) {
+            System.err.println("Invalid input data. Cannot display results.");
+            return;
+        }
 
-                for(int j=0;j<islands.size();j++){
+        int winnerID = -1;
+        int maxTowers = 0;
 
-                        if(islands.get(j).getPlayerController()==i){
-                            temptowers+=islands.get(j).getTower();
+        // Determine the winner based on the number of towers
+        for (int i = 0; i < players.size(); i++) {
+            int playerTowers = calculatePlayerTowers(islands, i);
 
-                        }
-
+            if (playerTowers > maxTowers) {
+                winnerID = i;
+                maxTowers = playerTowers;
+            } else if (playerTowers == maxTowers && winnerID != -1) {
+                if (countProfessors(boards[i]) > countProfessors(boards[winnerID])) {
+                    winnerID = i;
                 }
-                if(temptowers>winnertowers){
-                    winnerID=i;
-                    winnertowers=temptowers;
-                }
-                else if(temptowers==winnertowers && winnerID!=-1){
-                    int countprof1=0;
-                    int countprof2=0;
-                    for(int k=0;k<5;k++){
-                        if(boards[i].getArrProfessors()[k]==true){
-                            countprof1++;
-                        }
-                        if(boards[winnerID].getArrProfessors()[k]==true){
-                            countprof2++;
-                        }
-                    }
-                    if(countprof1>countprof2){
-                        winnerID=i;
-                    }
-                }
-                temptowers=0;
-
             }
-            if(players.size()==2 || players.size()==3){
-                System.out.println("\nThe winner is: "+players.get(winnerID).getNickname()+" with a number of "+winnertowers+" towers placed!\n");
+        }
 
-            }
-            else if(players.size()==4){
-                if(winnerID==0 || winnerID ==1){
-                    System.out.println("the winners are: "+players.get(0).getNickname()+" and "+players.get(1).getNickname()+" with a number of "+winnertowers+" towers!\n");
-                }
-                else if(winnerID==2 || winnerID ==3){
-                    System.out.println("the winners are: "+players.get(2).getNickname()+" and "+players.get(3).getNickname()+" with a number of "+winnertowers+" towers!\n");
-                }
+        // Display the winner(s)
+        displayWinner(players, winnerID, maxTowers);
 
-            }
-            for(int i=0;i<players.size();i++){
-                for(int j=0;j<islands.size();j++){
-                    if(islands.get(j).getPlayerController()==i){
-                        temptowers+=islands.get(j).getTower();
-                    }
+        // Display each player's towers and professors
+        for (int i = 0; i < players.size(); i++) {
+            int playerTowers = calculatePlayerTowers(islands, i);
+            int playerProfessors = countProfessors(boards[i]);
 
-                }
-                for(int k=0;k<5;k++) {
-                    if (boards[i].getArrProfessors()[k] == true) {
-                        tempprof++;
-                    }
-                }
-                System.out.println(players.get(i).getNickname()+":\n");
-                System.out.println("towers:"+temptowers+"\n");
-                System.out.println("professors:"+tempprof+"\n\n");
-                temptowers=0;
-                tempprof=0;
-            }
+            System.out.println(players.get(i).getNickname() + ":\n");
+            System.out.println("Towers: " + playerTowers + "\n");
+            System.out.println("Professors: " + playerProfessors + "\n\n");
+        }
 
-            client.sendMessageToServer(new ResultNotifyReply());
-            client.closeSocket();
+        // Notify the server and close the client socket
+        client.sendMessageToServer(new ResultNotifyReply());
+        client.closeSocket();
     }
 
-}
+    private static int calculatePlayerTowers(List<Island> islands, int playerID) {
+        int towers = 0;
+        for (Island island : islands) {
+            if (island.getPlayerController() == playerID) {
+                towers += island.getTower();
+            }
+        }
+        return towers;
+    }
 
+    private static int countProfessors(Board board) {
+        int count = 0;
+        for (boolean hasProfessor : board.getArrProfessors()) {
+            if (hasProfessor) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    private static void displayWinner(List<Player> players, int winnerID, int maxTowers) {
+        if (players.size() == 2 || players.size() == 3) {
+            System.out.println("\nThe winner is: " + players.get(winnerID).getNickname() + " with " + maxTowers + " towers placed!\n");
+        } else if (players.size() == 4) {
+            if (winnerID == 0 || winnerID == 1) {
+                System.out.println("The winners are: " + players.get(0).getNickname() + " and " + players.get(1).getNickname() + " with " + maxTowers + " towers!\n");
+            } else if (winnerID == 2 || winnerID == 3) {
+                System.out.println("The winners are: " + players.get(2).getNickname() + " and " + players.get(3).getNickname() + " with " + maxTowers + " towers!\n");
+            }
+        }
+    }
+}

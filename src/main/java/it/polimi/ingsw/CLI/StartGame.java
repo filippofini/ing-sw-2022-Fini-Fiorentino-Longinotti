@@ -12,8 +12,15 @@ import java.io.IOException;
  * This class represents the start of the game.
  */
 public class StartGame {
+
     private static final String DEFAULT_ADDRESS = "127.0.0.1";
     private static final int DEFAULT_PORT = 1250;
+
+    private static final String RESET = "\033[0m";
+    private static final String RED = "\033[0;31m";
+    private static final String GREEN = "\033[0;32m";
+    private static final String YELLOW = "\033[0;33m";
+    private static final String CYAN = "\033[0;36m";
 
     /**
      * This method handles the starting connection.
@@ -21,40 +28,43 @@ public class StartGame {
      * @param firstConnection {@code False} if it's the first connection.
      * @return The client.
      */
-    public static Client InitialConnection(CLI cli, boolean firstConnection){
+    public static Client InitialConnection(CLI cli, boolean firstConnection) {
         int port;
         String IPAddress;
         boolean firstTry = true;
 
-        do{
-            if (!firstConnection && firstTry){
-                System.out.println(" IP address and port provided are not valid please try again.");
+        do {
+            if (!firstConnection && firstTry) {
+                System.out.println(RED + "IP address and port provided are not valid, please try again." + RESET);
             }
-            if(firstTry)
-                System.out.println("Enter the server's IP address or d for the default configuration:");
-            else if (!firstTry)
-                System.out.println("Invalid IP address, insert another address or enter d for default configuration: ");
+            if (firstTry) {
+                System.out.println(CYAN + "Enter the server's IP address or 'd' for the default configuration:" + RESET);
+            } else {
+                System.out.println(RED + "Invalid IP address, insert another address or enter 'd' for default configuration: " + RESET);
+            }
             firstTry = false;
             IPAddress = InputParser.getLine();
-            if (IPAddress.equalsIgnoreCase("d")){
+            if (IPAddress.equalsIgnoreCase("d")) {
                 IPAddress = DEFAULT_ADDRESS;
                 port = DEFAULT_PORT;
                 return new Client(IPAddress, port, cli);
             }
-        }while(!Utils.IPAddressIsValid(IPAddress));
+        } while (!Utils.IPAddressIsValid(IPAddress));
+
         firstTry = true;
-        //Insert port number
-        do{
-            if(firstTry)
-                System.out.println("Enter the port you want to connect to: ");
-            else
-                System.out.println("Invalid port number please enter an integer between 1024 and 65535");
+        // Insert port number
+        do {
+            if (firstTry) {
+                System.out.println(CYAN + "Enter the port you want to connect to: " + RESET);
+            } else {
+                System.out.println(RED + "Invalid port number, please enter an integer between 1024 and 65535" + RESET);
+            }
             firstTry = false;
             port = InputParser.getInt();
-        }while (!Utils.portIsValid(port));
+        } while (!Utils.portIsValid(port));
+
         return new Client(IPAddress, port, cli);
     }
-
 
     /**
      * This method displays the nickname request.
@@ -63,22 +73,21 @@ public class StartGame {
      */
     public static void displayNicknameRequest(Client client, boolean retry) {
         boolean check = false;
-        if (!retry)
-            System.out.println("Insert your nickname");
-        else {
-            System.out.println("Your nickname has already been taken, insert another one");
+        if (!retry) {
+            System.out.println(CYAN + "Insert your nickname:" + RESET);
+        } else {
+            System.out.println(RED + "Your nickname has already been taken, insert another one:" + RESET);
         }
         String selection = InputParser.getLine();
         while (!check) {
             if (selection == null) {
-                System.out.println("Your nickname is invalid, please insert another one\n");
+                System.out.println(RED + "Your nickname is invalid, please insert another one:" + RESET);
                 selection = InputParser.getLine();
             } else {
                 check = true;
                 client.setName(selection);
                 client.sendMessageToServer(new NameReply(selection));
             }
-
         }
     }
 
@@ -87,41 +96,35 @@ public class StartGame {
      * @param client The client.
      */
     public static void displayGameModeRequest(Client client) {
-        if (client.getGameMode().isPresent()){
+        if (client.getGameMode().isPresent()) {
             client.sendMessageToServer(new GameModeReply(client.getGameMode().get()));
             return;
         }
-        System.out.println("\nConnection established!\n");
-        System.out.println("Please choose the game mode, standard[s] or expert[e]:");
+        System.out.println(GREEN + "\nConnection established!\n" + RESET);
+        System.out.println(CYAN + "Please choose the game mode, standard[s] or expert[e]:" + RESET);
         GameMode gameMode = null;
         try {
-            gameMode = getGameMode(client);
+            gameMode = getGameMode();
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println(RED + "An error occurred" + RESET);
         }
-        if (gameMode == null)
-            return;
+        if (gameMode == null) return;
         client.setGameMode(gameMode);
         client.sendMessageToServer(new GameModeReply(gameMode));
     }
 
     /**
      * This method gets the game mode.
-     * @param client The client.
      * @return The game mode.
-     * @throws IOException
      */
-    private static GameMode getGameMode(Client client) throws IOException {
-        while(true) {
+    private static GameMode getGameMode() throws IOException {
+        while (true) {
             String gameModeString = InputParser.getLine();
-            if (gameModeString == null)
-                throw new IOException();
-            if (gameModeString.equals("s"))
-                return GameMode.STANDARD;
-            else if (gameModeString.equals("e"))
-                return GameMode.EXPERT;
+            if (gameModeString == null) throw new IOException();
+            if (gameModeString.equals("s")) return GameMode.STANDARD;
+            else if (gameModeString.equals("e")) return GameMode.EXPERT;
             else {
-                System.out.println("Invalid game mode, type  [s] for standard mode or [e] for expert mode");
+                System.out.println(RED + "Invalid game mode, type [s] for standard mode or [e] for expert mode" + RESET);
             }
         }
     }
@@ -130,18 +133,20 @@ public class StartGame {
      * This method requests the number of players in the game.
      * @param client The client.
      */
-    public static void NumberOfPlayersRequest(Client client){
-        System.out.println("Insert the number of players [2] , [3] ");
-        Integer choice = InputParser.getInt("Invalid number of players: please insert an integer number between 2 and 3", CLI.conditionOnIntegerRange(2, 3));
-        if (choice != null)
-            client.sendMessageToServer(new NumberOfPlayersReply(choice));
+    public static void NumberOfPlayersRequest(Client client) {
+        System.out.println(CYAN + "Insert the number of players [2] , [3] " + RESET);
+        Integer choice = InputParser.getInt(
+                RED + "Invalid number of players: please insert an integer number between 2 and 3" + RESET,
+                CLI.conditionOnIntegerRange(2, 3)
+        );
+        if (choice != null) client.sendMessageToServer(new NumberOfPlayersReply(choice));
     }
 
     /**
      * This method displays the waiting message.
      */
     public static void displayWaitingMessage(Client client) {
-        System.out.println("\nmaking the island floating...\n");
+        System.out.println(YELLOW + "\nWaiting for other players...\n" + RESET);
         client.sendMessageToServer(new WaitingInTheLobbyReply());
     }
 }

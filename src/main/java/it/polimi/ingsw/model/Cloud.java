@@ -5,10 +5,10 @@ import java.io.Serializable;
 /**
  * This class represent the clouds.
  * An array of int is used to keep track of the students and their type:
- * position 0 represent the yellow... More info at {@link DiskColour}.
+ * position 0 represent the yellow... More info at {@link DiskColor}.
  */
 public class Cloud implements Serializable {
-    private int[] arrStudents;
+    private final int[] arrStudents;
     private final int cloudID;
 
     /**
