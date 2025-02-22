@@ -27,14 +27,12 @@ public class TurnController {
      * Constructor of the class.
      * @param numPlayers The number of players in the game.
      * @param names The strings containing the names of the players.
-     * @param wizard The array of int containing the numbers representing the wizards.
      * @param expert_mode {@code True} if expert mode is enabled, {@code False} if not.
      * @param playersList The list of player for turn order.
      */
     public TurnController(
             int numPlayers,
             String[] names,
-            int[] wizard,
             boolean expert_mode,
             List<Player> playersList,
             List<ClientHandler> clientHandlers
@@ -51,7 +49,6 @@ public class TurnController {
         gameState = new GameState(
                 numPlayers,
                 names,
-                wizard,
                 0,
                 this.playersList
         );

@@ -26,15 +26,16 @@ public class Island implements Serializable {
     private boolean ColorProhibitionActive;
     private int colorProhibitionIndex;
     private int extraInfluence;
-    private String[] names;
+    private final String[] names;
 
     /**
      * Constructor of the class.
-     * @param boards Reference to the boards of the players.
-     * @param island_ID the starting ID of the island, it's not very useful.
+     *
+     * @param boards     Reference to the boards of the players.
+     * @param island_ID  the starting ID of the island, it's not very useful.
      * @param towerColor Puts tower starter to the island, that means no tower (see: {@link TowerColour}).
      */
-    public Island( Board[] boards, int island_ID, TowerColour towerColor) {
+    public Island(Board[] boards, int island_ID, TowerColour towerColor, String[] names) {
         this.island_ID = island_ID;
         this.boards = boards;
         this.tower = towerColor.getTowerTranslate();
@@ -48,13 +49,15 @@ public class Island implements Serializable {
         colorProhibitionIndex = 0;
         includeTowers = true;
         extraInfluence = 0;
+        this.names = names;
     }
 
     /**
      * This method calculate the influence of the player on the island.
      * The player with the highest influence becomes the controller and can place a tower if mother nature is on that island.
+     *
      * @param currentPlayer The current player of the turn.
-     * @param Boards The array of the boards of the players.
+     * @param Boards        The array of the boards of the players.
      * @return {@code False} if the control of the island is changed, {@code True} otherwise.
      */
     public boolean calculateInfluence(int currentPlayer, Board[] Boards) {
@@ -141,21 +144,26 @@ public class Island implements Serializable {
 
     /**
      * This method can be used to add students to the island.
+     *
      * @param transfer The list of students to be added to the island.
      */
     public void addStudents(Student transfer) {
-            arrStudents[transfer.getColor()]++;
+        arrStudents[transfer.getColor()]++;
     }
 
 
     /**
      * This method returns the player that controls the island.
+     *
      * @return The player that controls the island.
      */
-    public int checkController() { return playerController;}
+    public int checkController() {
+        return playerController;
+    }
 
     /**
      * This method can be used to add a tower to the island.
+     *
      * @param current_player The current player of the turn.
      */
     public void addTower(int current_player) {
@@ -164,6 +172,7 @@ public class Island implements Serializable {
 
     /**
      * This method returns the boards of the players
+     *
      * @return The boards of the players.
      */
     public Board[] getBoards() {
@@ -172,6 +181,7 @@ public class Island implements Serializable {
 
     /**
      * This method checks if mother nature is on the island.
+     *
      * @return {@code True} if mother nature is on the island, {@code False} if not.
      */
     public boolean isMotherNatureHere() {
@@ -180,13 +190,16 @@ public class Island implements Serializable {
 
     /**
      * This method returns the int that represent the colour of the tower on the island.
+     *
      * @return The int that represent the colour of the tower on the island.
      */
     public int getTower() {
         return tower;
     }
+
     /**
      * This method returns the influence of the player that controls the island.
+     *
      * @return The influence of the player that controls the island.
      */
     public int getInfluenceController() {
@@ -195,6 +208,7 @@ public class Island implements Serializable {
 
     /**
      * This method returns the int that represent the player that controls the island.
+     *
      * @return The int that represent the player that controls the island.
      */
     public int getPlayerController() {
@@ -203,6 +217,7 @@ public class Island implements Serializable {
 
     /**
      * This method returns the island ID.
+     *
      * @return The island ID.
      */
     public int getIsland_ID() {
@@ -211,6 +226,7 @@ public class Island implements Serializable {
 
     /**
      * This method returns the students on the island
+     *
      * @return The array of students on the island
      */
     public int[] getArrStudents() {
@@ -219,6 +235,7 @@ public class Island implements Serializable {
 
     /**
      * This method sets mother nature on the island, {@code True} if is on the island, {@code False} if not on the island.
+     *
      * @param mother_nature {@code True} if is on the island, {@code False} if not on the island.
      */
     public void setMotherNature(boolean mother_nature) {
@@ -227,6 +244,7 @@ public class Island implements Serializable {
 
     /**
      * This method sets the tower on the island.
+     *
      * @param tower The int that represent the tower to be placed on the island.
      */
     public void setTower(int tower) {
@@ -235,6 +253,7 @@ public class Island implements Serializable {
 
     /**
      * This method sets the highest influence on the island.
+     *
      * @param influenceController The number representing the highest influence on the island.
      */
     public void setInfluenceController(int influenceController) {
@@ -243,14 +262,17 @@ public class Island implements Serializable {
 
     /**
      * This method sets the player that has the highest influence.
+     *
      * @param player_controller The player ID that has the highest influence.
      */
     public void setPlayerController(int player_controller) {
         this.playerController = player_controller;
+        translateIDName();
     }
 
     /**
      * This method sets the students on the island.
+     *
      * @param arr_students The array students to be set on the island.
      */
     public void setArrStudents(int[] arr_students) {
@@ -260,14 +282,16 @@ public class Island implements Serializable {
     /**
      * This method increments the array of student given the index.
      * It is used during the start of the game.
+     *
      * @param index The index to increment in array of students.
      */
-    public void incrementPos(int index){
+    public void incrementPos(int index) {
         this.arrStudents[index]++;
     }
 
     /**
      * This method checks if a prohibition card has been put on the island.
+     *
      * @return {@code True} if a prohibition card has been put on the island, {@code False} if not.
      */
     public boolean isProhibitionCard() {
@@ -276,6 +300,7 @@ public class Island implements Serializable {
 
     /**
      * This method sets a prohibition card on the island.
+     *
      * @param prohibition_card {@code True} if wanted to put a prohibition card on the island, {@code False} if not.
      */
     public void setProhibitionCard(boolean prohibition_card) {
@@ -284,14 +309,16 @@ public class Island implements Serializable {
 
     /**
      * This method increments the element of the array of students by 1 given the index.
+     *
      * @param index The index to know which student will be added.
      */
-    public void setOneStudent(int index){
+    public void setOneStudent(int index) {
         arrStudents[index]++;
     }
 
     /**
      * This method sets the include_towers variable
+     *
      * @param include_towers indicate if the towers must be counted in the influence
      */
     public void setIncludeTowers(boolean include_towers) {
@@ -300,6 +327,7 @@ public class Island implements Serializable {
 
     /**
      * This method sets the prohibition.
+     *
      * @param prohibition_colour {@code True} if the prohibition is enabled, {@code False} if not.
      */
     public void setProhibitionColour(boolean prohibition_colour) {
@@ -308,6 +336,7 @@ public class Island implements Serializable {
 
     /**
      * This method sets the extra influence activated by a character card.
+     *
      * @param extra_influence The extra influence to be added to the calculus of the influence.
      */
     public void setExtraInfluence(int extra_influence) {
@@ -315,7 +344,17 @@ public class Island implements Serializable {
     }
 
     /**
+     * This method returns the extra influence.
+     *
+     * @return The extra influence.
+     */
+    public int getExtraInfluence() {
+        return extraInfluence;
+    }
+
+    /**
      * This method returns the name of the player that controls the island.
+     *
      * @return The name of the player that controls the island.
      */
     public String getControllerName() {
@@ -324,6 +363,7 @@ public class Island implements Serializable {
 
     /**
      * This method sets the name of the player that controls the island.
+     *
      * @param controllerName The name of the player that controls the island.
      */
     public void setControllerName(String controllerName) {
@@ -341,11 +381,11 @@ public class Island implements Serializable {
     }
 
     /**
-     * This method sets the array of names.
-     * @param names The array of names.
+     * This method returns the include_towers variable.
+     *
+     * @return {@code True} if the towers must be counted in the influence, {@code False} if not.
      */
-    public void setNames(String[] names) {
-        this.names = names;
+    public boolean isIncludeTowers() {
+        return includeTowers;
     }
 }
-

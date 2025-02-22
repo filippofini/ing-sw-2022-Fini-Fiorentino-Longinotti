@@ -1,11 +1,10 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.network.message.toClient.ChooseIslandOrBoardRequest;
-import it.polimi.ingsw.network.message.toClient.StudentToMoveRequest;
 import it.polimi.ingsw.network.message.toClient.DisplayDiningRoomColourFullRequest;
 import it.polimi.ingsw.network.message.toClient.DisplayStudentChosenPreviouslyRequest;
+import it.polimi.ingsw.network.message.toClient.StudentToMoveRequest;
 import it.polimi.ingsw.network.server.ClientHandler;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -19,6 +18,7 @@ import java.util.List;
  * The towers in the board are 8 if the game has 2 or 4 players, 7 if the game has 3 players.
  */
 public class Board implements Serializable {
+
     private final int numPlayers;
     private int numTowers;
     private int[] arrPositionStudents;
@@ -34,14 +34,14 @@ public class Board implements Serializable {
      * @param numOfPlayers The number of players in the game.
      * @param tower The tower colour assigned to the player and to the board.
      */
-    public Board(int numOfPlayers, TowerColour tower){
+    public Board(int numOfPlayers, TowerColour tower) {
         this.tower = tower.getTowerTranslate();
         arrPositionStudents = new int[5];
         arrProfessors = new boolean[5];
         trackCoins = new boolean[5][3];
 
         Arrays.fill(arrPositionStudents, 0);
-        for(boolean[] row : trackCoins){
+        for (boolean[] row : trackCoins) {
             Arrays.fill(row, false);
         }
 
@@ -49,11 +49,11 @@ public class Board implements Serializable {
 
         numPlayers = numOfPlayers;
 
-        if(numPlayers == 2 ){
+        if (numPlayers == 2) {
             arrEntranceStudents = new Student[7];
             maxEntranceStudents = 7;
             numTowers = 8;
-        } else if(numPlayers == 3){
+        } else if (numPlayers == 3) {
             arrEntranceStudents = new Student[9];
             maxEntranceStudents = 9;
             numTowers = 6;
@@ -64,7 +64,7 @@ public class Board implements Serializable {
      * This method adds a professor to the board.
      * @param profColour The colour of the professor to be added.
      */
-    public void addProf(DiskColor profColour){
+    public void addProf(DiskColor profColour) {
         arrProfessors[profColour.getTranslateColour()] = true;
     }
 
@@ -72,22 +72,27 @@ public class Board implements Serializable {
      * This method adds a student to the board.
      * @param studentColour The colour of the student to be added.
      */
-    public void addStudent(DiskColor studentColour){
+    public void addStudent(DiskColor studentColour) {
         arrPositionStudents[studentColour.getTranslateColour()]++;
     }
 
     /**
      * This method moves students to the islands.
-     * @param GS The game state.
+     * @param gameState The game state.
      * @param clientHandler The client handler.
      * @return The list of students sent to an island.
      */
-    public List<Student> moveEntranceStudents(GameState GS, ClientHandler clientHandler) {
+    public List<Student> moveEntranceStudents(
+            GameState gameState,
+            ClientHandler clientHandler
+    ) {
         List<Student> studentsToIslands = new ArrayList<>();
         int studentsChosen = 0;
 
         // We repeat the "choose and place student" flow until we've placed (numPlayers + 1) students.
-        while (studentsChosen < (numPlayers + 1) && clientHandler.isConnected()) {
+        while (
+                studentsChosen < (numPlayers + 1) && clientHandler.isConnected()
+        ) {
             clientHandler.sendMessageToClient(new StudentToMoveRequest(this));
 
             int chosenIndex = clientHandler.getStudToMove();
@@ -95,7 +100,9 @@ public class Board implements Serializable {
 
             // If the student hasn’t already been moved
             if (!chosenStudent.isChosen()) {
-                clientHandler.sendMessageToClient(new ChooseIslandOrBoardRequest(this, chosenIndex));
+                clientHandler.sendMessageToClient(
+                        new ChooseIslandOrBoardRequest(this, chosenIndex)
+                );
                 int placementChoice = clientHandler.getPos();
 
                 switch (placementChoice) {
@@ -103,21 +110,24 @@ public class Board implements Serializable {
                         if (canPlaceStudentInDining(chosenStudent.getColor())) {
                             placeStudentInDining(chosenStudent);
                             studentsChosen++;
-                            updateProfessors(GS);
+                            updateProfessors(gameState);
                         } else {
                             // Dining color is full
                             clientHandler.sendMessageToClient(
-                                    new DisplayDiningRoomColourFullRequest(this, chosenIndex)
+                                    new DisplayDiningRoomColourFullRequest(
+                                            this,
+                                            chosenIndex
+                                    )
                             );
                         }
                         break;
-
                     case 1: // Send student to island
-                        studentsToIslands.add(new Student(chosenStudent.getEnumColour()));
+                        studentsToIslands.add(
+                                new Student(chosenStudent.getEnumColour())
+                        );
                         chosenStudent.chosen();
                         studentsChosen++;
                         break;
-
                     default:
                         // You may show some error handling/logging here if needed.
                         break;
@@ -127,6 +137,59 @@ public class Board implements Serializable {
                 clientHandler.sendMessageToClient(
                         new DisplayStudentChosenPreviouslyRequest(this, chosenIndex)
                 );
+            }
+        }
+
+        // If the "farmer" effect was active, disable it after these placements
+        if (farmerState) {
+            farmerState = false;
+        }
+
+        return studentsToIslands;
+    }
+
+    /**
+     * This method moves students to the islands, no client handler for test porpoises.
+     * @param gameState The game state.
+     * @return The list of students sent to an island.
+     */
+    public List<Student> moveEntranceStudents(
+            GameState gameState,
+            int chosenIndex,
+            int placementChoice
+    ) {
+        List<Student> studentsToIslands = new ArrayList<>();
+        int studentsChosen = 0;
+
+        // We repeat the "choose and place student" flow until we've placed (numPlayers + 1) students.
+        while (studentsChosen < (numPlayers + 1)) {
+            Student chosenStudent = arrEntranceStudents[chosenIndex];
+
+            // If the student hasn’t already been moved
+            if (!chosenStudent.isChosen()) {
+                switch (placementChoice) {
+                    case 0: // Place student in dining
+                        if (canPlaceStudentInDining(chosenStudent.getColor())) {
+                            placeStudentInDining(chosenStudent);
+                            studentsChosen++;
+                            updateProfessors(gameState);
+                        } else {
+                            // Dining color is full
+                        }
+                        break;
+                    case 1: // Send student to island
+                        studentsToIslands.add(
+                                new Student(chosenStudent.getEnumColour())
+                        );
+                        chosenStudent.chosen();
+                        studentsChosen++;
+                        break;
+                    default:
+                        // You may show some error handling/logging here if needed.
+                        break;
+                }
+            } else {
+                // The chosen student had already been moved in a previous iteration
             }
         }
 
@@ -164,7 +227,11 @@ public class Board implements Serializable {
         Board[] boards = GS.getGameTable().getBoards();
         int currentPlayer = GS.getCurrPlayer();
 
-        for (int colorIndex = 0; colorIndex < arrProfessors.length; colorIndex++) {
+        for (
+                int colorIndex = 0;
+                colorIndex < arrProfessors.length;
+                colorIndex++
+        ) {
             // Check if any board already owns the professor of this color
             boolean isProfessorOwnedBySomeone = false;
             for (Board b : boards) {
@@ -175,9 +242,13 @@ public class Board implements Serializable {
             }
 
             // Attempt to assign (or reassign) the professor to the current player
-            assignProfessorIfEligible(GS, colorIndex, isProfessorOwnedBySomeone, currentPlayer);
+            assignProfessorIfEligible(
+                    GS,
+                    colorIndex,
+                    isProfessorOwnedBySomeone,
+                    currentPlayer
+            );
         }
-
         // If the Farmer effect was active, it only applies for this single update
         // (already turned off at the end of moveEntranceStudents).
     }
@@ -193,27 +264,38 @@ public class Board implements Serializable {
             int currentPlayer
     ) {
         Board[] boards = GS.getGameTable().getBoards();
-        int currentColorCount = boards[currentPlayer].getArrPositionStudents()[colorIndex];
+        int currentColorCount =
+                boards[currentPlayer].getArrPositionStudents()[colorIndex];
 
         for (int i = 0; i < boards.length; i++) {
             if (i == currentPlayer) {
                 continue;
             }
 
-            int otherColorCount = boards[i].getArrPositionStudents()[colorIndex];
-            boolean otherHasProfessor = boards[i].getArrProfessors()[colorIndex];
+            int otherColorCount =
+                    boards[i].getArrPositionStudents()[colorIndex];
+            boolean otherHasProfessor =
+                    boards[i].getArrProfessors()[colorIndex];
 
             if (farmerState) {
                 // Farmer effect: >= to steal or gain if no one has it
-                if ((currentColorCount >= otherColorCount && otherHasProfessor)
-                        || (!isProfessorOwnedBySomeone && currentColorCount >= otherColorCount)) {
+                if (
+                        (currentColorCount >= otherColorCount &&
+                                otherHasProfessor) ||
+                                (!isProfessorOwnedBySomeone &&
+                                        currentColorCount >= otherColorCount)
+                ) {
                     boards[currentPlayer].setProfessor(colorIndex, true);
                     boards[i].setProfessor(colorIndex, false);
                 }
             } else {
                 // Normal effect: > to steal or gain if no one has it
-                if ((currentColorCount > otherColorCount && otherHasProfessor)
-                        || (!isProfessorOwnedBySomeone && currentColorCount > otherColorCount)) {
+                if (
+                        (currentColorCount > otherColorCount &&
+                                otherHasProfessor) ||
+                                (!isProfessorOwnedBySomeone &&
+                                        currentColorCount > otherColorCount)
+                ) {
                     boards[currentPlayer].setProfessor(colorIndex, true);
                     boards[i].setProfessor(colorIndex, false);
                 }
@@ -230,7 +312,9 @@ public class Board implements Serializable {
         for (int i = 0; i < 5; i++) {
             // j goes from 0 to 2, corresponding to thresholds of 1, 2, and 3 respectively
             for (int j = 0; j < 3; j++) {
-                if (arrPositionStudents[i] / 3 == (j + 1) && !trackCoins[i][j]) {
+                if (
+                        arrPositionStudents[i] / 3 == (j + 1) && !trackCoins[i][j]
+                ) {
                     coins++;
                     trackCoins[i][j] = true;
                 }
@@ -300,8 +384,8 @@ public class Board implements Serializable {
      * @param index The Index of the professor.
      * @param state If the professor is on the board or not.
      */
-    public void setProfessor(int index, boolean state){
-        getArrProfessors()[index]=state;
+    public void setProfessor(int index, boolean state) {
+        getArrProfessors()[index] = state;
     }
 
     /**
@@ -348,53 +432,50 @@ public class Board implements Serializable {
      * This method adds a student to the board
      * @param index The index of the array of student to be added.
      */
-    public void setOneStudent(int index){
+    public void setOneStudent(int index) {
         arrPositionStudents[index]++;
     }
 
     /**
-     * This method adds a student to the entrance
-     * @param Cloud_Students The array that contains the students on the clouds
+     * Adds students from the cloud to the entrance.
+     *
+     * @param cloudStudents The array containing the number of students for each type.
      */
-    public void setArrEntranceStudents(int[] Cloud_Students ){
-        int pos=0;
-        while(pos<5){
-            if(Cloud_Students[pos]>0){
-                for(int i=0;i<arrEntranceStudents.length;i++){
-                    if(arrEntranceStudents[i].isChosen()){
-                        arrEntranceStudents[i]=new Student(inverseColor(pos));
-                        Cloud_Students[pos]--;
-                        pos=0;
+    public void setArrEntranceStudents(int[] cloudStudents) {
+        for (int pos = 0; pos < cloudStudents.length; pos++) {
+            while (cloudStudents[pos] > 0) {
+                boolean added = false;
+
+                for (int i = 0; i < arrEntranceStudents.length; i++) {
+                    if (arrEntranceStudents[i].isChosen()) {
+                        arrEntranceStudents[i] = new Student(inverseColor(pos));
+                        cloudStudents[pos]--;
+                        added = true;
                         break;
                     }
                 }
-            }else{pos++;}
 
+                // If no student was added, stop checking to prevent infinite loops
+                if (!added) {
+                    break;
+                }
+            }
         }
-        
-
     }
+
 
     /**
      * This method convert a position in the respective color
      * @param color The index of the array that represent a color
      */
-    public DiskColor inverseColor(int color){
-        if(color==0){
-            return DiskColor.YELLOW;
-        }
-        else if(color==1){
-            return DiskColor.RED;
-        }
-        else if(color==2){
-            return DiskColor.PINK;
-        }
-        else if(color==3){
-            return DiskColor.BLUE;
-        }
-        else{
-            return DiskColor.GREEN;
-        }
+    public DiskColor inverseColor(int color) {
+        return switch (color) {
+            case 0 -> DiskColor.YELLOW;
+            case 1 -> DiskColor.RED;
+            case 2 -> DiskColor.PINK;
+            case 3 -> DiskColor.BLUE;
+            default -> DiskColor.GREEN;
+        };
     }
 
     /**
@@ -413,7 +494,6 @@ public class Board implements Serializable {
         return maxEntranceStudents;
     }
 
-
     /**
      * This method returns if the farmer character card has been played.
      * @return {@code True} if the farmer character card has been played.
@@ -422,5 +502,3 @@ public class Board implements Serializable {
         return farmerState;
     }
 }
-
-

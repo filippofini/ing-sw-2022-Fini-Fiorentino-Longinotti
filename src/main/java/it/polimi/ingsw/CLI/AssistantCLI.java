@@ -39,7 +39,7 @@ public class AssistantCLI {
         }
 
         client.sendMessageToServer(new ChooseAssistantCardReply(choice));
-        System.out.println( GREEN + "\nMother Nature start position: island[" + GT.getMotherNaturePos() + "]\n + RESET");
+        System.out.println( GREEN + "\nMother Nature start position: island[" + GT.getMotherNaturePos() + "]\n" + RESET);
         System.out.println(YELLOW + "\nWaiting for other players...\n" + RESET);
     }
 

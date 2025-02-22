@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.AssistanceCard;
 import it.polimi.ingsw.model.GameState;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.TowerColour;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -11,55 +12,57 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-//100% COVERAGE
-
-/**
- * This class tests the class {@link MagicMailman}.
- */
 class MagicMailmanTest {
 
-    List<Player> lPlayers = new ArrayList<>();
-    private List<Player> addLPlayers(List lPlayers){
-        lPlayers.add(new Player("ff",1, TowerColour.GREY,0));
-        lPlayers.add(new Player("gg",2,TowerColour.GREY,1));
-        return lPlayers;
-    }
-    MagicMailman magic_mailman = new MagicMailman();
-    GameState game_state = new GameState(2, new String[]{"FF", "HH"}, new int[]{1,2},0, addLPlayers(lPlayers));
+    private MagicMailman magicMailman;
+    private GameState gameState;
+    private Player player0;
+    private Player player1;
 
-    @Test
-    public void testSetUses1(){
-        magic_mailman.setUses();
-
-        assertEquals(1, magic_mailman.getUses());
-    }
-
-    @Test
-    public void testSetUses2(){
-        magic_mailman.setUses();
-        magic_mailman.setUses();
-
-        assertNotEquals(1, magic_mailman.getUses());
-    }
-
-
-    @Test
-    public void testID(){
-        assertEquals(4, magic_mailman.getIDCode());
+    @BeforeEach
+    public void setUp() {
+        magicMailman = new MagicMailman();
+        player0 = new Player("ff", 1, TowerColour.GREY, 0);
+        player1 = new Player("gg", 2, TowerColour.GREY, 1);
+        List<Player> players = new ArrayList<>();
+        players.add(player0);
+        players.add(player1);
+        gameState = new GameState(2, new String[]{"FF", "GG"}, 0, players);
     }
 
     @Test
-    public void testCost(){
-        assertEquals(1, magic_mailman.getCost());
+    public void testInitialCostAndUses() {
+        assertEquals(1, magicMailman.getCost(), "Initial cost should be 1");
+        assertEquals(0, magicMailman.getUses(), "Initial uses count should be 0");
     }
-
 
     @Test
-    public void testEffect(){
-        game_state.getPlayers()[0].setChosenCard(AssistanceCard.CAT);
-        magic_mailman.effect(game_state);
+    public void testSetUsesUpdatesUsesAndCostCorrectly() {
+        // First use: should increment uses to 1, cost from 1 to 2.
+        magicMailman.setUses();
+        assertEquals(1, magicMailman.getUses(), "Uses should be 1 after one call");
+        assertEquals(2, magicMailman.getCost(), "Cost should be increased to 2 after one use");
 
-        assertEquals(6, game_state.getPlayers()[0].getMoves());
+        // Second use: uses become 2 and cost from 2 to 3.
+        magicMailman.setUses();
+        assertEquals(2, magicMailman.getUses(), "Uses should be 2 after two calls");
+        assertEquals(3, magicMailman.getCost(), "Cost should be increased to 3 after two uses");
     }
 
+    @Test
+    public void testGetIDCodeAndName() {
+        assertEquals(4, magicMailman.getIDCode(), "ID code should be 4");
+        assertEquals("MAGIC MAILMAN", magicMailman.getName(), "Name should be MAGIC MAILMAN");
+    }
+
+    @Test
+    public void testEffectIncreasesMotherNatureMovementByTwo() {
+        // Ensure a chosen card is set. The AssistanceCard.CAT is assumed
+        // to return a fixed mother nature movement value.
+        player0.setChosenCard(AssistanceCard.CAT);
+        int baseMovement = player0.getChosenCard().getMotherNatureMovement();
+        // Call effect to increase moves by 2.
+        magicMailman.effect(gameState);
+        assertEquals(baseMovement + 2, player0.getMoves(), "Moves should be increased by 2 after effect");
+    }
 }

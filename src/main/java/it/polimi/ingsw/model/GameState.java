@@ -11,18 +11,15 @@ public class GameState {
     private final Player[] players;
     private final GameTable gameTable;
     private int currPlayer;
-    private int[] wizards;
     private final List<Player> playerList;
 
     /**
      * Constructor of the class.
      * @param playersNum Number of players in the game.
      * @param names Strings containing the names of the players.
-     * @param wizards Array of integers containing the numbers of the wizards to be assigned to each player.
      * @param currPlayer The current player.
      */
-    public GameState(int playersNum, String[] names, int[] wizards, int currPlayer, List<Player> playerList){
-        this.wizards = wizards;
+    public GameState(int playersNum, String[] names, int currPlayer, List<Player> playerList){
         this.currPlayer = currPlayer;
         this.playerList = playerList;
 
@@ -31,10 +28,7 @@ public class GameState {
             players[i] = playerList.get(i);
         }
 
-        gameTable = new GameTable(playersNum);
-        for (int i = 0; i < gameTable.getIslands().size(); i++) {
-            gameTable.getIslands().get(i).setNames(names);
-        }
+        gameTable = new GameTable(playersNum, names);
     }
 
     /**

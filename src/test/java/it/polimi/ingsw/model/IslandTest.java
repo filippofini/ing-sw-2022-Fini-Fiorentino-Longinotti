@@ -1,188 +1,131 @@
 package it.polimi.ingsw.model;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * This class tests the class {@link it.polimi.ingsw.model.Island}.
- */
 class IslandTest {
+    private Board[] boards4;
+    private Board[] boards3;
 
-
-    private final Board[] boards1 = new Board[4];
-    private final Board[] boards2 = new Board[3];
-
-    private Student transfer;
-
-    @Test
-    public void testIslandID() {
-
-        Island island = new Island(boards1,1, TowerColour.STARTER);
-        assertEquals(1,island.getIsland_ID());
-
+    @BeforeEach
+    void setup() {
+        boards4 = new Board[4];
+        boards3 = new Board[3];
+        for (int i = 0; i < boards4.length; i++) {
+            boards4[i] = new Board(4, TowerColour.BLACK);
         }
-
-    @Test
-    public void testBoards() {
-        Island island = new Island(boards1,1, TowerColour.STARTER);
-        assertArrayEquals(boards1,island.getBoards());
+        for (int i = 0; i < boards3.length; i++) {
+            boards3[i] = new Board(3, TowerColour.BLACK);
+        }
     }
 
     @Test
-   void testCheck_controller() {
-    Island island = new Island(boards1, 1, TowerColour.STARTER);
-        island.setPlayerController(1);
-        assertEquals(1,island.getPlayerController());
+    void testIslandID() {
+        Island island = new Island(boards4, 5, TowerColour.STARTER, new String[] {"P0","P1","P2","P3"});
+        assertEquals(5, island.getIsland_ID(), "Island ID should match the constructor input");
     }
 
     @Test
-    void testCalculate_influence1() {
-        boolean[] Arr_prof = {true,true,false,false,false};
-        int[] Arr_stud = {7,2,4,5,4};
-        int tower = 2;
-        Island island1 = new Island(boards1,1, TowerColour.STARTER);
-        boards1[1] = new Board(4, TowerColour.STARTER);
+    void testBasicInfluenceNoChange() {
+        Island island = new Island(boards4, 1, TowerColour.STARTER, new String[] {"P0","P1","P2","P3"});
+        boolean[] professors = {true, false, false, false, false};
+        boards4[0].setArrProfessors(professors);
 
-        boards1[1].setArrProfessors(Arr_prof);
-        island1.setArrStudents(Arr_stud);
-        island1.setPlayerController(1);
-        island1.setInfluenceController(7);
-        island1.setTower(tower);
-        assertTrue(island1.calculateInfluence(1,boards1));
+        int[] arrStudents = {3, 0, 0, 0, 0};
+        island.setArrStudents(arrStudents);
+        island.setPlayerController(0);
+        island.setInfluenceController(3);
+        island.setTower(1);
+
+        // Same controller tries to calculate influence
+        assertTrue(island.calculateInfluence(0, boards4), "Controller should remain the same");
+        assertEquals(0, island.getPlayerController(), "PlayerController should not change");
     }
 
     @Test
-    void testCalculate_influence2() {
+    void testInfluenceChange4Players() {
+        Island island = new Island(boards4, 2, TowerColour.STARTER, new String[] {"P0","P1","P2","P3"});
+        boolean[] arrProfNew = {true, true, false, false, false};
+        boards4[1].setArrProfessors(arrProfNew);
 
-        boolean[] Arr_prof = {true,true,false,false,false};
-        int[] Arr_stud = {7,2,4,5,4};
-        int tower = 2;
-        Island island1 = new Island(boards1,1, TowerColour.STARTER);
-        island1.setNames(new String[]{"A","B","C","D","E"});
-        boards1[1] = new Board(3, TowerColour.STARTER);
+        int[] arrStudents = {2, 3, 0, 0, 1};
+        island.setArrStudents(arrStudents);
+        island.setPlayerController(0);
+        island.setInfluenceController(4);
+        island.setTower(1);
 
-
-
-        boards1[1].setArrProfessors(Arr_prof);
-        island1.setArrStudents(Arr_stud);
-        island1.setPlayerController(2);
-        island1.setInfluenceController(7);
-        island1.setTower(tower);
-        assertFalse(island1.calculateInfluence(1,boards1));
-
+        // Player 1 attempts to get control
+        assertFalse(island.calculateInfluence(1, boards4), "Control should change to player 1");
+        assertEquals(1, island.getPlayerController(), "PlayerController should now be 1");
     }
 
     @Test
-    void testCalculate_influence3() {
-
-        boolean[] Arr_prof = {true,true,false,false,false};
-        int[] Arr_stud = {7,2,4,5,4};
-        int tower = 2;
-        Island island1 = new Island(boards1,1, TowerColour.STARTER);
-        island1.setNames(new String[]{"A","B","C","D","E"});
-        boards1[3] = new Board(4, TowerColour.STARTER);
-
-        boards1[3].setArrProfessors(Arr_prof);
-        island1.setArrStudents(Arr_stud);
-        island1.setPlayerController(2);
-        island1.setInfluenceController(7);
-        island1.setTower(tower);
-        assertFalse(island1.calculateInfluence(3,boards1));
-
-
+    void testProhibitionCardEffect() {
+        Island island = new Island(boards4, 3, TowerColour.STARTER, new String[] {"P0","P1","P2","P3"});
+        island.setProhibitionCard(true);
+        int oldController = island.getPlayerController();
+        // Influence must not change because of prohibition
+        assertTrue(island.calculateInfluence(2, boards4), "No control change allowed when prohibition is active");
+        assertEquals(oldController, island.getPlayerController(), "Controller should remain unchanged");
     }
 
     @Test
-    void testCalculate_influence4() {
+    void testColorProhibition() {
+        Island island = new Island(boards4, 4, TowerColour.STARTER, new String[] {"P0","P1","P2","P3"});
+        island.setProhibitionColour(true);
+        island.setPlayerController(-1);
+        boolean[] arrProf = {true, false, true, false, false};
+        boards4[0].setArrProfessors(arrProf);
 
-        boolean[] Arr_prof = {true,true,false,false,false};
-        int[] Arr_stud = {7,2,4,5,4};
-        int tower = 2;
-        Island island2 = new Island(boards2,2, TowerColour.STARTER);
-        island2.setNames(new String[]{"A","B","C","D","E"});
-        boards2[1] = new Board(3, TowerColour.STARTER);
-        boards2[2] = new Board(3, TowerColour.STARTER);
+        int[] arrStudents = {2, 1, 2, 1, 0};
+        island.setArrStudents(arrStudents);
+        island.setInfluenceController(0);
 
-        boards2[1].setArrProfessors(Arr_prof);
-        island2.setArrStudents(Arr_stud);
-        island2.setPlayerController(2);
-        island2.setInfluenceController(7);
-        island2.setTower(tower);
-        assertFalse(island2.calculateInfluence(1,boards2));
-
+        island.setTower(0);
+        // Influence ignoring the prohibited color index (default 0)
+        assertFalse(island.calculateInfluence(0, boards4), "Control should move to player 0 despite skipping the color");
+        assertEquals(0, island.getPlayerController(), "Player 0 should now be the controller");
     }
 
     @Test
-    void testCalculate_influence5() {
+    void testExtraInfluence() {
+        Island island = new Island(boards3, 1, TowerColour.STARTER, new String[] {"P0","P1","P2","P3"});
+        boolean[] prof = {true, false, true, false, false};
+        boards3[1].setArrProfessors(prof);
 
-        boolean[] Arr_prof = {true,true,false,false,false};
-        int[] Arr_stud = {7,2,4,5,4};
-        int tower = 2;
-        Island island1 = new Island(boards1,1, TowerColour.STARTER);
+        island.setArrStudents(new int[] {0, 0, 2, 0, 0});
+        island.setPlayerController(-1);
+        island.setInfluenceController(0);
+        island.setExtraInfluence(2);  // Extra boost
 
-        island1.setProhibitionCard(true);
-        assertTrue(island1.calculateInfluence(1,boards1));
+        assertFalse(island.calculateInfluence(1, boards3), "Control should move to player 1 with extra influence");
+        assertEquals(1, island.getPlayerController(), "Player 1 should control the island now");
+        assertTrue(island.calculateInfluence(1, boards3), "Controller should remain the same on re-check");
     }
 
     @Test
-    void testMotherNatureTrue() {
-        Island island = new Island(boards1,1, TowerColour.STARTER);
+    void testAddStudentsAndMotherNature() {
+        Island island = new Island(boards4, 2, TowerColour.STARTER, new String[] {"P0","P1","P2","P3"});
+        Student student = new Student(DiskColor.YELLOW);
+        island.addStudents(student);
+        assertEquals(1, island.getArrStudents()[0], "One yellow student should be on the island");
+
         island.setMotherNature(true);
-        assertTrue(island.isMotherNatureHere());
+        assertTrue(island.isMotherNatureHere(), "Mother nature was set to true");
     }
 
     @Test
-    void testAddStudents() {
-        transfer = new Student(DiskColor.RED);
-        Island island = new Island(boards1,1, TowerColour.STARTER);
-        int[] start = {1,1,1,1,1};
-        island.setArrStudents(start);
-        int[] ar = {1,2,1,1,1};
-        island.addStudents(transfer);
-        assertArrayEquals(ar,island.getArrStudents());
+    void testSetAndGetControllerName() {
+        Island island = new Island(boards4, 6, TowerColour.STARTER, new String[] {"P0","P1","P2","P3"});
+        island.setPlayerController(2);
+        assertEquals("P2", island.getControllerName(), "Controller name should be P2");
     }
 
     @Test
-    void testCheckController() {
-        Island island = new Island(boards1,1, TowerColour.STARTER);
-        island.setPlayerController(1);
-        assertEquals(1,island.checkController());
-    }
-
-    @Test
-    void testIsProhibition_card() {
-        Island island = new Island(boards1,1, TowerColour.STARTER);
-        assertFalse(island.isProhibitionCard());
-    }
-
-    @Test
-    void testGetInfluenceController() {
-        Island island = new Island(boards1,1, TowerColour.STARTER);
-        assertEquals(0,island.getInfluenceController());
-    }
-
-    @Test
-    void testAddTower() {
-        Island island = new Island(boards1,1, TowerColour.STARTER);
-        boards1[1]= new Board(2, TowerColour.BLACK);
-        island.addTower(1);
-        assertEquals(2,island.getTower());
-
-    }
-
-    @Test
-    void testIncrementPos() {
-        Island island = new Island(boards1,1, TowerColour.STARTER);
-        int[] Arr_stud = {7,2,4,5,4};
-        island.setArrStudents(Arr_stud);
-        island.incrementPos(0);
-        assertEquals(8,Arr_stud[0]);
-    }
-
-    @Test
-    void testSetOneStudent() {
-
+    void testIncrementStudents() {
+        Island island = new Island(boards4, 7, TowerColour.STARTER, new String[] {"P0","P1","P2","P3"});
+        island.incrementPos(2);
+        assertEquals(1, island.getArrStudents()[2], "One student should be added to position 2");
     }
 }

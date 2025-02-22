@@ -1,49 +1,68 @@
 package it.polimi.ingsw.model;
 
 import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-/**
- * This class tests the class {@link GameState}.
- */
-
 class GameStateTest {
 
-    List<Player> lPlayers = new ArrayList<>();
-    private List<Player> addLPlayers(List lPlayers){
-        lPlayers.add(new Player("ff",1,TowerColour.GREY,1));
-        lPlayers.add(new Player("gg",2,TowerColour.GREY,2));
-        return lPlayers;
-    }
-
-    GameState game_state = new GameState(2, new String[]{"FF","HH"}, new int[]{1,2},1, addLPlayers(lPlayers));
-    GameState game_state2 = new GameState(4,new String[]{"FF","HH","GG","LL"}, new int[]{1,2,3,4}, 1, addLPlayers(lPlayers));
-
-    private Player[] players = new Player[2];
-
-    @Test
-    public void testGetGT(){
-        GameState Gs = new GameState(2, new String[]{"FF","HH"}, new int[]{1,2},1, addLPlayers(lPlayers));
-
-        assertNotEquals(game_state.getGameTable(), Gs.getGameTable());
+    // Helper method to create a list of players for tests
+    private List<Player> createPlayers(int numPlayers) {
+        List<Player> players = new ArrayList<>();
+        for (int i = 1; i <= numPlayers; i++) {
+            players.add(new Player("Player" + i, i, TowerColour.GREY, i));
+        }
+        return players;
     }
 
     @Test
-    public void testGetPlayers() {
-        players[0]= new Player("FF",1, TowerColour.STARTER,1);
-        players[1]= new Player("HH",2, TowerColour.GREY,2);
-        assertEquals(lPlayers, game_state.getPlayersList());
+    public void testInitialization() {
+        List<Player> playersList = createPlayers(2);
+        GameState gameState = new GameState(2, new String[]{"Player1", "Player2"}, 0, playersList);
+
+        // Verify that game table is created
+        assertNotNull(gameState.getGameTable(), "Game table should be initialized.");
+        // Verify that players array length equals the expected number
+        assertEquals(2, gameState.getPlayers().length, "Players array size should be 2.");
+        // Verify that players list is preserved
+        assertEquals(playersList, gameState.getPlayersList(), "Players list should match the provided list.");
     }
 
     @Test
-    void testValue(){
-       game_state.getPlayers()[1].setChosenCard(AssistanceCard.ELEPHANT);
+    public void testCurrPlayerGetterSetter() {
+        List<Player> playersList = createPlayers(2);
+        GameState gameState = new GameState(2, new String[]{"Player1", "Player2"}, 0, playersList);
 
-       assertNotEquals(30, game_state.getPlayers()[1].getChosenCard().getValue());
+        // Verify initial current player index
+        assertEquals(0, gameState.getCurrPlayer(), "Initial current player index should be 0.");
+        // Change the current player and check the update
+        gameState.setCurrPlayer(1);
+        assertEquals(1, gameState.getCurrPlayer(), "Current player index should be updated to 1.");
+    }
+
+    @Test
+    public void testPlayersConsistency() {
+        List<Player> playersList = createPlayers(2);
+        GameState gameState = new GameState(2, new String[]{"Player1", "Player2"}, 0, playersList);
+
+        // Verify each player in the array equals the corresponding element in the list
+        Player[] playersArray = gameState.getPlayers();
+        assertEquals(playersList.get(0), playersArray[0], "First player should be consistent.");
+        assertEquals(playersList.get(1), playersArray[1], "Second player should be consistent.");
+    }
+
+    @Test
+    public void testGameTableUniquenessAcrossInstances() {
+        List<Player> playersList1 = createPlayers(2);
+        GameState gameState1 = new GameState(2, new String[]{"Player1", "Player2"}, 0, playersList1);
+
+        List<Player> playersList2 = createPlayers(2);
+        GameState gameState2 = new GameState(2, new String[]{"Player1", "Player2"}, 0, playersList2);
+
+        // Even if constructed with the same parameters, each game state's game table should be a unique instance
+        assertNotSame(gameState1.getGameTable(), gameState2.getGameTable(),
+            "Different GameState instances should have unique game tables.");
     }
 }
-

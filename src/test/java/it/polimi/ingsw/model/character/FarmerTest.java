@@ -3,56 +3,61 @@ package it.polimi.ingsw.model.character;
 import it.polimi.ingsw.model.GameState;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.TowerColour;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class FarmerTest {
 
-    List<Player> lPlayers = new ArrayList<>();
-    private List<Player> addLPlayers(List lPlayers){
-        lPlayers.add(new Player("ff",1, TowerColour.GREY,1));
-        lPlayers.add(new Player("gg",2,TowerColour.GREY,2));
-        return lPlayers;
-    }
+    private Farmer farmer;
+    private GameState gameState;
+    private List<Player> players;
 
-    Farmer farmer = new Farmer();
-    GameState game_state = new GameState(2, new String[]{"FF", "HH"},new int[]{1,2}, 1, addLPlayers(lPlayers));
-
-    @Test
-    public void testSetUses1(){
-        farmer.setUses();
-
-        assertEquals(1, farmer.getUses());
-    }
-    @Test
-    public void testSetUses2(){
-        farmer.setUses();
-        farmer.setUses();
-
-        assertNotEquals(1, farmer.getUses());
+    @BeforeEach
+    public void setUp() {
+        farmer = new Farmer();
+        players = new ArrayList<>();
+        players.add(new Player("Player1", 1, TowerColour.GREY, 1));
+        players.add(new Player("Player2", 2, TowerColour.GREY, 2));
+        gameState = new GameState(2, new String[]{"Player1", "Player2"}, 0, players);
     }
 
     @Test
-    public void testID(){
-        assertEquals(2, farmer.getIDCode());
-    }
-
-    @Test
-    public void testCost(){
+    public void testInitialCostAndUses() {
+        // Verify that the initial cost and uses are as expected.
         assertEquals(2, farmer.getCost());
+        assertEquals(0, farmer.getUses());
     }
 
     @Test
-    public void testEffect(){
-        
-        farmer.effect(game_state);
+    public void testSetUsesIncrementsCostAndUses() {
+        // Calling setUses should increment 'uses' and increase the cost by 1 each time.
+        farmer.setUses();
+        assertEquals(1, farmer.getUses());
+        assertEquals(3, farmer.getCost());
 
-        assertEquals(game_state.getGameTable().getBoards()[game_state.getCurrPlayer()].isFarmerState(), true);
-
+        farmer.setUses();
+        assertEquals(2, farmer.getUses());
+        assertEquals(4, farmer.getCost());
     }
 
+    @Test
+    public void testFarmerEffectActivatesFarmerState() {
+        // Initially, the target board should not have the farmer effect.
+        assertFalse(gameState.getGameTable().getBoards()[gameState.getCurrPlayer()].isFarmerState());
+
+        // After invoking effect, the state should be activated.
+        farmer.effect(gameState);
+        assertTrue(gameState.getGameTable().getBoards()[gameState.getCurrPlayer()].isFarmerState());
+    }
+
+    @Test
+    public void testCardIdAndName() {
+        // Check that the card's ID and name are correctly returned.
+        assertEquals(2, farmer.getIDCode());
+        assertEquals("FARMER", farmer.getName());
+    }
 }

@@ -1,47 +1,57 @@
 package it.polimi.ingsw.model;
 
 import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * This class tests the class {@link it.polimi.ingsw.model.Player}.
- */
 class PlayerTest {
-    Player player = new Player("ff",1, TowerColour.GREY,1);
+
+    Player player = new Player("ff", 1, TowerColour.GREY, 1);
 
     @Test
-    public void testGetDeck(){
-        Deck deck = new Deck();
-
-        assertEquals(player.getDeck(), deck);
+    void testGetPlayerID() {
+        assertEquals(1, player.getPlayer_ID(), "Player ID should be 1");
     }
 
     @Test
-    public void testCoin(){
-        player.setCoin(20);
-
-        assertEquals(20, player.getCoin());
+    void testGetAndSetCoin() {
+        player.setCoin(10);
+        assertEquals(10, player.getCoin(), "Coins should be updated to 10");
     }
 
     @Test
-    public void testGetPlayerID() {
-        assertEquals(1,player.getPlayer_ID());
+    void testGetTowerColor() {
+        assertEquals(1, player.getTowerColor(), "Tower color translation should be 1");
     }
 
     @Test
-    public void testGetTower_Colour() {
-        assertEquals(1,player.getTowerColor());
+    void testGetAndSetChosen() {
+        assertFalse(player.isChosen(), "Chosen should be false by default");
+        player.setChosen(true);
+        assertTrue(player.isChosen(), "Chosen should be true after setting");
     }
 
     @Test
-    public void testGetName() {
-        assertEquals("ff",player.getNickname());
+    void testGetAndSetMoves() {
+        player.setMoves(3);
+        assertEquals(3, player.getMoves(), "Moves should be updated to 3");
     }
 
     @Test
-    public void testGetWizard() {
-        assertEquals(1,player.getWizard());
+    void testGetAndSetChosenCard() {
+        AssistanceCard ac = AssistanceCard.CAT;
+        player.setChosenCard(ac);
+        assertEquals(ac, player.getChosenCard(), "Chosen card should match the one set");
     }
 
+    @Test
+    void testDeckInitialization() {
+        assertNotNull(player.getDeck(), "Player deck should be initialized");
+        assertFalse(player.getDeck().getCards().isEmpty(), "Deck should contain assisting cards");
+    }
+
+    @Test
+    void testEqualsMethod() {
+        Player samePlayer = new Player("ff", 1, TowerColour.GREY, 1);
+        assertEquals(player, samePlayer, "Players with same attributes should be equal");
+    }
 }

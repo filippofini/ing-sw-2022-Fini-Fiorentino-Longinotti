@@ -24,7 +24,6 @@ public class GameController implements Serializable {
     private final List<ClientHandler> clientHandlers;
     private Server server;
     private ReentrantLock lockConnections = new ReentrantLock(true);
-    private final int[] wizards = { 0, 1, 2, 3 };
 
     /**
      * Constructor of the class.
@@ -93,7 +92,6 @@ public class GameController implements Serializable {
         TurnController turnController = new TurnController(
                 clientHandlers.size(),
                 getArrayNickname(clientHandlers),
-                wizards,
                 isExpertMode(gameMode),
                 players,
                 clientHandlers

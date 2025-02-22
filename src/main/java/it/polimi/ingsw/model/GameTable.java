@@ -30,7 +30,7 @@ public class GameTable implements Serializable {
      *
      * @param numPlayers The number of players in the game. There can be 2,3 or 4 players.
      */
-    public GameTable(int numPlayers) {
+    public GameTable(int numPlayers, String[] names) {
         islandsCounter = 12;
         this.numPlayers = numPlayers;
 
@@ -44,7 +44,7 @@ public class GameTable implements Serializable {
 
         islands = new LinkedList<>();
         for (int i = 0; i < islandsCounter; i++) {
-            islands.add(new Island(boards, i + 1, TowerColour.STARTER));
+            islands.add(new Island(boards, i + 1, TowerColour.STARTER, names));
         }
 
         setMotherNatureStart();
@@ -292,6 +292,37 @@ public class GameTable implements Serializable {
             while (count < studentsPerCloud) {
                 if (isBagEmpty()) {
                     TC.setEndgame(true);
+                    return;
+                }
+
+                int tempRand;
+                do {
+                    tempRand = rand.nextInt(5);
+                } while (bag[tempRand] == 0);
+
+                clouds.get(i).setArrStudents(tempRand);
+                bag[tempRand]--;
+                count++;
+            }
+        }
+    }
+    /**
+     * Variant used in test to avoid creating a TurnController.
+     */
+    public void testReplenishClouds() {
+        Random rand = new Random();
+
+        // Reset cloud students
+        for (Cloud cloud : clouds) {
+            Arrays.fill(cloud.getArrStudents(), 0);
+        }
+
+        int studentsPerCloud = (numPlayers == 2) ? 3 : 4; // Number of students per cloud
+
+        for (int i = 0; i < numPlayers; i++) {
+            int count = 0;
+            while (count < studentsPerCloud) {
+                if (isBagEmpty()) {
                     return;
                 }
 
